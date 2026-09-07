@@ -1,0 +1,94 @@
+{
+  "schema": "ifcn.pi.result.v1",
+  "run_id": "a4ae03ab79764b8c98e1b98bba631fdb",
+  "status": "failed",
+  "requested_until": "map",
+  "error": "pnr command exited with 1. Traceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 149, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: compact candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 17) has an absent or invalid clock phase at (11, 2); Route (0, 17) has an absent or invalid clock phase at (11, 3); Route (4, 18) has an absent or invalid clock phase at (7, 2); Route (4, 18) has an absent or invalid clock phase at (7, 1)\n",
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 180,
+    "model": "bistable",
+    "algorithm": "compact",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "completed_stages": [
+    "parse"
+  ],
+  "metrics": {
+    "dag": {
+      "input_count": 11,
+      "output_count": 5
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "compact",
+      "selected_algorithm": null,
+      "policy": "first validated result; no area-optimality claim",
+      "attempts": [
+        {
+          "algorithm": "compact",
+          "status": "failed",
+          "budget_s": 179,
+          "started_at": "2026-09-05T10:43:04.612297+00:00",
+          "directory": "02_pnr_1/01_compact",
+          "error": "pnr command exited with 1. Traceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 149, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: compact candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 17) has an absent or invalid clock phase at (11, 2); Route (0, 17) has an absent or invalid clock phase at (11, 3); Route (4, 18) has an absent or invalid clock phase at (7, 2); Route (4, 18) has an absent or invalid clock phase at (7, 1)\n",
+          "elapsed_s": 83.082
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "warnings": [],
+  "sources": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 685,
+      "sha256": "413a6667f25ac44437f4e8417a2613f7f982fbdc048c234a610e8e2789280f10",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a4ae03ab79764b8c98e1b98bba631fdb/source.v"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 1347,
+      "sha256": "4bb7857633f65a58fcce0a048f1b179a2084ad4f50f90526da694341dabb0a72",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a4ae03ab79764b8c98e1b98bba631fdb/normalized.v"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 7197,
+      "sha256": "f00681b4fed9b7bc391f56a3593ce973b46b778672ac08d09b812d59cd84210a",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a4ae03ab79764b8c98e1b98bba631fdb/01_parse_1/dag.json"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 1799,
+      "sha256": "a2ef7b2b7137f9148755a21ec5e3c74adb9d6c6aba5f0f0959a810bff7f7672e",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a4ae03ab79764b8c98e1b98bba631fdb/01_parse_1/dag.dot"
+    },
+    "pnr_attempts/01_compact.json": {
+      "path": "02_pnr_1/01_compact/pnr.json",
+      "bytes": 20819,
+      "sha256": "a03e7b7337a32bcd9950fa0ef41b3fee0ccbf84d3df19e0cb094f3f0bc11dc5e",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a4ae03ab79764b8c98e1b98bba631fdb/02_pnr_1/01_compact/pnr.json"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 1303,
+      "sha256": "90097c82c3c5d9400cfd11fe35fc2b9f9c0eb5dfc854ad7f72bc8a633edf6da4",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a4ae03ab79764b8c98e1b98bba631fdb/02_pnr_1/pnr_attempts.json"
+    }
+  },
+  "metric_sources": {
+    "dag": "dag.json",
+    "pnr": "pnr.json",
+    "algorithm_selection": "pnr_attempts.json",
+    "mapping.cell_count": "device.qca (counted by backend)",
+    "simulation": "simulation.json",
+    "energy": "energy.json"
+  },
+  "reporting_rule": "Attribute metrics to the backend and the listed source. A listed file is not evidence that the LLM read it. Numerical engine agreement is not RTL/device functional equivalence or converged power."
+}

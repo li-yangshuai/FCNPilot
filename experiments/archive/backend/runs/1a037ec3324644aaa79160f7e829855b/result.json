@@ -1,0 +1,94 @@
+{
+  "schema": "ifcn.pi.result.v1",
+  "run_id": "1a037ec3324644aaa79160f7e829855b",
+  "status": "failed",
+  "requested_until": "map",
+  "error": "pnr command exited with 1.  \"/usr/lib/python3.12/subprocess.py\", line 1264, in wait\n    return self._wait(timeout=timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 2045, in _wait\n    raise TimeoutExpired(self.args, timeout)\nsubprocess.TimeoutExpired: Command '['/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr', 'compact', '/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/normalized.v', '/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/02_pnr_1/01_compact/layout_candidate.json']' timed out after 176.99998975100243 seconds\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 128, in run_native\n    raise RuntimeError(f'{args.algorithm} exceeded its {args.budget}s native routing budget; see native.log.') from exc\nRuntimeError: compact exceeded its 177s native routing budget; see native.log.\n",
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 180,
+    "model": "bistable",
+    "algorithm": "compact",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "completed_stages": [
+    "parse"
+  ],
+  "metrics": {
+    "dag": {
+      "input_count": 5,
+      "output_count": 3
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "compact",
+      "selected_algorithm": null,
+      "policy": "first validated result; no area-optimality claim",
+      "attempts": [
+        {
+          "algorithm": "compact",
+          "status": "failed",
+          "budget_s": 179,
+          "started_at": "2026-09-05T10:41:04.630535+00:00",
+          "directory": "02_pnr_1/01_compact",
+          "error": "pnr command exited with 1.  \"/usr/lib/python3.12/subprocess.py\", line 1264, in wait\n    return self._wait(timeout=timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 2045, in _wait\n    raise TimeoutExpired(self.args, timeout)\nsubprocess.TimeoutExpired: Command '['/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr', 'compact', '/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/normalized.v', '/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/02_pnr_1/01_compact/layout_candidate.json']' timed out after 176.99998975100243 seconds\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 128, in run_native\n    raise RuntimeError(f'{args.algorithm} exceeded its {args.budget}s native routing budget; see native.log.') from exc\nRuntimeError: compact exceeded its 177s native routing budget; see native.log.\n",
+          "elapsed_s": 177.122
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "warnings": [],
+  "sources": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 627,
+      "sha256": "e1f17beefdf044a3e871e22fe5c7d69c53c062b89159ea02691afce2a0ce7a1c",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/source.v"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 1943,
+      "sha256": "e38d3f6a2db37ffdc5bd97bff2ada9291b61a4e319d3a970205dcdb5ba008a57",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/normalized.v"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 8445,
+      "sha256": "774e7d26002c401f8a4cbac3fca665063796a3fbe25de750f53aecc5183e3193",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/01_parse_1/dag.json"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 2173,
+      "sha256": "464e3e8d945faf4a326c071c140a91e8370560b8fc9521334308d0eb931e36a6",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/01_parse_1/dag.dot"
+    },
+    "pnr_attempts/01_compact.json": {
+      "path": "02_pnr_1/01_compact/pnr.json",
+      "bytes": 868,
+      "sha256": "be28d12a9de530ddfce5b96719ead49055b4b0717ef0587761b81aa1aa7dd48c",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/02_pnr_1/01_compact/pnr.json"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 1843,
+      "sha256": "30b83a00df1f648cf8ee5a1ea70dd954da69193e72cb0d1c5e160ef6d61a4edb",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/02_pnr_1/pnr_attempts.json"
+    }
+  },
+  "metric_sources": {
+    "dag": "dag.json",
+    "pnr": "pnr.json",
+    "algorithm_selection": "pnr_attempts.json",
+    "mapping.cell_count": "device.qca (counted by backend)",
+    "simulation": "simulation.json",
+    "energy": "energy.json"
+  },
+  "reporting_rule": "Attribute metrics to the backend and the listed source. A listed file is not evidence that the LLM read it. Numerical engine agreement is not RTL/device functional equivalence or converged power."
+}

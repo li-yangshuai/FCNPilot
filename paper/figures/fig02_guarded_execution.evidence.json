@@ -1,0 +1,258 @@
+{
+  "schema": "ifcn.paper.figure_evidence.v1",
+  "figure": "fig02_guarded_execution",
+  "repository_root": "/home/lys/projects/github/iFCN",
+  "scope": "Source-grounded schematic or recorded trace; no new algorithm runs or LLM calls",
+  "artifacts": [
+    {
+      "path": "figures/fig02_guarded_execution.tex",
+      "sha256": "32e7cc648469d3d6bf0b47506038400bc39b4d51465f42e958f6ee8fd0c3ef3f"
+    },
+    {
+      "path": "figures/fig02_guarded_execution.pdf",
+      "sha256": "1b366caa6b1be8d513f61b0f299a2517a2be5a50ca0f43598a295187d40fd374"
+    },
+    {
+      "path": "figures/fig02_guarded_execution.caption.md",
+      "sha256": "add389d6cea08c4fe9b1a13ce0b43e1ec2072e5c346e720586ee5e0fa535d0d9"
+    }
+  ],
+  "style": {
+    "path": "figures/common.tex",
+    "sha256": "08b6eb12664b3784df01468e90098f5385ca5a9a329016523023addc6bec155b"
+  },
+  "claims": [
+    {
+      "claim": "Creation snapshots source and normalizes scalar Verilog before parse",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "create_run",
+          "lines": [
+            202,
+            236
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "run_stage",
+          "lines": [
+            455,
+            518
+          ]
+        }
+      ]
+    },
+    {
+      "claim": "Auto considers available Normal, Compact, June backends in order with a shared timeout, retaining failures and stopping at the first validated candidate",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "lines": [
+            26,
+            27
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "run_pnr",
+          "lines": [
+            334,
+            419
+          ]
+        }
+      ]
+    },
+    {
+      "claim": "Geometry/clock then bounded source-DAG equivalence then native mapping and terminal count checks are candidate prerequisites",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "check_pnr",
+          "lines": [
+            295,
+            299
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "logic_report",
+          "lines": [
+            302,
+            307
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "qca_interface_report",
+          "lines": [
+            310,
+            324
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "run_pnr",
+          "lines": [
+            334,
+            419
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_layout_validation.py",
+          "sha256": "e9b16f09c589e6b0ac3e620cb3f7ae852d23ffda86d955e97be45254da8cffcb",
+          "function": "validate_candidate",
+          "lines": [
+            10,
+            113
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/integrations/pi/verify_routed_logic.py",
+          "sha256": "03001a65b19895d1e373dbba666b7eb4006f8fe1f064f5e8af8c9a9b3925e76c",
+          "function": "audit_case",
+          "lines": [
+            205,
+            217
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/integrations/pi/verify_routed_logic.py",
+          "sha256": "03001a65b19895d1e373dbba666b7eb4006f8fe1f064f5e8af8c9a9b3925e76c",
+          "function": "verify_bytes",
+          "lines": [
+            165,
+            202
+          ]
+        }
+      ]
+    },
+    {
+      "claim": "Candidates above 11 inputs explicitly record not-performed rather than Boolean pass",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "logic_report",
+          "lines": [
+            302,
+            307
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "record_logic",
+          "lines": [
+            327,
+            331
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/integrations/pi/verify_routed_logic.py",
+          "sha256": "03001a65b19895d1e373dbba666b7eb4006f8fe1f064f5e8af8c9a9b3925e76c",
+          "function": "source_analysis",
+          "lines": [
+            49,
+            85
+          ]
+        }
+      ]
+    },
+    {
+      "claim": "Resume checks hashes, revalidates saved P&R/interface evidence, skips completed stages and increments stage attempts",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "verify_artifacts",
+          "lines": [
+            140,
+            144
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "start_worker",
+          "lines": [
+            183,
+            199
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "worker",
+          "lines": [
+            542,
+            600
+          ]
+        }
+      ]
+    }
+  ],
+  "arrow_semantics": [
+    {
+      "from": "Top-to-bottom processing nodes",
+      "to": "Next processing node",
+      "style": "solid arrow",
+      "meaning": "Actual ordered control prerequisites for a candidate; accepted P&R continues to map, then requested downstream stages"
+    },
+    {
+      "from": "Dashed candidate enclosure",
+      "to": "Record candidate rejection",
+      "style": "amber arrow",
+      "meaning": "Aggregate exception handler covering backend execution and every candidate guard; arrow is not tied only to the visual vertical position where it leaves the enclosure"
+    },
+    {
+      "from": "Record candidate rejection",
+      "to": "Remaining candidate and budget",
+      "style": "amber arrow",
+      "meaning": "Auto fallback condition after preserving rejection evidence; explicit backend fails immediately"
+    },
+    {
+      "from": "Remaining candidate and budget: yes",
+      "to": "Select next available candidate",
+      "style": "amber arrow",
+      "meaning": "Advance to the next untried backend once; no quality-optimization loop or reattempt of the same backend"
+    },
+    {
+      "from": "Remaining candidate and budget: no",
+      "to": "Failed",
+      "style": "amber arrow",
+      "meaning": "No accepted candidate or budget: downstream execution blocked"
+    },
+    {
+      "from": "Accepted or failed outcome",
+      "to": "Persistent job state",
+      "style": "dashed arrow",
+      "meaning": "Persist result/state; resume text describes an explicit user/tool action and does not imply automatic retries"
+    }
+  ],
+  "limitations": [
+    "Exhaustive Boolean proof only applies to the supported scalar source subset with 1--11 inputs.",
+    "Input-limit exceptions do not block execution but are recorded as logic not performed.",
+    "Matching I/O counts alone does not prove QCA terminal identity, device waveforms or latency alignment.",
+    "Cancellation aborts selection and is not drawn as a retry path.",
+    " unavailable backends and insufficient budgets are recorded/skipped by implementation; the diagram condenses these into next available candidate."
+  ],
+  "visual_validation": {
+    "natural_width_mm": 170,
+    "body_font_pt": 8,
+    "minimum_annotation_font_pt": 7,
+    "render_tool": "/home/lys/.codex/skills/repo-to-tikz/scripts/render_tikz.sh",
+    "preview_dpi": 180,
+    "inspection": "Rendered PNG inspected with view_image; no overlap or clipped text in final standalone figure",
+    "latex_layout_font_warnings": [],
+    "paper_inclusion_check": "Parent task handles final manuscript-page inspection"
+  }
+}

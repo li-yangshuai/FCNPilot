@@ -1,0 +1,5 @@
+English caption:
+Two recorded production traces demonstrate recovery and principled rejection. (a) For MAJ/clpl, Normal is rejected because the exported DAG has no explicit binding for source output y0; this is an unsupported port mapping, not a claimed Boolean counterexample. Compact exceeds its 77 s native routing budget. June then passes all 2,048 input vectors and retains all 11 input and five output QCA terminals, allowing mapping to complete. (b) For TOY/clpl, all three routed DAGs pass 2,048 vectors, but each mapped device exposes only one of five declared output terminals. Every candidate is rejected, and the job fails before downstream stages. Fractions are observed/declared terminal counts. Arrows encode the recorded sequential attempts in two specific runs, not success probabilities or an area-optimal search. The traces validate candidate-selection behavior, not physical waveform correctness.
+
+中文解读：
+两行来自新增生产检查之后保存的真实作业，不是旧的几何检查统计。MAJ/clpl 的 Normal 缺少输出 y0 的显式 DAG 绑定；Compact 是 77 秒原生路由预算超时，不是端子不足；June 的 2048 个输入向量全部等价，且 QCA 保留 11 个输入和 5 个输出，所以映射完成。TOY/clpl 的三个后端都通过逻辑等价，但物理映射只留下 1 个输出，低于声明的 5 个，因此全都拒绝，作业失败。该图说明自动回退与正确阻止错误结果，不表示所有电路均能恢复，更不表示器件波形已经验证。

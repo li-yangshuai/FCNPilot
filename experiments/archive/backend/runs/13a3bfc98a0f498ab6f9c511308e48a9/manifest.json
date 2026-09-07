@@ -1,0 +1,330 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "13a3bfc98a0f498ab6f9c511308e48a9",
+  "created_at": "2026-09-05T10:35:55.546760+00:00",
+  "updated_at": "2026-09-05T10:35:57.710941+00:00",
+  "status": "completed",
+  "current_stage": "map",
+  "source": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/TOY/1bitAdderMaj.v",
+  "configuration": {
+    "root": "/home/lys/projects/github/iFCN",
+    "build_dir": "/home/lys/projects/github/iFCN/build-release",
+    "python": "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+    "backend": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "A",
+      "B",
+      "Cin"
+    ],
+    "warnings": [],
+    "outputs": [
+      "M3"
+    ],
+    "assignment_count": 14,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 180,
+    "model": "bistable",
+    "algorithm": "june_random",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-05T10:35:55.590391+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/13a3bfc98a0f498ab6f9c511308e48a9/normalized.v",
+          "--output",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/13a3bfc98a0f498ab6f9c511308e48a9/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "180"
+        ]
+      ],
+      "completed_at": "2026-09-05T10:35:57.245244+00:00"
+    },
+    "pnr": {
+      "status": "completed",
+      "started_at": "2026-09-05T10:35:57.246226+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/13a3bfc98a0f498ab6f9c511308e48a9/normalized.v",
+          "--output",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/13a3bfc98a0f498ab6f9c511308e48a9/02_pnr_1/01_june_random",
+          "--algorithm",
+          "june_random",
+          "--seed",
+          "1",
+          "--budget",
+          "177"
+        ]
+      ],
+      "completed_at": "2026-09-05T10:35:57.402269+00:00"
+    },
+    "map": {
+      "status": "completed",
+      "started_at": "2026-09-05T10:35:57.403299+00:00",
+      "attempt": 1,
+      "log": "03_map_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/13a3bfc98a0f498ab6f9c511308e48a9/02_pnr_1/01_june_random/layout.ifcn",
+          "--no-io-contraction"
+        ],
+        [
+          "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/13a3bfc98a0f498ab6f9c511308e48a9/02_pnr_1/01_june_random/layout.ifcn",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/13a3bfc98a0f498ab6f9c511308e48a9/03_map_1/device",
+          "--qca-only"
+        ]
+      ],
+      "completed_at": "2026-09-05T10:35:57.710390+00:00"
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 489,
+      "sha256": "8ef091e5b42ceabe3f68ba45a1c63388f1aacb4c84c9fb83711414ace2ccfb0f"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 628,
+      "sha256": "3abd78d61c2e1b26d94af60739e6d00f29410065d302e5476f3af6fc9630215e"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 4000,
+      "sha256": "542834bb8fe0ca0088efeded85937bfdd3ec7c62636aeb3cda597e1e275ae16e"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 930,
+      "sha256": "5c4866e2d4a0db78efefa2db8909fcea0f2e9d1018f0b3a7846ca420669042e1"
+    },
+    "layout.ifcn": {
+      "path": "02_pnr_1/01_june_random/layout.ifcn",
+      "bytes": 7833,
+      "sha256": "b440c2af0e475fcfc7d972f1988b1be1d1f935e8e90b87330ec0fe215bc9aa82"
+    },
+    "pnr.json": {
+      "path": "02_pnr_1/01_june_random/pnr.json",
+      "bytes": 2672,
+      "sha256": "8b4bd58f192cba0601e2ea55307b28f0a1183fef52c49094c6faf3069dd9bdfc"
+    },
+    "routed_dag.json": {
+      "path": "02_pnr_1/01_june_random/routed_dag.json",
+      "bytes": 11871,
+      "sha256": "ec4a7cf97d2185270c86688a99159b3cb43183cc284318dfba28e3de7df11103"
+    },
+    "pnr_attempts/01_june_random.json": {
+      "path": "02_pnr_1/01_june_random/pnr.json",
+      "bytes": 2672,
+      "sha256": "8b4bd58f192cba0601e2ea55307b28f0a1183fef52c49094c6faf3069dd9bdfc"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 392,
+      "sha256": "1f1211cbdac8d889798e1e471d7662e839538ae02172dda0225695f0279594f3"
+    },
+    "device.qca": {
+      "path": "03_map_1/device_energy_input.qca",
+      "bytes": 1131257,
+      "sha256": "b55d204992b254d3a9c8cd5fbb081c3e7e63effbcb5ff5c06e810d79c8a904b8"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 8500,
+      "sha256": "d12f0c81ae5791b247b9d4fe60c50c2b25e8151c6aa9b7d6e7a6c1601facbc5c"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 3,
+      "output_count": 1
+    },
+    "pnr": {
+      "schema": "ifcn.pnr.v1",
+      "algorithm": "june_random",
+      "phase_count": 4,
+      "seed": 1,
+      "layout_legal": true,
+      "clock_legal": true,
+      "failed_edge_count": 0,
+      "validation": {
+        "passed": true,
+        "checks": [
+          "dag_acyclic",
+          "exact_edge_coverage",
+          "exact_node_coverage",
+          "unique_node_positions",
+          "route_endpoints",
+          "simple_four_connected_paths",
+          "no_route_through_gate",
+          "distinct_fanin_ports",
+          "port_sharing_geometry",
+          "clock_range_and_forward_steps",
+          "source_aware_crossings",
+          "native_node_and_crossover_mapping",
+          "exported_ifcn_device_mapping"
+        ],
+        "errors": [],
+        "max_same_phase_run": 2,
+        "topological_order": [
+          0,
+          1,
+          2,
+          23,
+          4,
+          24,
+          25,
+          27,
+          50,
+          28,
+          29,
+          55,
+          6,
+          14,
+          5,
+          51,
+          30,
+          56,
+          36,
+          15,
+          19,
+          7,
+          52,
+          31,
+          57,
+          37,
+          43,
+          8,
+          53,
+          32,
+          58,
+          38,
+          44,
+          9,
+          26,
+          54,
+          33,
+          59,
+          45,
+          10,
+          12,
+          16,
+          60,
+          34,
+          46,
+          11,
+          13,
+          39,
+          61,
+          35,
+          47,
+          17,
+          40,
+          62,
+          48,
+          18,
+          41,
+          63,
+          20,
+          42,
+          21,
+          22,
+          49,
+          3
+        ],
+        "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+      },
+      "algorithm_parameters": {
+        "graphviz_grid_size": 40,
+        "route_order_retries": 24,
+        "search_cost": 40,
+        "max_same_phase": null,
+        "topology": "layer_redundancy_buffers",
+        "phase_count": 4,
+        "timeout_s": 177,
+        "seed_control": "not_exposed_by_native_algorithm"
+      },
+      "clock_scheme": "irregular",
+      "clock_template_ok": null,
+      "clock_template_conflicts": null,
+      "clock_validation_kind": "route_phase_contract",
+      "run_time_s": 0.0394688,
+      "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/13a3bfc98a0f498ab6f9c511308e48a9/normalized.v",
+      "boolean_canonicalization": false,
+      "expansion": {
+        "inserted_rows": 0,
+        "inserted_columns": 0,
+        "accepted_rounds": 0
+      },
+      "width": 15,
+      "height": 34,
+      "area_tiles": 510,
+      "ifcn": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/13a3bfc98a0f498ab6f9c511308e48a9/02_pnr_1/01_june_random/layout.ifcn",
+      "mapping_validation": {
+        "passed": true,
+        "cell_count": 1382,
+        "cross_count": 10,
+        "io_contraction": false
+      },
+      "total_backend_time_s": 0.07868631199926313
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "june_random",
+      "selected_algorithm": "june_random",
+      "policy": "first validated result; no area-optimality claim",
+      "attempts": [
+        {
+          "algorithm": "june_random",
+          "status": "completed",
+          "budget_s": 179,
+          "started_at": "2026-09-05T10:35:57.249547+00:00",
+          "directory": "02_pnr_1/01_june_random",
+          "elapsed_s": 0.152
+        }
+      ]
+    },
+    "mapping": {
+      "cell_count": 1413,
+      "io_contraction": false
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": null,
+  "worker_pid": 174881
+}

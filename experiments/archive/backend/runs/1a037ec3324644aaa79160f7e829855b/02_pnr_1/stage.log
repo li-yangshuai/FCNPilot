@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py", line 125, in run_native
+    result = subprocess.run([str(executable),args.algorithm,args.input,str(candidate_path)],
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2141, in _communicate
+    self.wait(timeout=self._remaining_time(endtime))
+  File "/usr/lib/python3.12/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2045, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr', 'compact', '/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/normalized.v', '/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/1a037ec3324644aaa79160f7e829855b/02_pnr_1/01_compact/layout_candidate.json']' timed out after 176.99998975100243 seconds
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py", line 220, in <module>
+    main()
+  File "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py", line 204, in main
+    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)
+  File "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py", line 128, in run_native
+    raise RuntimeError(f'{args.algorithm} exceeded its {args.budget}s native routing budget; see native.log.') from exc
+RuntimeError: compact exceeded its 177s native routing budget; see native.log.

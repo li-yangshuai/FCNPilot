@@ -1,0 +1,36 @@
+\documentclass[tikz,border=1mm]{standalone}
+\input{common.tex}
+\begin{document}
+\begin{tikzpicture}[x=1mm,y=1mm]
+\path[use as bounding box] (0,0) rectangle (168,74);
+\node[anchor=west] at (1,71) {Shared, preselected representatives passing the added checks};
+\draw[muted,dashed,line width=.6pt] (125,71)--(132,71);
+\node[anchor=west,smallnote] at (133,71) {Equal area};
+\node[font=\sffamily\bfseries] at (28,63) {(a) Normal--Compact ($n=4$)};
+\node[font=\sffamily\bfseries] at (84,63) {(b) Normal--June ($n=8$)};
+\node[font=\sffamily\bfseries] at (140,63) {(c) Compact--June ($n=5$)};
+\begin{loglogaxis}[at={(10mm,14mm)},anchor=south west,width=43mm,height=43mm,scale only axis,
+ xmin=10,xmax=100,ymin=10,ymax=100,xtick={10,20,50,100},ytick={10,20,50,100},
+ xticklabels={10,20,50,100},yticklabels={10,20,50,100},grid=major,minor tick num=0,
+ xlabel={Normal area (tiles)},ylabel={Compact area (tiles)},clip=false]
+\addplot[muted,dashed,no marks,domain=10:100,samples=2] {x};
+\addplot[only marks,mark=*,mark size=1.5pt,normal] table[x=left,y=right,col sep=comma] {../data/fig06_pair1_points.csv};
+\end{loglogaxis}
+\begin{loglogaxis}[at={(66mm,14mm)},anchor=south west,width=43mm,height=43mm,scale only axis,
+ xmin=10,xmax=1500,ymin=10,ymax=1500,xtick={10,100,1000},ytick={10,100,1000},
+ xticklabels={10,100,1000},yticklabels={10,100,1000},grid=major,minor tick num=0,
+ xlabel={Normal area (tiles)},ylabel={June area (tiles)},clip=false]
+\addplot[muted,dashed,no marks,domain=10:1500,samples=2] {x};
+\addplot[only marks,mark=*,mark size=1.5pt,normal] table[x=left,y=right,col sep=comma] {../data/fig06_pair2_points.csv};
+\end{loglogaxis}
+\begin{loglogaxis}[at={(122mm,14mm)},anchor=south west,width=43mm,height=43mm,scale only axis,
+ xmin=20,xmax=300,ymin=20,ymax=300,xtick={20,50,100,300},ytick={20,50,100,300},
+ xticklabels={20,50,100,300},yticklabels={20,50,100,300},grid=major,minor tick num=0,
+ xlabel={Compact area (tiles)},ylabel={June area (tiles)},clip=false]
+\addplot[muted,dashed,no marks,domain=20:300,samples=2] {x};
+\addplot[only marks,mark=*,mark size=1.5pt,compact] table[x=left,y=right,col sep=comma] {../data/fig06_pair3_points.csv};
+\node[anchor=west,font=\sffamily\fontsize{7.5}{9}\selectfont,xshift=1.8mm] at (axis cs:48,126) {$\times 2$};
+\end{loglogaxis}
+\node[smallnote,anchor=west] at (1,2) {Occupied bounding rectangles; logarithmic axes. Each pair has its own common-case set.};
+\end{tikzpicture}
+\end{document}

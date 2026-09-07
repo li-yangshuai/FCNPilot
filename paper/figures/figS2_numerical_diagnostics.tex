@@ -1,0 +1,29 @@
+\documentclass[tikz,border=1mm]{standalone}
+\input{common.tex}
+\begin{document}
+\begin{tikzpicture}[x=1mm,y=-1mm]
+\path[use as bounding box] (0,0) rectangle (168,114);
+\node[paneltitle] at (0,3) {(a) Bistable output};
+\begin{axis}[at={(11mm,-44mm)},anchor=south west,width=68mm,height=35mm,scale only axis,xmin=0,xmax=511,ymin=-1.1,ymax=1.1,ytick={-1,0,1},xlabel={Retained output sample},ylabel={Polarization},ymajorgrids]
+\addplot[normal,line width=.85pt,no marks] table[x=sample,y=baseline,col sep=comma] {../data/device_runs/normal_bistable_out.csv};
+\addplot[bad,densely dashed,line width=.55pt,no marks] table[x=sample,y=accelerated,col sep=comma] {../data/device_runs/normal_bistable_out.csv};
+\end{axis}
+\node[paneltitle] at (85,3) {(b) Coherence output};
+\begin{axis}[at={(96mm,-44mm)},anchor=south west,width=68mm,height=35mm,scale only axis,xmin=0,xmax=3004,ymin=-1.1,ymax=1.1,ytick={-1,0,1},xlabel={Retained output sample},ylabel={Polarization},ymajorgrids]
+\addplot[normal,line width=.85pt,no marks] table[x=sample,y=baseline,col sep=comma] {../data/device_runs/normal_coherence_out.csv};
+\addplot[bad,densely dashed,line width=.55pt,no marks] table[x=sample,y=accelerated,col sep=comma] {../data/device_runs/normal_coherence_out.csv};
+\end{axis}
+\draw[normal,line width=.85pt] (21,56) -- (29,56);
+\node[anchor=west] at (30,56) {Baseline};
+\draw[bad,densely dashed,line width=.55pt] (59,56) -- (67,56);
+\node[anchor=west] at (68,56) {Accelerated};
+\node[smallnote,anchor=west] at (105,56) {Exported traces coincide};
+\node[paneltitle] at (0,65) {(c) Reported per-cycle energy diagnostics};
+\begin{axis}[at={(13mm,-102mm)},anchor=south west,width=146mm,height=30mm,scale only axis,ybar,bar width=4mm,xmin=1.4,xmax=8.6,ymin=-.012,ymax=.21,xtick={2,3,4,5,6,7,8},ytick={0,.1,.2},xlabel={Reported cycle index},ylabel={Energy (eV)},ymajorgrids,legend style={at={(.99,.97)},anchor=north east}]
+\addplot[fill=normal!65,draw=normal] table[x=cycle,y=bath,col sep=comma] {../data/device_runs/normal_energy_cycles.csv};
+\addlegendentry{Bath energy}
+\addplot[fill=white,draw=bad,postaction={pattern=north east lines,pattern color=bad}] table[x=cycle,y=error,col sep=comma] {../data/device_runs/normal_energy_cycles.csv};
+\addlegendentry{Reported energy-error term}
+\end{axis}
+\end{tikzpicture}
+\end{document}

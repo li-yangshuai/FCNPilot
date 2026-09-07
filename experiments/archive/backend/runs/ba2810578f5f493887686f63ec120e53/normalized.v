@@ -1,0 +1,22 @@
+module top(pi0, pi1, pi2, pi3, pi4, pi5, pi6, pi7, po0);
+input pi0, pi1, pi2, pi3, pi4, pi5, pi6, pi7;
+output po0;
+wire n11, n121, n122, n123, n12, n13, n14, n15, ifcn_tmp_0, ifcn_tmp_1, ifcn_tmp_2, ifcn_tmp_3, ifcn_tmp_4, ifcn_tmp_5, ifcn_tmp_6, ifcn_tmp_7;
+assign n11 = pi6 & pi7;
+assign ifcn_tmp_0 = ~pi4;
+assign ifcn_tmp_1 = ~pi5;
+assign n121 = ifcn_tmp_0 & ifcn_tmp_1;
+assign ifcn_tmp_2 = ~pi4;
+assign ifcn_tmp_3 = ~pi5;
+assign n123 = ifcn_tmp_2 | ifcn_tmp_3;
+assign ifcn_tmp_4 = ~pi2;
+assign n14 = pi1 & ifcn_tmp_4;
+assign ifcn_tmp_5 = ~n11;
+assign n122 = ifcn_tmp_5 | n121;
+assign ifcn_tmp_6 = ~pi0;
+assign n15 = n14 & ifcn_tmp_6;
+assign n12 = n122 & n123;
+assign n13 = n12 & pi3;
+assign ifcn_tmp_7 = ~n15;
+assign po0 = n13 | ifcn_tmp_7;
+endmodule

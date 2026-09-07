@@ -1,0 +1,213 @@
+[
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call_db1cf44cb0e4485ab8b34b25",
+        "name": "ifcn_capabilities",
+        "arguments": {
+          "deep": true
+        }
+      }
+    ],
+    "usage": {
+      "input": 1861,
+      "output": 24,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 1885,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call_efef13f69fc34fbfa199b801",
+        "name": "ifcn_run",
+        "arguments": {
+          "action": "start",
+          "algorithm": "normal_2ddwave",
+          "energy_profile": "standard",
+          "input": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/TOY/mux21.v",
+          "model": "bistable",
+          "samples": 1,
+          "seed": 1,
+          "timeout_s": 90,
+          "until": "map"
+        }
+      }
+    ],
+    "usage": {
+      "input": 2577,
+      "output": 133,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 2710,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call_dfbecf81c5cf42e698faf8c2",
+        "name": "ifcn_status",
+        "arguments": {
+          "run_id": "249f102345a640d1b5785eeffc42756e",
+          "wait_seconds": 20
+        }
+      }
+    ],
+    "usage": {
+      "input": 799,
+      "output": 65,
+      "cacheRead": 2560,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 3424,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call_10cfe13461c941359e384590",
+        "name": "ifcn_artifact",
+        "arguments": {
+          "artifact": "pnr.json",
+          "run_id": "249f102345a640d1b5785eeffc42756e"
+        }
+      }
+    ],
+    "usage": {
+      "input": 4145,
+      "output": 66,
+      "cacheRead": 3200,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 7411,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call_583237881b4f4003a945db65",
+        "name": "ifcn_artifact",
+        "arguments": {
+          "artifact": "routed_dag.json",
+          "run_id": "249f102345a640d1b5785eeffc42756e"
+        }
+      }
+    ],
+    "usage": {
+      "input": 8329,
+      "output": 68,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 8397,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call_7b580fcb407e4f12b9f81ebb",
+        "name": "ifcn_artifact",
+        "arguments": {
+          "artifact": "result.json",
+          "run_id": "249f102345a640d1b5785eeffc42756e"
+        }
+      }
+    ],
+    "usage": {
+      "input": 1001,
+      "output": 65,
+      "cacheRead": 8192,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 9258,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "toolUse"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"status\": \"completed\",\n  \"run_id\": \"249f102345a640d1b5785eeffc42756e\",\n  \"completed_stages\": [\n    \"parse\",\n    \"pnr\",\n    \"map\"\n  ],\n  \"algorithm\": \"normal_2ddwave\",\n  \"width\": 4,\n  \"height\": 4,\n  \"cell_count\": 80,\n  \"metrics_source\": {\n    \"tool\": \"ifcn_artifact\",\n    \"run_id\": \"249f102345a640d1b5785eeffc42756e\",\n    \"artifact\": \"result.json\"\n  },\n  \"artifact_reads\": [\n    \"pnr.json\",\n    \"routed_dag.json\",\n    \"result.json\"\n  ],\n  \"input_recovered\": false,\n  \"rtl_equivalence\": \"not_performed\",\n  \"physical_function\": \"not_verified\",\n  \"simulation_performed\": false,\n  \"energy_performed\": false,\n  \"artifact_paths\": [\n    \"/home/lys/projects/github/iFCN/output/pi-runs/249f102345a640d1b5785eeffc42756e/02_pnr_1/01_normal_2ddwave/pnr.json\",\n    \"/home/lys/projects/github/iFCN/output/pi-runs/249f102345a640d1b5785eeffc42756e/02_pnr_1/01_normal_2ddwave/routed_dag.json\",\n    \"/home/lys/projects/github/iFCN/output/pi-runs/249f102345a640d1b5785eeffc42756e/result.json\"\n  ],\n  \"explanation\": \"已完成 parse、pnr 和 map 阶段，未执行仿真与能耗分析，RTL 等价性与物理功能验证均未进行。\"\n}"
+      }
+    ],
+    "usage": {
+      "input": 13224,
+      "output": 458,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 13682,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "stop"
+  }
+]

@@ -1,0 +1,112 @@
+{
+  "schema": "ifcn.dag.v1",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "in0",
+      "type": "input",
+      "is_input": true,
+      "is_output": false
+    },
+    {
+      "id": 1,
+      "name": "in1",
+      "type": "input",
+      "is_input": true,
+      "is_output": false
+    },
+    {
+      "id": 2,
+      "name": "in2",
+      "type": "input",
+      "is_input": true,
+      "is_output": false
+    },
+    {
+      "id": 3,
+      "name": "out",
+      "type": "or",
+      "is_input": false,
+      "is_output": true
+    },
+    {
+      "id": 4,
+      "name": "~in2",
+      "type": "not",
+      "is_input": false,
+      "is_output": false
+    },
+    {
+      "id": 6,
+      "name": "w3",
+      "type": "and",
+      "is_input": false,
+      "is_output": false
+    },
+    {
+      "id": 7,
+      "name": "w2",
+      "type": "and",
+      "is_input": false,
+      "is_output": false
+    }
+  ],
+  "edges": [
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      6,
+      3
+    ],
+    [
+      7,
+      3
+    ]
+  ],
+  "layers": [
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      7
+    ],
+    [
+      3
+    ]
+  ],
+  "topological_order": [
+    0,
+    1,
+    2,
+    4,
+    6,
+    7,
+    3
+  ],
+  "input_count": 3,
+  "output_count": 1
+}

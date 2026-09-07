@@ -1,0 +1,57 @@
+#circuit name: normalized.v
+
+#designed by normal graph draw algorithm based on Graphviz dot/mincross + exact-gain sifting, right-down reachable initialization, structural-feature-guided node reposition, failure-directed row/column expansion, legality-verified recursive top-down/bottom-up phase-aware node-to-wire contraction, fixed-point blank-row/column deletion, and post-routing 2DDWave template consistency verification.
+
+#gate level placement and routing infomation
+#gates number: 7
+#input/output: 2 / 1
+#edges number: 8
+#total layers: 5
+#layout area: width: 3, height: 5, area: 15
+#cell count: 85
+#cross count: 1
+#critical path: 7
+#clocks: 1.75
+#run time: 0.374047 s
+#phase encoding: enabled
+#phase count: 4
+#clock scheme: 2DDWave
+#block size: 4x4
+#coordinate origin: normalized top-left (0,0)
+#unassigned phase in raw map: none
+#encoded padding/unassigned compatibility fill: 0
+#encoding: row-major blocks; each block stores one byte per row; each cell uses 2 bits; column 0 is LSB
+
+#nodes info 
+### nodeIndex, nodeName, nodeType, nodePosition ###
+0, x0, input, (0,0);
+1, x1, input, (1,0);
+3, ps1, or, (1,2);
+4, ps2, and, (2,1);
+5, ~ps2, not, (2,2);
+7, ps4, and, (2,3);
+8, ~ps4, not, (2,4);
+#nodes info 
+
+#paths info
+### {node1, node2} : path ###
+(3,7): (1,2),(1,3),(2,3);
+(7,8): (2,3),(2,4);
+(5,7): (2,2),(2,3);
+(4,5): (2,1),(2,2);
+(0,3): (0,0),(0,1),(0,2),(1,2);
+(1,4): (1,0),(2,0),(2,1);
+(1,3): (1,0),(1,1),(1,2);
+(0,4): (0,0),(0,1),(1,1),(2,1);
+#paths info
+
+#absolute bbox: (0,0) -> (2,4)
+#raw size: width: 3, height: 5
+#padded size: width: 4, height: 8
+#blocks: columns: 1, rows: 2
+
+#encoded phase map
+### (block_x,block_y): hex ###
+(0,0):0x24390e13;
+(0,1):0x24000000;
+#encoded phase map

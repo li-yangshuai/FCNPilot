@@ -1,0 +1,123 @@
+{
+  "schema": "ifcn.backend.comparison.v1",
+  "created_at": "2026-09-05T10:35:36.448567+00:00",
+  "manifest": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/manifest.json",
+  "manifest_sha256": "1da5652de065b0069d0cbd86a4b50ea7f9d380f1dc43095c72ca50f53c60afd8",
+  "algorithms": [
+    "normal_2ddwave",
+    "compact",
+    "june_random"
+  ],
+  "cases": [
+    "TOY/1bitAdderAOIG",
+    "TOY/1bitAdderMaj",
+    "TOY/RCA2",
+    "TOY/b1_r2",
+    "TOY/clpl",
+    "TOY/mux21",
+    "TOY/mux41",
+    "TOY/newtag",
+    "TOY/paper_2ddwave_carry_demo",
+    "TOY/paper_2ddwave_crossing_demo",
+    "TOY/paper_2ddwave_xor_demo",
+    "TOY/par_check",
+    "TOY/par_gen",
+    "TOY/t",
+    "TOY/xnor2",
+    "TOY/xor2",
+    "TOY/xor5R",
+    "MAJ/1bitAdderAOIG",
+    "MAJ/1bitAdderMaj",
+    "MAJ/RCA2",
+    "MAJ/clpl",
+    "MAJ/mux41",
+    "MAJ/newtag",
+    "MAJ/par_check",
+    "MAJ/par_gen",
+    "MAJ/t",
+    "MAJ/xnor2",
+    "MAJ/xor2",
+    "MAJ/xor5R",
+    "MAJ/xor5_r1"
+  ],
+  "seed": 1,
+  "timeout_s": 180,
+  "workers": 2,
+  "until": "map",
+  "model": "bistable",
+  "samples": 512,
+  "code_sha256": {
+    "scripts/ifcn_agent.py": "b668e387487818e866604765e8f03505f5a2d0450622211b1704f6cc8484254a",
+    "scripts/ifcn_agent_backend.py": "ae45cf73a73ff1e5e9ec29449442fb66ba00292fb46fd8b52326452a8c7bb4d2",
+    "scripts/ifcn_agent_frontend.py": "884018359ce6d32a99475f3aee99398fd542bea6c413f06871f7d4b9afa0a2a1",
+    "scripts/ifcn_agent_layout_validation.py": "e9b16f09c589e6b0ac3e620cb3f7ae852d23ffda86d955e97be45254da8cffcb",
+    "src/app/ifcn_combinational_pnr.cpp": "61d5e524d84206c2e24475225271380dab8a017c26d8c59cc81745e350196c49"
+  },
+  "configuration": {
+    "root": "/home/lys/projects/github/iFCN",
+    "build_dir": "/home/lys/projects/github/iFCN/build-release",
+    "python": "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+    "backend": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr"
+  },
+  "runtime_sha256": {
+    "python": {
+      "path": "/usr/bin/python3.12",
+      "sha256": "a92f0f95e883390c7256b2e441484aac06b1002dbe1d924141a77c8d82f96223"
+    },
+    "backend": {
+      "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+      "sha256": "ae45cf73a73ff1e5e9ec29449442fb66ba00292fb46fd8b52326452a8c7bb4d2"
+    },
+    "native_pnr_binary": {
+      "path": "/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr",
+      "sha256": "3e9668ade8d7bb601b27d51a8ce062fa367c257dbb320d7f48c6c3bd2ca5aad6"
+    },
+    "mapping_binary": {
+      "path": "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+      "sha256": "a730397f9daf0c0ec29dfecc495498bf4f9dbc9a62c411304215998a7707b292"
+    },
+    "simulation_binary": {
+      "path": "/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark",
+      "sha256": "027267da2142f793bfc645e1e95ba082c2734f6e2ef18ea726e5890081a159b7"
+    },
+    "energy_binary": {
+      "path": "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+      "sha256": "cf249809401f406d3e3eabbc1e6bdba8e5bc34b9b49a7df6d4bd06802c31b4a5"
+    }
+  },
+  "normal_implementation_sha256": {
+    "include/gcn_rl_layout/src/algorithm/lib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "include/gcn_rl_layout/src/algorithm/main/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "include/gcn_rl_layout/src/algorithm/main/evaluate_layout_candidate_worker.py": "0ac49c02bc58027b9425d8287879992c486aa3469f674beab058ec6e24ee7c64",
+    "include/gcn_rl_layout/src/algorithm/main/evaluate_universal_graph_ppo.py": "758ed5e33ee16893defc758e95a5cef31e9a364bb13b46425be615ec90065dd6",
+    "include/gcn_rl_layout/src/algorithm/main/pretrain_ifcn_memory_policy.py": "b3b50fb3a028a3f53274f4dbc82e3e7680898466d1bebf0b795a0446c2180060",
+    "include/gcn_rl_layout/src/algorithm/main/test_normal_graph_draw.py": "1d19d65c955f9b5754f34a04a1a688e9cd5620659cc148daba389ce8871e13a7",
+    "include/gcn_rl_layout/src/algorithm/main/test_randomPhase.py": "82517ca434cc080a93b3e0d381317298c26461cad01b95882b29823ebde20066",
+    "include/gcn_rl_layout/src/algorithm/main/train_layout_ppo.py": "21fbc530a59a2766894fde72f65120d8a98bcf7a4094fb69ef2974f127e905ff",
+    "include/gcn_rl_layout/src/algorithm/main/train_universal_graph_ppo.py": "982d1a0736104ee137f2f06c7c2b18b7548c8271286640deab8b315fb21a405b",
+    "include/gcn_rl_layout/src/algorithm/main/utils.py": "fc4fa12aee955fdf7da4cc63dfaa83e0fed8aa917d9a7940e9b3a4b47fbef539",
+    "include/gcn_rl_layout/src/algorithm/src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "include/gcn_rl_layout/src/algorithm/src/circuit_parse.py": "a1f8b7e47d37e8b7206447c223ebe54060332017514455d94f9d3d52f0eb096d",
+    "include/gcn_rl_layout/src/algorithm/src/gcn_model_less_node.py": "c741b395e7dd4c8010aae3f4875155b510195d40a08e5733386a79edf5694ef5",
+    "include/gcn_rl_layout/src/algorithm/src/graphviz_sifting.py": "696fb2d2bb666caf87525dc4476ccb4df9c4e1aad0e6d2aa9484fb9a1b7dcb37",
+    "include/gcn_rl_layout/src/algorithm/src/ifcn_layout_dataset.py": "730dbe7dabec4bd50d6e318c4bcec0bd3523348bb32b7a62457aeb88bda66633",
+    "include/gcn_rl_layout/src/algorithm/src/ifcn_offline_learning.py": "884705e6e48e11584c83d68ae6a8d6df91a819d71849531bbacedde918376506",
+    "include/gcn_rl_layout/src/algorithm/src/layout_retrieval_memory.py": "2073a4ddd04e4dde2eb3a0bd414f4fb68ddab0380b5f567cc1a41f0e9721c6a8",
+    "include/gcn_rl_layout/src/algorithm/src/memory_policy_bridge.py": "73163d08fa68d1b3513c2804f6f53ef5ebf13ad7a972074e5ea59a23506c5437",
+    "include/gcn_rl_layout/src/algorithm/src/negotiated_router.py": "2f73d3f42afeca52f0c04f1388ac4f45cc5fa9591817547e3bc83ff3ad16ec11",
+    "include/gcn_rl_layout/src/algorithm/src/normalGraphDraw.py": "55d6e58164856c8fd1aef71ca690b267e5834f0833080907f24a11941c3385a3",
+    "include/gcn_rl_layout/src/algorithm/src/stochastic_clock.py": "bb953156d697330edd2f9033c62432539cd93fb701b5c56860425d53381f4526",
+    "include/gcn_rl_layout/src/algorithm/src/toolkit.py": "e0858a64c9ad5a22d65036038d4575782bf941fcc72ceaa733bd812a06d448cc",
+    "include/gcn_rl_layout/src/algorithm/src/universal_graph_policy.py": "10ccab79cca89b501b617b699a1c81989822250cf88db5daff3fff3fe62f628b",
+    "include/gcn_rl_layout/src/algorithm/src/universal_graph_ppo.py": "9b7ed166a1f8b435fff71d3bf51ee473768e2a13f8ccdb5331516b7c659ec162",
+    "include/gcn_rl_layout/src/algorithm/lib/iFCN_Lab.cpython-312-x86_64-linux-gnu.so": "9fb908c80b5b24eb8abd6f036ed886c8aa7c5e9aec0a582c5caccad74b5c72f2"
+  },
+  "seed_control": "normal exposes seed; compact/june internal seed control is not exposed",
+  "comparison_unit": "end-to-end pipelines from identical frozen Verilog; normal may apply equivalent parity canonicalization, so these are not necessarily identical-DAG P&R comparisons",
+  "scope": "Production API coverage and layout metrics; no LLM, RTL/device equivalence, or power-accuracy claim. Runtime includes shared-host concurrency.",
+  "failure_policy": "One run per frozen input and explicit algorithm; no retry or omitted failures."
+}

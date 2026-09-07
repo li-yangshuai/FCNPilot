@@ -1,0 +1,44 @@
+\documentclass[tikz,border=1mm]{standalone}
+\input{common.tex}
+\begin{document}
+\begin{tikzpicture}[x=1mm,y=1mm]
+  \path[use as bounding box] (0,0) rectangle (168,106);
+  \node[paneltitle] at (1,103) {(a) Language-level control and persistent execution};
+  \node[box,fill=normal!8,text width=31mm,minimum height=21mm] (agent) at (18,84)
+    {\textbf{Pi main agent}\\Domain instructions\\+ LLM tool calls};
+  \node[box,text width=53mm,minimum height=21mm,align=left] (tools) at (77,84)
+    {\textbf{Four typed tools}\\Capabilities \quad Run / resume / cancel\\Status \quad Artifact read};
+  \node[box,fill=grid!35,text width=43mm,minimum height=21mm] (job) at (144,84)
+    {\textbf{Durable job runner}\\Stage state and worker\\Snapshots, logs, SHA-256};
+  \draw[control] (agent.east) -- node[smallnote,above,align=center] {tool calls} (tools.west);
+  \draw[control] (tools.east) -- node[smallnote,above,align=center] {CLI / JSON} (job.west);
+  \draw[control] (job.south) -- (144,67) -- node[smallnote,above] {schedule requested stages} (88,67) -- (88,60);
+  \node[paneltitle] at (1,63) {(b) Circuit data and native execution};
+  \node[box,text width=17mm,minimum height=20mm] (rtl) at (13,43)
+    {Scalar\\Verilog\\snapshot};
+  \node[box,text width=22mm,minimum height=20mm] (dag) at (43,43)
+    {Parse and\\normalize\\\textbf{DAG}};
+  \node[box,text width=58mm,minimum height=30mm] (pnr) at (91,43)
+    {\textbf{Placement and routing}\\
+    \textcolor{normal}{Normal: fixed 2DDWave}\\
+    \textcolor{compact}{Compact: adaptive expansion}\\
+    \textcolor{june}{June: irregular clock routing}\\
+    Explicit backend or guarded \texttt{auto}};
+  \node[box,text width=27mm,minimum height=30mm] (qca) at (149,43)
+    {\textbf{Native mapping}\\Validated layout\\$\rightarrow$ QCA cells\\Terminal counts};
+  \draw[flow] (rtl.east) -- (dag.west);
+  \draw[flow] (dag.east) -- (pnr.west);
+  \draw[flow] (pnr.east) -- (qca.west);
+  \node[box,text width=46mm,minimum height=15mm] (sim) at (83,10)
+    {\textbf{Physical simulation}\\Bistable / coherence engines\\Baseline--accelerated comparison};
+  \node[box,text width=41mm,minimum height=15mm] (energy) at (143,10)
+    {\textbf{Energy and power estimates}\\Bath / clock energy per cycle\\Preview or standard integration};
+  \draw[flow] (qca.south west) -- (qca.south west |- 0,23) -- (83,23) -- (sim.north);
+  \draw[flow] (qca.south) -- (qca.south |- 0,22) -| (energy.north);
+  \node[smallnote,text width=47mm] at (25,11)
+    {Solid: circuit / artifact dependency\\Dashed: software control\\Simulation and energy each read QCA.};
+  \begin{scope}[on background layer]
+    \draw[draw=muted!45,dashed,rounded corners=2pt] (0,0) rectangle (168,60);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

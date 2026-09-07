@@ -1,0 +1,242 @@
+{
+  "benchmark_version": "v1",
+  "default_for_unlisted_artifacts": "excluded_until_explicitly_audited",
+  "entries": [
+    {
+      "artifacts": [
+        {
+          "relpath": "paper/data/small_compaction_results.csv",
+          "role": "historical_result",
+          "sha256": "61de1ff898d6e5c954adb4b16e78ccc9d36dc691bcb568b65276b7d1845a8aa6"
+        }
+      ],
+      "eligibility": "superseded_exclude",
+      "excluded_claims": [
+        "Current area improvement",
+        "Current legal layout success rates",
+        "New benchmark efficacy"
+      ],
+      "id": "small_compaction_superseded",
+      "new_benchmark_performance_source": false,
+      "permitted_claims": [
+        "Archive provenance only"
+      ],
+      "provenance": [
+        {
+          "lines": [
+            3,
+            10
+          ],
+          "meaning": "Explicit superseded legality audit; regenerate CSV, Table 1 and comparison curve before publication.",
+          "relpath": "paper/data/experiment_results_README.md"
+        }
+      ],
+      "reason": "The 2026-07-20 provenance note supersedes the 2026-07-18 endpoint checker; shared fanin input-side conflicts were not rejected."
+    },
+    {
+      "artifacts": [
+        {
+          "relpath": "paper/data/large_fiction_results.csv",
+          "role": "historical_result",
+          "sha256": "3b1bed2e53e72742d2b1c8bc6fd4f053ab914990075973d8f15c6b71a53093f7"
+        }
+      ],
+      "eligibility": "unvalidated_exclude",
+      "excluded_claims": [
+        "Current area improvement",
+        "Fair runtime comparison",
+        "New benchmark efficacy"
+      ],
+      "id": "large_fiction_unvalidated",
+      "new_benchmark_performance_source": false,
+      "permitted_claims": [
+        "Archive provenance only"
+      ],
+      "provenance": [
+        {
+          "lines": [
+            19,
+            34
+          ],
+          "relpath": "paper/data/experiment_results_README.md"
+        }
+      ],
+      "reason": "The provenance note excludes old large layouts from efficacy claims because they were not rerun under the hard endpoint-port checker; baseline and proposed runtime scopes also differ."
+    },
+    {
+      "artifacts": [
+        {
+          "relpath": "experiments/phase_pr/phase_pr_results.csv",
+          "role": "historical_result",
+          "sha256": "daaf5fa8c0e5392d864974b1b8b8b6197b64259322e60e7707fab02af32ce678"
+        },
+        {
+          "relpath": "experiments/phase_pr/ifcn_mapping_stats.csv",
+          "role": "historical_result",
+          "sha256": "da0f2f91960cb1610c75f67c8beb9705d8a1c0dfe26f95a6540e4a77d50b0c34"
+        }
+      ],
+      "eligibility": "recheck_required",
+      "excluded_claims": [
+        "Frozen-v1 success rates",
+        "Device functional equivalence",
+        "Validated power"
+      ],
+      "id": "phase_pr_historical",
+      "new_benchmark_performance_source": false,
+      "permitted_claims": [
+        "Historical routing and device-export records exist"
+      ],
+      "provenance": [],
+      "reason": "Historical suite membership differs from v1 and no v1 source hash binding exists. Re-run against frozen inputs and current legality checks before use as performance data."
+    },
+    {
+      "artifacts": [
+        {
+          "relpath": "tests/benchmarks_f/TOY/gcn_rl_ui_memory_only_qca_summary.json",
+          "role": "historical_result",
+          "sha256": "bb564300b46969b275c0d44f36b8f9b4e63442c6e8f50afe0c5bd64b2917392f"
+        },
+        {
+          "relpath": "tests/benchmarks_f/TOY/gcn_rl_memory_retrain_rca2_xor5R_summary.json",
+          "role": "historical_result",
+          "sha256": "58ee3905ce4de462cc1a0329d23906662548b4fad06b480e3f8eeec4afaade83"
+        }
+      ],
+      "eligibility": "recheck_required",
+      "excluded_claims": [
+        "Frozen-v1 success rates",
+        "Held-out generalization",
+        "Validated power"
+      ],
+      "id": "gcn_rl_historical",
+      "new_benchmark_performance_source": false,
+      "permitted_claims": [
+        "Historical GCN-RL routing and QCA exports exist"
+      ],
+      "provenance": [],
+      "reason": "Runs reuse trained layout memory and some source logic/filenames differ from frozen-v1. The summaries explicitly did not run power analysis."
+    },
+    {
+      "artifacts": [
+        {
+          "relpath": "experiments/physical_ifcn_all36_smoke/summary.json",
+          "role": "historical_result",
+          "sha256": "a8a8296bcca1164beb2a14b956b373f106f1eb28cae15f7ebb6e12d8fa618136"
+        },
+        {
+          "relpath": "experiments/physical_ifcn_all36_smoke/results.csv",
+          "role": "historical_result",
+          "sha256": "6a24e8a81590ed205a388921d0ce5c5c18c4061c60edad90b154bd57598830f8"
+        }
+      ],
+      "eligibility": "numerical_engine_comparison_only",
+      "excluded_claims": [
+        "Verilog-to-device functional equivalence",
+        "LLM autonomy",
+        "Default-duration simulator performance",
+        "Power accuracy"
+      ],
+      "id": "physical_ifcn36",
+      "new_benchmark_performance_source": false,
+      "permitted_claims": [
+        "Baseline/accelerated numerical trace agreement and recorded timing under the documented smoke protocol"
+      ],
+      "provenance": [],
+      "reason": "The comparison uses existing QCA layouts and compares two implementations of the same numerical model; it does not align outputs to RTL truth tables."
+    },
+    {
+      "artifacts": [
+        {
+          "relpath": "experiments/physical_hfut_all25_preliminary/summary.json",
+          "role": "historical_result",
+          "sha256": "7ef156cecde5adb9954f1d2f38447cc7302ba9a64e6f904548279d784c4c9eae"
+        },
+        {
+          "relpath": "experiments/physical_hfut_all25_preliminary/results.csv",
+          "role": "historical_result",
+          "sha256": "d84f9f17e2c5cd284ed3eb2309b750608faeb7e31df1a5d793086dc717921a70"
+        }
+      ],
+      "eligibility": "numerical_engine_comparison_only",
+      "excluded_claims": [
+        "Verilog-to-device functional equivalence",
+        "LLM autonomy",
+        "Default-duration simulator performance",
+        "Power accuracy"
+      ],
+      "id": "physical_hfut25",
+      "new_benchmark_performance_source": false,
+      "permitted_claims": [
+        "Baseline/accelerated numerical trace agreement and recorded preliminary timing under that protocol"
+      ],
+      "provenance": [
+        {
+          "lines": [
+            117,
+            143
+          ],
+          "relpath": "docs/clock_zone_simulation.md"
+        }
+      ],
+      "reason": "The documentation labels this a shortened non-default preliminary protocol. It is separate from v1 end-to-end evaluation."
+    },
+    {
+      "artifacts": [
+        {
+          "relpath": "tests/benchmarks_f/TOY/1bitAdderAOIG_gcn_rl_layout/1bitAdderAOIG_rl_layout_energy.txt",
+          "role": "historical_result",
+          "sha256": "c431c7c283e96260733c9928725a0183051d4547f0bf6e0415cafcc4f818129d"
+        },
+        {
+          "relpath": "tests/benchmarks_f/TOY/1bitAdderMaj_gcn_rl_layout/1bitAdderMaj_rl_layout_energy.txt",
+          "role": "historical_result",
+          "sha256": "e5c84e011ed09d485083c4fe492b34e7dc38aaf6501aba0a027f07db587096bd"
+        },
+        {
+          "relpath": "tests/benchmarks_f/TOY/gcn_rl_ui_sequential_power_summary.json",
+          "role": "historical_result",
+          "sha256": "7b33267520d527369ece52ef75e382e08770d63ec5b0376d5735e2a27ca16272"
+        }
+      ],
+      "eligibility": "energy_unconverged",
+      "excluded_claims": [
+        "Converged dissipated energy",
+        "Validated average power",
+        "Power optimization benefit"
+      ],
+      "id": "gcn_rl_energy",
+      "new_benchmark_performance_source": false,
+      "permitted_claims": [
+        "The energy export stage produced model reports"
+      ],
+      "provenance": [],
+      "reason": "Time-step and warm-up convergence are not established. Existing error terms are large relative to bath energy and the first reported cycle dominates; a successful command does not validate physical accuracy."
+    },
+    {
+      "artifacts": [
+        {
+          "integrity_policy": "not_part_of_historical_result_hashes",
+          "relpath": "integrations/pi/VALIDATION.md",
+          "role": "dynamic_documentation_reference"
+        }
+      ],
+      "eligibility": "tool_integration_only",
+      "excluded_claims": [
+        "Actual LLM autonomous design success",
+        "Verilog-to-device functional equivalence",
+        "Converged power"
+      ],
+      "id": "pi_sdk_smoke",
+      "new_benchmark_performance_source": false,
+      "permitted_claims": [
+        "Documented Pi SDK extension integration and tool-chain smoke result"
+      ],
+      "provenance": [],
+      "reason": "The validation explicitly states the tools were exercised without a paid LLM and the numerical comparison is not RTL truth-table alignment."
+    }
+  ],
+  "new_performance_policy": "Generate new results from frozen v1 sources, record source and executable hashes plus complete commands, and pass current legality/functional checks. No listed historical artifact supplies new-v1 performance numbers.",
+  "schema_version": 1,
+  "scope": "Eligibility of historical evidence for a new iFCN Pi manuscript. These are records of prior outputs, not freshly measured performance."
+}

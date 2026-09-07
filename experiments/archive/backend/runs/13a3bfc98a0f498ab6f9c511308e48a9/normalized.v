@@ -1,0 +1,23 @@
+module top(A, B, Cin, M3);
+input A, B, Cin;
+output M3;
+wire M11, M12, M13, M14, M1, M21, M22, M23, M2, M31, M32, M33, M34, ifcn_tmp_0, ifcn_tmp_1, ifcn_tmp_2, ifcn_tmp_3;
+assign M11 = A & B;
+assign M12 = A & Cin;
+assign M13 = B & Cin;
+assign M14 = M11 | M12;
+assign M1 = M13 | M14;
+assign ifcn_tmp_0 = ~M1;
+assign M21 = ifcn_tmp_0 & A;
+assign ifcn_tmp_1 = ~M1;
+assign M22 = ifcn_tmp_1 & B;
+assign ifcn_tmp_2 = ~Cin;
+assign M32 = ifcn_tmp_2 & M1;
+assign M23 = M21 | M22;
+assign M2 = M23 | M11;
+assign ifcn_tmp_3 = ~Cin;
+assign M31 = ifcn_tmp_3 & M2;
+assign M33 = M2 & M1;
+assign M34 = M31 | M32;
+assign M3 = M33 | M34;
+endmodule

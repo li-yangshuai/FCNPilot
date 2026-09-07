@@ -1,0 +1,94 @@
+{
+  "schema": "ifcn.pi.result.v1",
+  "run_id": "fc2e1562da74446cb8376b7b22319d5b",
+  "status": "failed",
+  "requested_until": "map",
+  "error": "pnr command exited with 1. -------------------Orginal circuit info-------------------\ncircuit name : /home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/fc2e1562da74446cb8376b7b22319d5b/normalized.v\nnode number: 22\nedges number: 30\n-------------------After optimize-------------------\nparse mode: requested=compact, resolved=compact\nnodes number: 16\nedges number: 24\ntotal layers: 10\ndiffer-layer route pairs: 11\n-------------------Graphviz + exact-gain sifting-------------------\n[Graphviz+sifting] crossings=0 (removed 0 after dot), dot=0.007s, sift=0.000s, evaluations=14, fallback=False\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 101, in run_normal\n    raise RuntimeError('P&R did not produce a fully routed, clock-legal, port-valid layout.')\nRuntimeError: P&R did not produce a fully routed, clock-legal, port-valid layout.\n",
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 180,
+    "model": "bistable",
+    "algorithm": "normal_2ddwave",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "completed_stages": [
+    "parse"
+  ],
+  "metrics": {
+    "dag": {
+      "input_count": 3,
+      "output_count": 2
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "normal_2ddwave",
+      "selected_algorithm": null,
+      "policy": "first validated result; no area-optimality claim",
+      "attempts": [
+        {
+          "algorithm": "normal_2ddwave",
+          "status": "failed",
+          "budget_s": 179,
+          "started_at": "2026-09-05T10:39:33.401744+00:00",
+          "directory": "02_pnr_1/01_normal_2ddwave",
+          "error": "pnr command exited with 1. -------------------Orginal circuit info-------------------\ncircuit name : /home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/fc2e1562da74446cb8376b7b22319d5b/normalized.v\nnode number: 22\nedges number: 30\n-------------------After optimize-------------------\nparse mode: requested=compact, resolved=compact\nnodes number: 16\nedges number: 24\ntotal layers: 10\ndiffer-layer route pairs: 11\n-------------------Graphviz + exact-gain sifting-------------------\n[Graphviz+sifting] crossings=0 (removed 0 after dot), dot=0.007s, sift=0.000s, evaluations=14, fallback=False\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 101, in run_normal\n    raise RuntimeError('P&R did not produce a fully routed, clock-legal, port-valid layout.')\nRuntimeError: P&R did not produce a fully routed, clock-legal, port-valid layout.\n",
+          "elapsed_s": 6.916
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "warnings": [],
+  "sources": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 344,
+      "sha256": "a6d4f3c6597e11f51d2b03232e2c33ff473ecaf71f76500cd60b37cdc1aaf73d",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/fc2e1562da74446cb8376b7b22319d5b/source.v"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 666,
+      "sha256": "6b753cf28b901d3909a0cf68b7fdbae9684bd5b6836fccec0d60caca55a96dba",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/fc2e1562da74446cb8376b7b22319d5b/normalized.v"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 3237,
+      "sha256": "15230ec63f3d99a930450fa559dbff2aa72a949f85a177a374e5d03a18024fa5",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/fc2e1562da74446cb8376b7b22319d5b/01_parse_1/dag.json"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 764,
+      "sha256": "cf5b6e5e2351b0605b94b06c5aab1b5c275053a6fb5894cd327ce2ae631d5f04",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/fc2e1562da74446cb8376b7b22319d5b/01_parse_1/dag.dot"
+    },
+    "pnr_attempts/01_normal_2ddwave.json": {
+      "path": "02_pnr_1/01_normal_2ddwave/pnr.json",
+      "bytes": 2065,
+      "sha256": "43dbfb220a169fab6be9e751306659f2559c13d7e5d15d0aab9dd7a63248877e",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/fc2e1562da74446cb8376b7b22319d5b/02_pnr_1/01_normal_2ddwave/pnr.json"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 1652,
+      "sha256": "80680e2d37dbc84cc2d5788a1c5b564fb6e23e60a4f2e9ba48f258769e2c229d",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/fc2e1562da74446cb8376b7b22319d5b/02_pnr_1/pnr_attempts.json"
+    }
+  },
+  "metric_sources": {
+    "dag": "dag.json",
+    "pnr": "pnr.json",
+    "algorithm_selection": "pnr_attempts.json",
+    "mapping.cell_count": "device.qca (counted by backend)",
+    "simulation": "simulation.json",
+    "energy": "energy.json"
+  },
+  "reporting_rule": "Attribute metrics to the backend and the listed source. A listed file is not evidence that the LLM read it. Numerical engine agreement is not RTL/device functional equivalence or converged power."
+}

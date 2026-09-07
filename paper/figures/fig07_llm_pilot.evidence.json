@@ -1,0 +1,105 @@
+{
+  "schema": "ifcn.paper.figure.evidence.v1",
+  "figure": "fig07_llm_pilot",
+  "sources": [
+    {
+      "path": "/home/lys/projects/github/iFCN/output/pi-validation/agent-comparison-2026-09-05T10-29-05-410Z/aggregate.json",
+      "repo_relative_path": "output/pi-validation/agent-comparison-2026-09-05T10-29-05-410Z/aggregate.json",
+      "sha256": "249fbc2e785b6fdb174157a97331d3b5a4835f9b69b9a0090b2f281fb987394e",
+      "snapshot_path": "experiments/archive/pilot/aggregate.json",
+      "keys": [
+        "groups[].completed",
+        "groups[].delivery_correct",
+        "groups[].trials"
+      ]
+    },
+    {
+      "path": "/home/lys/projects/github/iFCN/output/pi-validation/agent-comparison-2026-09-05T10-29-05-410Z/results.json",
+      "repo_relative_path": "output/pi-validation/agent-comparison-2026-09-05T10-29-05-410Z/results.json",
+      "sha256": "91ae2a62036eb08cf2a411ac28843cd662abbbacae16b8694f1c308c227d2abf",
+      "snapshot_path": "experiments/archive/pilot/results.json",
+      "keys": [
+        "[].metrics.requested_work_completed",
+        "[].metrics.task_delivery_correct"
+      ]
+    },
+    {
+      "path": "/home/lys/projects/github/iFCN/output/pi-validation/agent-comparison-2026-09-05T10-29-05-410Z/posthoc-analysis.json",
+      "repo_relative_path": "output/pi-validation/agent-comparison-2026-09-05T10-29-05-410Z/posthoc-analysis.json",
+      "sha256": "92812cbda9ba3757bb5b3c6ad670268c8ffaa8d118a3b2e569326f5e7e170132",
+      "snapshot_path": "experiments/archive/pilot/posthoc-analysis.json",
+      "keys": [
+        "trials[].qualitative_issues",
+        "trials[].error_class",
+        "posthoc_full_report_correct"
+      ]
+    },
+    {
+      "path": "/home/lys/projects/github/iFCN/output/pi-validation/agent-comparison-2026-09-05T10-29-05-410Z/protocol.json",
+      "repo_relative_path": "output/pi-validation/agent-comparison-2026-09-05T10-29-05-410Z/protocol.json",
+      "sha256": "a112c1e3da178aa2750087f8724e5cc08e30debc9e82e52a658198ac2faa9e59",
+      "snapshot_path": "experiments/archive/pilot/protocol.json",
+      "keys": [
+        "protocol_version",
+        "tasks",
+        "schedule[].method",
+        "comparison",
+        "default_model",
+        "limits"
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "element": "grouped bars",
+      "claim": "Mapping 8/7/6, prespecified structured delivery 8/5/6, post-hoc text-inclusive delivery 8/5/5, all denominators eight",
+      "unit": "trials"
+    },
+    {
+      "element": "24-trial grid",
+      "claim": "Three separate Boolean scores per original trial; infrastructure errors retained",
+      "unit": "one task/repeat/method execution",
+      "service_errors": 4
+    }
+  ],
+  "derived_data": [
+    {
+      "path": "data/fig07_llm_bars.csv",
+      "sha256": "7fa851c15a8e7b2e6e70bc8edd5351f685bc27cbefade588637cc01ee9661fff"
+    },
+    {
+      "path": "data/fig07_trial_cells.csv",
+      "sha256": "f32a1b3910d4052a3d489e3d21ba9617b06020ce6dc2cc9bf3762e7ed01909ad"
+    },
+    {
+      "path": "data/fig07_trial_cells.tex",
+      "sha256": "846d737cad49af83ff75c9b5c981a9a80608578e45132a25b159b4a5e547d1f6"
+    }
+  ],
+  "generator": {
+    "path": "/home/lys/projects/github/FCNPilot/paper/scripts/build_audit_figures_data.py",
+    "sha256": "c72a57c4c95354d22e7e7e7835bdb7e073580557feca1fd29f4532a0f1eabd53"
+  },
+  "figure_artifacts": [
+    {
+      "path": "figures/fig07_llm_pilot.tex",
+      "sha256": "7c90dd51ddd1abf360313a2624e3e9b9f511cece9d2cce4ddaf887c52087fc8f"
+    },
+    {
+      "path": "figures/fig07_llm_pilot.pdf",
+      "sha256": "3cca9d6af5020012bc78cd93216dc541221b8bfd5b6d84a1501dec98cb540b74"
+    }
+  ],
+  "shared_preamble": {
+    "path": "figures/common.tex",
+    "sha256": "08b6eb12664b3784df01468e90098f5385ca5a9a329016523023addc6bec155b"
+  },
+  "transformation": "python3 scripts/build_audit_figures_data.py (from paper directory); deterministic selection and aggregation of hash-pinned local snapshots; rerun after PDF compilation to refresh artifact hashes",
+  "limitations": [
+    "Four task types, two repeats and three methods constitute a pilot, not evidence of method superiority.",
+    "The LLM conditions share qwen3-vl-plus and the same tools, backend, permissions and budgets; only the system prompt differs.",
+    "The fixed script consumes structured task specifications and is not a natural-language understanding baseline.",
+    "All tasks stop at mapping. Prespecified and post-hoc scores are separate analyses; failed trials were not removed or rerun."
+  ],
+  "relations": "No arrows or junctions assert physical interconnection; marks encode observations or grouping only."
+}

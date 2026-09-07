@@ -1,0 +1,161 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "54e859b3255b4d359ab1772a687aef12",
+  "created_at": "2026-09-05T10:37:39.470303+00:00",
+  "updated_at": "2026-09-05T10:37:41.321309+00:00",
+  "status": "failed",
+  "current_stage": "pnr",
+  "source": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/TOY/mux41.v",
+  "configuration": {
+    "root": "/home/lys/projects/github/iFCN",
+    "build_dir": "/home/lys/projects/github/iFCN/build-release",
+    "python": "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+    "backend": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "in0",
+      "in1",
+      "in2",
+      "in3",
+      "s0",
+      "s1"
+    ],
+    "warnings": [],
+    "outputs": [
+      "out"
+    ],
+    "assignment_count": 12,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 180,
+    "model": "bistable",
+    "algorithm": "june_random",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-05T10:37:39.512839+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/54e859b3255b4d359ab1772a687aef12/normalized.v",
+          "--output",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/54e859b3255b4d359ab1772a687aef12/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "180"
+        ]
+      ],
+      "completed_at": "2026-09-05T10:37:41.017269+00:00"
+    },
+    "pnr": {
+      "status": "failed",
+      "started_at": "2026-09-05T10:37:41.018180+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/54e859b3255b4d359ab1772a687aef12/normalized.v",
+          "--output",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/54e859b3255b4d359ab1772a687aef12/02_pnr_1/01_june_random",
+          "--algorithm",
+          "june_random",
+          "--seed",
+          "1",
+          "--budget",
+          "177"
+        ]
+      ],
+      "error": "pnr command exited with 1. Traceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 149, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (11, 32) has an absent or invalid clock phase at (28, 26); Route (11, 32) has an absent or invalid clock phase at (28, 27); Route (11, 32) has an absent or invalid clock phase at (29, 27); Route (11, 32) has an absent or invalid clock phase at (29, 28)\n"
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 412,
+      "sha256": "b8743fb320684d98b30060ee5a5b70ab5099ec814906e78680ca71c36f014959"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 407,
+      "sha256": "9068f69eeeb06ece15f3415337d6547b828f4917139612b15bd1663d1e2b2722"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 3353,
+      "sha256": "cd74aaa4e2a9f3d5f4fc7a8ec35a809a7a4216704bdf2025a2372b0050be6a18"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 762,
+      "sha256": "526e0264ba3593be44d0ac9612823c708ef9909957f0c3ebba042de1ea8877a1"
+    },
+    "pnr_attempts/01_june_random.json": {
+      "path": "02_pnr_1/01_june_random/pnr.json",
+      "bytes": 5385,
+      "sha256": "4a4f5bcfaf1f8637fbe4c24202d4ec54c30b3f61314acdd62ee4a24d3fc27278"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 1328,
+      "sha256": "c4723a7d1fb7b867289e071a8afde14b2b2866cf4060e7c9e22e63bbc87401b3"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 5575,
+      "sha256": "d635a6762dd29a0224fef642d3c481151472980dd61e9fb5c9f5b1c19fc89196"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 6,
+      "output_count": 1
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "june_random",
+      "selected_algorithm": null,
+      "policy": "first validated result; no area-optimality claim",
+      "attempts": [
+        {
+          "algorithm": "june_random",
+          "status": "failed",
+          "budget_s": 179,
+          "started_at": "2026-09-05T10:37:41.018960+00:00",
+          "directory": "02_pnr_1/01_june_random",
+          "error": "pnr command exited with 1. Traceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 149, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (11, 32) has an absent or invalid clock phase at (28, 26); Route (11, 32) has an absent or invalid clock phase at (28, 27); Route (11, 32) has an absent or invalid clock phase at (29, 27); Route (11, 32) has an absent or invalid clock phase at (29, 28)\n",
+          "elapsed_s": 0.302
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": "pnr command exited with 1. Traceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 149, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (11, 32) has an absent or invalid clock phase at (28, 26); Route (11, 32) has an absent or invalid clock phase at (28, 27); Route (11, 32) has an absent or invalid clock phase at (29, 27); Route (11, 32) has an absent or invalid clock phase at (29, 28)\n",
+  "worker_pid": 176549
+}

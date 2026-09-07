@@ -1,0 +1,69 @@
+{
+  "schema": "ifcn.paper.figure.evidence.v1",
+  "figure": "figS1_benchmark_curation",
+  "sources": [
+    {
+      "path": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/manifest.json",
+      "repo_relative_path": "tests/benchmarks_pi/v1/manifest.json",
+      "sha256": "1da5652de065b0069d0cbd86a4b50ea7f9d380f1dc43095c72ca50f53c60afd8",
+      "snapshot_path": "engine/tests/benchmarks_pi/v1/manifest.json",
+      "keys": [
+        "counts",
+        "cases[].change_notes",
+        "cases[].exact_duplicate_of",
+        "function_groups"
+      ]
+    },
+    {
+      "path": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/evidence_eligibility.json",
+      "repo_relative_path": "tests/benchmarks_pi/v1/evidence_eligibility.json",
+      "sha256": "7d155a7026efc6045b5f32a6a64ce3dfa6bb343c425871dc8f3ecbe787d71b37",
+      "snapshot_path": "engine/tests/benchmarks_pi/v1/evidence_eligibility.json",
+      "keys": [
+        "entries[].eligibility",
+        "default_for_unlisted_artifacts"
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "element": "three aligned corpus panels",
+      "claim": "30 files, 29 byte identities and 16 fixed-port truth-table groups describe the same snapshot; they are not a causal filtering pipeline",
+      "unit": "explicitly labeled identity levels"
+    },
+    {
+      "element": "copy edits",
+      "claim": "TOY/xor2 header normalization and TOY/RCA2 independently checked arithmetic correction; originals preserved"
+    },
+    {
+      "element": "historical exclusion strip",
+      "claim": "small_compaction_results.csv and large_fiction_results.csv excluded from new efficacy evidence"
+    }
+  ],
+  "derived_data": [],
+  "generator": {
+    "path": "/home/lys/projects/github/FCNPilot/paper/scripts/build_audit_figures_data.py",
+    "sha256": "c72a57c4c95354d22e7e7e7835bdb7e073580557feca1fd29f4532a0f1eabd53"
+  },
+  "figure_artifacts": [
+    {
+      "path": "figures/figS1_benchmark_curation.tex",
+      "sha256": "894b02d302b91a128273bb47947b1a97133078afca49c98764440ff3a2ebc65e"
+    },
+    {
+      "path": "figures/figS1_benchmark_curation.pdf",
+      "sha256": "7d6a2e49054fa7b5d9747da205ef64b11479b4639c4871508fca6b782bf5ebcd"
+    }
+  ],
+  "shared_preamble": {
+    "path": "figures/common.tex",
+    "sha256": "08b6eb12664b3784df01468e90098f5385ca5a9a329016523023addc6bec155b"
+  },
+  "transformation": "python3 scripts/build_audit_figures_data.py (from paper directory); deterministic selection and aggregation of hash-pinned local snapshots; rerun after PDF compilation to refresh artifact hashes",
+  "limitations": [
+    "The sixteen groups use declaration-order input/output truth tables, not unrestricted permutation or NPN equivalence.",
+    "MAJ/RCA2 and par_check retain source logic without assigning an unverified conventional specification.",
+    "Byte duplicates and equivalent alternative representations do not add independent functions."
+  ],
+  "relations": "No arrows or junctions assert physical interconnection; marks encode observations or grouping only."
+}

@@ -1,0 +1,33 @@
+{
+  "requested_algorithm": "auto",
+  "selected_algorithm": "june_random",
+  "policy": "first validated result; no area-optimality claim",
+  "attempts": [
+    {
+      "algorithm": "normal_2ddwave",
+      "status": "failed",
+      "budget_s": 59,
+      "started_at": "2026-09-05T11:05:16.304505+00:00",
+      "directory": "02_pnr_1/01_normal_2ddwave",
+      "error": "Routed logic validation unsupported: No explicit exported output node for source port 'y0'; attempted source alias chain ['y0', 'n17']",
+      "elapsed_s": 21.071
+    },
+    {
+      "algorithm": "compact",
+      "status": "failed",
+      "budget_s": 79,
+      "started_at": "2026-09-05T11:05:37.376205+00:00",
+      "directory": "02_pnr_1/02_compact",
+      "error": "pnr command exited with 1.   File \"/usr/lib/python3.12/subprocess.py\", line 1264, in wait\n    return self._wait(timeout=timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 2045, in _wait\n    raise TimeoutExpired(self.args, timeout)\nsubprocess.TimeoutExpired: Command '['/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr', 'compact', '/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/normalized.v', '/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/02_compact/layout_candidate.json']' timed out after 76.99998972100002 seconds\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 128, in run_native\n    raise RuntimeError(f'{args.algorithm} exceeded its {args.budget}s native routing budget; see native.log.') from exc\nRuntimeError: compact exceeded its 77s native routing budget; see native.log.\n",
+      "elapsed_s": 77.226
+    },
+    {
+      "algorithm": "june_random",
+      "status": "completed",
+      "budget_s": 81,
+      "started_at": "2026-09-05T11:06:54.603018+00:00",
+      "directory": "02_pnr_1/03_june_random",
+      "elapsed_s": 0.565
+    }
+  ]
+}

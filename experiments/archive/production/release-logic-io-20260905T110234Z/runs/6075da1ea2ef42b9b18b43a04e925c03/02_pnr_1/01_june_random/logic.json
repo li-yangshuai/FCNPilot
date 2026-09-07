@@ -1,0 +1,85 @@
+{
+  "schema": "ifcn.routed_logic_audit.v1",
+  "scope": "Exhaustive Boolean equivalence of source assignments and exported routed DAG; excludes device behavior, clock timing/alignment, and power.",
+  "source_sha256": "83f8a5bb72512bf03fef78b22937aab8a786d5472c5efee71fdfe80d51651c55",
+  "routed_dag_sha256": "2cdab2a23a7d49a34ec6324334b11cbedfcb72e4c69c67e24abae78a1eca849d",
+  "status": "equivalent",
+  "equivalent": true,
+  "max_inputs": 11,
+  "vectors_checked": 4,
+  "mismatch_count": 0,
+  "counterexamples": [],
+  "port_diagnostics": {
+    "source_input_ports": [
+      "a",
+      "b"
+    ],
+    "source_output_ports": [
+      "out"
+    ],
+    "dag_declared_input_count": 2,
+    "dag_declared_output_count": 1,
+    "dag_flagged_inputs": [
+      {
+        "id": 0,
+        "name": "a",
+        "type": "input"
+      },
+      {
+        "id": 1,
+        "name": "b",
+        "type": "input"
+      }
+    ],
+    "dag_flagged_outputs": [
+      {
+        "id": 2,
+        "name": "out",
+        "type": "and"
+      }
+    ]
+  },
+  "input_ports": [
+    "a",
+    "b"
+  ],
+  "output_ports": [
+    "out"
+  ],
+  "source_header_matches_declarations": true,
+  "input_mapping": [
+    {
+      "source_port": "a",
+      "dag_node_id": 0,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "b",
+      "dag_node_id": 1,
+      "basis": "exact_name"
+    }
+  ],
+  "output_mapping": [
+    {
+      "source_port": "out",
+      "dag_node_id": 2,
+      "dag_node_name": "out",
+      "basis": "exact_name",
+      "alias_chain": [
+        "out"
+      ]
+    }
+  ],
+  "gate_semantics": {
+    "and": "AND of exactly two fanins",
+    "input": "primary input; no fanins",
+    "not": "complement of exactly one fanin",
+    "or": "OR of exactly two fanins",
+    "wire": "identity of exactly one fanin"
+  },
+  "expected_vector_count": 4,
+  "source_truth_sha256": "229143095180a63d90d35a9cc0be3aacc1cbbe478774628e214b4db75cec9eb8",
+  "dag_truth_sha256": "229143095180a63d90d35a9cc0be3aacc1cbbe478774628e214b4db75cec9eb8",
+  "source_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/6075da1ea2ef42b9b18b43a04e925c03/source.v",
+  "routed_dag_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/6075da1ea2ef42b9b18b43a04e925c03/02_pnr_1/01_june_random/routed_dag.json"
+}

@@ -1,0 +1,514 @@
+[
+  {
+    "sequence": 1,
+    "at": "2026-09-05T10:31:00.139Z",
+    "event": "tool_start",
+    "id": "script-1",
+    "tool": "ifcn_capabilities",
+    "arguments": {
+      "deep": true
+    }
+  },
+  {
+    "sequence": 2,
+    "at": "2026-09-05T10:31:04.359Z",
+    "event": "tool_end",
+    "id": "script-1",
+    "tool": "ifcn_capabilities",
+    "arguments": {
+      "deep": true
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"schema\": \"ifcn.pi.capabilities.v1\",\n  \"configuration\": {\n    \"root\": \"/home/lys/projects/github/iFCN\",\n    \"build_dir\": \"/home/lys/projects/github/iFCN/build-release\",\n    \"python\": \"/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python\",\n    \"backend\": \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\",\n    \"energy_binary\": \"/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis\",\n    \"simulation_binary\": \"/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark\",\n    \"mapping_binary\": \"/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics\",\n    \"native_pnr_binary\": \"/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr\"\n  },\n  \"checks\": {\n    \"python\": true,\n    \"energy_binary\": true,\n    \"simulation_binary\": true,\n    \"mapping_binary\": true,\n    \"python_imports\": true\n  },\n  \"stages\": [\n    \"parse\",\n    \"pnr\",\n    \"map\",\n    \"simulate\",\n    \"energy\"\n  ],\n  \"phase_count\": 4,\n  \"algorithms\": [\n    {\n      \"id\": \"normal_2ddwave\",\n      \"available\": true,\n      \"clock_scheme\": \"2DDWave\",\n      \"seed_control\": \"exposed\",\n      \"description\": \"Graphviz/sifting placement, fixed four-phase 2DDWave routing and compaction\"\n    },\n    {\n      \"id\": \"compact\",\n      \"available\": true,\n      \"clock_scheme\": \"irregular\",\n      \"seed_control\": \"not_exposed_by_native_algorithm\",\n      \"description\": \"Native Compact Graph with bounded adaptive expansion and compaction\"\n    },\n    {\n      \"id\": \"june_random\",\n      \"available\": true,\n      \"clock_scheme\": \"irregular\",\n      \"seed_control\": \"not_exposed_by_native_algorithm\",\n      \"description\": \"Native Graphviz placement, four-direction routing and post-route phase assignment\"\n    }\n  ],\n  \"default_algorithm\": \"normal_2ddwave\",\n  \"auto_policy\": {\n    \"order\": [\n      \"normal_2ddwave\",\n      \"compact\",\n      \"june_random\"\n    ],\n    \"stop\": \"first validated layout\",\n    \"budget\": \"shared P&R timeout, divided among remaining available attempts\",\n    \"optimizes_area\": false\n  },\n  \"experimental_backends\": {\n    \"genetic\": \"not_integrated\",\n    \"gcn_ppo\": \"not_integrated\",\n    \"memory_policy\": \"not_integrated\"\n  },\n  \"combinational\": {\n    \"supported\": true,\n    \"input\": \"Single-module scalar assign netlist; ~ & | ^ and parentheses; ANSI/non-ANSI scalar ports\"\n  },\n  \"sequential\": {\n    \"supported\": false,\n    \"status\": \"reserved\",\n    \"reference\": \"/home/lys/projects/github/iFCN/handoff.md\"\n  },\n  \"functional_signoff\": \"not_provided\",\n  \"deep_probe\": \"IFCN_BACKEND_READY\\n\",\n  \"ready\": true\n}"
+        }
+      ],
+      "details": {
+        "schema": "ifcn.pi.capabilities.v1",
+        "configuration": {
+          "root": "/home/lys/projects/github/iFCN",
+          "build_dir": "/home/lys/projects/github/iFCN/build-release",
+          "python": "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "backend": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "energy_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+          "simulation_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark",
+          "mapping_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+          "native_pnr_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr"
+        },
+        "checks": {
+          "python": true,
+          "energy_binary": true,
+          "simulation_binary": true,
+          "mapping_binary": true,
+          "python_imports": true
+        },
+        "stages": [
+          "parse",
+          "pnr",
+          "map",
+          "simulate",
+          "energy"
+        ],
+        "phase_count": 4,
+        "algorithms": [
+          {
+            "id": "normal_2ddwave",
+            "available": true,
+            "clock_scheme": "2DDWave",
+            "seed_control": "exposed",
+            "description": "Graphviz/sifting placement, fixed four-phase 2DDWave routing and compaction"
+          },
+          {
+            "id": "compact",
+            "available": true,
+            "clock_scheme": "irregular",
+            "seed_control": "not_exposed_by_native_algorithm",
+            "description": "Native Compact Graph with bounded adaptive expansion and compaction"
+          },
+          {
+            "id": "june_random",
+            "available": true,
+            "clock_scheme": "irregular",
+            "seed_control": "not_exposed_by_native_algorithm",
+            "description": "Native Graphviz placement, four-direction routing and post-route phase assignment"
+          }
+        ],
+        "default_algorithm": "normal_2ddwave",
+        "auto_policy": {
+          "order": [
+            "normal_2ddwave",
+            "compact",
+            "june_random"
+          ],
+          "stop": "first validated layout",
+          "budget": "shared P&R timeout, divided among remaining available attempts",
+          "optimizes_area": false
+        },
+        "experimental_backends": {
+          "genetic": "not_integrated",
+          "gcn_ppo": "not_integrated",
+          "memory_policy": "not_integrated"
+        },
+        "combinational": {
+          "supported": true,
+          "input": "Single-module scalar assign netlist; ~ & | ^ and parentheses; ANSI/non-ANSI scalar ports"
+        },
+        "sequential": {
+          "supported": false,
+          "status": "reserved",
+          "reference": "/home/lys/projects/github/iFCN/handoff.md"
+        },
+        "functional_signoff": "not_provided",
+        "deep_probe": "IFCN_BACKEND_READY\n",
+        "ready": true
+      }
+    }
+  },
+  {
+    "sequence": 3,
+    "at": "2026-09-05T10:31:04.359Z",
+    "event": "tool_start",
+    "id": "script-2",
+    "tool": "ifcn_run",
+    "arguments": {
+      "action": "start",
+      "input": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/MAJ/1bitAdderMaj.v",
+      "until": "map",
+      "algorithm": "compact",
+      "seed": 1,
+      "timeout_s": 90,
+      "model": "bistable",
+      "energy_profile": "standard"
+    }
+  },
+  {
+    "sequence": 4,
+    "at": "2026-09-05T10:31:04.410Z",
+    "event": "tool_end",
+    "id": "script-2",
+    "tool": "ifcn_run",
+    "arguments": {
+      "action": "start",
+      "input": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/MAJ/1bitAdderMaj.v",
+      "until": "map",
+      "algorithm": "compact",
+      "seed": 1,
+      "timeout_s": 90,
+      "model": "bistable",
+      "energy_profile": "standard"
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"schema\": \"ifcn.pi.run.v1\",\n  \"run_id\": \"c5ea80ff18b448aa83fe7d7d7ecf0a09\",\n  \"created_at\": \"2026-09-05T10:31:04.402827+00:00\",\n  \"updated_at\": \"2026-09-05T10:31:04.403962+00:00\",\n  \"status\": \"queued\",\n  \"current_stage\": null,\n  \"source\": \"/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/MAJ/1bitAdderMaj.v\",\n  \"frontend\": {\n    \"module\": \"top\",\n    \"inputs\": [\n      \"x0\",\n      \"x1\",\n      \"x2\"\n    ],\n    \"warnings\": [],\n    \"outputs\": [\n      \"y0\"\n    ],\n    \"assignment_count\": 2,\n    \"frontend\": \"scalar-boolean-v1\",\n    \"functional_signoff\": \"not_performed\"\n  },\n  \"parameters\": {\n    \"seed\": 1,\n    \"timeout_s\": 90,\n    \"model\": \"bistable\",\n    \"algorithm\": \"compact\",\n    \"samples\": 512,\n    \"energy_profile\": \"standard\"\n  },\n  \"stages\": {},\n  \"artifacts\": {\n    \"source.v\": {\n      \"path\": \"source.v\",\n      \"bytes\": 151,\n      \"sha256\": \"8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17\"\n    },\n    \"normalized.v\": {\n      \"path\": \"normalized.v\",\n      \"bytes\": 399,\n      \"sha256\": \"36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525\"\n    }\n  },\n  \"metrics\": {},\n  \"validation\": {\n    \"rtl_equivalence\": \"not_performed\",\n    \"physical_function\": \"not_verified\",\n    \"simulation_comparison\": \"baseline_vs_accelerated_only\",\n    \"energy\": \"model_estimate; not a power signoff\"\n  },\n  \"requested_until\": \"map\",\n  \"error\": null,\n  \"active\": true,\n  \"run_directory\": \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09\"\n}"
+        }
+      ],
+      "details": {
+        "schema": "ifcn.pi.run.v1",
+        "run_id": "c5ea80ff18b448aa83fe7d7d7ecf0a09",
+        "created_at": "2026-09-05T10:31:04.402827+00:00",
+        "updated_at": "2026-09-05T10:31:04.403962+00:00",
+        "status": "queued",
+        "current_stage": null,
+        "source": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/MAJ/1bitAdderMaj.v",
+        "frontend": {
+          "module": "top",
+          "inputs": [
+            "x0",
+            "x1",
+            "x2"
+          ],
+          "warnings": [],
+          "outputs": [
+            "y0"
+          ],
+          "assignment_count": 2,
+          "frontend": "scalar-boolean-v1",
+          "functional_signoff": "not_performed"
+        },
+        "parameters": {
+          "seed": 1,
+          "timeout_s": 90,
+          "model": "bistable",
+          "algorithm": "compact",
+          "samples": 512,
+          "energy_profile": "standard"
+        },
+        "stages": {},
+        "artifacts": {
+          "source.v": {
+            "path": "source.v",
+            "bytes": 151,
+            "sha256": "8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17"
+          },
+          "normalized.v": {
+            "path": "normalized.v",
+            "bytes": 399,
+            "sha256": "36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525"
+          }
+        },
+        "metrics": {},
+        "validation": {
+          "rtl_equivalence": "not_performed",
+          "physical_function": "not_verified",
+          "simulation_comparison": "baseline_vs_accelerated_only",
+          "energy": "model_estimate; not a power signoff"
+        },
+        "requested_until": "map",
+        "error": null,
+        "active": true,
+        "run_directory": "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09"
+      }
+    }
+  },
+  {
+    "sequence": 5,
+    "at": "2026-09-05T10:31:04.411Z",
+    "event": "tool_start",
+    "id": "script-3",
+    "tool": "ifcn_status",
+    "arguments": {
+      "run_id": "c5ea80ff18b448aa83fe7d7d7ecf0a09",
+      "wait_seconds": 20
+    }
+  },
+  {
+    "sequence": 6,
+    "at": "2026-09-05T10:31:11.806Z",
+    "event": "tool_end",
+    "id": "script-3",
+    "tool": "ifcn_status",
+    "arguments": {
+      "run_id": "c5ea80ff18b448aa83fe7d7d7ecf0a09",
+      "wait_seconds": 20
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"schema\": \"ifcn.pi.run.v1\",\n  \"run_id\": \"c5ea80ff18b448aa83fe7d7d7ecf0a09\",\n  \"created_at\": \"2026-09-05T10:31:04.402827+00:00\",\n  \"updated_at\": \"2026-09-05T10:31:10.764953+00:00\",\n  \"status\": \"completed\",\n  \"current_stage\": \"map\",\n  \"source\": \"/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/MAJ/1bitAdderMaj.v\",\n  \"frontend\": {\n    \"module\": \"top\",\n    \"inputs\": [\n      \"x0\",\n      \"x1\",\n      \"x2\"\n    ],\n    \"warnings\": [],\n    \"outputs\": [\n      \"y0\"\n    ],\n    \"assignment_count\": 2,\n    \"frontend\": \"scalar-boolean-v1\",\n    \"functional_signoff\": \"not_performed\"\n  },\n  \"parameters\": {\n    \"seed\": 1,\n    \"timeout_s\": 90,\n    \"model\": \"bistable\",\n    \"algorithm\": \"compact\",\n    \"samples\": 512,\n    \"energy_profile\": \"standard\"\n  },\n  \"stages\": {\n    \"parse\": {\n      \"status\": \"completed\",\n      \"started_at\": \"2026-09-05T10:31:04.443744+00:00\",\n      \"attempt\": 1,\n      \"log\": \"01_parse_1/stage.log\",\n      \"commands\": [\n        [\n          \"/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python\",\n          \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\",\n          \"parse\",\n          \"--input\",\n          \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/normalized.v\",\n          \"--output\",\n          \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/01_parse_1\",\n          \"--seed\",\n          \"1\",\n          \"--budget\",\n          \"90\"\n        ]\n      ],\n      \"completed_at\": \"2026-09-05T10:31:05.797909+00:00\"\n    },\n    \"pnr\": {\n      \"status\": \"completed\",\n      \"started_at\": \"2026-09-05T10:31:05.798735+00:00\",\n      \"attempt\": 1,\n      \"log\": \"02_pnr_1/stage.log\",\n      \"commands\": [\n        [\n          \"/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python\",\n          \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\",\n          \"pnr\",\n          \"--input\",\n          \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/normalized.v\",\n          \"--output\",\n          \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/02_pnr_1/01_compact\",\n          \"--algorithm\",\n          \"compact\",\n          \"--seed\",\n          \"1\",\n          \"--budget\",\n          \"87\"\n        ]\n      ],\n      \"completed_at\": \"2026-09-05T10:31:10.459350+00:00\"\n    },\n    \"map\": {\n      \"status\": \"completed\",\n      \"started_at\": \"2026-09-05T10:31:10.460352+00:00\",\n      \"attempt\": 1,\n      \"log\": \"03_map_1/stage.log\",\n      \"commands\": [\n        [\n          \"/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics\",\n          \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/02_pnr_1/01_compact/layout.ifcn\",\n          \"--no-io-contraction\"\n        ],\n        [\n          \"/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis\",\n          \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/02_pnr_1/01_compact/layout.ifcn\",\n          \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/03_map_1/device\",\n          \"--qca-only\"\n        ]\n      ],\n      \"completed_at\": \"2026-09-05T10:31:10.764473+00:00\"\n    }\n  },\n  \"artifacts\": {\n    \"source.v\": {\n      \"path\": \"source.v\",\n      \"bytes\": 151,\n      \"sha256\": \"8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17\"\n    },\n    \"normalized.v\": {\n      \"path\": \"normalized.v\",\n      \"bytes\": 399,\n      \"sha256\": \"36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525\"\n    },\n    \"dag.json\": {\n      \"path\": \"01_parse_1/dag.json\",\n      \"bytes\": 1801,\n      \"sha256\": \"7b4dbf7b658fa89555727ae432a1a069950b24673dc534b38eb020b0a169c360\"\n    },\n    \"dag.dot\": {\n      \"path\": \"01_parse_1/dag.dot\",\n      \"bytes\": 412,\n      \"sha256\": \"ee89a2b48f8340eede61f58682094ad3e1b1fbd3a42195dc91e8aa1053ed031d\"\n    },\n    \"layout.ifcn\": {\n      \"path\": \"02_pnr_1/01_compact/layout.ifcn\",\n      \"bytes\": 1440,\n      \"sha256\": \"1d8ecba660005fa0613b8d500b4bd0ea1f2a9601468e0131ecace9149584dfa4\"\n    },\n    \"pnr.json\": {\n      \"path\": \"02_pnr_1/01_compact/pnr.json\",\n      \"bytes\": 2114,\n      \"sha256\": \"a17c970e9204901fb0354548d025ec8f240c3df9bf1bdb1589eb56dbead7f522\"\n    },\n    \"routed_dag.json\": {\n      \"path\": \"02_pnr_1/01_compact/routed_dag.json\",\n      \"bytes\": 1982,\n      \"sha256\": \"f1db9a763c6a6d8ef70dbe310a739aa58faa11f429ff67cce77c65cd2bc6f658\"\n    },\n    \"pnr_attempts/01_compact.json\": {\n      \"path\": \"02_pnr_1/01_compact/pnr.json\",\n      \"bytes\": 2114,\n      \"sha256\": \"a17c970e9204901fb0354548d025ec8f240c3df9bf1bdb1589eb56dbead7f522\"\n    },\n    \"pnr_attempts.json\": {\n      \"path\": \"02_pnr_1/pnr_attempts.json\",\n      \"bytes\": 375,\n      \"sha256\": \"77aea9d2794bfe6559b99ffac3d5f9d12cf67858b01c63536bc6219a459e9d3d\"\n    },\n    \"device.qca\": {\n      \"path\": \"03_map_1/device_energy_input.qca\",\n      \"bytes\": 207637,\n      \"sha256\": \"ab9d0aec33f155a231b2767f611fbcd8af8025688f30e137d07ea33d5f6785cf\"\n    },\n    \"result.json\": {\n      \"path\": \"result.json\",\n      \"bytes\": 7227,\n      \"sha256\": \"7fd7bd094a91d3bd8520fef051ba9b1ea68645909ba5b4e834d6198dca860f26\"\n    }\n  },\n  \"metrics\": {\n    \"dag\": {\n      \"input_count\": 3,\n      \"output_count\": 1\n    },\n    \"pnr\": {\n      \"schema\": \"ifcn.pnr.v1\",\n      \"algorithm\": \"compact\",\n      \"phase_count\": 4,\n      \"seed\": 1,\n      \"layout_legal\": true,\n      \"clock_legal\": true,\n      \"failed_edge_count\": 0,\n      \"validation\": {\n        \"passed\": true,\n        \"checks\": [\n          \"dag_acyclic\",\n          \"exact_edge_coverage\",\n          \"exact_node_coverage\",\n          \"unique_node_positions\",\n          \"route_endpoints\",\n          \"simple_four_connected_paths\",\n          \"no_route_through_gate\",\n          \"distinct_fanin_ports\",\n          \"port_sharing_geometry\",\n          \"clock_range_and_forward_steps\",\n          \"native_node_and_crossover_mapping\",\n          \"exported_ifcn_device_mapping\"\n        ],\n        \"errors\": [],\n        \"max_same_phase_run\": 4,\n        \"topological_order\": [\n          0,\n          1,\n          2,\n          4,\n          5,\n          7,\n          10,\n          8,\n          11,\n          3\n        ],\n        \"scope\": \"Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff.\"\n      },\n      \"algorithm_parameters\": {\n        \"layer_order\": \"barycenter_4_sweeps\",\n        \"initial_spacing\": [\n          1,\n          1\n        ],\n        \"padding\": [\n          2,\n          2\n        ],\n        \"route_order_retries\": 12,\n        \"max_expansion_rounds\": 8,\n        \"search_cost\": 240,\n        \"max_same_phase\": 4,\n        \"topology\": \"optimized_buffers\",\n        \"phase_count\": 4,\n        \"timeout_s\": 87,\n        \"seed_control\": \"not_exposed_by_native_algorithm\"\n      },\n      \"clock_scheme\": \"irregular\",\n      \"clock_template_ok\": null,\n      \"clock_template_conflicts\": null,\n      \"clock_validation_kind\": \"route_phase_contract\",\n      \"run_time_s\": 4.45932,\n      \"resolved_verilog\": \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/normalized.v\",\n      \"boolean_canonicalization\": false,\n      \"expansion\": {\n        \"inserted_rows\": 1,\n        \"inserted_columns\": 1,\n        \"accepted_rounds\": 2\n      },\n      \"width\": 7,\n      \"height\": 8,\n      \"area_tiles\": 56,\n      \"ifcn\": \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/02_pnr_1/01_compact/layout.ifcn\",\n      \"mapping_validation\": {\n        \"passed\": true,\n        \"cell_count\": 248,\n        \"cross_count\": 4,\n        \"io_contraction\": false\n      },\n      \"total_backend_time_s\": 4.481851971000651\n    },\n    \"algorithm_selection\": {\n      \"requested_algorithm\": \"compact\",\n      \"selected_algorithm\": \"compact\",\n      \"policy\": \"first validated result; no area-optimality claim\",\n      \"attempts\": [\n        {\n          \"algorithm\": \"compact\",\n          \"status\": \"completed\",\n          \"budget_s\": 89,\n          \"started_at\": \"2026-09-05T10:31:05.799852+00:00\",\n          \"directory\": \"02_pnr_1/01_compact\",\n          \"elapsed_s\": 4.659\n        }\n      ]\n    },\n    \"mapping\": {\n      \"cell_count\": 258,\n      \"io_contraction\": false\n    }\n  },\n  \"validation\": {\n    \"rtl_equivalence\": \"not_performed\",\n    \"physical_function\": \"not_verified\",\n    \"simulation_comparison\": \"baseline_vs_accelerated_only\",\n    \"energy\": \"model_estimate; not a power signoff\"\n  },\n  \"requested_until\": \"map\",\n  \"error\": null,\n  \"worker_pid\": 169972,\n  \"active\": false,\n  \"log_tail\": \"248 4\\nqca=/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/03_map_1/device_energy_input.qca\\n\",\n  \"run_directory\": \"/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09\"\n}"
+        }
+      ],
+      "details": {
+        "schema": "ifcn.pi.run.v1",
+        "run_id": "c5ea80ff18b448aa83fe7d7d7ecf0a09",
+        "created_at": "2026-09-05T10:31:04.402827+00:00",
+        "updated_at": "2026-09-05T10:31:10.764953+00:00",
+        "status": "completed",
+        "current_stage": "map",
+        "source": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/MAJ/1bitAdderMaj.v",
+        "frontend": {
+          "module": "top",
+          "inputs": [
+            "x0",
+            "x1",
+            "x2"
+          ],
+          "warnings": [],
+          "outputs": [
+            "y0"
+          ],
+          "assignment_count": 2,
+          "frontend": "scalar-boolean-v1",
+          "functional_signoff": "not_performed"
+        },
+        "parameters": {
+          "seed": 1,
+          "timeout_s": 90,
+          "model": "bistable",
+          "algorithm": "compact",
+          "samples": 512,
+          "energy_profile": "standard"
+        },
+        "stages": {
+          "parse": {
+            "status": "completed",
+            "started_at": "2026-09-05T10:31:04.443744+00:00",
+            "attempt": 1,
+            "log": "01_parse_1/stage.log",
+            "commands": [
+              [
+                "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+                "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+                "parse",
+                "--input",
+                "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/normalized.v",
+                "--output",
+                "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/01_parse_1",
+                "--seed",
+                "1",
+                "--budget",
+                "90"
+              ]
+            ],
+            "completed_at": "2026-09-05T10:31:05.797909+00:00"
+          },
+          "pnr": {
+            "status": "completed",
+            "started_at": "2026-09-05T10:31:05.798735+00:00",
+            "attempt": 1,
+            "log": "02_pnr_1/stage.log",
+            "commands": [
+              [
+                "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+                "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+                "pnr",
+                "--input",
+                "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/normalized.v",
+                "--output",
+                "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/02_pnr_1/01_compact",
+                "--algorithm",
+                "compact",
+                "--seed",
+                "1",
+                "--budget",
+                "87"
+              ]
+            ],
+            "completed_at": "2026-09-05T10:31:10.459350+00:00"
+          },
+          "map": {
+            "status": "completed",
+            "started_at": "2026-09-05T10:31:10.460352+00:00",
+            "attempt": 1,
+            "log": "03_map_1/stage.log",
+            "commands": [
+              [
+                "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+                "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/02_pnr_1/01_compact/layout.ifcn",
+                "--no-io-contraction"
+              ],
+              [
+                "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+                "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/02_pnr_1/01_compact/layout.ifcn",
+                "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/03_map_1/device",
+                "--qca-only"
+              ]
+            ],
+            "completed_at": "2026-09-05T10:31:10.764473+00:00"
+          }
+        },
+        "artifacts": {
+          "source.v": {
+            "path": "source.v",
+            "bytes": 151,
+            "sha256": "8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17"
+          },
+          "normalized.v": {
+            "path": "normalized.v",
+            "bytes": 399,
+            "sha256": "36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525"
+          },
+          "dag.json": {
+            "path": "01_parse_1/dag.json",
+            "bytes": 1801,
+            "sha256": "7b4dbf7b658fa89555727ae432a1a069950b24673dc534b38eb020b0a169c360"
+          },
+          "dag.dot": {
+            "path": "01_parse_1/dag.dot",
+            "bytes": 412,
+            "sha256": "ee89a2b48f8340eede61f58682094ad3e1b1fbd3a42195dc91e8aa1053ed031d"
+          },
+          "layout.ifcn": {
+            "path": "02_pnr_1/01_compact/layout.ifcn",
+            "bytes": 1440,
+            "sha256": "1d8ecba660005fa0613b8d500b4bd0ea1f2a9601468e0131ecace9149584dfa4"
+          },
+          "pnr.json": {
+            "path": "02_pnr_1/01_compact/pnr.json",
+            "bytes": 2114,
+            "sha256": "a17c970e9204901fb0354548d025ec8f240c3df9bf1bdb1589eb56dbead7f522"
+          },
+          "routed_dag.json": {
+            "path": "02_pnr_1/01_compact/routed_dag.json",
+            "bytes": 1982,
+            "sha256": "f1db9a763c6a6d8ef70dbe310a739aa58faa11f429ff67cce77c65cd2bc6f658"
+          },
+          "pnr_attempts/01_compact.json": {
+            "path": "02_pnr_1/01_compact/pnr.json",
+            "bytes": 2114,
+            "sha256": "a17c970e9204901fb0354548d025ec8f240c3df9bf1bdb1589eb56dbead7f522"
+          },
+          "pnr_attempts.json": {
+            "path": "02_pnr_1/pnr_attempts.json",
+            "bytes": 375,
+            "sha256": "77aea9d2794bfe6559b99ffac3d5f9d12cf67858b01c63536bc6219a459e9d3d"
+          },
+          "device.qca": {
+            "path": "03_map_1/device_energy_input.qca",
+            "bytes": 207637,
+            "sha256": "ab9d0aec33f155a231b2767f611fbcd8af8025688f30e137d07ea33d5f6785cf"
+          },
+          "result.json": {
+            "path": "result.json",
+            "bytes": 7227,
+            "sha256": "7fd7bd094a91d3bd8520fef051ba9b1ea68645909ba5b4e834d6198dca860f26"
+          }
+        },
+        "metrics": {
+          "dag": {
+            "input_count": 3,
+            "output_count": 1
+          },
+          "pnr": {
+            "schema": "ifcn.pnr.v1",
+            "algorithm": "compact",
+            "phase_count": 4,
+            "seed": 1,
+            "layout_legal": true,
+            "clock_legal": true,
+            "failed_edge_count": 0,
+            "validation": {
+              "passed": true,
+              "checks": [
+                "dag_acyclic",
+                "exact_edge_coverage",
+                "exact_node_coverage",
+                "unique_node_positions",
+                "route_endpoints",
+                "simple_four_connected_paths",
+                "no_route_through_gate",
+                "distinct_fanin_ports",
+                "port_sharing_geometry",
+                "clock_range_and_forward_steps",
+                "native_node_and_crossover_mapping",
+                "exported_ifcn_device_mapping"
+              ],
+              "errors": [],
+              "max_same_phase_run": 4,
+              "topological_order": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                7,
+                10,
+                8,
+                11,
+                3
+              ],
+              "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+            },
+            "algorithm_parameters": {
+              "layer_order": "barycenter_4_sweeps",
+              "initial_spacing": [
+                1,
+                1
+              ],
+              "padding": [
+                2,
+                2
+              ],
+              "route_order_retries": 12,
+              "max_expansion_rounds": 8,
+              "search_cost": 240,
+              "max_same_phase": 4,
+              "topology": "optimized_buffers",
+              "phase_count": 4,
+              "timeout_s": 87,
+              "seed_control": "not_exposed_by_native_algorithm"
+            },
+            "clock_scheme": "irregular",
+            "clock_template_ok": null,
+            "clock_template_conflicts": null,
+            "clock_validation_kind": "route_phase_contract",
+            "run_time_s": 4.45932,
+            "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/normalized.v",
+            "boolean_canonicalization": false,
+            "expansion": {
+              "inserted_rows": 1,
+              "inserted_columns": 1,
+              "accepted_rounds": 2
+            },
+            "width": 7,
+            "height": 8,
+            "area_tiles": 56,
+            "ifcn": "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/02_pnr_1/01_compact/layout.ifcn",
+            "mapping_validation": {
+              "passed": true,
+              "cell_count": 248,
+              "cross_count": 4,
+              "io_contraction": false
+            },
+            "total_backend_time_s": 4.481851971000651
+          },
+          "algorithm_selection": {
+            "requested_algorithm": "compact",
+            "selected_algorithm": "compact",
+            "policy": "first validated result; no area-optimality claim",
+            "attempts": [
+              {
+                "algorithm": "compact",
+                "status": "completed",
+                "budget_s": 89,
+                "started_at": "2026-09-05T10:31:05.799852+00:00",
+                "directory": "02_pnr_1/01_compact",
+                "elapsed_s": 4.659
+              }
+            ]
+          },
+          "mapping": {
+            "cell_count": 258,
+            "io_contraction": false
+          }
+        },
+        "validation": {
+          "rtl_equivalence": "not_performed",
+          "physical_function": "not_verified",
+          "simulation_comparison": "baseline_vs_accelerated_only",
+          "energy": "model_estimate; not a power signoff"
+        },
+        "requested_until": "map",
+        "error": null,
+        "worker_pid": 169972,
+        "active": false,
+        "log_tail": "248 4\nqca=/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09/03_map_1/device_energy_input.qca\n",
+        "run_directory": "/home/lys/projects/github/iFCN/output/pi-runs/c5ea80ff18b448aa83fe7d7d7ecf0a09"
+      }
+    }
+  }
+]

@@ -1,0 +1,336 @@
+{
+  "schema": "ifcn.pi.result.v1",
+  "run_id": "9001812103cf4e109fbbff9d60a3aee8",
+  "status": "completed",
+  "requested_until": "energy",
+  "error": null,
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 600,
+    "model": "both",
+    "algorithm": "june_random",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "completed_stages": [
+    "parse",
+    "pnr",
+    "map",
+    "simulate",
+    "energy"
+  ],
+  "metrics": {
+    "dag": {
+      "input_count": 2,
+      "output_count": 1
+    },
+    "logic": {
+      "status": "equivalent",
+      "max_inputs": 11,
+      "vectors_checked": 4,
+      "expected_vector_count": 4
+    },
+    "pnr": {
+      "schema": "ifcn.pnr.v1",
+      "algorithm": "june_random",
+      "phase_count": 4,
+      "seed": 1,
+      "layout_legal": true,
+      "clock_legal": true,
+      "failed_edge_count": 0,
+      "validation": {
+        "passed": true,
+        "checks": [
+          "dag_acyclic",
+          "exact_edge_coverage",
+          "exact_node_coverage",
+          "unique_node_positions",
+          "route_endpoints",
+          "simple_four_connected_paths",
+          "no_route_through_gate",
+          "distinct_fanin_ports",
+          "port_sharing_geometry",
+          "clock_range_and_forward_steps",
+          "source_aware_crossings",
+          "native_node_and_crossover_mapping",
+          "exported_ifcn_device_mapping"
+        ],
+        "errors": [],
+        "max_same_phase_run": 2,
+        "topological_order": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          7,
+          6,
+          8,
+          2
+        ],
+        "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+      },
+      "algorithm_parameters": {
+        "graphviz_grid_size": 40,
+        "route_order_retries": 24,
+        "search_cost": 40,
+        "max_same_phase": null,
+        "topology": "layer_redundancy_buffers",
+        "phase_count": 4,
+        "timeout_s": 240,
+        "seed_control": "not_exposed_by_native_algorithm"
+      },
+      "clock_scheme": "irregular",
+      "clock_template_ok": null,
+      "clock_template_conflicts": null,
+      "clock_validation_kind": "route_phase_contract",
+      "run_time_s": 0.0160186,
+      "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/normalized.v",
+      "boolean_canonicalization": false,
+      "expansion": {
+        "inserted_rows": 0,
+        "inserted_columns": 0,
+        "accepted_rounds": 0
+      },
+      "width": 5,
+      "height": 13,
+      "area_tiles": 65,
+      "ifcn": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/02_pnr_1/01_june_random/layout.ifcn",
+      "mapping_validation": {
+        "passed": true,
+        "cell_count": 210,
+        "cross_count": 1,
+        "io_contraction": false
+      },
+      "total_backend_time_s": 0.037375848998635774
+    },
+    "device_interface": {
+      "schema": "ifcn.qca.interface.v1",
+      "qca_sha256": "3714e1c0b3e7b012b7443cb8df4eb975b95b1e726b09a58cfd88214f9bd8264b",
+      "cell_count": 214,
+      "expected_inputs": 2,
+      "expected_outputs": 1,
+      "actual_inputs": 2,
+      "actual_outputs": 1,
+      "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+      "passed": true
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "june_random",
+      "selected_algorithm": "june_random",
+      "policy": "first validated result; no area-optimality claim",
+      "attempts": [
+        {
+          "algorithm": "june_random",
+          "status": "completed",
+          "budget_s": 599,
+          "started_at": "2026-09-05T11:09:08.707339+00:00",
+          "directory": "02_pnr_1/01_june_random",
+          "elapsed_s": 0.307
+        }
+      ]
+    },
+    "mapping": {
+      "cell_count": 214,
+      "io_contraction": false
+    },
+    "simulation": [
+      {
+        "model": "bistable",
+        "max_absolute_error": 0,
+        "output_samples": 512,
+        "max_iteration_samples": 0
+      },
+      {
+        "model": "coherence",
+        "max_absolute_error": 0,
+        "output_samples": 3005,
+        "max_iteration_samples": null
+      }
+    ],
+    "energy": {
+      "cycle_count": 7.0,
+      "total_bath_eV": 0.578677,
+      "average_bath_eV": 0.0826682,
+      "total_bath_clock_eV": 0.543909,
+      "average_bath_clock_eV": 0.0777012,
+      "total_error_eV": 0.539452,
+      "average_bath_clock_power_W": 1.244910470737608e-09,
+      "power_definition": "signed mean (bath + clock) energy per counted cycle / clock period; not total chip power",
+      "clock_period_s": 1e-11,
+      "numerical_status": "nonnegative_bath_energy",
+      "time_step_convergence": "not_tested",
+      "average_dissipated_power_W": 1.3244905841483878e-09,
+      "dissipated_power_definition": "mean bath energy per counted cycle / clock period; model estimate; requires time-step convergence and functional validation",
+      "profile": "standard",
+      "time_step_s": 1e-17
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "exhaustive_scalar_source_vs_routed_dag",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff",
+    "device_terminal_counts": "match_source_declarations",
+    "simulation_iteration_limit_samples": 0,
+    "energy_numerics": "nonnegative_bath_energy"
+  },
+  "warnings": [],
+  "sources": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 166,
+      "sha256": "83f8a5bb72512bf03fef78b22937aab8a786d5472c5efee71fdfe80d51651c55",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/source.v"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 151,
+      "sha256": "51772283dec1ee5aa02b50bb3bf628ce7a756610210967ee11dcc5aa0c1ddebd",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/normalized.v"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 1220,
+      "sha256": "61cb6686d673631ad2b99a0d8ba60369985a15b4929c51d5d00313efb52c04fe",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/01_parse_1/dag.json"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 251,
+      "sha256": "0d1c1bd69b2934c314442ac230d68cbe379e8de69b036b2821cf4d1c40e32614",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/01_parse_1/dag.dot"
+    },
+    "layout.ifcn": {
+      "path": "02_pnr_1/01_june_random/layout.ifcn",
+      "bytes": 1341,
+      "sha256": "f30915e2de41ce3bcbf26e3988547e719bd5f642f4a9e02d04920d0cad936d52",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/02_pnr_1/01_june_random/layout.ifcn"
+    },
+    "pnr.json": {
+      "path": "02_pnr_1/01_june_random/pnr.json",
+      "bytes": 2116,
+      "sha256": "b982a2750b19512c1ea3f4e275650f7b3dc5ab8e712412151dc2ae2206279e64",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/02_pnr_1/01_june_random/pnr.json"
+    },
+    "routed_dag.json": {
+      "path": "02_pnr_1/01_june_random/routed_dag.json",
+      "bytes": 1740,
+      "sha256": "2cdab2a23a7d49a34ec6324334b11cbedfcb72e4c69c67e24abae78a1eca849d",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/02_pnr_1/01_june_random/routed_dag.json"
+    },
+    "logic.json": {
+      "path": "02_pnr_1/01_june_random/logic.json",
+      "bytes": 2339,
+      "sha256": "b6508b2e5e85692deaf63b9623b1c72e212453887da1230f46a6d56773083891",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/02_pnr_1/01_june_random/logic.json"
+    },
+    "interface.json": {
+      "path": "03_map_1/interface.json",
+      "bytes": 372,
+      "sha256": "6d3d5f9f1e764435a58b99f53ad6d71f22484d40af6e04c150a4bbf1f3103ab0",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/03_map_1/interface.json"
+    },
+    "validated_device.qca": {
+      "path": "02_pnr_1/01_june_random/interface_check_energy_input.qca",
+      "bytes": 172068,
+      "sha256": "3714e1c0b3e7b012b7443cb8df4eb975b95b1e726b09a58cfd88214f9bd8264b",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/02_pnr_1/01_june_random/interface_check_energy_input.qca"
+    },
+    "pnr_attempts/01_june_random.json": {
+      "path": "02_pnr_1/01_june_random/pnr.json",
+      "bytes": 2116,
+      "sha256": "b982a2750b19512c1ea3f4e275650f7b3dc5ab8e712412151dc2ae2206279e64",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/02_pnr_1/01_june_random/pnr.json"
+    },
+    "pnr_attempts/01_june_random_logic.json": {
+      "path": "02_pnr_1/01_june_random/logic.json",
+      "bytes": 2339,
+      "sha256": "b6508b2e5e85692deaf63b9623b1c72e212453887da1230f46a6d56773083891",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/02_pnr_1/01_june_random/logic.json"
+    },
+    "pnr_attempts/01_june_random_interface.json": {
+      "path": "02_pnr_1/01_june_random/interface.json",
+      "bytes": 372,
+      "sha256": "6d3d5f9f1e764435a58b99f53ad6d71f22484d40af6e04c150a4bbf1f3103ab0",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/02_pnr_1/01_june_random/interface.json"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 392,
+      "sha256": "d5b02bfae927be35aba14b5ba3b6143f8911fcf9a6badba9da97a21aa0c059ba",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/02_pnr_1/pnr_attempts.json"
+    },
+    "device.qca": {
+      "path": "03_map_1/device_energy_input.qca",
+      "bytes": 172068,
+      "sha256": "3714e1c0b3e7b012b7443cb8df4eb975b95b1e726b09a58cfd88214f9bd8264b",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/03_map_1/device_energy_input.qca"
+    },
+    "simulation.json": {
+      "path": "04_simulate_1/simulation.json",
+      "bytes": 3849,
+      "sha256": "4794b5200221013a6180c6213128a94fef7f898040ef1329bdc0165d3ac71354",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/04_simulate_1/simulation.json"
+    },
+    "simulation/simulation_bistable_accelerated.rst": {
+      "path": "04_simulate_1/simulation_bistable_accelerated.rst",
+      "bytes": 26145,
+      "sha256": "6bd93536c1e08860a9c3bfaa5494c93de65f05793278c527b970f5d4a2f76a94",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/04_simulate_1/simulation_bistable_accelerated.rst"
+    },
+    "simulation/simulation_bistable_baseline.rst": {
+      "path": "04_simulate_1/simulation_bistable_baseline.rst",
+      "bytes": 26145,
+      "sha256": "6bd93536c1e08860a9c3bfaa5494c93de65f05793278c527b970f5d4a2f76a94",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/04_simulate_1/simulation_bistable_baseline.rst"
+    },
+    "simulation/simulation_coherence_accelerated.rst": {
+      "path": "04_simulate_1/simulation_coherence_accelerated.rst",
+      "bytes": 150636,
+      "sha256": "52eb23f8ad11b1e983eabd42e52cb5598ec5d7a802738b4a932b42baa2ec39d4",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/04_simulate_1/simulation_coherence_accelerated.rst"
+    },
+    "simulation/simulation_coherence_baseline.rst": {
+      "path": "04_simulate_1/simulation_coherence_baseline.rst",
+      "bytes": 150636,
+      "sha256": "52eb23f8ad11b1e983eabd42e52cb5598ec5d7a802738b4a932b42baa2ec39d4",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/04_simulate_1/simulation_coherence_baseline.rst"
+    },
+    "energy.json": {
+      "path": "05_energy_1/energy.json",
+      "bytes": 740,
+      "sha256": "96c558956e1a5ed8cfcd7e5e2c15b946bd230f34a4b4894bbccf5b6efa33310f",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/05_energy_1/energy.json"
+    },
+    "energy.txt": {
+      "path": "05_energy_1/analysis_energy.txt",
+      "bytes": 17986,
+      "sha256": "7543e758c48a30e429a37559b6e8568f9c53fbcdd9659741a78637ec6b4d7803",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/05_energy_1/analysis_energy.txt"
+    },
+    "energy.rst": {
+      "path": "05_energy_1/analysis_energy.rst",
+      "bytes": 150253,
+      "sha256": "88663e94bf81a56034c0317bf5ea9bf2830111eb19e0fc640e34f33abfda39ff",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110907Z/runs/9001812103cf4e109fbbff9d60a3aee8/05_energy_1/analysis_energy.rst"
+    }
+  },
+  "metric_sources": {
+    "dag": "dag.json",
+    "pnr": "pnr.json",
+    "algorithm_selection": "pnr_attempts.json",
+    "logic": "logic.json",
+    "device_interface": "interface.json",
+    "mapping.cell_count": "device.qca (counted by backend)",
+    "simulation": "simulation.json",
+    "energy": "energy.json"
+  },
+  "units": {
+    "pnr.width": "gate-level tiles",
+    "pnr.height": "gate-level tiles",
+    "pnr.area_tiles": "gate-level tile positions",
+    "mapping.cell_count": "QCA device cells"
+  },
+  "reporting_rule": "Attribute metrics to the backend and the listed source. A listed file is not evidence that the LLM read it. Source/DAG Boolean equivalence and terminal counts do not prove device waveforms. Numerical engine agreement is not converged power."
+}

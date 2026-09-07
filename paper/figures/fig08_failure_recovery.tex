@@ -1,0 +1,29 @@
+\documentclass[tikz,border=1mm]{standalone}
+\input{common.tex}
+\begin{document}
+\begin{tikzpicture}[x=1mm,y=1mm]
+  \path[use as bounding box] (0,0) rectangle (168,84);
+  \node[paneltitle] at (1,81) {(a) MAJ/clpl: an alternative backend preserves the declared interface};
+  \node[box,draw=normal,fill=normal!7,text width=43mm,minimum height=23mm] (mn) at (24,61)
+    {\textbf{Normal: rejected}\\Exported output \texttt{y0} absent\\No explicit DAG port binding\\Logic check: unsupported};
+  \node[box,draw=compact,fill=compact!7,text width=43mm,minimum height=23mm] (mc) at (84,61)
+    {\textbf{Compact: timed out}\\Native routing exceeded\\its allocated 77 s budget\\No candidate accepted};
+  \node[box,draw=june,fill=june!7,text width=43mm,minimum height=23mm] (mj) at (144,61)
+    {\textbf{June: accepted}\\2,048 vectors equivalent\\QCA outputs: \textbf{5 / 5}\\Mapping completed};
+  \draw[retry] (mn.east) -- node[smallnote,above] {next} (mc.west);
+  \draw[retry] (mc.east) -- node[smallnote,above] {next} (mj.west);
+  \node[smallnote,anchor=west] at (1,43)
+    {June also retains 11 / 11 inputs. Auto stops at June; this trace does not establish area optimality.};
+  \node[paneltitle] at (1,35) {(b) TOY/clpl: every candidate loses physical output terminals};
+  \node[box,draw=normal,fill=normal!7,text width=43mm,minimum height=20mm] (tn) at (24,19)
+    {\textbf{Normal: rejected}\\2,048 vectors equivalent\\QCA outputs: \textbf{1 / 5}};
+  \node[box,draw=compact,fill=compact!7,text width=43mm,minimum height=20mm] (tc) at (84,19)
+    {\textbf{Compact: rejected}\\2,048 vectors equivalent\\QCA outputs: \textbf{1 / 5}};
+  \node[box,draw=june,fill=june!7,text width=43mm,minimum height=20mm] (tj) at (144,19)
+    {\textbf{June: rejected}\\2,048 vectors equivalent\\QCA outputs: \textbf{1 / 5}};
+  \draw[retry] (tn.east) -- node[smallnote,above] {next} (tc.west);
+  \draw[retry] (tc.east) -- node[smallnote,above] {next} (tj.west);
+  \node[smallnote,anchor=west] at (1,3)
+    {Declared outputs: 5. All candidates rejected $\rightarrow$ job failed; downstream stages blocked.};
+\end{tikzpicture}
+\end{document}

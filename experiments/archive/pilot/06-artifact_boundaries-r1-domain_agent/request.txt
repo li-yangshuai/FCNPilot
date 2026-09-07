@@ -1,0 +1,35 @@
+请完成本次 iFCN 任务：读取产物并准确报告验证边界。
+输入：/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/TOY/mux21.v。
+必须使用 algorithm=normal_2ddwave、seed=1、timeout_s=90、model=bistable、energy_profile=standard，运行到 until=map；不要运行仿真或能耗阶段。先检查环境（deep=true），等待真实运行结束后报告。
+完成后必须使用 ifcn_artifact 读取这些产物：pnr.json、routed_dag.json、result.json。
+最多 12 次工具调用、180 秒、3500 输出 tokens。最终只返回一个 JSON 对象，不加 Markdown 代码围栏，字段结构如下（不要照抄字段说明，填实际值；未知值用 null）：
+{
+  "status": "completed | failed | incomplete",
+  "run_id": "actual run id or null",
+  "completed_stages": [
+    "parse",
+    "pnr",
+    "map"
+  ],
+  "algorithm": "actual selected backend",
+  "width": "integer or null",
+  "height": "integer or null",
+  "cell_count": "integer or null",
+  "metrics_source": {
+    "tool": "ifcn_status or ifcn_artifact",
+    "run_id": "actual run id",
+    "artifact": "artifact name when using ifcn_artifact, otherwise null"
+  },
+  "artifact_reads": [
+    "only names actually read using ifcn_artifact"
+  ],
+  "input_recovered": "true if requested failed input was actually attempted then fallback succeeded; otherwise false",
+  "rtl_equivalence": "tool-reported validation.rtl_equivalence",
+  "physical_function": "tool-reported validation.physical_function",
+  "simulation_performed": false,
+  "energy_performed": false,
+  "artifact_paths": [
+    "actual absolute artifact paths from this run"
+  ],
+  "explanation": "one concise Chinese sentence; do not claim unperformed checks"
+}

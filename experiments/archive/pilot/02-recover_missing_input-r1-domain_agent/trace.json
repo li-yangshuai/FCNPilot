@@ -1,0 +1,194 @@
+[
+  {
+    "sequence": 1,
+    "at": "2026-09-05T10:29:06.371Z",
+    "event": "model_request",
+    "request": 1,
+    "allowed_tools": [
+      "ifcn_capabilities",
+      "ifcn_run",
+      "ifcn_status",
+      "ifcn_artifact"
+    ],
+    "max_output_tokens": 1500
+  },
+  {
+    "sequence": 2,
+    "at": "2026-09-05T10:29:08.878Z",
+    "event": "assistant_message",
+    "message": {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "toolCall",
+          "id": "call_eb19b39f3366471c8235c1f7",
+          "name": "ifcn_capabilities",
+          "arguments": {
+            "deep": true
+          }
+        }
+      ],
+      "usage": {
+        "input": 148,
+        "output": 24,
+        "cacheRead": 2688,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2860,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "toolUse"
+    }
+  },
+  {
+    "sequence": 3,
+    "at": "2026-09-05T10:29:08.878Z",
+    "event": "tool_start",
+    "id": "call_eb19b39f3366471c8235c1f7",
+    "tool": "ifcn_capabilities",
+    "arguments": {
+      "deep": true
+    }
+  },
+  {
+    "sequence": 4,
+    "at": "2026-09-05T10:29:13.491Z",
+    "event": "tool_end",
+    "id": "call_eb19b39f3366471c8235c1f7",
+    "tool": "ifcn_capabilities",
+    "arguments": {
+      "deep": true
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"schema\": \"ifcn.pi.capabilities.v1\",\n  \"configuration\": {\n    \"root\": \"/home/lys/projects/github/iFCN\",\n    \"build_dir\": \"/home/lys/projects/github/iFCN/build-release\",\n    \"python\": \"/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python\",\n    \"backend\": \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\",\n    \"energy_binary\": \"/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis\",\n    \"simulation_binary\": \"/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark\",\n    \"mapping_binary\": \"/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics\",\n    \"native_pnr_binary\": \"/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr\"\n  },\n  \"checks\": {\n    \"python\": true,\n    \"energy_binary\": true,\n    \"simulation_binary\": true,\n    \"mapping_binary\": true,\n    \"python_imports\": true\n  },\n  \"stages\": [\n    \"parse\",\n    \"pnr\",\n    \"map\",\n    \"simulate\",\n    \"energy\"\n  ],\n  \"phase_count\": 4,\n  \"algorithms\": [\n    {\n      \"id\": \"normal_2ddwave\",\n      \"available\": true,\n      \"clock_scheme\": \"2DDWave\",\n      \"seed_control\": \"exposed\",\n      \"description\": \"Graphviz/sifting placement, fixed four-phase 2DDWave routing and compaction\"\n    },\n    {\n      \"id\": \"compact\",\n      \"available\": true,\n      \"clock_scheme\": \"irregular\",\n      \"seed_control\": \"not_exposed_by_native_algorithm\",\n      \"description\": \"Native Compact Graph with bounded adaptive expansion and compaction\"\n    },\n    {\n      \"id\": \"june_random\",\n      \"available\": true,\n      \"clock_scheme\": \"irregular\",\n      \"seed_control\": \"not_exposed_by_native_algorithm\",\n      \"description\": \"Native Graphviz placement, four-direction routing and post-route phase assignment\"\n    }\n  ],\n  \"default_algorithm\": \"normal_2ddwave\",\n  \"auto_policy\": {\n    \"order\": [\n      \"normal_2ddwave\",\n      \"compact\",\n      \"june_random\"\n    ],\n    \"stop\": \"first validated layout\",\n    \"budget\": \"shared P&R timeout, divided among remaining available attempts\",\n    \"optimizes_area\": false\n  },\n  \"experimental_backends\": {\n    \"genetic\": \"not_integrated\",\n    \"gcn_ppo\": \"not_integrated\",\n    \"memory_policy\": \"not_integrated\"\n  },\n  \"combinational\": {\n    \"supported\": true,\n    \"input\": \"Single-module scalar assign netlist; ~ & | ^ and parentheses; ANSI/non-ANSI scalar ports\"\n  },\n  \"sequential\": {\n    \"supported\": false,\n    \"status\": \"reserved\",\n    \"reference\": \"/home/lys/projects/github/iFCN/handoff.md\"\n  },\n  \"functional_signoff\": \"not_provided\",\n  \"deep_probe\": \"IFCN_BACKEND_READY\\n\",\n  \"ready\": true\n}"
+        }
+      ],
+      "details": {
+        "schema": "ifcn.pi.capabilities.v1",
+        "configuration": {
+          "root": "/home/lys/projects/github/iFCN",
+          "build_dir": "/home/lys/projects/github/iFCN/build-release",
+          "python": "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "backend": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "energy_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+          "simulation_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark",
+          "mapping_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+          "native_pnr_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr"
+        },
+        "checks": {
+          "python": true,
+          "energy_binary": true,
+          "simulation_binary": true,
+          "mapping_binary": true,
+          "python_imports": true
+        },
+        "stages": [
+          "parse",
+          "pnr",
+          "map",
+          "simulate",
+          "energy"
+        ],
+        "phase_count": 4,
+        "algorithms": [
+          {
+            "id": "normal_2ddwave",
+            "available": true,
+            "clock_scheme": "2DDWave",
+            "seed_control": "exposed",
+            "description": "Graphviz/sifting placement, fixed four-phase 2DDWave routing and compaction"
+          },
+          {
+            "id": "compact",
+            "available": true,
+            "clock_scheme": "irregular",
+            "seed_control": "not_exposed_by_native_algorithm",
+            "description": "Native Compact Graph with bounded adaptive expansion and compaction"
+          },
+          {
+            "id": "june_random",
+            "available": true,
+            "clock_scheme": "irregular",
+            "seed_control": "not_exposed_by_native_algorithm",
+            "description": "Native Graphviz placement, four-direction routing and post-route phase assignment"
+          }
+        ],
+        "default_algorithm": "normal_2ddwave",
+        "auto_policy": {
+          "order": [
+            "normal_2ddwave",
+            "compact",
+            "june_random"
+          ],
+          "stop": "first validated layout",
+          "budget": "shared P&R timeout, divided among remaining available attempts",
+          "optimizes_area": false
+        },
+        "experimental_backends": {
+          "genetic": "not_integrated",
+          "gcn_ppo": "not_integrated",
+          "memory_policy": "not_integrated"
+        },
+        "combinational": {
+          "supported": true,
+          "input": "Single-module scalar assign netlist; ~ & | ^ and parentheses; ANSI/non-ANSI scalar ports"
+        },
+        "sequential": {
+          "supported": false,
+          "status": "reserved",
+          "reference": "/home/lys/projects/github/iFCN/handoff.md"
+        },
+        "functional_signoff": "not_provided",
+        "deep_probe": "IFCN_BACKEND_READY\n",
+        "ready": true
+      }
+    }
+  },
+  {
+    "sequence": 5,
+    "at": "2026-09-05T10:29:13.492Z",
+    "event": "model_request",
+    "request": 2,
+    "allowed_tools": [
+      "ifcn_capabilities",
+      "ifcn_run",
+      "ifcn_status",
+      "ifcn_artifact"
+    ],
+    "max_output_tokens": 1500
+  },
+  {
+    "sequence": 6,
+    "at": "2026-09-05T10:29:18.506Z",
+    "event": "assistant_message",
+    "message": {
+      "role": "assistant",
+      "content": [],
+      "usage": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "stopReason": "error",
+      "errorMessage": "Connection error."
+    }
+  }
+]

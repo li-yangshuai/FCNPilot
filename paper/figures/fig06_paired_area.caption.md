@@ -1,0 +1,7 @@
+English caption
+
+Paired occupied-area observations for the preselected function representatives that pass both source-DAG equivalence and QCA terminal-count checks in each backend pair. The Normal--Compact, Normal--June, and Compact--June panels contain 4, 8, and 5 common qualified representatives, respectively. Each point compares the same frozen Verilog input; the backends may use different internal DAG representations. Area is the occupied gate-level bounding-rectangle width times height, recomputed from the candidate layout nodes and route coordinates, in tiles. Both axes are logarithmic with identical limits within each panel, and the dashed diagonal denotes equal area. Two Compact--June observations coincide at (48, 126) tiles and are marked with a multiplicity of two. The three pairwise cohorts differ; their aggregate means must not be compared as though they described one common population. These small, selected common-case sets provide descriptive pipeline observations and do not establish general algorithmic superiority or device-level area reduction. Exact case identifiers and coordinates accompany the figure in its data files.
+
+中文说明
+
+仅对预先固定的函数代表，选取每对后端均通过源电路至 DAG 等价和 QCA 端子数检查的共同集合做配对面积展示。Normal–Compact、Normal–June、Compact–June 的共同合格样本数分别为 4、8、5；每个点始终对应同一个冻结 Verilog 输入，但允许后端采用不同内部 DAG 表示。面积统一由候选布局的节点和路径坐标重新计算占用外接矩形宽乘高，单位为门级 tile。各子图使用对数坐标，同一子图的横纵坐标范围相同，虚线为等面积。Compact–June 有两个样本重合于 (48, 126)，标为乘二。三对子集并不相同，不能用它们各自的均值作跨集合优劣推断；这些结果仅描述小规模共同合格电路的流水线观测，不能推出一般算法优越性或器件面积缩减。精确电路名与数值保存在随图数据中。

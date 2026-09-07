@@ -1,0 +1,44 @@
+\documentclass[tikz,border=1mm]{standalone}
+\input{common.tex}
+\begin{document}
+\begin{tikzpicture}[x=1mm,y=1mm]
+  \path[use as bounding box] (0,0) rectangle (168,140);
+  \node[paneltitle] at (1,137) {Guarded candidate selection};
+  \node[box,text width=62mm,minimum height=11mm] (parse) at (38,124)
+    {\textbf{Snapshot, normalize and parse}\\Scalar combinational Verilog $\rightarrow$ DAG};
+  \node[box,text width=62mm,minimum height=13mm] (select) at (38,104)
+    {\textbf{Select next available candidate}\\\textcolor{normal}{Normal} $\rightarrow$ \textcolor{compact}{Compact} $\rightarrow$ \textcolor{june}{June}\\\texttt{auto}: one shared time budget};
+  \node[box,text width=62mm,minimum height=11mm] (route) at (38,84)
+    {\textbf{Run the selected P\&R backend}\\Save layout, routes and algorithm parameters};
+  \node[box,text width=62mm,minimum height=11mm] (geo) at (38,66)
+    {\textbf{Geometry, ports and clock legality}\\Edge coverage; gate ports; forward phase steps};
+  \node[box,text width=62mm,minimum height=13mm] (logic) at (38,47)
+    {\textbf{Source vs. routed-DAG equivalence}\\Exhaustive for 1--11 inputs\\Larger inputs: explicitly not performed};
+  \node[box,text width=62mm,minimum height=11mm] (device) at (38,27)
+    {\textbf{Map candidate and check QCA terminals}\\Nonempty device; declared I/O counts match};
+  \node[box,fill=compact!10,text width=62mm,minimum height=11mm] (accept) at (38,9)
+    {\textbf{Accept the first validated candidate}\\Publish mapping; continue requested stages};
+  \foreach \a/\b in {parse/select,select/route,route/geo,geo/logic,logic/device,device/accept}
+    \draw[flow] (\a.south) -- (\b.north);
+  \begin{scope}[on background layer]
+    \node[draw=muted!55,dashed,rounded corners=2pt,fit=(route)(geo)(logic)(device),inner xsep=3mm,inner ysep=2mm] (candidate) {};
+  \end{scope}
+  \node[box,fill=warn!8,text width=63mm,minimum height=14mm] (reject) at (130,74)
+    {\textbf{Record candidate rejection}\\Backend error / timeout, failed geometry,\\unsupported or unequal bounded logic,\\or missing QCA terminals};
+  \node[box,text width=63mm,minimum height=13mm] (next) at (130,104)
+    {\textbf{Remaining candidate and budget?}\\\texttt{auto}: advance once\\Explicit backend: stop on rejection};
+  \node[box,fill=bad!8,text width=63mm,minimum height=11mm] (fail) at (130,46)
+    {\textbf{No accepted candidate: failed}\\Keep per-attempt evidence; no downstream run};
+  \draw[retry] (candidate.east |- reject.west) -- node[smallnote,above,align=center] {error} (reject.west);
+  \draw[retry] (reject.north) -- (next.south);
+  \draw[retry] (next.west) -- node[smallnote,above] {yes} (select.east);
+  \draw[retry] (next.east) -- (166,104) -- (166,46) -- (fail.east);
+  \node[smallnote,anchor=east] at (165,56) {no};
+  \node[box,fill=grid!30,text width=65mm,minimum height=24mm,align=left] (saved) at (130,14)
+    {\textbf{Persistent job state and resume}\\Snapshots, hashes, logs, stage attempts\\On resume: verify saved hashes; recheck\\saved P\&R and interface evidence;\\skip stages already completed.};
+  \draw[control] (fail.south) -- (saved.north);
+  \draw[control] (accept.east) -- node[smallnote,above] {save} (saved.west |- accept.east);
+  \node[smallnote,text width=62mm] at (130,125)
+    {Amber arrows: actual bounded fallback.\\The dashed enclosure groups one candidate's\\checks; it is not a physical circuit boundary.};
+\end{tikzpicture}
+\end{document}

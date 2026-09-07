@@ -1,0 +1,39 @@
+% Shared publication styles; labels designed for 170 mm inclusion width.
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,patterns,decorations.pathreplacing,circuits.logic.US}
+\definecolor{ink}{HTML}{263238}
+\definecolor{muted}{HTML}{60717D}
+\definecolor{grid}{HTML}{DCE5EA}
+\definecolor{normal}{HTML}{4C78A8}
+\definecolor{compact}{HTML}{59A14F}
+\definecolor{june}{HTML}{8A6BBE}
+\definecolor{warn}{HTML}{C18523}
+\definecolor{bad}{HTML}{BC514C}
+\definecolor{phasezero}{HTML}{DBEAF8}
+\definecolor{phaseone}{HTML}{DFEFD9}
+\definecolor{phasetwo}{HTML}{FFF1C8}
+\definecolor{phasethree}{HTML}{ECE1F6}
+\tikzset{
+  every picture/.style={font=\sffamily\fontsize{8}{9.5}\selectfont,text=ink},
+  >=Latex,
+  box/.style={draw=ink!60,fill=white,rounded corners=1.2pt,align=center,inner sep=4pt,line width=.55pt},
+  flow/.style={-{Latex[length=1.7mm,width=1.2mm]},draw=ink,line width=.65pt},
+  control/.style={flow,dashed,draw=muted},
+  retry/.style={flow,draw=warn},
+  paneltitle/.style={font=\sffamily\bfseries\fontsize{9}{10.5}\selectfont,anchor=west},
+  smallnote/.style={font=\sffamily\fontsize{7}{8.5}\selectfont,text=muted,align=left},
+  gridline/.style={draw=grid,line width=.2pt},
+}
+\pgfplotsset{every axis/.append style={
+  font=\sffamily\fontsize{8}{9.5}\selectfont,
+  label style={font=\sffamily\fontsize{8}{9.5}\selectfont},
+  tick label style={font=\sffamily\fontsize{7.5}{9}\selectfont},
+  legend style={font=\sffamily\fontsize{7.5}{9}\selectfont,draw=none,fill=none},
+  axis line style={draw=ink!65},tick style={draw=ink!65},
+  grid style={draw=grid},
+}}

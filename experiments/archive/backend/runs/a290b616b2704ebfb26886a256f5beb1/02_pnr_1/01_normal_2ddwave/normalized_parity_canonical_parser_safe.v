@@ -1,0 +1,21 @@
+module top(x0, x1, x2, x3, x4, z0);
+input x0, x1, x2, x3, x4;
+output z0;
+wire ps1, ps2, ps3, ps4, ps5, ps6, ps7, ps8, ps9, ps10, ps11, ps12, ps13, ps14, ps15;
+assign ps1 = x0 | x1;
+assign ps2 = x0 & x1;
+assign ps5 = x2 | x3;
+assign ps6 = x2 & x3;
+assign ps3 = ~ps2;
+assign ps7 = ~ps6;
+assign ps4 = ps1 & ps3;
+assign ps8 = ps5 & ps7;
+assign ps10 = ps4 & ps8;
+assign ps9 = ps4 | ps8;
+assign ps11 = ~ps10;
+assign ps12 = ps9 & ps11;
+assign ps13 = ps12 | x4;
+assign ps14 = ps12 & x4;
+assign ps15 = ~ps14;
+assign z0 = ps13 & ps15;
+endmodule

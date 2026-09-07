@@ -1,0 +1,150 @@
+{
+  "schema": "ifcn.dag.v1",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "x",
+      "type": "input",
+      "is_input": true,
+      "is_output": false
+    },
+    {
+      "id": 1,
+      "name": "y",
+      "type": "input",
+      "is_input": true,
+      "is_output": false
+    },
+    {
+      "id": 2,
+      "name": "z",
+      "type": "input",
+      "is_input": true,
+      "is_output": false
+    },
+    {
+      "id": 3,
+      "name": "carry",
+      "type": "or",
+      "is_input": false,
+      "is_output": true
+    },
+    {
+      "id": 4,
+      "name": "or_yz",
+      "type": "or",
+      "is_input": false,
+      "is_output": false
+    },
+    {
+      "id": 5,
+      "name": "and_yz",
+      "type": "and",
+      "is_input": false,
+      "is_output": false
+    },
+    {
+      "id": 6,
+      "name": "~and_yz",
+      "type": "not",
+      "is_input": false,
+      "is_output": false
+    },
+    {
+      "id": 8,
+      "name": "xor_yz",
+      "type": "and",
+      "is_input": false,
+      "is_output": false
+    },
+    {
+      "id": 9,
+      "name": "and_x",
+      "type": "and",
+      "is_input": false,
+      "is_output": false
+    }
+  ],
+  "edges": [
+    [
+      0,
+      9
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      3
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      3
+    ]
+  ],
+  "layers": [
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      6
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      3
+    ]
+  ],
+  "topological_order": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    9,
+    3
+  ],
+  "input_count": 3,
+  "output_count": 1
+}

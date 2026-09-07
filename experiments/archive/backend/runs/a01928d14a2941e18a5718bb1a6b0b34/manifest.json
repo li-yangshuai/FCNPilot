@@ -1,0 +1,425 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "a01928d14a2941e18a5718bb1a6b0b34",
+  "created_at": "2026-09-05T10:44:02.209852+00:00",
+  "updated_at": "2026-09-05T10:44:04.379673+00:00",
+  "status": "completed",
+  "current_stage": "map",
+  "source": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/MAJ/clpl.v",
+  "configuration": {
+    "root": "/home/lys/projects/github/iFCN",
+    "build_dir": "/home/lys/projects/github/iFCN/build-release",
+    "python": "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+    "backend": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "x0",
+      "x1",
+      "x2",
+      "x3",
+      "x4",
+      "x5",
+      "x6",
+      "x7",
+      "x8",
+      "x9",
+      "x10"
+    ],
+    "warnings": [],
+    "outputs": [
+      "y0",
+      "y1",
+      "y2",
+      "y3",
+      "y4"
+    ],
+    "assignment_count": 15,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 180,
+    "model": "bistable",
+    "algorithm": "june_random",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-05T10:44:02.256432+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a01928d14a2941e18a5718bb1a6b0b34/normalized.v",
+          "--output",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a01928d14a2941e18a5718bb1a6b0b34/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "180"
+        ]
+      ],
+      "completed_at": "2026-09-05T10:44:03.760920+00:00"
+    },
+    "pnr": {
+      "status": "completed",
+      "started_at": "2026-09-05T10:44:03.761831+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a01928d14a2941e18a5718bb1a6b0b34/normalized.v",
+          "--output",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a01928d14a2941e18a5718bb1a6b0b34/02_pnr_1/01_june_random",
+          "--algorithm",
+          "june_random",
+          "--seed",
+          "1",
+          "--budget",
+          "177"
+        ]
+      ],
+      "completed_at": "2026-09-05T10:44:04.068319+00:00"
+    },
+    "map": {
+      "status": "completed",
+      "started_at": "2026-09-05T10:44:04.069345+00:00",
+      "attempt": 1,
+      "log": "03_map_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a01928d14a2941e18a5718bb1a6b0b34/02_pnr_1/01_june_random/layout.ifcn",
+          "--no-io-contraction"
+        ],
+        [
+          "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a01928d14a2941e18a5718bb1a6b0b34/02_pnr_1/01_june_random/layout.ifcn",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a01928d14a2941e18a5718bb1a6b0b34/03_map_1/device",
+          "--qca-only"
+        ]
+      ],
+      "completed_at": "2026-09-05T10:44:04.379016+00:00"
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 685,
+      "sha256": "413a6667f25ac44437f4e8417a2613f7f982fbdc048c234a610e8e2789280f10"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 1347,
+      "sha256": "4bb7857633f65a58fcce0a048f1b179a2084ad4f50f90526da694341dabb0a72"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 7197,
+      "sha256": "f00681b4fed9b7bc391f56a3593ce973b46b778672ac08d09b812d59cd84210a"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 1799,
+      "sha256": "a2ef7b2b7137f9148755a21ec5e3c74adb9d6c6aba5f0f0959a810bff7f7672e"
+    },
+    "layout.ifcn": {
+      "path": "02_pnr_1/01_june_random/layout.ifcn",
+      "bytes": 16224,
+      "sha256": "86af0df934d320638f2cd4709e7afecea87aac6f9d328c5b42c6274f3a025275"
+    },
+    "pnr.json": {
+      "path": "02_pnr_1/01_june_random/pnr.json",
+      "bytes": 3548,
+      "sha256": "77317dc6f5d9b77fb360cea133a7218baa08aa9c6ac4c6871da338638d38c596"
+    },
+    "routed_dag.json": {
+      "path": "02_pnr_1/01_june_random/routed_dag.json",
+      "bytes": 27139,
+      "sha256": "828679262c4ade6d0799e3bd3c0f580c68dfc9ef7f6d8c7dd9f91d267ba79f95"
+    },
+    "pnr_attempts/01_june_random.json": {
+      "path": "02_pnr_1/01_june_random/pnr.json",
+      "bytes": 3548,
+      "sha256": "77317dc6f5d9b77fb360cea133a7218baa08aa9c6ac4c6871da338638d38c596"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 392,
+      "sha256": "888446e67391fd1ba8497253710e7a40f0f3f4e8c3d1c7bf01db70422cdfcfcf"
+    },
+    "device.qca": {
+      "path": "03_map_1/device_energy_input.qca",
+      "bytes": 2006392,
+      "sha256": "727e5ff60aaa3d9c80cb5267462e729c77c2769eb9b9cede99c18c7a0b5d8143"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 9712,
+      "sha256": "fddfc4b74642ceb6cd31cb26bd87c0a0d4d882ced0225a6d1c6a2b4b4da6a7cd"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 11,
+      "output_count": 5
+    },
+    "pnr": {
+      "schema": "ifcn.pnr.v1",
+      "algorithm": "june_random",
+      "phase_count": 4,
+      "seed": 1,
+      "layout_legal": true,
+      "clock_legal": true,
+      "failed_edge_count": 0,
+      "validation": {
+        "passed": true,
+        "checks": [
+          "dag_acyclic",
+          "exact_edge_coverage",
+          "exact_node_coverage",
+          "unique_node_positions",
+          "route_endpoints",
+          "simple_four_connected_paths",
+          "no_route_through_gate",
+          "distinct_fanin_ports",
+          "port_sharing_geometry",
+          "clock_range_and_forward_steps",
+          "source_aware_crossings",
+          "native_node_and_crossover_mapping",
+          "exported_ifcn_device_mapping"
+        ],
+        "errors": [],
+        "max_same_phase_run": 3,
+        "topological_order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          42,
+          43,
+          50,
+          44,
+          17,
+          18,
+          16,
+          45,
+          20,
+          19,
+          99,
+          103,
+          113,
+          21,
+          23,
+          56,
+          27,
+          51,
+          114,
+          33,
+          69,
+          37,
+          58,
+          100,
+          104,
+          22,
+          46,
+          77,
+          57,
+          78,
+          52,
+          115,
+          82,
+          70,
+          89,
+          59,
+          101,
+          105,
+          121,
+          24,
+          25,
+          79,
+          53,
+          116,
+          83,
+          71,
+          90,
+          60,
+          102,
+          106,
+          122,
+          26,
+          80,
+          54,
+          117,
+          84,
+          72,
+          91,
+          61,
+          107,
+          123,
+          28,
+          47,
+          81,
+          55,
+          118,
+          85,
+          73,
+          92,
+          62,
+          108,
+          124,
+          132,
+          29,
+          30,
+          119,
+          86,
+          74,
+          93,
+          63,
+          109,
+          125,
+          133,
+          31,
+          120,
+          87,
+          75,
+          94,
+          64,
+          110,
+          126,
+          134,
+          48,
+          32,
+          88,
+          76,
+          95,
+          65,
+          111,
+          127,
+          135,
+          140,
+          34,
+          35,
+          96,
+          66,
+          112,
+          128,
+          136,
+          141,
+          36,
+          97,
+          67,
+          129,
+          137,
+          142,
+          38,
+          49,
+          98,
+          68,
+          130,
+          138,
+          143,
+          145,
+          39,
+          40,
+          131,
+          139,
+          144,
+          146,
+          41,
+          13,
+          12,
+          11,
+          15,
+          14
+        ],
+        "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+      },
+      "algorithm_parameters": {
+        "graphviz_grid_size": 40,
+        "route_order_retries": 24,
+        "search_cost": 40,
+        "max_same_phase": null,
+        "topology": "layer_redundancy_buffers",
+        "phase_count": 4,
+        "timeout_s": 177,
+        "seed_control": "not_exposed_by_native_algorithm"
+      },
+      "clock_scheme": "irregular",
+      "clock_template_ok": null,
+      "clock_template_conflicts": null,
+      "clock_validation_kind": "route_phase_contract",
+      "run_time_s": 0.160266,
+      "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a01928d14a2941e18a5718bb1a6b0b34/normalized.v",
+      "boolean_canonicalization": false,
+      "expansion": {
+        "inserted_rows": 0,
+        "inserted_columns": 0,
+        "accepted_rounds": 0
+      },
+      "width": 28,
+      "height": 42,
+      "area_tiles": 1176,
+      "ifcn": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/a01928d14a2941e18a5718bb1a6b0b34/02_pnr_1/01_june_random/layout.ifcn",
+      "mapping_validation": {
+        "passed": true,
+        "cell_count": 2462,
+        "cross_count": 8,
+        "io_contraction": false
+      },
+      "total_backend_time_s": 0.23983098899770994
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "june_random",
+      "selected_algorithm": "june_random",
+      "policy": "first validated result; no area-optimality claim",
+      "attempts": [
+        {
+          "algorithm": "june_random",
+          "status": "completed",
+          "budget_s": 179,
+          "started_at": "2026-09-05T10:44:03.765239+00:00",
+          "directory": "02_pnr_1/01_june_random",
+          "elapsed_s": 0.302
+        }
+      ]
+    },
+    "mapping": {
+      "cell_count": 2494,
+      "io_contraction": false
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": null,
+  "worker_pid": 183121
+}

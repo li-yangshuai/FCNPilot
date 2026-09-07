@@ -1,0 +1,163 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "ba2810578f5f493887686f63ec120e53",
+  "created_at": "2026-09-05T10:37:41.614350+00:00",
+  "updated_at": "2026-09-05T10:37:48.584597+00:00",
+  "status": "failed",
+  "current_stage": "pnr",
+  "source": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/TOY/newtag.v",
+  "configuration": {
+    "root": "/home/lys/projects/github/iFCN",
+    "build_dir": "/home/lys/projects/github/iFCN/build-release",
+    "python": "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+    "backend": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "pi0",
+      "pi1",
+      "pi2",
+      "pi3",
+      "pi4",
+      "pi5",
+      "pi6",
+      "pi7"
+    ],
+    "warnings": [],
+    "outputs": [
+      "po0"
+    ],
+    "assignment_count": 9,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 180,
+    "model": "bistable",
+    "algorithm": "normal_2ddwave",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-05T10:37:41.656800+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/ba2810578f5f493887686f63ec120e53/normalized.v",
+          "--output",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/ba2810578f5f493887686f63ec120e53/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "180"
+        ]
+      ],
+      "completed_at": "2026-09-05T10:37:43.161256+00:00"
+    },
+    "pnr": {
+      "status": "failed",
+      "started_at": "2026-09-05T10:37:43.162233+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/ba2810578f5f493887686f63ec120e53/normalized.v",
+          "--output",
+          "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/ba2810578f5f493887686f63ec120e53/02_pnr_1/01_normal_2ddwave",
+          "--algorithm",
+          "normal_2ddwave",
+          "--seed",
+          "1",
+          "--budget",
+          "177"
+        ]
+      ],
+      "error": "pnr command exited with 1. -------------------Orginal circuit info-------------------\ncircuit name : /home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/ba2810578f5f493887686f63ec120e53/normalized.v\nnode number: 31\nedges number: 32\n-------------------After optimize-------------------\nparse mode: requested=compact, resolved=compact\nnodes number: 23\nedges number: 24\ntotal layers: 7\ndiffer-layer route pairs: 5\n-------------------Graphviz + exact-gain sifting-------------------\n[Graphviz+sifting] crossings=1 (removed 0 after dot), dot=0.007s, sift=0.001s, evaluations=92, fallback=False\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 101, in run_normal\n    raise RuntimeError('P&R did not produce a fully routed, clock-legal, port-valid layout.')\nRuntimeError: P&R did not produce a fully routed, clock-legal, port-valid layout.\n"
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 430,
+      "sha256": "a14bc5854351fe03b12f3e0975cb426e6a843ac263bf47073df2f89fe749c754"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 755,
+      "sha256": "ff2a2e130d7449bbfd7f768d9845639204835d87ca2b6b1f3fbc570db0baaba9"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 4171,
+      "sha256": "27d1608a08920e44a5d7922516b86723ac206b19c0bf17be4ba3c728474b5a1b"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 953,
+      "sha256": "1156e68f54868c9ade1a40a69c755d93f11afa76a4a5bacfc30c9f5bf6eb5b52"
+    },
+    "pnr_attempts/01_normal_2ddwave.json": {
+      "path": "02_pnr_1/01_normal_2ddwave/pnr.json",
+      "bytes": 2130,
+      "sha256": "c8e37ccf5dde5e9004090260043c04c0a81d54e2bfcc46df09f548fc3350f3b5"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 1650,
+      "sha256": "9e608306ca1e6d2fedb76925fdadf88c002dba1ddee5f277254efe1186b07cc7"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 6222,
+      "sha256": "9631ba6898575fa85e541439174f2d100d12622667de200437b57e1f7dc0cd95"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 8,
+      "output_count": 1
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "normal_2ddwave",
+      "selected_algorithm": null,
+      "policy": "first validated result; no area-optimality claim",
+      "attempts": [
+        {
+          "algorithm": "normal_2ddwave",
+          "status": "failed",
+          "budget_s": 179,
+          "started_at": "2026-09-05T10:37:43.165216+00:00",
+          "directory": "02_pnr_1/01_normal_2ddwave",
+          "error": "pnr command exited with 1. -------------------Orginal circuit info-------------------\ncircuit name : /home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/ba2810578f5f493887686f63ec120e53/normalized.v\nnode number: 31\nedges number: 32\n-------------------After optimize-------------------\nparse mode: requested=compact, resolved=compact\nnodes number: 23\nedges number: 24\ntotal layers: 7\ndiffer-layer route pairs: 5\n-------------------Graphviz + exact-gain sifting-------------------\n[Graphviz+sifting] crossings=1 (removed 0 after dot), dot=0.007s, sift=0.001s, evaluations=92, fallback=False\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 101, in run_normal\n    raise RuntimeError('P&R did not produce a fully routed, clock-legal, port-valid layout.')\nRuntimeError: P&R did not produce a fully routed, clock-legal, port-valid layout.\n",
+          "elapsed_s": 5.419
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": "pnr command exited with 1. -------------------Orginal circuit info-------------------\ncircuit name : /home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/ba2810578f5f493887686f63ec120e53/normalized.v\nnode number: 31\nedges number: 32\n-------------------After optimize-------------------\nparse mode: requested=compact, resolved=compact\nnodes number: 23\nedges number: 24\ntotal layers: 7\ndiffer-layer route pairs: 5\n-------------------Graphviz + exact-gain sifting-------------------\n[Graphviz+sifting] crossings=1 (removed 0 after dot), dot=0.007s, sift=0.001s, evaluations=92, fallback=False\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 101, in run_normal\n    raise RuntimeError('P&R did not produce a fully routed, clock-legal, port-valid layout.')\nRuntimeError: P&R did not produce a fully routed, clock-legal, port-valid layout.\n",
+  "worker_pid": 176571
+}

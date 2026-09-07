@@ -1,0 +1,221 @@
+{
+  "schema": "ifcn.paper.figure_evidence.v1",
+  "figure": "fig01_architecture",
+  "repository_root": "/home/lys/projects/github/iFCN",
+  "scope": "Source-grounded schematic or recorded trace; no new algorithm runs or LLM calls",
+  "artifacts": [
+    {
+      "path": "figures/fig01_architecture.tex",
+      "sha256": "3fe5e8c98210c91f28eb066a95941fcbe30ceb0e906546e48d72391d02ad6dab"
+    },
+    {
+      "path": "figures/fig01_architecture.pdf",
+      "sha256": "ce1d4132d2d4f39352768196e5d9909196e265031da97559223c5a292cd07303"
+    },
+    {
+      "path": "figures/fig01_architecture.caption.md",
+      "sha256": "1f1d71ffe56e02124f306b724bff824ff5b49f1d12a3d7bc48454867638d3452"
+    }
+  ],
+  "style": {
+    "path": "figures/common.tex",
+    "sha256": "08b6eb12664b3784df01468e90098f5385ca5a9a329016523023addc6bec155b"
+  },
+  "claims": [
+    {
+      "claim": "One Pi main agent uses exactly four iFCN tools",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/integrations/pi/agent.md",
+          "sha256": "def4c1d82e311f24cc3b99e8786952fea320d68f3bd62542065664923921a875",
+          "lines": [
+            1,
+            12
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/integrations/pi/extension.ts",
+          "sha256": "adc18c64c74edd05909a965f1167a4e6691864531601ded6220c2423d4708b87",
+          "lines": [
+            49,
+            133
+          ]
+        }
+      ]
+    },
+    {
+      "claim": "Tools invoke the Python CLI; jobs snapshot inputs, preserve stage state and verify artifact hashes",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/integrations/pi/extension.ts",
+          "sha256": "adc18c64c74edd05909a965f1167a4e6691864531601ded6220c2423d4708b87",
+          "lines": [
+            18,
+            39
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "create_run",
+          "lines": [
+            202,
+            236
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "register_artifact",
+          "lines": [
+            239,
+            244
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "verify_artifacts",
+          "lines": [
+            140,
+            144
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "worker",
+          "lines": [
+            542,
+            600
+          ]
+        }
+      ]
+    },
+    {
+      "claim": "Real backend IDs and distinct clock/placement behavior",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "sha256": "ae45cf73a73ff1e5e9ec29449442fb66ba00292fb46fd8b52326452a8c7bb4d2",
+          "function": "run_normal",
+          "lines": [
+            74,
+            108
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "sha256": "ae45cf73a73ff1e5e9ec29449442fb66ba00292fb46fd8b52326452a8c7bb4d2",
+          "function": "run_native",
+          "lines": [
+            111,
+            152
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/src/app/ifcn_combinational_pnr.cpp",
+          "sha256": "61d5e524d84206c2e24475225271380dab8a017c26d8c59cc81745e350196c49"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "run_pnr",
+          "lines": [
+            334,
+            419
+          ]
+        }
+      ]
+    },
+    {
+      "claim": "Parse, map, simulation comparison and energy run as explicit native stages; simulation and energy each read device.qca",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "run_stage",
+          "lines": [
+            455,
+            518
+          ]
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/scripts/ifcn_agent.py",
+          "sha256": "a2b614a6ee6d667693951e996f0076284627bf2e8c037959cee24d434d8fef5d",
+          "function": "energy_summary",
+          "lines": [
+            422,
+            452
+          ]
+        }
+      ]
+    }
+  ],
+  "arrow_semantics": [
+    {
+      "from": "Pi main agent",
+      "to": "Four typed tools",
+      "style": "dashed arrow",
+      "meaning": "LLM invokes the registered tool interface; the figure omits the reverse result response for clarity"
+    },
+    {
+      "from": "Four typed tools",
+      "to": "Durable job runner",
+      "style": "dashed arrow",
+      "meaning": "CLI requests and JSON result transport; not a circuit wire"
+    },
+    {
+      "from": "Durable job runner",
+      "to": "Lower workflow enclosure",
+      "style": "dashed arrow",
+      "meaning": "Schedules stage execution for the requested endpoint; enclosure is a software grouping"
+    },
+    {
+      "from": "Verilog snapshot",
+      "to": "Parse and normalize",
+      "style": "solid arrow",
+      "meaning": "Source input dependency"
+    },
+    {
+      "from": "Parse and normalize",
+      "to": "Placement and routing",
+      "style": "solid arrow",
+      "meaning": "Logical design dependency; backend parses the normalized Verilog to build its own working DAG, not necessarily the exact parse-stage dag.json object"
+    },
+    {
+      "from": "Placement and routing",
+      "to": "Native mapping",
+      "style": "solid arrow",
+      "meaning": "Validated gate-level layout.ifcn consumed by the native mapper; guards include bounded logic and QCA terminal checks"
+    },
+    {
+      "from": "Native mapping",
+      "to": "Physical simulation",
+      "style": "solid arrow",
+      "meaning": "Mapped QCA artifact used by the physical benchmark engines"
+    },
+    {
+      "from": "Native mapping",
+      "to": "Energy and power estimates",
+      "style": "solid arrow",
+      "meaning": "Same mapped QCA artifact independently read by the energy engine; no simulation-result-to-energy dependency"
+    }
+  ],
+  "limitations": [
+    "Architecture is a software/dataflow overview, not a physical bus diagram.",
+    "Main-agent interface is implemented; this diagram does not estimate LLM reliability.",
+    "Simulation engine agreement does not establish device waveform correctness or solver convergence.",
+    "Energy and power are model estimates; time-step convergence and physical signoff are outside this schematic."
+  ],
+  "visual_validation": {
+    "natural_width_mm": 170,
+    "body_font_pt": 8,
+    "minimum_annotation_font_pt": 7,
+    "render_tool": "/home/lys/.codex/skills/repo-to-tikz/scripts/render_tikz.sh",
+    "preview_dpi": 180,
+    "inspection": "Rendered PNG inspected with view_image; no overlap or clipped text in final standalone figure",
+    "latex_layout_font_warnings": [],
+    "paper_inclusion_check": "Parent task handles final manuscript-page inspection"
+  }
+}

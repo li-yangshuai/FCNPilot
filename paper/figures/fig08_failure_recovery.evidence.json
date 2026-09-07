@@ -1,0 +1,494 @@
+{
+  "schema": "ifcn.paper.figure_evidence.v1",
+  "figure": "fig08_failure_recovery",
+  "repository_root": "/home/lys/projects/github/iFCN",
+  "scope": "Source-grounded schematic or recorded trace; no new algorithm runs or LLM calls",
+  "artifacts": [
+    {
+      "path": "figures/fig08_failure_recovery.tex",
+      "sha256": "baa28e894b9a56945d936b07daaec0a6ac319f21e577b02ee7124adb4a29e828"
+    },
+    {
+      "path": "figures/fig08_failure_recovery.pdf",
+      "sha256": "350a5a10576c74cec037323ee5abd2a4db97f5b876d76bfa7460a1a4d5ee9c77"
+    },
+    {
+      "path": "figures/fig08_failure_recovery.caption.md",
+      "sha256": "194259ce6912e61b4e6d3b825e45867dc2ebd6934b3970d0ea70177c90e9bd0b"
+    }
+  ],
+  "style": {
+    "path": "figures/common.tex",
+    "sha256": "08b6eb12664b3784df01468e90098f5385ca5a9a329016523023addc6bec155b"
+  },
+  "claims": [
+    {
+      "claim": "MAJ/clpl: recorded auto selection and final status",
+      "run_id": "818614b19bad478db825b3b375deb8f1",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/manifest.json",
+          "sha256": "9ae2a205d96aff5247c0e26e8cdd98c390351dde797222dd477bb42855ccf0e1",
+          "json_pointer": "/status",
+          "value": "completed"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/manifest.json",
+          "sha256": "9ae2a205d96aff5247c0e26e8cdd98c390351dde797222dd477bb42855ccf0e1",
+          "json_pointer": "/parameters",
+          "value": {
+            "seed": 1,
+            "timeout_s": 180,
+            "model": "both",
+            "algorithm": "auto",
+            "samples": 512,
+            "energy_profile": "standard"
+          }
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/pnr_attempts.json",
+          "sha256": "400c906095054bacdedb861e34c857873520e8793589a0f32f00f7bb65ba0d36",
+          "json_pointer": "/",
+          "value": {
+            "requested_algorithm": "auto",
+            "selected_algorithm": "june_random",
+            "policy": "first validated result; no area-optimality claim",
+            "attempts": [
+              {
+                "algorithm": "normal_2ddwave",
+                "status": "failed",
+                "budget_s": 59,
+                "started_at": "2026-09-05T11:05:16.304505+00:00",
+                "directory": "02_pnr_1/01_normal_2ddwave",
+                "error": "Routed logic validation unsupported: No explicit exported output node for source port 'y0'; attempted source alias chain ['y0', 'n17']",
+                "elapsed_s": 21.071
+              },
+              {
+                "algorithm": "compact",
+                "status": "failed",
+                "budget_s": 79,
+                "started_at": "2026-09-05T11:05:37.376205+00:00",
+                "directory": "02_pnr_1/02_compact",
+                "error": "pnr command exited with 1.   File \"/usr/lib/python3.12/subprocess.py\", line 1264, in wait\n    return self._wait(timeout=timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 2045, in _wait\n    raise TimeoutExpired(self.args, timeout)\nsubprocess.TimeoutExpired: Command '['/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr', 'compact', '/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/normalized.v', '/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/02_compact/layout_candidate.json']' timed out after 76.99998972100002 seconds\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 128, in run_native\n    raise RuntimeError(f'{args.algorithm} exceeded its {args.budget}s native routing budget; see native.log.') from exc\nRuntimeError: compact exceeded its 77s native routing budget; see native.log.\n",
+                "elapsed_s": 77.226
+              },
+              {
+                "algorithm": "june_random",
+                "status": "completed",
+                "budget_s": 81,
+                "started_at": "2026-09-05T11:06:54.603018+00:00",
+                "directory": "02_pnr_1/03_june_random",
+                "elapsed_s": 0.565
+              }
+            ]
+          }
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/source.v",
+          "sha256": "413a6667f25ac44437f4e8417a2613f7f982fbdc048c234a610e8e2789280f10"
+        }
+      ]
+    },
+    {
+      "claim": "MAJ/clpl: normal_2ddwave actual candidate state",
+      "status": "failed",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/01_normal_2ddwave/pnr.json",
+          "sha256": "e7689b9d466cefe45b7bf895cf881d127bcb353b00cc082f652bba1f2c7ed142",
+          "json_pointer": "/layout_legal",
+          "value": true
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/01_normal_2ddwave/pnr.json",
+          "sha256": "e7689b9d466cefe45b7bf895cf881d127bcb353b00cc082f652bba1f2c7ed142",
+          "json_pointer": "/clock_legal",
+          "value": true
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/01_normal_2ddwave/logic.json",
+          "sha256": "113209854a0f0dd57ac4dda2a7c8a83e9007ec4003ad628e535ead79a7ecb519",
+          "json_pointer": "/status",
+          "value": "unsupported"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/01_normal_2ddwave/logic.json",
+          "sha256": "113209854a0f0dd57ac4dda2a7c8a83e9007ec4003ad628e535ead79a7ecb519",
+          "json_pointer": "/vectors_checked",
+          "value": 0
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/01_normal_2ddwave/routed_dag.json",
+          "sha256": "f00681b4fed9b7bc391f56a3593ce973b46b778672ac08d09b812d59cd84210a"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/01_normal_2ddwave/logic.json",
+          "sha256": "113209854a0f0dd57ac4dda2a7c8a83e9007ec4003ad628e535ead79a7ecb519",
+          "json_pointer": "/reason",
+          "value": "No explicit exported output node for source port 'y0'; attempted source alias chain ['y0', 'n17']"
+        }
+      ]
+    },
+    {
+      "claim": "MAJ/clpl: compact actual candidate state",
+      "status": "failed",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/02_compact/pnr.json",
+          "sha256": "4ea76b2f2a156909a8cdd9d57910791037c033f8d6fd934d754e2eba68a5482a",
+          "json_pointer": "/layout_legal",
+          "value": false
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/02_compact/pnr.json",
+          "sha256": "4ea76b2f2a156909a8cdd9d57910791037c033f8d6fd934d754e2eba68a5482a",
+          "json_pointer": "/clock_legal",
+          "value": false
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/02_compact/native.log",
+          "sha256": "08e65c95fb8c852f7fed5bf5a5bd4c4096fe5e822e402fcd93862780af5eced1"
+        }
+      ]
+    },
+    {
+      "claim": "MAJ/clpl: june_random actual candidate state",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/03_june_random/pnr.json",
+          "sha256": "96ee51bedd7051259615d35b89ec9b1d229118c8869293303906c7707fcd39c0",
+          "json_pointer": "/layout_legal",
+          "value": true
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/03_june_random/pnr.json",
+          "sha256": "96ee51bedd7051259615d35b89ec9b1d229118c8869293303906c7707fcd39c0",
+          "json_pointer": "/clock_legal",
+          "value": true
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/03_june_random/logic.json",
+          "sha256": "5f7e98de6feb32c0619d82978a6ff1c0836bc5e06c66fdf7ec4d3844d2086b93",
+          "json_pointer": "/status",
+          "value": "equivalent"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/03_june_random/logic.json",
+          "sha256": "5f7e98de6feb32c0619d82978a6ff1c0836bc5e06c66fdf7ec4d3844d2086b93",
+          "json_pointer": "/vectors_checked",
+          "value": 2048
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/03_june_random/routed_dag.json",
+          "sha256": "828679262c4ade6d0799e3bd3c0f580c68dfc9ef7f6d8c7dd9f91d267ba79f95"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/03_june_random/interface.json",
+          "sha256": "43ce7800aaeff40fc26c7142565729a3d2311a7cadd6f75ad72d3688dbc17c3d",
+          "json_pointer": "/",
+          "value": {
+            "schema": "ifcn.qca.interface.v1",
+            "qca_sha256": "727e5ff60aaa3d9c80cb5267462e729c77c2769eb9b9cede99c18c7a0b5d8143",
+            "cell_count": 2494,
+            "expected_inputs": 11,
+            "expected_outputs": 5,
+            "actual_inputs": 11,
+            "actual_outputs": 5,
+            "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+            "passed": true
+          }
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/03_june_random/interface_check_energy_input.qca",
+          "sha256": "727e5ff60aaa3d9c80cb5267462e729c77c2769eb9b9cede99c18c7a0b5d8143"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/03_june_random/native.log",
+          "sha256": "edbd511c177c10bfa139286f61dc4f4b175cd1b59146e3117757244f9a160157"
+        }
+      ]
+    },
+    {
+      "claim": "TOY/clpl: recorded auto selection and final status",
+      "run_id": "ddb27accc52046f6bef14371a8ba14f2",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/manifest.json",
+          "sha256": "34986d65df283ff70f42b6ca1386b30ef36dd8be803451697618078f3c5c42e7",
+          "json_pointer": "/status",
+          "value": "failed"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/manifest.json",
+          "sha256": "34986d65df283ff70f42b6ca1386b30ef36dd8be803451697618078f3c5c42e7",
+          "json_pointer": "/parameters",
+          "value": {
+            "seed": 1,
+            "timeout_s": 180,
+            "model": "both",
+            "algorithm": "auto",
+            "samples": 512,
+            "energy_profile": "standard"
+          }
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/pnr_attempts.json",
+          "sha256": "0c9d5de105ebc479227127d2a0e92eb129b5ba69b83827c21576fd8ca3308571",
+          "json_pointer": "/",
+          "value": {
+            "requested_algorithm": "auto",
+            "selected_algorithm": null,
+            "policy": "first validated result; no area-optimality claim",
+            "attempts": [
+              {
+                "algorithm": "normal_2ddwave",
+                "status": "failed",
+                "budget_s": 59,
+                "started_at": "2026-09-05T11:06:57.027834+00:00",
+                "directory": "02_pnr_1/01_normal_2ddwave",
+                "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+                "elapsed_s": 6.039
+              },
+              {
+                "algorithm": "compact",
+                "status": "failed",
+                "budget_s": 86,
+                "started_at": "2026-09-05T11:07:03.068470+00:00",
+                "directory": "02_pnr_1/02_compact",
+                "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+                "elapsed_s": 1.832
+              },
+              {
+                "algorithm": "june_random",
+                "status": "failed",
+                "budget_s": 172,
+                "started_at": "2026-09-05T11:07:04.901978+00:00",
+                "directory": "02_pnr_1/03_june_random",
+                "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+                "elapsed_s": 0.354
+              }
+            ]
+          }
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/source.v",
+          "sha256": "de7d65ca4373d2ed5089fa702ac40349d963ebdd3eb78e0d8c74013d284f5f62"
+        }
+      ]
+    },
+    {
+      "claim": "TOY/clpl: normal_2ddwave actual candidate state",
+      "status": "failed",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/01_normal_2ddwave/pnr.json",
+          "sha256": "716ef01bf4d29039ddd7bddad374f841c3f640519085cf70d11ed06d5c5eb302",
+          "json_pointer": "/layout_legal",
+          "value": true
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/01_normal_2ddwave/pnr.json",
+          "sha256": "716ef01bf4d29039ddd7bddad374f841c3f640519085cf70d11ed06d5c5eb302",
+          "json_pointer": "/clock_legal",
+          "value": true
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/01_normal_2ddwave/logic.json",
+          "sha256": "f0a3cb5c2955a47ddfb40564264b747877cf68eb2dcc9c30801041f2d35ce151",
+          "json_pointer": "/status",
+          "value": "equivalent"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/01_normal_2ddwave/logic.json",
+          "sha256": "f0a3cb5c2955a47ddfb40564264b747877cf68eb2dcc9c30801041f2d35ce151",
+          "json_pointer": "/vectors_checked",
+          "value": 2048
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/01_normal_2ddwave/routed_dag.json",
+          "sha256": "9e2297bfcd4b75dfa0736a4a4917852719bc411beb2df57f595723e780b114b4"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/01_normal_2ddwave/interface.json",
+          "sha256": "8222f4a0d9d34be61cafe4486ccbd7e66371041dcc57137ce29e7136876b4508",
+          "json_pointer": "/",
+          "value": {
+            "schema": "ifcn.qca.interface.v1",
+            "qca_sha256": "e2135b63b5fb77f3d848bf53c9f4a258255bc5ae0c342ed7449259100336cd99",
+            "cell_count": 235,
+            "expected_inputs": 11,
+            "expected_outputs": 5,
+            "actual_inputs": 11,
+            "actual_outputs": 1,
+            "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+            "passed": false
+          }
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/01_normal_2ddwave/interface_check_energy_input.qca",
+          "sha256": "e2135b63b5fb77f3d848bf53c9f4a258255bc5ae0c342ed7449259100336cd99"
+        }
+      ]
+    },
+    {
+      "claim": "TOY/clpl: compact actual candidate state",
+      "status": "failed",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/pnr.json",
+          "sha256": "13ac233d30c5ca5734adcbba79bad9da82cff36b570a2e78a8c40bac9bc9166a",
+          "json_pointer": "/layout_legal",
+          "value": true
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/pnr.json",
+          "sha256": "13ac233d30c5ca5734adcbba79bad9da82cff36b570a2e78a8c40bac9bc9166a",
+          "json_pointer": "/clock_legal",
+          "value": true
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/logic.json",
+          "sha256": "ff495ea94b3f3612641f0686927478a53cc1420e30cef17f6c9b31ba4353d216",
+          "json_pointer": "/status",
+          "value": "equivalent"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/logic.json",
+          "sha256": "ff495ea94b3f3612641f0686927478a53cc1420e30cef17f6c9b31ba4353d216",
+          "json_pointer": "/vectors_checked",
+          "value": 2048
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/routed_dag.json",
+          "sha256": "9e2297bfcd4b75dfa0736a4a4917852719bc411beb2df57f595723e780b114b4"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/interface.json",
+          "sha256": "79a6f10c1d2e0deb13d446d9278e4ac73923e3a6c7b15ccbb6299ebf8e4e27ec",
+          "json_pointer": "/",
+          "value": {
+            "schema": "ifcn.qca.interface.v1",
+            "qca_sha256": "a83ad21b48266368ac51031586c1dd75b8d955c29eefe939e3bc548ebae580e0",
+            "cell_count": 711,
+            "expected_inputs": 11,
+            "expected_outputs": 5,
+            "actual_inputs": 11,
+            "actual_outputs": 1,
+            "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+            "passed": false
+          }
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/interface_check_energy_input.qca",
+          "sha256": "a83ad21b48266368ac51031586c1dd75b8d955c29eefe939e3bc548ebae580e0"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/native.log",
+          "sha256": "ccdfbe346dec9739cd86e763e893d1ca5d3469b278688eabe851e9f814dcb460"
+        }
+      ]
+    },
+    {
+      "claim": "TOY/clpl: june_random actual candidate state",
+      "status": "failed",
+      "evidence": [
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/pnr.json",
+          "sha256": "6ea0f6db0a6ae247a9f29e20f6ab5d11bd2ef0fc6426ad8bf16b9d93a32b0861",
+          "json_pointer": "/layout_legal",
+          "value": true
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/pnr.json",
+          "sha256": "6ea0f6db0a6ae247a9f29e20f6ab5d11bd2ef0fc6426ad8bf16b9d93a32b0861",
+          "json_pointer": "/clock_legal",
+          "value": true
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/logic.json",
+          "sha256": "63b9420541b824c566196abfbe53137a2ddb0f64772f746147561ff4eb7c8cf8",
+          "json_pointer": "/status",
+          "value": "equivalent"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/logic.json",
+          "sha256": "63b9420541b824c566196abfbe53137a2ddb0f64772f746147561ff4eb7c8cf8",
+          "json_pointer": "/vectors_checked",
+          "value": 2048
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/routed_dag.json",
+          "sha256": "ee5722fec71e7ee10f50e4b3b37149d4a1ccba0269a6f43c4d1314343cc88fe1"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/interface.json",
+          "sha256": "b8e44c2e54779367d1c64737a56c6de77c526b86e9889f58c5df60a2ce2d3172",
+          "json_pointer": "/",
+          "value": {
+            "schema": "ifcn.qca.interface.v1",
+            "qca_sha256": "61a6f696a2b8dac51beaa46efc8acc4bb3cc8314abad5aab79a5e0900f0f6b9a",
+            "cell_count": 1088,
+            "expected_inputs": 11,
+            "expected_outputs": 5,
+            "actual_inputs": 11,
+            "actual_outputs": 1,
+            "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+            "passed": false
+          }
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/interface_check_energy_input.qca",
+          "sha256": "61a6f696a2b8dac51beaa46efc8acc4bb3cc8314abad5aab79a5e0900f0f6b9a"
+        },
+        {
+          "path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/native.log",
+          "sha256": "088f303412485870b860342da19fa99653a9e786a13b7aea2216a821a2ecd151"
+        }
+      ]
+    }
+  ],
+  "arrow_semantics": [
+    {
+      "from": "MAJ/clpl Normal",
+      "to": "MAJ/clpl Compact",
+      "style": "amber arrow",
+      "meaning": "Recorded next candidate after unsupported explicit output-port binding"
+    },
+    {
+      "from": "MAJ/clpl Compact",
+      "to": "MAJ/clpl June",
+      "style": "amber arrow",
+      "meaning": "Recorded next candidate after 77 s native routing budget expiration; June accepted then selection stops"
+    },
+    {
+      "from": "TOY/clpl Normal",
+      "to": "TOY/clpl Compact",
+      "style": "amber arrow",
+      "meaning": "Recorded fallback after mapped QCA has only one of five declared outputs"
+    },
+    {
+      "from": "TOY/clpl Compact",
+      "to": "TOY/clpl June",
+      "style": "amber arrow",
+      "meaning": "Recorded fallback after the same terminal-count failure; June also rejected"
+    }
+  ],
+  "limitations": [
+    "Two particular production runs; not a frequency estimate or general recovery guarantee.",
+    "All six attempts were retained, including the Compact timeout; timeout is not attributed to missing outputs.",
+    "MAJ Normal reports unsupported mapping, not an observed truth-table counterexample.",
+    "Boolean equivalence is source-to-routed-DAG only; QCA fractions are terminal counts, not waveform results.",
+    "These traces were executed without LLM calls."
+  ],
+  "visual_validation": {
+    "natural_width_mm": 170,
+    "body_font_pt": 8,
+    "minimum_annotation_font_pt": 7,
+    "render_tool": "/home/lys/.codex/skills/repo-to-tikz/scripts/render_tikz.sh",
+    "preview_dpi": 180,
+    "inspection": "Rendered PNG inspected with view_image; no overlap or clipped text in final standalone figure",
+    "latex_layout_font_warnings": [],
+    "paper_inclusion_check": "Parent task handles final manuscript-page inspection"
+  }
+}

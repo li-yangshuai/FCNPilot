@@ -1,0 +1,22 @@
+module top(x0, x1, x2, y0, y1);
+input x0, x1, x2;
+output y0, y1;
+wire n4, n5, n6, n7, n8, n9, n10, ifcn_tmp_0, ifcn_tmp_1, ifcn_tmp_2, ifcn_tmp_3, ifcn_tmp_4, ifcn_tmp_5, ifcn_tmp_6, ifcn_tmp_7;
+assign n4 = x1 & x2;
+assign ifcn_tmp_0 = x1 & x2;
+assign ifcn_tmp_1 = ~n4;
+assign ifcn_tmp_2 = x1 & ifcn_tmp_1;
+assign ifcn_tmp_3 = ifcn_tmp_0 | ifcn_tmp_2;
+assign ifcn_tmp_4 = ~n4;
+assign ifcn_tmp_5 = x2 & ifcn_tmp_4;
+assign n5 = ifcn_tmp_3 | ifcn_tmp_5;
+assign ifcn_tmp_6 = ~n4;
+assign n6 = ifcn_tmp_6 & n5;
+assign n7 = x0 & n6;
+assign n8 = x0 | n6;
+assign n10 = n4 | n7;
+assign ifcn_tmp_7 = ~n7;
+assign n9 = ifcn_tmp_7 & n8;
+assign y1 = n10;
+assign y0 = n9;
+endmodule

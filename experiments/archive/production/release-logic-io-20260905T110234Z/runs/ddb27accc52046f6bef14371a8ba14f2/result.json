@@ -1,0 +1,168 @@
+{
+  "schema": "ifcn.pi.result.v1",
+  "run_id": "ddb27accc52046f6bef14371a8ba14f2",
+  "status": "failed",
+  "requested_until": "map",
+  "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log.",
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 180,
+    "model": "both",
+    "algorithm": "auto",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "completed_stages": [
+    "parse"
+  ],
+  "metrics": {
+    "dag": {
+      "input_count": 11,
+      "output_count": 5
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "auto",
+      "selected_algorithm": null,
+      "policy": "first validated result; no area-optimality claim",
+      "attempts": [
+        {
+          "algorithm": "normal_2ddwave",
+          "status": "failed",
+          "budget_s": 59,
+          "started_at": "2026-09-05T11:06:57.027834+00:00",
+          "directory": "02_pnr_1/01_normal_2ddwave",
+          "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+          "elapsed_s": 6.039
+        },
+        {
+          "algorithm": "compact",
+          "status": "failed",
+          "budget_s": 86,
+          "started_at": "2026-09-05T11:07:03.068470+00:00",
+          "directory": "02_pnr_1/02_compact",
+          "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+          "elapsed_s": 1.832
+        },
+        {
+          "algorithm": "june_random",
+          "status": "failed",
+          "budget_s": 172,
+          "started_at": "2026-09-05T11:07:04.901978+00:00",
+          "directory": "02_pnr_1/03_june_random",
+          "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+          "elapsed_s": 0.354
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "warnings": [],
+  "sources": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 527,
+      "sha256": "de7d65ca4373d2ed5089fa702ac40349d963ebdd3eb78e0d8c74013d284f5f62",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/source.v"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 498,
+      "sha256": "668f414d5dac7091dbbaeb04684342a81d2d508f951e943a829d248b13b7b6a2",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/normalized.v"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 3816,
+      "sha256": "9e2297bfcd4b75dfa0736a4a4917852719bc411beb2df57f595723e780b114b4",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/01_parse_1/dag.json"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 854,
+      "sha256": "e4d221d23e6cb70f22963cec3b331fc2e9dd17e59630218757256ab6d9a3768e",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/01_parse_1/dag.dot"
+    },
+    "pnr_attempts/01_normal_2ddwave.json": {
+      "path": "02_pnr_1/01_normal_2ddwave/pnr.json",
+      "bytes": 2187,
+      "sha256": "716ef01bf4d29039ddd7bddad374f841c3f640519085cf70d11ed06d5c5eb302",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/01_normal_2ddwave/pnr.json"
+    },
+    "pnr_attempts/01_normal_2ddwave_logic.json": {
+      "path": "02_pnr_1/01_normal_2ddwave/logic.json",
+      "bytes": 5195,
+      "sha256": "f0a3cb5c2955a47ddfb40564264b747877cf68eb2dcc9c30801041f2d35ce151",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/01_normal_2ddwave/logic.json"
+    },
+    "pnr_attempts/01_normal_2ddwave_interface.json": {
+      "path": "02_pnr_1/01_normal_2ddwave/interface.json",
+      "bytes": 375,
+      "sha256": "8222f4a0d9d34be61cafe4486ccbd7e66371041dcc57137ce29e7136876b4508",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/01_normal_2ddwave/interface.json"
+    },
+    "pnr_attempts/02_compact.json": {
+      "path": "02_pnr_1/02_compact/pnr.json",
+      "bytes": 2316,
+      "sha256": "13ac233d30c5ca5734adcbba79bad9da82cff36b570a2e78a8c40bac9bc9166a",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/pnr.json"
+    },
+    "pnr_attempts/02_compact_logic.json": {
+      "path": "02_pnr_1/02_compact/logic.json",
+      "bytes": 5188,
+      "sha256": "ff495ea94b3f3612641f0686927478a53cc1420e30cef17f6c9b31ba4353d216",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/logic.json"
+    },
+    "pnr_attempts/02_compact_interface.json": {
+      "path": "02_pnr_1/02_compact/interface.json",
+      "bytes": 375,
+      "sha256": "79a6f10c1d2e0deb13d446d9278e4ac73923e3a6c7b15ccbb6299ebf8e4e27ec",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/02_compact/interface.json"
+    },
+    "pnr_attempts/03_june_random.json": {
+      "path": "02_pnr_1/03_june_random/pnr.json",
+      "bytes": 2688,
+      "sha256": "6ea0f6db0a6ae247a9f29e20f6ab5d11bd2ef0fc6426ad8bf16b9d93a32b0861",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/pnr.json"
+    },
+    "pnr_attempts/03_june_random_logic.json": {
+      "path": "02_pnr_1/03_june_random/logic.json",
+      "bytes": 5237,
+      "sha256": "63b9420541b824c566196abfbe53137a2ddb0f64772f746147561ff4eb7c8cf8",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/logic.json"
+    },
+    "pnr_attempts/03_june_random_interface.json": {
+      "path": "02_pnr_1/03_june_random/interface.json",
+      "bytes": 376,
+      "sha256": "b8e44c2e54779367d1c64737a56c6de77c526b86e9889f58c5df60a2ce2d3172",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/03_june_random/interface.json"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 1172,
+      "sha256": "0c9d5de105ebc479227127d2a0e92eb129b5ba69b83827c21576fd8ca3308571",
+      "absolute_path": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2/02_pnr_1/pnr_attempts.json"
+    }
+  },
+  "metric_sources": {
+    "dag": "dag.json",
+    "pnr": "pnr.json",
+    "algorithm_selection": "pnr_attempts.json",
+    "logic": "logic.json",
+    "device_interface": "interface.json",
+    "mapping.cell_count": "device.qca (counted by backend)",
+    "simulation": "simulation.json",
+    "energy": "energy.json"
+  },
+  "units": {
+    "pnr.width": "gate-level tiles",
+    "pnr.height": "gate-level tiles",
+    "pnr.area_tiles": "gate-level tile positions",
+    "mapping.cell_count": "QCA device cells"
+  },
+  "reporting_rule": "Attribute metrics to the backend and the listed source. A listed file is not evidence that the LLM read it. Source/DAG Boolean equivalence and terminal counts do not prove device waveforms. Numerical engine agreement is not converged power."
+}

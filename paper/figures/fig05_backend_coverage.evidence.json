@@ -1,0 +1,121 @@
+{
+  "schema": "ifcn.paper.figure.evidence.v1",
+  "figure": "fig05_backend_coverage",
+  "sources": [
+    {
+      "path": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/manifest.json",
+      "repo_relative_path": "tests/benchmarks_pi/v1/manifest.json",
+      "sha256": "1da5652de065b0069d0cbd86a4b50ea7f9d380f1dc43095c72ca50f53c60afd8",
+      "snapshot_path": "engine/tests/benchmarks_pi/v1/manifest.json",
+      "keys": [
+        "cases[].id",
+        "function_groups[].representative_case_id"
+      ]
+    },
+    {
+      "path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/summary/summary.json",
+      "repo_relative_path": "output/pi-validation/backend-comparison-20260905T103536Z/summary/summary.json",
+      "sha256": "704bdb507a23c41614978337991b75b3e538bc7e25cc6e393772dde97acf163f",
+      "snapshot_path": "experiments/archive/backend/summary/summary.json",
+      "keys": [
+        "joined_qualification.rows[]",
+        "joined_qualification.by_algorithm",
+        "qualified_scopes.preselected_function_representatives"
+      ]
+    },
+    {
+      "path": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/results.json",
+      "repo_relative_path": "output/pi-validation/backend-comparison-20260905T103536Z/results.json",
+      "sha256": "48abd4ecb0b1ee2c55e488a5d2e21236128db73df3765fe6df9dfe712842d93f",
+      "snapshot_path": "experiments/archive/backend/results.json",
+      "keys": [
+        "finished",
+        "total",
+        "rows"
+      ]
+    },
+    {
+      "path": "/home/lys/projects/github/iFCN/output/pi-validation/routed-logic-audit-final.json",
+      "repo_relative_path": "output/pi-validation/routed-logic-audit-final.json",
+      "sha256": "9038b1c94609b1573d98881be7bc80498f90afc24d96f85ba6945f27c5b413dd",
+      "snapshot_path": "experiments/archive/backend/routed-logic-audit-final.json",
+      "keys": [
+        "by_status",
+        "rows"
+      ]
+    },
+    {
+      "path": "/home/lys/projects/github/iFCN/output/pi-validation/qca-output-count-diagnostic.json",
+      "repo_relative_path": "output/pi-validation/qca-output-count-diagnostic.json",
+      "sha256": "52e58ceba4b274be0010c6d8cdffff14dc125a8692b51292a9419a5a73c630af",
+      "snapshot_path": "experiments/archive/backend/qca-output-count-diagnostic.json",
+      "keys": [
+        "output_count_mismatches"
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "element": "30 by 3 matrix",
+      "claim": "Every planned case and algorithm retained",
+      "unit": "one archived execution",
+      "categories": {
+        "added_checks_passed": 48,
+        "execution_incomplete": 35,
+        "io_count_mismatch_only": 3,
+        "dag_unsupported_only": 3,
+        "unsupported_and_io_count_mismatch": 1
+      }
+    },
+    {
+      "element": "raw/added-check bars",
+      "claim": "55 execution completions versus 48 source-DAG and QCA-count qualifications",
+      "unit": "attempts / 90"
+    },
+    {
+      "element": "representative panel",
+      "claim": "8, 5, 13 of 16 manifest-preselected representatives",
+      "unit": "representative cases"
+    }
+  ],
+  "derived_data": [
+    {
+      "path": "data/fig05_coverage.csv",
+      "sha256": "31584c90d69db3254a895ebf5bbdd3f27907ef4a27dbbfd146b29153b750a240"
+    },
+    {
+      "path": "data/fig05_matrix_rows.tex",
+      "sha256": "d443e4360b004037d643e9df1b1761be0fa10a6c2fdf7df940e28d35391822f0"
+    },
+    {
+      "path": "data/fig05_coverage_bars.csv",
+      "sha256": "065df588609314d46f990747c71ed97c353e30b1a6e831ea75023477dad98694"
+    }
+  ],
+  "generator": {
+    "path": "/home/lys/projects/github/FCNPilot/paper/scripts/build_audit_figures_data.py",
+    "sha256": "c72a57c4c95354d22e7e7e7835bdb7e073580557feca1fd29f4532a0f1eabd53"
+  },
+  "figure_artifacts": [
+    {
+      "path": "figures/fig05_backend_coverage.tex",
+      "sha256": "338084e7afb8d3425962698019069bb466ad9997f3a177cfc98e21c5ecf874c9"
+    },
+    {
+      "path": "figures/fig05_backend_coverage.pdf",
+      "sha256": "257394fae83ae978000f09050263eb2dee9c6a528f21645594b7684c054dfa79"
+    }
+  ],
+  "shared_preamble": {
+    "path": "figures/common.tex",
+    "sha256": "08b6eb12664b3784df01468e90098f5385ca5a9a329016523023addc6bec155b"
+  },
+  "transformation": "python3 scripts/build_audit_figures_data.py (from paper directory); deterministic selection and aggregation of hash-pinned local snapshots; rerun after PDF compilation to refresh artifact hashes",
+  "limitations": [
+    "The four unsupported DAG audits are not four proven nonequivalences; no not_equivalent outcome was observed.",
+    "One unsupported case also loses QCA outputs; categories are mutually exclusive.",
+    "Qualified does not imply device waveform, timing or power correctness.",
+    "Archived matrix predates later production guard additions."
+  ],
+  "relations": "No arrows or junctions assert physical interconnection; marks encode observations or grouping only."
+}

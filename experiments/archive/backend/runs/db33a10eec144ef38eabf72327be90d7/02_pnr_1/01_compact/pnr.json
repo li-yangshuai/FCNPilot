@@ -1,0 +1,81 @@
+{
+  "schema": "ifcn.pnr.v1",
+  "algorithm": "compact",
+  "phase_count": 4,
+  "seed": 1,
+  "layout_legal": true,
+  "clock_legal": true,
+  "failed_edge_count": 0,
+  "validation": {
+    "passed": true,
+    "checks": [
+      "dag_acyclic",
+      "exact_edge_coverage",
+      "exact_node_coverage",
+      "unique_node_positions",
+      "route_endpoints",
+      "simple_four_connected_paths",
+      "no_route_through_gate",
+      "distinct_fanin_ports",
+      "port_sharing_geometry",
+      "clock_range_and_forward_steps",
+      "native_node_and_crossover_mapping",
+      "exported_ifcn_device_mapping"
+    ],
+    "errors": [],
+    "max_same_phase_run": 2,
+    "topological_order": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6,
+      7,
+      3
+    ],
+    "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+  },
+  "algorithm_parameters": {
+    "layer_order": "barycenter_4_sweeps",
+    "initial_spacing": [
+      1,
+      1
+    ],
+    "padding": [
+      2,
+      2
+    ],
+    "route_order_retries": 12,
+    "max_expansion_rounds": 8,
+    "search_cost": 240,
+    "max_same_phase": 4,
+    "topology": "optimized_buffers",
+    "phase_count": 4,
+    "timeout_s": 177,
+    "seed_control": "not_exposed_by_native_algorithm"
+  },
+  "clock_scheme": "irregular",
+  "clock_template_ok": null,
+  "clock_template_conflicts": null,
+  "clock_validation_kind": "route_phase_contract",
+  "run_time_s": 5.93664,
+  "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/db33a10eec144ef38eabf72327be90d7/normalized.v",
+  "boolean_canonicalization": false,
+  "expansion": {
+    "inserted_rows": 1,
+    "inserted_columns": 2,
+    "accepted_rounds": 3
+  },
+  "width": 9,
+  "height": 8,
+  "area_tiles": 72,
+  "ifcn": "/home/lys/projects/github/iFCN/output/pi-validation/backend-comparison-20260905T103536Z/runs/db33a10eec144ef38eabf72327be90d7/02_pnr_1/01_compact/layout.ifcn",
+  "mapping_validation": {
+    "passed": true,
+    "cell_count": 307,
+    "cross_count": 4,
+    "io_contraction": false
+  },
+  "total_backend_time_s": 5.98525620899818
+}

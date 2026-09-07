@@ -1,0 +1,175 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "0f10add0d20c4e5c81a71e3ea087ddef",
+  "created_at": "2026-09-05T11:04:50.389973+00:00",
+  "updated_at": "2026-09-05T11:05:13.771792+00:00",
+  "status": "failed",
+  "current_stage": "pnr",
+  "source": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/MAJ/clpl.v",
+  "configuration": {
+    "root": "/home/lys/projects/github/iFCN",
+    "build_dir": "/home/lys/projects/github/iFCN/build-release",
+    "python": "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+    "backend": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "x0",
+      "x1",
+      "x2",
+      "x3",
+      "x4",
+      "x5",
+      "x6",
+      "x7",
+      "x8",
+      "x9",
+      "x10"
+    ],
+    "warnings": [],
+    "outputs": [
+      "y0",
+      "y1",
+      "y2",
+      "y3",
+      "y4"
+    ],
+    "assignment_count": 15,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 180,
+    "model": "both",
+    "algorithm": "normal_2ddwave",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-05T11:04:50.433875+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/0f10add0d20c4e5c81a71e3ea087ddef/normalized.v",
+          "--output",
+          "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/0f10add0d20c4e5c81a71e3ea087ddef/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "180"
+        ]
+      ],
+      "completed_at": "2026-09-05T11:04:51.938375+00:00"
+    },
+    "pnr": {
+      "status": "failed",
+      "started_at": "2026-09-05T11:04:51.939249+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+          "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/0f10add0d20c4e5c81a71e3ea087ddef/normalized.v",
+          "--output",
+          "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/0f10add0d20c4e5c81a71e3ea087ddef/02_pnr_1/01_normal_2ddwave",
+          "--algorithm",
+          "normal_2ddwave",
+          "--seed",
+          "1",
+          "--budget",
+          "177"
+        ]
+      ],
+      "error": "Routed logic validation unsupported: No explicit exported output node for source port 'y0'; attempted source alias chain ['y0', 'n17']"
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 685,
+      "sha256": "413a6667f25ac44437f4e8417a2613f7f982fbdc048c234a610e8e2789280f10"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 1347,
+      "sha256": "4bb7857633f65a58fcce0a048f1b179a2084ad4f50f90526da694341dabb0a72"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 7197,
+      "sha256": "f00681b4fed9b7bc391f56a3593ce973b46b778672ac08d09b812d59cd84210a"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 1799,
+      "sha256": "a2ef7b2b7137f9148755a21ec5e3c74adb9d6c6aba5f0f0959a810bff7f7672e"
+    },
+    "pnr_attempts/01_normal_2ddwave.json": {
+      "path": "02_pnr_1/01_normal_2ddwave/pnr.json",
+      "bytes": 2351,
+      "sha256": "2d415c4c50de538492639ed5c9a7aa76db7138b1668429ad7d3bf87e9d23d8a3"
+    },
+    "pnr_attempts/01_normal_2ddwave_logic.json": {
+      "path": "02_pnr_1/01_normal_2ddwave/logic.json",
+      "bytes": 2420,
+      "sha256": "a20fcdc53a3e74a39ba1d1683543b9c6767fb74a43d9f10b5edc621c5ffacd1f"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 543,
+      "sha256": "21ea7a12cde3c29e3afc8b9f24054e893b5696f65d6333d07a19c9592f55c801"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 4701,
+      "sha256": "d9c1bc60d907bef480d6b34316f7365671a1bf04b5c2cdb1999c74ccd6fed76a"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 11,
+      "output_count": 5
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "normal_2ddwave",
+      "selected_algorithm": null,
+      "policy": "first validated result; no area-optimality claim",
+      "attempts": [
+        {
+          "algorithm": "normal_2ddwave",
+          "status": "failed",
+          "budget_s": 179,
+          "started_at": "2026-09-05T11:04:51.943491+00:00",
+          "directory": "02_pnr_1/01_normal_2ddwave",
+          "error": "Routed logic validation unsupported: No explicit exported output node for source port 'y0'; attempted source alias chain ['y0', 'n17']",
+          "elapsed_s": 21.827
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": "Routed logic validation unsupported: No explicit exported output node for source port 'y0'; attempted source alias chain ['y0', 'n17']",
+  "worker_pid": 198742
+}

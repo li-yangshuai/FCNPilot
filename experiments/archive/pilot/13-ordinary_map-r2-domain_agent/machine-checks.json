@@ -1,0 +1,476 @@
+[
+  {
+    "run_id": "a9c3b2ea7b4f43b0a18f12c560fb9a5b",
+    "status": {
+      "schema": "ifcn.pi.run.v1",
+      "run_id": "a9c3b2ea7b4f43b0a18f12c560fb9a5b",
+      "created_at": "2026-09-05T10:32:01.885852+00:00",
+      "updated_at": "2026-09-05T10:32:09.025451+00:00",
+      "status": "completed",
+      "current_stage": "map",
+      "source": "/home/lys/projects/github/iFCN/tests/benchmarks_pi/v1/TOY/xor2.v",
+      "configuration": {
+        "root": "/home/lys/projects/github/iFCN",
+        "build_dir": "/home/lys/projects/github/iFCN/build-release",
+        "python": "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+        "backend": "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+        "energy_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+        "simulation_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_physical_benchmark",
+        "mapping_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+        "native_pnr_binary": "/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr"
+      },
+      "frontend": {
+        "module": "top",
+        "inputs": [
+          "a",
+          "b"
+        ],
+        "warnings": [],
+        "outputs": [
+          "out"
+        ],
+        "assignment_count": 4,
+        "frontend": "scalar-boolean-v1",
+        "functional_signoff": "not_performed"
+      },
+      "parameters": {
+        "seed": 1,
+        "timeout_s": 90,
+        "model": "bistable",
+        "algorithm": "normal_2ddwave",
+        "samples": 512,
+        "energy_profile": "standard"
+      },
+      "stages": {
+        "parse": {
+          "status": "completed",
+          "started_at": "2026-09-05T10:32:01.947203+00:00",
+          "attempt": 1,
+          "log": "01_parse_1/stage.log",
+          "commands": [
+            [
+              "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+              "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+              "parse",
+              "--input",
+              "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/normalized.v",
+              "--output",
+              "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/01_parse_1",
+              "--seed",
+              "1",
+              "--budget",
+              "90"
+            ]
+          ],
+          "completed_at": "2026-09-05T10:32:03.451607+00:00"
+        },
+        "pnr": {
+          "status": "completed",
+          "started_at": "2026-09-05T10:32:03.452587+00:00",
+          "attempt": 1,
+          "log": "02_pnr_1/stage.log",
+          "commands": [
+            [
+              "/home/lys/projects/github/iFCN/include/gcn_rl_layout/myenv/bin/python",
+              "/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py",
+              "pnr",
+              "--input",
+              "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/normalized.v",
+              "--output",
+              "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave",
+              "--algorithm",
+              "normal_2ddwave",
+              "--seed",
+              "1",
+              "--budget",
+              "87"
+            ]
+          ],
+          "completed_at": "2026-09-05T10:32:08.719677+00:00"
+        },
+        "map": {
+          "status": "completed",
+          "started_at": "2026-09-05T10:32:08.720700+00:00",
+          "attempt": 1,
+          "log": "03_map_1/stage.log",
+          "commands": [
+            [
+              "/home/lys/projects/github/iFCN/build-release/ifcn_mapping_metrics",
+              "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/layout.ifcn",
+              "--no-io-contraction"
+            ],
+            [
+              "/home/lys/projects/github/iFCN/build-release/ifcn_energy_analysis",
+              "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/layout.ifcn",
+              "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/03_map_1/device",
+              "--qca-only"
+            ]
+          ],
+          "completed_at": "2026-09-05T10:32:09.024924+00:00"
+        }
+      },
+      "artifacts": {
+        "source.v": {
+          "path": "source.v",
+          "bytes": 166,
+          "sha256": "83f8a5bb72512bf03fef78b22937aab8a786d5472c5efee71fdfe80d51651c55"
+        },
+        "normalized.v": {
+          "path": "normalized.v",
+          "bytes": 151,
+          "sha256": "51772283dec1ee5aa02b50bb3bf628ce7a756610210967ee11dcc5aa0c1ddebd"
+        },
+        "dag.json": {
+          "path": "01_parse_1/dag.json",
+          "bytes": 1220,
+          "sha256": "61cb6686d673631ad2b99a0d8ba60369985a15b4929c51d5d00313efb52c04fe"
+        },
+        "dag.dot": {
+          "path": "01_parse_1/dag.dot",
+          "bytes": 251,
+          "sha256": "0d1c1bd69b2934c314442ac230d68cbe379e8de69b036b2821cf4d1c40e32614"
+        },
+        "layout.ifcn": {
+          "path": "02_pnr_1/01_normal_2ddwave/layout.ifcn",
+          "bytes": 1438,
+          "sha256": "8736c372151a8b264a89998029561450034b8093a56eea9f774ee6a3de772d9e"
+        },
+        "pnr.json": {
+          "path": "02_pnr_1/01_normal_2ddwave/pnr.json",
+          "bytes": 2004,
+          "sha256": "7e764e181f046b63e57ef8f962710a33774df66f285c34e7c4194b6fca40d446"
+        },
+        "routed_dag.json": {
+          "path": "02_pnr_1/01_normal_2ddwave/routed_dag.json",
+          "bytes": 1223,
+          "sha256": "11cadbb5ccc714d9f93f823462fba183a1b16fa19a22351d43ee8e109df50b69"
+        },
+        "pnr/normalized.svg": {
+          "path": "02_pnr_1/01_normal_2ddwave/normalized.svg",
+          "bytes": 24141,
+          "sha256": "9e585b086a1e5b87186942501120ed9dace5ea4e280d5e6ee589c1534cccfbf3"
+        },
+        "pnr/normalized.v.tex": {
+          "path": "02_pnr_1/01_normal_2ddwave/normalized.v.tex",
+          "bytes": 1620,
+          "sha256": "c4e3e56b6ccc160342f6f9fd7b7b55376fec595fd2758d861de8d375bcfebda1"
+        },
+        "pnr/normalized_physical.svg": {
+          "path": "02_pnr_1/01_normal_2ddwave/normalized_physical.svg",
+          "bytes": 24263,
+          "sha256": "9648c85f23034b4c145b85e2057ce289bd87cd45811bd5ec3e0ec95d9c449f96"
+        },
+        "pnr/normalized_raw.svg": {
+          "path": "02_pnr_1/01_normal_2ddwave/normalized_raw.svg",
+          "bytes": 24141,
+          "sha256": "0f6ff389f39d71434dcac0235fad5f58f5f10e0aded0fbaaa7efd6e51fa05041"
+        },
+        "pnr_attempts/01_normal_2ddwave.json": {
+          "path": "02_pnr_1/01_normal_2ddwave/pnr.json",
+          "bytes": 2004,
+          "sha256": "7e764e181f046b63e57ef8f962710a33774df66f285c34e7c4194b6fca40d446"
+        },
+        "pnr_attempts.json": {
+          "path": "02_pnr_1/pnr_attempts.json",
+          "bytes": 403,
+          "sha256": "b8b783c80863f943cf1dcc223682958a5e645f786cb900ce21a7624c92d43ea7"
+        },
+        "device.qca": {
+          "path": "03_map_1/device_energy_input.qca",
+          "bytes": 65177,
+          "sha256": "6d169ad67fe6f70bd04dccac82fca83c7e2c48e4bc8b41d074d6704df5ae33f5"
+        },
+        "result.json": {
+          "path": "result.json",
+          "bytes": 8585,
+          "sha256": "19b0910f6ee603e6c2e600acfea86d9331c168198a35d296e7d228cd768e48bd"
+        }
+      },
+      "metrics": {
+        "dag": {
+          "input_count": 2,
+          "output_count": 1
+        },
+        "pnr": {
+          "schema": "ifcn.pnr.v1",
+          "algorithm": "normal_2ddwave",
+          "phase_count": 4,
+          "seed": 1,
+          "layout_legal": true,
+          "clock_legal": true,
+          "failed_edge_count": 0,
+          "validation": {
+            "passed": true,
+            "checks": [
+              "dag_acyclic",
+              "exact_edge_coverage",
+              "exact_node_coverage",
+              "unique_node_positions",
+              "route_endpoints",
+              "simple_four_connected_paths",
+              "no_route_through_gate",
+              "distinct_fanin_ports",
+              "port_sharing_geometry",
+              "clock_range_and_forward_steps",
+              "fixed_clock_gate_port_directions",
+              "exported_ifcn_device_mapping"
+            ],
+            "errors": [],
+            "max_same_phase_run": 1,
+            "topological_order": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              2
+            ],
+            "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+          },
+          "algorithm_parameters": {
+            "seed_retries": 0,
+            "skip_training_curve": true,
+            "max_expansion_rounds": 96,
+            "route_expansion_timeout_sec": 87,
+            "template_expansion_rounds": 24,
+            "verbose": false,
+            "route_repair_iters": 3,
+            "phase_repair_iters": 2,
+            "global_place_iters": 5,
+            "compact_iters": 64,
+            "seed": 1,
+            "phase_count": 4
+          },
+          "clock_template_ok": true,
+          "clock_template_conflicts": 0,
+          "clock_validation_kind": "2ddwave_template",
+          "clock_scheme": "2DDWave",
+          "width": 3,
+          "height": 4,
+          "area_tiles": 12,
+          "run_time_s": 0.3720355870009371,
+          "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/normalized_parity_canonical_parser_safe.v",
+          "boolean_canonicalization": true,
+          "ifcn": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/layout.ifcn",
+          "mapping_validation": {
+            "passed": true,
+            "cell_count": 79,
+            "cross_count": 1,
+            "io_contraction": false
+          },
+          "total_backend_time_s": 4.341102694001165
+        },
+        "algorithm_selection": {
+          "requested_algorithm": "normal_2ddwave",
+          "selected_algorithm": "normal_2ddwave",
+          "policy": "first validated result; no area-optimality claim",
+          "attempts": [
+            {
+              "algorithm": "normal_2ddwave",
+              "status": "completed",
+              "budget_s": 89,
+              "started_at": "2026-09-05T10:32:03.456192+00:00",
+              "directory": "02_pnr_1/01_normal_2ddwave",
+              "elapsed_s": 5.263
+            }
+          ]
+        },
+        "mapping": {
+          "cell_count": 79,
+          "io_contraction": false
+        }
+      },
+      "validation": {
+        "rtl_equivalence": "not_performed",
+        "physical_function": "not_verified",
+        "simulation_comparison": "baseline_vs_accelerated_only",
+        "energy": "model_estimate; not a power signoff"
+      },
+      "requested_until": "map",
+      "error": null,
+      "worker_pid": 170837,
+      "active": false,
+      "log_tail": "79 1\nqca=/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/03_map_1/device_energy_input.qca\n",
+      "run_directory": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b"
+    },
+    "files": [
+      {
+        "name": "source.v",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/source.v",
+        "exists": true,
+        "sha256": "83f8a5bb72512bf03fef78b22937aab8a786d5472c5efee71fdfe80d51651c55",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "normalized.v",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/normalized.v",
+        "exists": true,
+        "sha256": "51772283dec1ee5aa02b50bb3bf628ce7a756610210967ee11dcc5aa0c1ddebd",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "dag.json",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/01_parse_1/dag.json",
+        "exists": true,
+        "sha256": "61cb6686d673631ad2b99a0d8ba60369985a15b4929c51d5d00313efb52c04fe",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "dag.dot",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/01_parse_1/dag.dot",
+        "exists": true,
+        "sha256": "0d1c1bd69b2934c314442ac230d68cbe379e8de69b036b2821cf4d1c40e32614",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "layout.ifcn",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/layout.ifcn",
+        "exists": true,
+        "sha256": "8736c372151a8b264a89998029561450034b8093a56eea9f774ee6a3de772d9e",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "pnr.json",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/pnr.json",
+        "exists": true,
+        "sha256": "7e764e181f046b63e57ef8f962710a33774df66f285c34e7c4194b6fca40d446",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "routed_dag.json",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/routed_dag.json",
+        "exists": true,
+        "sha256": "11cadbb5ccc714d9f93f823462fba183a1b16fa19a22351d43ee8e109df50b69",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "pnr/normalized.svg",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/normalized.svg",
+        "exists": true,
+        "sha256": "9e585b086a1e5b87186942501120ed9dace5ea4e280d5e6ee589c1534cccfbf3",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "pnr/normalized.v.tex",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/normalized.v.tex",
+        "exists": true,
+        "sha256": "c4e3e56b6ccc160342f6f9fd7b7b55376fec595fd2758d861de8d375bcfebda1",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "pnr/normalized_physical.svg",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/normalized_physical.svg",
+        "exists": true,
+        "sha256": "9648c85f23034b4c145b85e2057ce289bd87cd45811bd5ec3e0ec95d9c449f96",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "pnr/normalized_raw.svg",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/normalized_raw.svg",
+        "exists": true,
+        "sha256": "0f6ff389f39d71434dcac0235fad5f58f5f10e0aded0fbaaa7efd6e51fa05041",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "pnr_attempts/01_normal_2ddwave.json",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/pnr.json",
+        "exists": true,
+        "sha256": "7e764e181f046b63e57ef8f962710a33774df66f285c34e7c4194b6fca40d446",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "pnr_attempts.json",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/pnr_attempts.json",
+        "exists": true,
+        "sha256": "b8b783c80863f943cf1dcc223682958a5e645f786cb900ce21a7624c92d43ea7",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "device.qca",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/03_map_1/device_energy_input.qca",
+        "exists": true,
+        "sha256": "6d169ad67fe6f70bd04dccac82fca83c7e2c48e4bc8b41d074d6704df5ae33f5",
+        "manifest_hash_matches": true
+      },
+      {
+        "name": "result.json",
+        "path": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/result.json",
+        "exists": true,
+        "sha256": "19b0910f6ee603e6c2e600acfea86d9331c168198a35d296e7d228cd768e48bd",
+        "manifest_hash_matches": true
+      }
+    ],
+    "qca_cell_blocks": 79,
+    "qca_metric_matches": true,
+    "all_files_verified": true,
+    "pnr": {
+      "schema": "ifcn.pnr.v1",
+      "algorithm": "normal_2ddwave",
+      "phase_count": 4,
+      "seed": 1,
+      "layout_legal": true,
+      "clock_legal": true,
+      "failed_edge_count": 0,
+      "validation": {
+        "passed": true,
+        "checks": [
+          "dag_acyclic",
+          "exact_edge_coverage",
+          "exact_node_coverage",
+          "unique_node_positions",
+          "route_endpoints",
+          "simple_four_connected_paths",
+          "no_route_through_gate",
+          "distinct_fanin_ports",
+          "port_sharing_geometry",
+          "clock_range_and_forward_steps",
+          "fixed_clock_gate_port_directions",
+          "exported_ifcn_device_mapping"
+        ],
+        "errors": [],
+        "max_same_phase_run": 1,
+        "topological_order": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          2
+        ],
+        "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+      },
+      "algorithm_parameters": {
+        "seed_retries": 0,
+        "skip_training_curve": true,
+        "max_expansion_rounds": 96,
+        "route_expansion_timeout_sec": 87,
+        "template_expansion_rounds": 24,
+        "verbose": false,
+        "route_repair_iters": 3,
+        "phase_repair_iters": 2,
+        "global_place_iters": 5,
+        "compact_iters": 64,
+        "seed": 1,
+        "phase_count": 4
+      },
+      "clock_template_ok": true,
+      "clock_template_conflicts": 0,
+      "clock_validation_kind": "2ddwave_template",
+      "clock_scheme": "2DDWave",
+      "width": 3,
+      "height": 4,
+      "area_tiles": 12,
+      "run_time_s": 0.3720355870009371,
+      "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/normalized_parity_canonical_parser_safe.v",
+      "boolean_canonicalization": true,
+      "ifcn": "/home/lys/projects/github/iFCN/output/pi-runs/a9c3b2ea7b4f43b0a18f12c560fb9a5b/02_pnr_1/01_normal_2ddwave/layout.ifcn",
+      "mapping_validation": {
+        "passed": true,
+        "cell_count": 79,
+        "cross_count": 1,
+        "io_contraction": false
+      },
+      "total_backend_time_s": 4.341102694001165
+    }
+  }
+]

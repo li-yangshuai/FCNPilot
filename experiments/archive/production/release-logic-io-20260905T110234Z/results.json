@@ -1,0 +1,893 @@
+{
+  "scope": "Real pipeline/rejection checks; no LLM; no physical waveform or converged power claim",
+  "records": [
+    {
+      "id": "xor_full_normal_2ddwave",
+      "input": "TOY/xor2.v",
+      "algorithm": "normal_2ddwave",
+      "until": "energy",
+      "expect": "completed",
+      "passed": true,
+      "run_id": "79ef5fc7abc2435186a1736049c4a9d3",
+      "status": "completed",
+      "error": null,
+      "validation": {
+        "rtl_equivalence": "exhaustive_scalar_source_vs_routed_dag",
+        "physical_function": "not_verified",
+        "simulation_comparison": "baseline_vs_accelerated_only",
+        "energy": "model_estimate; not a power signoff",
+        "device_terminal_counts": "match_source_declarations",
+        "simulation_iteration_limit_samples": 0,
+        "energy_numerics": "nonnegative_bath_energy"
+      },
+      "metrics": {
+        "dag": {
+          "input_count": 2,
+          "output_count": 1
+        },
+        "logic": {
+          "status": "equivalent",
+          "max_inputs": 11,
+          "vectors_checked": 4,
+          "expected_vector_count": 4
+        },
+        "pnr": {
+          "schema": "ifcn.pnr.v1",
+          "algorithm": "normal_2ddwave",
+          "phase_count": 4,
+          "seed": 1,
+          "layout_legal": true,
+          "clock_legal": true,
+          "failed_edge_count": 0,
+          "validation": {
+            "passed": true,
+            "checks": [
+              "dag_acyclic",
+              "exact_edge_coverage",
+              "exact_node_coverage",
+              "unique_node_positions",
+              "route_endpoints",
+              "simple_four_connected_paths",
+              "no_route_through_gate",
+              "distinct_fanin_ports",
+              "port_sharing_geometry",
+              "clock_range_and_forward_steps",
+              "fixed_clock_gate_port_directions",
+              "exported_ifcn_device_mapping"
+            ],
+            "errors": [],
+            "max_same_phase_run": 1,
+            "topological_order": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              2
+            ],
+            "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+          },
+          "algorithm_parameters": {
+            "seed_retries": 0,
+            "skip_training_curve": true,
+            "max_expansion_rounds": 96,
+            "route_expansion_timeout_sec": 177,
+            "template_expansion_rounds": 24,
+            "verbose": false,
+            "route_repair_iters": 3,
+            "phase_repair_iters": 2,
+            "global_place_iters": 5,
+            "compact_iters": 64,
+            "seed": 1,
+            "phase_count": 4
+          },
+          "clock_template_ok": true,
+          "clock_template_conflicts": 0,
+          "clock_validation_kind": "2ddwave_template",
+          "clock_scheme": "2DDWave",
+          "width": 3,
+          "height": 4,
+          "area_tiles": 12,
+          "run_time_s": 0.39982649800003855,
+          "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/79ef5fc7abc2435186a1736049c4a9d3/02_pnr_1/01_normal_2ddwave/normalized_parity_canonical_parser_safe.v",
+          "boolean_canonicalization": true,
+          "ifcn": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/79ef5fc7abc2435186a1736049c4a9d3/02_pnr_1/01_normal_2ddwave/layout.ifcn",
+          "mapping_validation": {
+            "passed": true,
+            "cell_count": 79,
+            "cross_count": 1,
+            "io_contraction": false
+          },
+          "total_backend_time_s": 4.396247325999866
+        },
+        "device_interface": {
+          "schema": "ifcn.qca.interface.v1",
+          "qca_sha256": "6d169ad67fe6f70bd04dccac82fca83c7e2c48e4bc8b41d074d6704df5ae33f5",
+          "cell_count": 79,
+          "expected_inputs": 2,
+          "expected_outputs": 1,
+          "actual_inputs": 2,
+          "actual_outputs": 1,
+          "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+          "passed": true
+        },
+        "algorithm_selection": {
+          "requested_algorithm": "normal_2ddwave",
+          "selected_algorithm": "normal_2ddwave",
+          "policy": "first validated result; no area-optimality claim",
+          "attempts": [
+            {
+              "algorithm": "normal_2ddwave",
+              "status": "completed",
+              "budget_s": 179,
+              "started_at": "2026-09-05T11:02:36.488287+00:00",
+              "directory": "02_pnr_1/01_normal_2ddwave",
+              "elapsed_s": 5.565
+            }
+          ]
+        },
+        "mapping": {
+          "cell_count": 79,
+          "io_contraction": false
+        },
+        "simulation": [
+          {
+            "model": "bistable",
+            "max_absolute_error": 0,
+            "output_samples": 512,
+            "max_iteration_samples": 0
+          },
+          {
+            "model": "coherence",
+            "max_absolute_error": 0,
+            "output_samples": 3005,
+            "max_iteration_samples": null
+          }
+        ],
+        "energy": {
+          "cycle_count": 7.0,
+          "total_bath_eV": 0.20292,
+          "average_bath_eV": 0.0289886,
+          "total_bath_clock_eV": 0.186605,
+          "average_bath_clock_eV": 0.0266578,
+          "total_error_eV": 0.179718,
+          "average_bath_clock_power_W": 4.2710504273845195e-10,
+          "power_definition": "signed mean (bath + clock) energy per counted cycle / clock period; not total chip power",
+          "clock_period_s": 1e-11,
+          "numerical_status": "nonnegative_bath_energy",
+          "time_step_convergence": "not_tested",
+          "average_dissipated_power_W": 4.6444857572372394e-10,
+          "dissipated_power_definition": "mean bath energy per counted cycle / clock period; model estimate; requires time-step convergence and functional validation",
+          "profile": "standard",
+          "time_step_s": 1e-17
+        }
+      },
+      "run_directory": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/79ef5fc7abc2435186a1736049c4a9d3",
+      "artifact_mismatches": [],
+      "wall_time_s": 99.804
+    },
+    {
+      "id": "xor_full_compact",
+      "input": "TOY/xor2.v",
+      "algorithm": "compact",
+      "until": "energy",
+      "expect": "completed",
+      "passed": true,
+      "run_id": "65b101e592324dfaa2de9da69897237e",
+      "status": "completed_with_warnings",
+      "error": null,
+      "validation": {
+        "rtl_equivalence": "exhaustive_scalar_source_vs_routed_dag",
+        "physical_function": "not_verified",
+        "simulation_comparison": "baseline_vs_accelerated_only",
+        "energy": "model_estimate; not a power signoff",
+        "device_terminal_counts": "match_source_declarations",
+        "simulation_iteration_limit_samples": 7,
+        "energy_numerics": "nonnegative_bath_energy"
+      },
+      "metrics": {
+        "dag": {
+          "input_count": 2,
+          "output_count": 1
+        },
+        "logic": {
+          "status": "equivalent",
+          "max_inputs": 11,
+          "vectors_checked": 4,
+          "expected_vector_count": 4
+        },
+        "pnr": {
+          "schema": "ifcn.pnr.v1",
+          "algorithm": "compact",
+          "phase_count": 4,
+          "seed": 1,
+          "layout_legal": true,
+          "clock_legal": true,
+          "failed_edge_count": 0,
+          "validation": {
+            "passed": true,
+            "checks": [
+              "dag_acyclic",
+              "exact_edge_coverage",
+              "exact_node_coverage",
+              "unique_node_positions",
+              "route_endpoints",
+              "simple_four_connected_paths",
+              "no_route_through_gate",
+              "distinct_fanin_ports",
+              "port_sharing_geometry",
+              "clock_range_and_forward_steps",
+              "native_node_and_crossover_mapping",
+              "exported_ifcn_device_mapping"
+            ],
+            "errors": [],
+            "max_same_phase_run": 3,
+            "topological_order": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              2
+            ],
+            "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+          },
+          "algorithm_parameters": {
+            "layer_order": "barycenter_4_sweeps",
+            "initial_spacing": [
+              1,
+              1
+            ],
+            "padding": [
+              2,
+              2
+            ],
+            "route_order_retries": 12,
+            "max_expansion_rounds": 8,
+            "search_cost": 240,
+            "max_same_phase": 4,
+            "topology": "optimized_buffers",
+            "phase_count": 4,
+            "timeout_s": 177,
+            "seed_control": "not_exposed_by_native_algorithm"
+          },
+          "clock_scheme": "irregular",
+          "clock_template_ok": null,
+          "clock_template_conflicts": null,
+          "clock_validation_kind": "route_phase_contract",
+          "run_time_s": 0.0590867,
+          "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/65b101e592324dfaa2de9da69897237e/normalized.v",
+          "boolean_canonicalization": false,
+          "expansion": {
+            "inserted_rows": 0,
+            "inserted_columns": 0,
+            "accepted_rounds": 0
+          },
+          "width": 4,
+          "height": 6,
+          "area_tiles": 24,
+          "ifcn": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/65b101e592324dfaa2de9da69897237e/02_pnr_1/01_compact/layout.ifcn",
+          "mapping_validation": {
+            "passed": true,
+            "cell_count": 123,
+            "cross_count": 1,
+            "io_contraction": false
+          },
+          "total_backend_time_s": 0.06834301799972309
+        },
+        "device_interface": {
+          "schema": "ifcn.qca.interface.v1",
+          "qca_sha256": "7fae1582cf3d9908ecdb35b9f132e883658f6ff9b22fbfaee61eebe3f194dcc8",
+          "cell_count": 119,
+          "expected_inputs": 2,
+          "expected_outputs": 1,
+          "actual_inputs": 2,
+          "actual_outputs": 1,
+          "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+          "passed": true
+        },
+        "algorithm_selection": {
+          "requested_algorithm": "compact",
+          "selected_algorithm": "compact",
+          "policy": "first validated result; no area-optimality claim",
+          "attempts": [
+            {
+              "algorithm": "compact",
+              "status": "completed",
+              "budget_s": 179,
+              "started_at": "2026-09-05T11:02:36.492685+00:00",
+              "directory": "02_pnr_1/01_compact",
+              "elapsed_s": 0.306
+            }
+          ]
+        },
+        "mapping": {
+          "cell_count": 119,
+          "io_contraction": false
+        },
+        "simulation": [
+          {
+            "model": "bistable",
+            "max_absolute_error": 0,
+            "output_samples": 512,
+            "max_iteration_samples": 7
+          },
+          {
+            "model": "coherence",
+            "max_absolute_error": 0,
+            "output_samples": 3005,
+            "max_iteration_samples": null
+          }
+        ],
+        "energy": {
+          "cycle_count": 7.0,
+          "total_bath_eV": 0.319137,
+          "average_bath_eV": 0.045591,
+          "total_bath_clock_eV": 0.298933,
+          "average_bath_clock_eV": 0.0427047,
+          "total_error_eV": 0.275511,
+          "average_bath_clock_power_W": 6.842047250197979e-10,
+          "power_definition": "signed mean (bath + clock) energy per counted cycle / clock period; not total chip power",
+          "clock_period_s": 1e-11,
+          "numerical_status": "nonnegative_bath_energy",
+          "time_step_convergence": "not_tested",
+          "average_dissipated_power_W": 7.304483492069401e-10,
+          "dissipated_power_definition": "mean bath energy per counted cycle / clock period; model estimate; requires time-step convergence and functional validation",
+          "profile": "standard",
+          "time_step_s": 1e-17
+        }
+      },
+      "run_directory": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/65b101e592324dfaa2de9da69897237e",
+      "artifact_mismatches": [],
+      "wall_time_s": 135.453
+    },
+    {
+      "id": "missing_logical_outputs_rejected",
+      "input": "MAJ/clpl.v",
+      "algorithm": "normal_2ddwave",
+      "until": "map",
+      "expect": "failed",
+      "passed": true,
+      "run_id": "0f10add0d20c4e5c81a71e3ea087ddef",
+      "status": "failed",
+      "error": "Routed logic validation unsupported: No explicit exported output node for source port 'y0'; attempted source alias chain ['y0', 'n17']",
+      "validation": {
+        "rtl_equivalence": "not_performed",
+        "physical_function": "not_verified",
+        "simulation_comparison": "baseline_vs_accelerated_only",
+        "energy": "model_estimate; not a power signoff"
+      },
+      "metrics": {
+        "dag": {
+          "input_count": 11,
+          "output_count": 5
+        },
+        "algorithm_selection": {
+          "requested_algorithm": "normal_2ddwave",
+          "selected_algorithm": null,
+          "policy": "first validated result; no area-optimality claim",
+          "attempts": [
+            {
+              "algorithm": "normal_2ddwave",
+              "status": "failed",
+              "budget_s": 179,
+              "started_at": "2026-09-05T11:04:51.943491+00:00",
+              "directory": "02_pnr_1/01_normal_2ddwave",
+              "error": "Routed logic validation unsupported: No explicit exported output node for source port 'y0'; attempted source alias chain ['y0', 'n17']",
+              "elapsed_s": 21.827
+            }
+          ]
+        }
+      },
+      "run_directory": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/0f10add0d20c4e5c81a71e3ea087ddef",
+      "artifact_mismatches": [],
+      "wall_time_s": 24.211
+    },
+    {
+      "id": "auto_recovers_logical_outputs",
+      "input": "MAJ/clpl.v",
+      "algorithm": "auto",
+      "until": "map",
+      "expect": "completed",
+      "selected": "june_random",
+      "passed": true,
+      "run_id": "818614b19bad478db825b3b375deb8f1",
+      "status": "completed",
+      "error": null,
+      "validation": {
+        "rtl_equivalence": "exhaustive_scalar_source_vs_routed_dag",
+        "physical_function": "not_verified",
+        "simulation_comparison": "baseline_vs_accelerated_only",
+        "energy": "model_estimate; not a power signoff",
+        "device_terminal_counts": "match_source_declarations"
+      },
+      "metrics": {
+        "dag": {
+          "input_count": 11,
+          "output_count": 5
+        },
+        "logic": {
+          "status": "equivalent",
+          "max_inputs": 11,
+          "vectors_checked": 2048,
+          "expected_vector_count": 2048
+        },
+        "pnr": {
+          "schema": "ifcn.pnr.v1",
+          "algorithm": "june_random",
+          "phase_count": 4,
+          "seed": 1,
+          "layout_legal": true,
+          "clock_legal": true,
+          "failed_edge_count": 0,
+          "validation": {
+            "passed": true,
+            "checks": [
+              "dag_acyclic",
+              "exact_edge_coverage",
+              "exact_node_coverage",
+              "unique_node_positions",
+              "route_endpoints",
+              "simple_four_connected_paths",
+              "no_route_through_gate",
+              "distinct_fanin_ports",
+              "port_sharing_geometry",
+              "clock_range_and_forward_steps",
+              "source_aware_crossings",
+              "native_node_and_crossover_mapping",
+              "exported_ifcn_device_mapping"
+            ],
+            "errors": [],
+            "max_same_phase_run": 3,
+            "topological_order": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              42,
+              43,
+              50,
+              44,
+              17,
+              18,
+              16,
+              45,
+              20,
+              19,
+              99,
+              103,
+              113,
+              21,
+              23,
+              56,
+              27,
+              51,
+              114,
+              33,
+              69,
+              37,
+              58,
+              100,
+              104,
+              22,
+              46,
+              77,
+              57,
+              78,
+              52,
+              115,
+              82,
+              70,
+              89,
+              59,
+              101,
+              105,
+              121,
+              24,
+              25,
+              79,
+              53,
+              116,
+              83,
+              71,
+              90,
+              60,
+              102,
+              106,
+              122,
+              26,
+              80,
+              54,
+              117,
+              84,
+              72,
+              91,
+              61,
+              107,
+              123,
+              28,
+              47,
+              81,
+              55,
+              118,
+              85,
+              73,
+              92,
+              62,
+              108,
+              124,
+              132,
+              29,
+              30,
+              119,
+              86,
+              74,
+              93,
+              63,
+              109,
+              125,
+              133,
+              31,
+              120,
+              87,
+              75,
+              94,
+              64,
+              110,
+              126,
+              134,
+              48,
+              32,
+              88,
+              76,
+              95,
+              65,
+              111,
+              127,
+              135,
+              140,
+              34,
+              35,
+              96,
+              66,
+              112,
+              128,
+              136,
+              141,
+              36,
+              97,
+              67,
+              129,
+              137,
+              142,
+              38,
+              49,
+              98,
+              68,
+              130,
+              138,
+              143,
+              145,
+              39,
+              40,
+              131,
+              139,
+              144,
+              146,
+              41,
+              13,
+              12,
+              11,
+              15,
+              14
+            ],
+            "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+          },
+          "algorithm_parameters": {
+            "graphviz_grid_size": 40,
+            "route_order_retries": 24,
+            "search_cost": 40,
+            "max_same_phase": null,
+            "topology": "layer_redundancy_buffers",
+            "phase_count": 4,
+            "timeout_s": 79,
+            "seed_control": "not_exposed_by_native_algorithm"
+          },
+          "clock_scheme": "irregular",
+          "clock_template_ok": null,
+          "clock_template_conflicts": null,
+          "clock_validation_kind": "route_phase_contract",
+          "run_time_s": 0.162946,
+          "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/normalized.v",
+          "boolean_canonicalization": false,
+          "expansion": {
+            "inserted_rows": 0,
+            "inserted_columns": 0,
+            "accepted_rounds": 0
+          },
+          "width": 28,
+          "height": 42,
+          "area_tiles": 1176,
+          "ifcn": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/03_june_random/layout.ifcn",
+          "mapping_validation": {
+            "passed": true,
+            "cell_count": 2462,
+            "cross_count": 8,
+            "io_contraction": false
+          },
+          "total_backend_time_s": 0.23887517399998615
+        },
+        "device_interface": {
+          "schema": "ifcn.qca.interface.v1",
+          "qca_sha256": "727e5ff60aaa3d9c80cb5267462e729c77c2769eb9b9cede99c18c7a0b5d8143",
+          "cell_count": 2494,
+          "expected_inputs": 11,
+          "expected_outputs": 5,
+          "actual_inputs": 11,
+          "actual_outputs": 5,
+          "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+          "passed": true
+        },
+        "algorithm_selection": {
+          "requested_algorithm": "auto",
+          "selected_algorithm": "june_random",
+          "policy": "first validated result; no area-optimality claim",
+          "attempts": [
+            {
+              "algorithm": "normal_2ddwave",
+              "status": "failed",
+              "budget_s": 59,
+              "started_at": "2026-09-05T11:05:16.304505+00:00",
+              "directory": "02_pnr_1/01_normal_2ddwave",
+              "error": "Routed logic validation unsupported: No explicit exported output node for source port 'y0'; attempted source alias chain ['y0', 'n17']",
+              "elapsed_s": 21.071
+            },
+            {
+              "algorithm": "compact",
+              "status": "failed",
+              "budget_s": 79,
+              "started_at": "2026-09-05T11:05:37.376205+00:00",
+              "directory": "02_pnr_1/02_compact",
+              "error": "pnr command exited with 1.   File \"/usr/lib/python3.12/subprocess.py\", line 1264, in wait\n    return self._wait(timeout=timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 2045, in _wait\n    raise TimeoutExpired(self.args, timeout)\nsubprocess.TimeoutExpired: Command '['/home/lys/projects/github/iFCN/build-release/ifcn_combinational_pnr', 'compact', '/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/normalized.v', '/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1/02_pnr_1/02_compact/layout_candidate.json']' timed out after 76.99998972100002 seconds\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 220, in <module>\n    main()\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 204, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/iFCN/scripts/ifcn_agent_backend.py\", line 128, in run_native\n    raise RuntimeError(f'{args.algorithm} exceeded its {args.budget}s native routing budget; see native.log.') from exc\nRuntimeError: compact exceeded its 77s native routing budget; see native.log.\n",
+              "elapsed_s": 77.226
+            },
+            {
+              "algorithm": "june_random",
+              "status": "completed",
+              "budget_s": 81,
+              "started_at": "2026-09-05T11:06:54.603018+00:00",
+              "directory": "02_pnr_1/03_june_random",
+              "elapsed_s": 0.565
+            }
+          ]
+        },
+        "mapping": {
+          "cell_count": 2494,
+          "io_contraction": false
+        }
+      },
+      "run_directory": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/818614b19bad478db825b3b375deb8f1",
+      "artifact_mismatches": [],
+      "wall_time_s": 100.871
+    },
+    {
+      "id": "all_missing_device_outputs_rejected",
+      "input": "TOY/clpl.v",
+      "algorithm": "auto",
+      "until": "map",
+      "expect": "failed",
+      "passed": true,
+      "run_id": "ddb27accc52046f6bef14371a8ba14f2",
+      "status": "failed",
+      "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log.",
+      "validation": {
+        "rtl_equivalence": "not_performed",
+        "physical_function": "not_verified",
+        "simulation_comparison": "baseline_vs_accelerated_only",
+        "energy": "model_estimate; not a power signoff"
+      },
+      "metrics": {
+        "dag": {
+          "input_count": 11,
+          "output_count": 5
+        },
+        "algorithm_selection": {
+          "requested_algorithm": "auto",
+          "selected_algorithm": null,
+          "policy": "first validated result; no area-optimality claim",
+          "attempts": [
+            {
+              "algorithm": "normal_2ddwave",
+              "status": "failed",
+              "budget_s": 59,
+              "started_at": "2026-09-05T11:06:57.027834+00:00",
+              "directory": "02_pnr_1/01_normal_2ddwave",
+              "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+              "elapsed_s": 6.039
+            },
+            {
+              "algorithm": "compact",
+              "status": "failed",
+              "budget_s": 86,
+              "started_at": "2026-09-05T11:07:03.068470+00:00",
+              "directory": "02_pnr_1/02_compact",
+              "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+              "elapsed_s": 1.832
+            },
+            {
+              "algorithm": "june_random",
+              "status": "failed",
+              "budget_s": 172,
+              "started_at": "2026-09-05T11:07:04.901978+00:00",
+              "directory": "02_pnr_1/03_june_random",
+              "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+              "elapsed_s": 0.354
+            }
+          ]
+        }
+      },
+      "run_directory": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/ddb27accc52046f6bef14371a8ba14f2",
+      "artifact_mismatches": [],
+      "wall_time_s": 10.544
+    },
+    {
+      "id": "xor_full_june_random",
+      "input": "TOY/xor2.v",
+      "algorithm": "june_random",
+      "until": "energy",
+      "expect": "completed",
+      "passed": false,
+      "run_id": "6075da1ea2ef42b9b18b43a04e925c03",
+      "status": "failed",
+      "error": "energy exceeded the per-command timeout.",
+      "validation": {
+        "rtl_equivalence": "exhaustive_scalar_source_vs_routed_dag",
+        "physical_function": "not_verified",
+        "simulation_comparison": "baseline_vs_accelerated_only",
+        "energy": "model_estimate; not a power signoff",
+        "device_terminal_counts": "match_source_declarations",
+        "simulation_iteration_limit_samples": 0
+      },
+      "metrics": {
+        "dag": {
+          "input_count": 2,
+          "output_count": 1
+        },
+        "logic": {
+          "status": "equivalent",
+          "max_inputs": 11,
+          "vectors_checked": 4,
+          "expected_vector_count": 4
+        },
+        "pnr": {
+          "schema": "ifcn.pnr.v1",
+          "algorithm": "june_random",
+          "phase_count": 4,
+          "seed": 1,
+          "layout_legal": true,
+          "clock_legal": true,
+          "failed_edge_count": 0,
+          "validation": {
+            "passed": true,
+            "checks": [
+              "dag_acyclic",
+              "exact_edge_coverage",
+              "exact_node_coverage",
+              "unique_node_positions",
+              "route_endpoints",
+              "simple_four_connected_paths",
+              "no_route_through_gate",
+              "distinct_fanin_ports",
+              "port_sharing_geometry",
+              "clock_range_and_forward_steps",
+              "source_aware_crossings",
+              "native_node_and_crossover_mapping",
+              "exported_ifcn_device_mapping"
+            ],
+            "errors": [],
+            "max_same_phase_run": 2,
+            "topological_order": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              7,
+              6,
+              8,
+              2
+            ],
+            "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+          },
+          "algorithm_parameters": {
+            "graphviz_grid_size": 40,
+            "route_order_retries": 24,
+            "search_cost": 40,
+            "max_same_phase": null,
+            "topology": "layer_redundancy_buffers",
+            "phase_count": 4,
+            "timeout_s": 177,
+            "seed_control": "not_exposed_by_native_algorithm"
+          },
+          "clock_scheme": "irregular",
+          "clock_template_ok": null,
+          "clock_template_conflicts": null,
+          "clock_validation_kind": "route_phase_contract",
+          "run_time_s": 0.016852,
+          "resolved_verilog": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/6075da1ea2ef42b9b18b43a04e925c03/normalized.v",
+          "boolean_canonicalization": false,
+          "expansion": {
+            "inserted_rows": 0,
+            "inserted_columns": 0,
+            "accepted_rounds": 0
+          },
+          "width": 5,
+          "height": 13,
+          "area_tiles": 65,
+          "ifcn": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/6075da1ea2ef42b9b18b43a04e925c03/02_pnr_1/01_june_random/layout.ifcn",
+          "mapping_validation": {
+            "passed": true,
+            "cell_count": 210,
+            "cross_count": 1,
+            "io_contraction": false
+          },
+          "total_backend_time_s": 0.03714147999926354
+        },
+        "device_interface": {
+          "schema": "ifcn.qca.interface.v1",
+          "qca_sha256": "3714e1c0b3e7b012b7443cb8df4eb975b95b1e726b09a58cfd88214f9bd8264b",
+          "cell_count": 214,
+          "expected_inputs": 2,
+          "expected_outputs": 1,
+          "actual_inputs": 2,
+          "actual_outputs": 1,
+          "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+          "passed": true
+        },
+        "algorithm_selection": {
+          "requested_algorithm": "june_random",
+          "selected_algorithm": "june_random",
+          "policy": "first validated result; no area-optimality claim",
+          "attempts": [
+            {
+              "algorithm": "june_random",
+              "status": "completed",
+              "budget_s": 179,
+              "started_at": "2026-09-05T11:04:16.294729+00:00",
+              "directory": "02_pnr_1/01_june_random",
+              "elapsed_s": 0.308
+            }
+          ]
+        },
+        "mapping": {
+          "cell_count": 214,
+          "io_contraction": false
+        },
+        "simulation": [
+          {
+            "model": "bistable",
+            "max_absolute_error": 0,
+            "output_samples": 512,
+            "max_iteration_samples": 0
+          },
+          {
+            "model": "coherence",
+            "max_absolute_error": 0,
+            "output_samples": 3005,
+            "max_iteration_samples": null
+          }
+        ]
+      },
+      "run_directory": "/home/lys/projects/github/iFCN/output/pi-validation/release-logic-io-20260905T110234Z/runs/6075da1ea2ef42b9b18b43a04e925c03",
+      "artifact_mismatches": [],
+      "wall_time_s": 204.898
+    }
+  ]
+}
