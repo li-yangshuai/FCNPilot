@@ -1,0 +1,104 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 12,
+      "to": [
+        24,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 13,
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 15,
+      "to": [
+        22,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        24,
+        29
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      16
+    ],
+    [
+      2,
+      10
+    ],
+    [
+      1,
+      11
+    ],
+    [
+      6,
+      11
+    ],
+    [
+      8,
+      15
+    ],
+    [
+      4,
+      10
+    ],
+    [
+      10,
+      12
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      15,
+      3
+    ],
+    [
+      13,
+      16
+    ],
+    [
+      16,
+      3
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      12,
+      13
+    ]
+  ],
+  "rationale": "Nodes 12,13,15,16 form a dense vertical cluster (y=26–30) with high detour cost on edge [12,15] (7 steps, LB=3). Moving 12→(24,25), 13→(24,26), 15→(22,26), and 16→(24,29) aligns them with vacancy hotspots in windows 25–27/28–29 and 21–22/25–26 (combined density ≤0.11), reducing vertical span. Edge [12,13] becomes straight vertical (Δy=1), eliminating its 2-step detour; [12,15] shortens Manhattan from 4 to 3 and gains direct L-shape; [13,16] stays 3 steps but avoids prior bend at (25,27); [15,3] and [16,3] retain y-difference of 7 and 4 respectively, but x-proximity improves. No port movement needed—left/right bounds unchanged (x=20–28), height remains 14, but internal wire density drops and routing feasibility increases per past failure edges ([12,15] detour=4, [6,11] detour=2). All moved nodes are internal; coordinates stay within [18,30]×[18,35]."
+}

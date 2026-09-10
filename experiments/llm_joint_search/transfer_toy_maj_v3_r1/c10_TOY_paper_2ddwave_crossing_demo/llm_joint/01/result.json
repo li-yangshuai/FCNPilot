@@ -1,0 +1,588 @@
+{
+  "round": 1,
+  "status": "accepted",
+  "start_metrics": {
+    "width": 7,
+    "height": 10,
+    "area_tiles": 70,
+    "qca_cells": 267,
+    "edge_steps": 59,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "start_placement": [
+    [
+      0,
+      24,
+      20
+    ],
+    [
+      1,
+      20,
+      20
+    ],
+    [
+      2,
+      22,
+      20
+    ],
+    [
+      3,
+      23,
+      29
+    ],
+    [
+      4,
+      22,
+      23
+    ],
+    [
+      5,
+      20,
+      23
+    ],
+    [
+      6,
+      24,
+      23
+    ],
+    [
+      7,
+      22,
+      26
+    ],
+    [
+      8,
+      24,
+      26
+    ]
+  ],
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 17512,
+    "output": 204,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 17716
+  },
+  "model_latency_s": 12.224760274999426,
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 0,
+        "to": [
+          24,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 1,
+        "to": [
+          20,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 2,
+        "to": [
+          22,
+          22
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        4,
+        7
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        8,
+        3
+      ],
+      [
+        6,
+        8
+      ]
+    ],
+    "rationale": "This candidate translates the three input nodes (0,1,2) up by 2 tiles (y=20→22) with minimal node movement (3 nodes), preserving layer alignment and reducing placement height from 10 to 8 tiles (proxy area 70→40). Its routing_order follows sink-pressure/layer/long-edge policy, which prioritizes critical long paths early—observing that edges [2,6] and [0,6] have high detour steps (13 and 5) in current layout; ordering them earlier may reduce congestion and avoid phase conflicts in the dense central region near y=23–26. The proxy metrics show lowest manhattan_edges (33) among all y-cut candidates, suggesting lower routing overhead potential."
+  },
+  "decision": {
+    "schema": "ifcn.layout_choice.v1",
+    "candidate_id": "menu_16faa7f7558bc8142168b217",
+    "rationale": "This candidate translates the three input nodes (0,1,2) up by 2 tiles (y=20→22) with minimal node movement (3 nodes), preserving layer alignment and reducing placement height from 10 to 8 tiles (proxy area 70→40). Its routing_order follows sink-pressure/layer/long-edge policy, which prioritizes critical long paths early—observing that edges [2,6] and [0,6] have high detour steps (13 and 5) in current layout; ordering them earlier may reduce congestion and avoid phase conflicts in the dense central region near y=23–26. The proxy metrics show lowest manhattan_edges (33) among all y-cut candidates, suggesting lower routing overhead potential."
+  },
+  "start_sha256": "7ba44759d1743239554a3db4ff6a24f176487f2e3486b0506d63910834002225",
+  "moves": [
+    {
+      "node_id": 0,
+      "name": "a",
+      "from": [
+        24,
+        20
+      ],
+      "to": [
+        24,
+        22
+      ]
+    },
+    {
+      "node_id": 1,
+      "name": "b",
+      "from": [
+        20,
+        20
+      ],
+      "to": [
+        20,
+        22
+      ]
+    },
+    {
+      "node_id": 2,
+      "name": "c",
+      "from": [
+        22,
+        20
+      ],
+      "to": [
+        22,
+        22
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        4,
+        7
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        8,
+        3
+      ],
+      [
+        6,
+        8
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        4,
+        7
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        8,
+        3
+      ],
+      [
+        6,
+        8
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true
+  },
+  "metrics": {
+    "width": 7,
+    "height": 9,
+    "area_tiles": 63,
+    "qca_cells": 210,
+    "edge_steps": 45,
+    "output_arrival_ticks": {
+      "3": [
+        9,
+        9
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 0,
+      "target": 4,
+      "before_steps": 5,
+      "after_steps": 3
+    },
+    {
+      "source": 0,
+      "target": 6,
+      "before_steps": 5,
+      "after_steps": 3
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "before_steps": 5,
+      "after_steps": 3
+    },
+    {
+      "source": 1,
+      "target": 5,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "before_steps": 7,
+      "after_steps": 7
+    },
+    {
+      "source": 2,
+      "target": 6,
+      "before_steps": 13,
+      "after_steps": 7
+    },
+    {
+      "source": 6,
+      "target": 8,
+      "before_steps": 5,
+      "after_steps": 3
+    }
+  ],
+  "elapsed_s": 13.965398970998649,
+  "paired_ablations": {
+    "placement_only": {
+      "status": "accepted",
+      "metrics": {
+        "width": 7,
+        "height": 9,
+        "area_tiles": 63,
+        "qca_cells": 210,
+        "edge_steps": 45,
+        "output_arrival_ticks": {
+          "3": [
+            9,
+            9
+          ]
+        }
+      },
+      "error": null,
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      }
+    },
+    "routing_only": {
+      "status": "accepted",
+      "metrics": {
+        "width": 6,
+        "height": 10,
+        "area_tiles": 60,
+        "qca_cells": 257,
+        "edge_steps": 57,
+        "output_arrival_ticks": {
+          "3": [
+            11,
+            11
+          ]
+        }
+      },
+      "error": null,
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      }
+    }
+  }
+}

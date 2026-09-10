@@ -1,0 +1,109 @@
+{
+  "schema": "ifcn.routed_logic_audit.v1",
+  "scope": "Exhaustive Boolean equivalence of source assignments and exported routed DAG; excludes device behavior, clock timing/alignment, and power.",
+  "source_sha256": "59bf727c733ab28e05305f03ee76fde479270f878f66bfc5b726f18cd4fb90cf",
+  "routed_dag_sha256": "393ff76e705880bc607a52059f7a12cae62f0d95ee517462900dbc38da274bc8",
+  "status": "equivalent",
+  "equivalent": true,
+  "max_inputs": 11,
+  "vectors_checked": 16,
+  "mismatch_count": 0,
+  "counterexamples": [],
+  "port_diagnostics": {
+    "source_input_ports": [
+      "a",
+      "b",
+      "c",
+      "p"
+    ],
+    "source_output_ports": [
+      "parity_check"
+    ],
+    "dag_declared_input_count": 4,
+    "dag_declared_output_count": 1,
+    "dag_flagged_inputs": [
+      {
+        "id": 0,
+        "name": "a",
+        "type": "input"
+      },
+      {
+        "id": 1,
+        "name": "b",
+        "type": "input"
+      },
+      {
+        "id": 2,
+        "name": "c",
+        "type": "input"
+      },
+      {
+        "id": 3,
+        "name": "p",
+        "type": "input"
+      }
+    ],
+    "dag_flagged_outputs": [
+      {
+        "id": 4,
+        "name": "parity_check",
+        "type": "or"
+      }
+    ]
+  },
+  "input_ports": [
+    "a",
+    "b",
+    "c",
+    "p"
+  ],
+  "output_ports": [
+    "parity_check"
+  ],
+  "source_header_matches_declarations": true,
+  "input_mapping": [
+    {
+      "source_port": "a",
+      "dag_node_id": 0,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "b",
+      "dag_node_id": 1,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "c",
+      "dag_node_id": 2,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "p",
+      "dag_node_id": 3,
+      "basis": "exact_name"
+    }
+  ],
+  "output_mapping": [
+    {
+      "source_port": "parity_check",
+      "dag_node_id": 4,
+      "dag_node_name": "parity_check",
+      "basis": "exact_name",
+      "alias_chain": [
+        "parity_check"
+      ]
+    }
+  ],
+  "gate_semantics": {
+    "and": "AND of exactly two fanins",
+    "input": "primary input; no fanins",
+    "not": "complement of exactly one fanin",
+    "or": "OR of exactly two fanins",
+    "wire": "identity of exactly one fanin"
+  },
+  "expected_vector_count": 16,
+  "source_truth_sha256": "500997052f0daee4408730a9f5902381993aa1ee77719d01e3bd7c5a626fba84",
+  "dag_truth_sha256": "500997052f0daee4408730a9f5902381993aa1ee77719d01e3bd7c5a626fba84",
+  "source_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c12_TOY_par_check/inputs/normalized.v",
+  "routed_dag_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c12_TOY_par_check/inputs/routed_dag.json"
+}

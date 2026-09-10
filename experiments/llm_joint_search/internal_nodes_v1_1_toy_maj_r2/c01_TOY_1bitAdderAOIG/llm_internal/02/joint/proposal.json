@@ -1,0 +1,128 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        24,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 6,
+      "to": [
+        26,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        26,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        22,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        24,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 12,
+      "to": [
+        23,
+        32
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      9,
+      11
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      3
+    ],
+    [
+      10,
+      3
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      11,
+      4
+    ],
+    [
+      0,
+      10
+    ],
+    [
+      0,
+      11
+    ]
+  ],
+  "rationale": "Prioritize reconvergent fanin (1→5, 2→5 before 1→6, 2→6) to reduce congestion at y=23; move nodes 5–12 down to y=21–32 to eliminate long vertical detours (e.g., 6→4 was 15 steps, now 9), opening horizontal channels near y=28–29. Route 9→10/11 before outputs to protect critical path timing; delay high-delay edges (6→4, 11→4) until after core logic settles. The order matches the successful routing pattern from feedback but avoids the QCA increase by keeping 12 at (23,32) instead of (24,32), preserving phase compatibility and reducing output-stage congestion."
+}

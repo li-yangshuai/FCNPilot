@@ -1,0 +1,123 @@
+{
+  "schema": "ifcn.clock_arrival.v1",
+  "passed": false,
+  "launch_policy": "cycle_zero_at_template_phase",
+  "phase_count": 4,
+  "relative_schedule_consistent": false,
+  "required_input_cycle_offsets": null,
+  "input_schedule_applied": false,
+  "mismatches": [
+    {
+      "node": 4,
+      "name": "or_ab",
+      "incoming_ticks": [
+        {
+          "source": 0,
+          "min": 3,
+          "max": 3
+        },
+        {
+          "source": 1,
+          "min": 7,
+          "max": 7
+        }
+      ]
+    },
+    {
+      "node": 2,
+      "name": "out",
+      "incoming_ticks": [
+        {
+          "source": 4,
+          "min": 12,
+          "max": 16
+        },
+        {
+          "source": 5,
+          "min": 12,
+          "max": 12
+        }
+      ]
+    }
+  ],
+  "relative_schedule_conflicts": [
+    {
+      "from": 4,
+      "to": 1,
+      "expected": -4,
+      "actual": 0
+    },
+    {
+      "from": 1,
+      "to": 4,
+      "expected": 7,
+      "actual": 3
+    }
+  ],
+  "nodes_checked": 6,
+  "routes_checked": 7,
+  "arrival_tick_ranges": {
+    "0": [
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0
+    ],
+    "3": [
+      4,
+      4
+    ],
+    "4": [
+      3,
+      7
+    ],
+    "5": [
+      7,
+      7
+    ],
+    "2": [
+      12,
+      16
+    ]
+  },
+  "route_delays": [
+    {
+      "source": 0,
+      "target": 3,
+      "ticks": 4
+    },
+    {
+      "source": 0,
+      "target": 4,
+      "ticks": 3
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "ticks": 4
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "ticks": 7
+    },
+    {
+      "source": 3,
+      "target": 5,
+      "ticks": 3
+    },
+    {
+      "source": 4,
+      "target": 2,
+      "ticks": 9
+    },
+    {
+      "source": 5,
+      "target": 2,
+      "ticks": 5
+    }
+  ],
+  "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+}

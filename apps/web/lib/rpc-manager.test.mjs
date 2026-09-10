@@ -98,7 +98,7 @@ test("normal session teardown paths use graceful extension shutdown", async () =
   const trustRouteSource = await readFile(new URL("../app/api/project-trust/route.ts", import.meta.url), "utf8");
   const idleSource = source.slice(
     source.indexOf("  private resetIdleTimer"),
-    source.indexOf("  private persistBashOnlySession"),
+    source.indexOf("  async send("),
   );
   const forkSource = source.slice(
     source.indexOf('case "fork"'),
@@ -142,14 +142,6 @@ test("RPC session startup persists explicit preferences without replaying setter
   assert.match(startupSource, /modelDefaultChanged\) invalidateModelsCache\(\)/);
 });
 
-test("RPC session startup honors the persisted read-only tool preset", async () => {
-  const source = await readFile(new URL("./rpc-manager.ts", import.meta.url), "utf8");
-  const startupSource = source.slice(source.indexOf("export async function startRpcSession"));
-
-  assert.match(source, /PRESET_READ_ONLY/);
-  assert.match(startupSource, /case "read-only":\s*effectiveToolNames = PRESET_READ_ONLY/);
-});
-
 test("custom extension UI receives the fixed headless terminal facade", async () => {
   const source = await readFile(new URL("./rpc-manager.ts", import.meta.url), "utf8");
   const customUiSource = source.slice(
@@ -169,5 +161,5 @@ test("reloading a session invalidates the models cache", async () => {
   );
 
   assert.match(reloadSource, /await this\.inner\.reload\(\)/);
-  assert.match(reloadSource, /this\.applySessionPolicy\(\);\s*invalidateModelsCache\(\)/);
+  assert.match(reloadSource, /finally\s*\{[\s\S]*?this\.applySessionPolicy\(\);\s*\}\s*invalidateModelsCache\(\)/);
 });

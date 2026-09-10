@@ -61,23 +61,12 @@ test("keeps the model selector visible when a model error leaves no options", ()
   assert.match(html, /title="No available models"/);
 });
 
-test("renders the read-only tool preset as the active selection", () => {
-  const html = renderToStaticMarkup(
-    React.createElement(
-      I18nProvider,
-      null,
-      React.createElement(ChatInput, {
-        onSend() {},
-        onAbort() {},
-        onToolPresetChange() {},
-        isStreaming: false,
-        toolPreset: "read-only",
-      }),
-    ),
-  );
-
-  assert.match(html, /title="Change tool preset: 4 read-only built-in tools"/);
-  assert.match(html, />4 read-only built-in tools<\/span>/);
+test("keeps the FCN main agent fixed and omits generic agent and tool selectors", () => {
+  const html = renderToStaticMarkup(React.createElement(I18nProvider, null,
+    React.createElement(ChatInput, { onSend() {}, onAbort() {}, isStreaming: false })));
+  assert.match(html, /Current main agent: iFCN/);
+  assert.match(html, /Describe an FCN circuit/);
+  assert.doesNotMatch(html, /Change tool preset|Choose main agent|Delegate|MCP/);
 });
 
 test("shows and locks the optimistic model while a switch is pending", () => {

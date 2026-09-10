@@ -1,0 +1,76 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 0,
+      "to": [
+        24,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 1,
+      "to": [
+        20,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 2,
+      "to": [
+        22,
+        22
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      7,
+      3
+    ],
+    [
+      8,
+      3
+    ],
+    [
+      6,
+      8
+    ]
+  ],
+  "rationale": "This candidate translates the three input nodes (0,1,2) up by 2 tiles (y=20→22) with minimal node movement (3 nodes), preserving layer alignment and reducing placement height from 10 to 8 tiles (proxy area 70→40). Its routing_order follows sink-pressure/layer/long-edge policy, which prioritizes critical long paths early—observing that edges [2,6] and [0,6] have high detour steps (13 and 5) in current layout; ordering them earlier may reduce congestion and avoid phase conflicts in the dense central region near y=23–26. The proxy metrics show lowest manhattan_edges (33) among all y-cut candidates, suggesting lower routing overhead potential."
+}

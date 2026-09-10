@@ -1,0 +1,551 @@
+{
+  "round": 1,
+  "status": "certified",
+  "start_metrics": {
+    "width": 7,
+    "height": 15,
+    "area_tiles": 105,
+    "qca_cells": 337,
+    "edge_steps": 73,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 7,
+    "height": 15,
+    "area_tiles": 105,
+    "qca_cells": 337,
+    "edge_steps": 73,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "start_state": "1fe29d784c18df3fff2c323eaa859d4d5635e7499c50b50064221bedd1bde529",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 10959,
+    "output": 437,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 11396
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 4,
+        "to": [
+          22,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          24,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          23,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          23,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 3,
+        "to": [
+          25,
+          34
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Compress core vertically: nodes 4–9 form a dense chain (layers 2–5) currently spanning y=23→31. Moving 4→(22,23), 5→(24,23), 6→(24,25), 8→(23,28), 9→(23,31) aligns them along x=22–24, reducing horizontal spread and freeing column x=25 for routing. Node 3 (output) shifts left from x=26→25 to close right margin without expanding width (min_x remains 20, max_x becomes 25 → width 6). This exploits vacancy hotspots at (21–22,25–26) and (21–22,28–29), and reduces Manhattan edge lengths—e.g., edge [4,8] from Δy=5→5 but Δx=1→0, edge [5,6] from Δx=0,Δy=2→Δx=0,Δy=2 with better alignment. All moves stay within coordinate bounds and avoid collisions; internal node relocation requirement satisfied."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 4,
+        "to": [
+          22,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          24,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          23,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          23,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 3,
+        "to": [
+          25,
+          34
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        9
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        9,
+        3
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "rationale": "Compress core vertically: nodes 4–9 form a dense chain (layers 2–5) currently spanning y=23→31. Moving 4→(22,23), 5→(24,23), 6→(24,25), 8→(23,28), 9→(23,31) aligns them along x=22–24, reducing horizontal spread and freeing column x=25 for routing. Node 3 (output) shifts left from x=26→25 to close right margin without expanding width (min_x remains 20, max_x becomes 25 → width 6). This exploits vacancy hotspots at (21–22,25–26) and (21–22,28–29), and reduces Manhattan edge lengths—e.g., edge [4,8] from Δy=5→5 but Δx=1→0, edge [5,6] from Δx=0,Δy=2→Δx=0,Δy=2 with better alignment. All moves stay within coordinate bounds and avoid collisions; internal node relocation requirement satisfied."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "4f829ebef8a03a550666c0b8c5b7607d9150b8b19ba61050e6f10fc14e71c4e1",
+  "moves": [
+    {
+      "node_id": 3,
+      "name": "carry",
+      "from": [
+        26,
+        34
+      ],
+      "to": [
+        25,
+        34
+      ]
+    },
+    {
+      "node_id": 4,
+      "name": "or_yz",
+      "from": [
+        23,
+        23
+      ],
+      "to": [
+        22,
+        23
+      ]
+    },
+    {
+      "node_id": 5,
+      "name": "and_yz",
+      "from": [
+        25,
+        23
+      ],
+      "to": [
+        24,
+        23
+      ]
+    },
+    {
+      "node_id": 6,
+      "name": "~and_yz",
+      "from": [
+        25,
+        25
+      ],
+      "to": [
+        24,
+        25
+      ]
+    },
+    {
+      "node_id": 8,
+      "name": "xor_yz",
+      "from": [
+        24,
+        28
+      ],
+      "to": [
+        23,
+        28
+      ]
+    },
+    {
+      "node_id": 9,
+      "name": "and_x",
+      "from": [
+        24,
+        31
+      ],
+      "to": [
+        23,
+        31
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        9
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        9,
+        3
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        9
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        9,
+        3
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "metrics": {
+    "width": 6,
+    "height": 15,
+    "area_tiles": 90,
+    "qca_cells": 303,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 0,
+      "target": 9,
+      "before_steps": 15,
+      "after_steps": 14
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "before_steps": 5,
+      "after_steps": 6
+    },
+    {
+      "source": 1,
+      "target": 5,
+      "before_steps": 5,
+      "after_steps": 4
+    },
+    {
+      "source": 2,
+      "target": 4,
+      "before_steps": 5,
+      "after_steps": 4
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "before_steps": 9,
+      "after_steps": 4
+    },
+    {
+      "source": 4,
+      "target": 8,
+      "before_steps": 6,
+      "after_steps": 6
+    },
+    {
+      "source": 5,
+      "target": 3,
+      "before_steps": 12,
+      "after_steps": 12
+    },
+    {
+      "source": 5,
+      "target": 6,
+      "before_steps": 4,
+      "after_steps": 2
+    },
+    {
+      "source": 6,
+      "target": 8,
+      "before_steps": 4,
+      "after_steps": 4
+    },
+    {
+      "source": 8,
+      "target": 9,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 9,
+      "target": 3,
+      "before_steps": 5,
+      "after_steps": 5
+    }
+  ],
+  "elapsed_s": 19.353016297001886,
+  "node_changes": [
+    {
+      "node_id": 3,
+      "name": "carry",
+      "from": [
+        26,
+        34
+      ],
+      "to": [
+        25,
+        34
+      ]
+    },
+    {
+      "node_id": 4,
+      "name": "or_yz",
+      "from": [
+        23,
+        23
+      ],
+      "to": [
+        22,
+        23
+      ]
+    },
+    {
+      "node_id": 5,
+      "name": "and_yz",
+      "from": [
+        25,
+        23
+      ],
+      "to": [
+        24,
+        23
+      ]
+    },
+    {
+      "node_id": 6,
+      "name": "~and_yz",
+      "from": [
+        25,
+        25
+      ],
+      "to": [
+        24,
+        25
+      ]
+    },
+    {
+      "node_id": 8,
+      "name": "xor_yz",
+      "from": [
+        24,
+        28
+      ],
+      "to": [
+        23,
+        28
+      ]
+    },
+    {
+      "node_id": 9,
+      "name": "and_x",
+      "from": [
+        24,
+        31
+      ],
+      "to": [
+        23,
+        31
+      ]
+    }
+  ],
+  "decision": "improved_retained",
+  "retained_metrics": {
+    "width": 6,
+    "height": 15,
+    "area_tiles": 90,
+    "qca_cells": 303,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "next_state": "96b4b6bd16f218b3d1e6fed1128fae596a97269a22147f3dea6d50557612370e"
+}

@@ -1,0 +1,88 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        22,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        22,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        20,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        23,
+        26
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      9,
+      7
+    ],
+    [
+      6,
+      10
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      11,
+      3
+    ],
+    [
+      7,
+      3
+    ]
+  ],
+  "rationale": "Relocate nodes 7, 5, 9, and 11 to compress the y-span from 12→7 tiles (min_y=22, max_y=28→26) and eliminate vertical congestion at x=22 and x=24: moving 7 to (22,25) and 5 to (22,24) aligns the ~in2→w1→w2 chain vertically with no detour; moving 9 to (20,24) shortens [9,7] from 5→3 steps by enabling a direct horizontal-to-vertical turn at y=24; moving 11 to (23,26) reduces [11,3] from 4→3 steps and avoids the congested y=28 corridor. The routing order prioritizes PI-driven wires first, then early fanin consolidation ([4,5], [8,9]), followed by shared fanin ([5,7], [9,7]) before reconvergent outputs ([11,3], [7,3]) to prevent blocking."
+}

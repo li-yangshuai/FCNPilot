@@ -1,0 +1,88 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        23,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        25,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        23,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        23,
+        29
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      2,
+      5
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      10
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      11,
+      3
+    ]
+  ],
+  "rationale": "Prioritize reconvergent fanin (5→7 and 5→10) first to reduce congestion in the shared path from node 5; route critical long-path edges (10→11, 8→11) before final output (11→3) to avoid late-stage detours; place short local edges (2→5, 0→4, 1→4) early to anchor layout. The selected moves compact the internal cluster (nodes 5,7,10,11) vertically and horizontally, reducing Manhattan sum by 5 and internal area to 27 tiles—enabling shorter routes without violating fixed ports."
+}

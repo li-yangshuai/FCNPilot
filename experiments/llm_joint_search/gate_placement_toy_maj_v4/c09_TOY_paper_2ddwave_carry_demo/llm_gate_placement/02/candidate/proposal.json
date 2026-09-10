@@ -1,0 +1,84 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 6,
+      "to": [
+        23,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        22,
+        28
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        22,
+        31
+      ]
+    },
+    {
+      "op": "move",
+      "node": 3,
+      "to": [
+        24,
+        34
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      9
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      5,
+      3
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      3
+    ],
+    [
+      5,
+      6
+    ]
+  ],
+  "rationale": "Current layout has vertical congestion in x=23–24 between y=25–31 (nodes 6,8,9) with overlapping fanout paths to node 3 at (25,34). Moving node 6 left to (23,25) aligns it with node 4’s x=22 and frees x=24 for cleaner vertical routing. Node 8 shifts to (22,28) to sit directly above 6 and left of current 9, reducing horizontal detour for [6,8] and [8,9]. Node 9 moves to (22,31), collapsing the x=23 column and enabling a straight vertical path from 8→9→3. Output node 3 moves left to (24,34), closing right margin (max_x drops from 25→24) while preserving connectivity; this shrinks width from 6→5 without affecting height. All moves use vacancy hotspots: (22,25), (22,28), (22,31) are empty in window_20_26_25_31 and window_20_26_28_34. Internal relocation requirement satisfied; no node collisions; area-controlling right edge coordinated with internal gates."
+}

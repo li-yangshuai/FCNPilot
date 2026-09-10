@@ -2,20 +2,14 @@ import type { ThinkingLevel } from "@earendil-works/pi-agent-core";
 import { createAgentSessionFromServices, createAgentSessionServices, getAgentDir, initTheme, ModelRuntime, SessionManager, SettingsManager, Theme } from "@earendil-works/pi-coding-agent";
 import { KeybindingsManager as TuiKeybindingsManager, TUI_KEYBINDINGS } from "@earendil-works/pi-tui";
 import { randomUUID } from "crypto";
-import { existsSync, realpathSync, writeFileSync } from "fs";
+import { existsSync, realpathSync } from "fs";
 import { join, resolve } from "path";
 import { validateAgentImages } from "./image-attachments";
 import { invalidateModelsCache } from "./models-cache";
 import { resolveVisibleModels, selectInitialModelScope } from "./model-scope";
-import {
-  createProjectCommandBashExtension,
-  createProjectCommandBashOperations,
-  preferUserBashExtension,
-} from "./project-command-env";
 import { cacheSessionPath, invalidateSessionListCache } from "./session-reader";
 import { getProjectTrustStatus, projectTrustReloadOptions } from "./project-trust";
 import { persistExplicitStartupPreferences } from "./startup-preferences";
-import type { SlashCommandInfo } from "@earendil-works/pi-coding-agent";
 import type { AgentSessionLike, ExtensionUiContextLike, ToolInfo } from "./pi-types";
 import type {
   ExtensionUiRequest,
@@ -27,13 +21,11 @@ import type {
 import type { AgentRuntimeConfig } from "./custom-agents";
 import { CustomAgentFileError } from "./custom-agent-files";
 import { forkSessionBeforeEntry, getSessionAgentProfileId, initializeSessionAgentProfile, persistUnflushedSession } from "./session-agent-profile";
-import { createMcpCustomTools } from "./mcp-tools";
 import { getAccountPreferences } from "./account-preferences";
-import { PRESET_DEFAULT, PRESET_FULL, PRESET_NONE, PRESET_READ_ONLY } from "./tool-presets";
 import { getModelConfigRevision } from "./model-config-revision";
-import { getActiveAgentDir } from "./agent-suite";
 import { createHeadlessCustomUiTui, DEFAULT_CUSTOM_UI_COLUMNS, type HeadlessCustomUiTui } from "./custom-ui-terminal";
 import { SHARED_ACCOUNT_UID } from "./shared-workspace";
+import { FCN_TOOL_NAMES, fcnResourceLoaderOptions, isFcnSessionCommand, isFcnToolSelection } from "./fcn-agent-policy";
 
 // ============================================================================
 // Types
@@ -125,7 +117,6 @@ export interface RpcSessionStartOptions {
   accountUid?: string;
 }
 
-const CODING_TOOL_NAMES = ["read", "bash", "edit", "write", "grep", "find", "ls"];
 
 // Extensions require a complete Theme, while the web UI applies its own styling.
 class PlainTextTheme extends Theme {
@@ -155,21 +146,6 @@ class PlainTextTheme extends Theme {
 const PLAIN_TEXT_THEME = new PlainTextTheme();
 const CUSTOM_UI_KEYBINDINGS = new TuiKeybindingsManager(TUI_KEYBINDINGS);
 
-function withExtensionTools(
-  session: AgentSessionLike,
-  toolNames: string[],
-): string[] {
-  if (toolNames.length === 0) return [];
-
-  const codingToolNames = new Set(CODING_TOOL_NAMES);
-  const extensionToolNames = session
-    .getAllTools()
-    .map((t) => t.name)
-    .filter((name) => !codingToolNames.has(name));
-
-  return [...new Set([...toolNames, ...extensionToolNames])];
-}
-
 function mergeSettingsSnapshots<T extends object>(base: T, overrides: T): T {
   const baseRecord = base as Record<string, unknown>;
   const overrideRecord = overrides as Record<string, unknown>;
@@ -198,15 +174,6 @@ function mergeSettingsSnapshots<T extends object>(base: T, overrides: T): T {
   return merged as T;
 }
 
-function keepResourceSettingsInOriginalScope<T extends object>(merged: T, global: T): void {
-  const mergedRecord = merged as Record<string, unknown>;
-  const globalRecord = global as Record<string, unknown>;
-  for (const key of ["packages", "extensions", "skills", "prompts", "themes"]) {
-    if (globalRecord[key] === undefined) delete mergedRecord[key];
-    else mergedRecord[key] = globalRecord[key];
-  }
-}
-
 // ============================================================================
 // AgentSessionWrapper
 // Wraps AgentSession with the same interface the rest of the app expects
@@ -223,6 +190,7 @@ export class AgentSessionWrapper {
   private extensionWidgetGenerations = new Map<string, number>();
   private extensionWidgetsResetting = false;
   private pendingPromptCount = 0;
+  private reloadInProgress = false;
   private promptAdmissionTail: Promise<void> = Promise.resolve();
   private extensionsBound = false;
   private extensionBindingPromise: Promise<void> | null = null;
@@ -266,7 +234,7 @@ export class AgentSessionWrapper {
   }
 
   isRunning(): boolean {
-    return this._alive && (this.pendingPromptCount > 0 || this.inner.isStreaming || this.inner.isCompacting || this.inner.isBashRunning);
+    return this._alive && (this.reloadInProgress || this.pendingPromptCount > 0 || this.inner.isStreaming || this.inner.isCompacting || this.inner.isBashRunning);
   }
 
   private async refreshModelConfiguration(forceModels = false): Promise<void> {
@@ -432,25 +400,6 @@ export class AgentSessionWrapper {
     }, 10 * 60 * 1000);
   }
 
-  private persistBashOnlySession(): void {
-    const manager = this.inner.sessionManager;
-    const sessionFile = manager.getSessionFile();
-    if (!sessionFile || existsSync(sessionFile)) return;
-
-    const header = manager.getHeader();
-    if (!header) return;
-
-    const content = [header, ...manager.getEntries()]
-      .map((entry) => JSON.stringify(entry))
-      .join("\n") + "\n";
-    writeFileSync(sessionFile, content, { encoding: "utf8", flag: "wx" });
-
-    // Pi normally delays the first flush until an assistant message exists.
-    // A leading shell command has no assistant message, so mark this SDK
-    // manager as flushed after writing its own generated entries.
-    (manager as unknown as { flushed: boolean }).flushed = true;
-    cacheSessionPath(this.inner.sessionId, sessionFile);
-  }
 
   onEvent(listener: EventListener): () => void {
     this.listeners.push(listener);
@@ -475,6 +424,7 @@ export class AgentSessionWrapper {
       if (imageError) throw new Error(imageError);
     }
 
+    if (!isFcnSessionCommand(type)) throw new CustomAgentFileError("Unsupported FCN session command", 400);
     switch (type) {
       case "prompt": {
         // Serialize only admission. Once the preceding prompt has either
@@ -720,64 +670,52 @@ export class AgentSessionWrapper {
         }));
       }
 
-      case "get_commands": {
-        const commands: SlashCommandInfo[] = [];
-        for (const registered of this.inner.extensionRunner.getRegisteredCommands()) {
-          commands.push({
-            name: registered.invocationName,
-            description: registered.description,
-            source: "extension",
-            sourceInfo: registered.sourceInfo,
-          });
-        }
-        for (const template of this.inner.promptTemplates) {
-          commands.push({
-            name: template.name,
-            description: template.description,
-            source: "prompt",
-            sourceInfo: template.sourceInfo,
-          });
-        }
-        for (const skill of this.inner.resourceLoader.getSkills().skills) {
-          commands.push({
-            name: `skill:${skill.name}`,
-            description: skill.description,
-            source: "skill",
-            sourceInfo: skill.sourceInfo,
-          });
-        }
-        return { commands };
-      }
-
       case "set_tools": {
-        const toolNames = command.toolNames as string[];
-        if (this.profileToolNames !== undefined) {
-          const requested = new Set(toolNames);
-          if (requested.size !== this.profileToolNames.length
-            || this.profileToolNames.some((name) => !requested.has(name))) {
-            throw new CustomAgentFileError("This main Agent's tools are defined by its profile and cannot be changed by the tool preset", 409);
-          }
-          this.applySessionPolicy();
-          return null;
+        if (!isFcnToolSelection(command.toolNames)) {
+          throw new CustomAgentFileError("FCN main Agent tools cannot be replaced", 409);
         }
-        this.setForceEmptySystemPrompt(toolNames.length === 0);
-        this.inner.setActiveToolsByName(withExtensionTools(this.inner, toolNames));
         this.applySessionPolicy();
         return null;
       }
 
       case "reload": {
-        await this.waitForExtensionsBound();
-        this.extensionStatuses.clear();
-        this.resetExtensionWidgetsForReload();
-        this.syncProjectTrust();
-        await this.inner.reload();
-        if (typeof this.inner.bindExtensions !== "function") {
-          this.inner.extensionRunner.setUIContext?.(this.createExtensionUiContext(), "rpc");
+        // A browser reload must never race prompt preflight in another tab.
+        // Hold the same admission lock until extensions and policy are ready.
+        const releaseAdmission = await this.acquirePromptAdmission();
+        let reloading = false;
+        try {
+          if (this.isRunning()) {
+            throw new CustomAgentFileError("Cannot reload FCN extensions while the session is busy", 409);
+          }
+          if (!this.isAlive()) {
+            throw new CustomAgentFileError("Cannot reload a closed FCN session", 409);
+          }
+          this.reloadInProgress = true;
+          reloading = true;
+          notifyRunningChange();
+          try {
+            await this.waitForExtensionsBound();
+            this.extensionStatuses.clear();
+            this.resetExtensionWidgetsForReload();
+            this.syncProjectTrust();
+            await this.inner.reload();
+            if (typeof this.inner.bindExtensions !== "function") {
+              this.inner.extensionRunner.setUIContext?.(this.createExtensionUiContext(), "rpc");
+            }
+          } finally {
+            // A failed SDK reload can also have replaced the active tool set.
+            this.applySessionPolicy();
+          }
+          invalidateModelsCache();
+          return { success: true };
+        } finally {
+          if (reloading) {
+            this.reloadInProgress = false;
+            this.resetIdleTimer();
+            notifyRunningChange();
+          }
+          releaseAdmission();
         }
-        this.applySessionPolicy();
-        invalidateModelsCache();
-        return { success: true };
       }
 
       case "abort_compaction": {
@@ -797,37 +735,6 @@ export class AgentSessionWrapper {
 
       case "set_auto_retry": {
         this.inner.setAutoRetryEnabled(command.enabled as boolean);
-        return null;
-      }
-
-      case "bash": {
-        if (this.pendingPromptCount > 0 || this.inner.isStreaming || this.inner.isCompacting || this.inner.isBashRunning) {
-          throw new Error("Cannot run a shell command while the session is busy");
-        }
-        const execution = this.inner.executeBash(
-          command.command as string,
-          undefined,
-          {
-            excludeFromContext: command.excludeFromContext as boolean | undefined,
-            operations: createProjectCommandBashOperations({
-              shellPath: this.inner.settingsManager.getShellPath(),
-            }),
-          },
-        );
-        notifyRunningChange();
-        try {
-          const result = await execution;
-          this.persistBashOnlySession();
-          return result;
-        } finally {
-          this.resetIdleTimer();
-          invalidateSessionListCache();
-          notifyRunningChange();
-        }
-      }
-
-      case "abort_bash": {
-        this.inner.abortBash();
         return null;
       }
 
@@ -1663,47 +1570,17 @@ export async function startRpcSession(
     // Some extensions access the SDK's global theme even outside the terminal UI.
     initTheme();
     const sharedAgentDir = getAgentDir();
-    const agentDir = getActiveAgentDir(accountUid);
+    const agentDir = sharedAgentDir;
     const preferences = getAccountPreferences(accountUid);
     const agentConfig = await initializeSessionAgentProfile(sessionManager, accountUid, requestedAgentConfig?.id);
 
-    let effectiveToolNames = agentConfig?.tools ?? toolNames;
-    if (effectiveToolNames === undefined) {
-      switch (preferences.toolPreset) {
-        case "none":
-          effectiveToolNames = PRESET_NONE;
-          break;
-        case "read-only":
-          effectiveToolNames = PRESET_READ_ONLY;
-          break;
-        case "default":
-          effectiveToolNames = PRESET_DEFAULT;
-          break;
-        case "full":
-          effectiveToolNames = PRESET_FULL;
-          break;
-      }
+    if (toolNames !== undefined && !isFcnToolSelection(toolNames)) {
+      throw new CustomAgentFileError("FCN main Agent requires its seven circuit-design tools", 409);
     }
+    const effectiveToolNames = [...FCN_TOOL_NAMES];
+    const toolsOption = effectiveToolNames;
 
-    // Determine which tools to pass based on requested toolNames.
-    // Since v0.68.0, session creation expects string[] tool names instead of Tool[] instances.
-    let toolsOption: string[] | undefined;
-    if (agentConfig?.tools !== undefined) {
-      // A profile's exact list also constrains the SDK registry on resource
-      // reload, so unrelated extensions cannot become active later.
-      toolsOption = agentConfig.tools;
-    } else if (effectiveToolNames !== undefined) {
-      // toolNames === [] -> "all off" (an empty allow-list disables every tool).
-      // Otherwise DO NOT pass a builtin-only allow-list: passing CODING_TOOL_NAMES
-      // set allowedToolNames to coding builtins only, which filtered every
-      // extension/package-provided tool (e.g. subagents, web access) out of the
-      // tool registry — so they were unavailable in Pi Web sessions even though the
-      // `pi` CLI keeps them. Leaving the allow-list unset lets the SDK register all
-      // tools (and activate extension tools); we narrow the ACTIVE set below.
-      toolsOption = effectiveToolNames.length === 0 ? [] : undefined;
-    }
-
-    // Sessions read the selected suite's global + project settings, but run
+    // Sessions read model settings, but run
     // against an in-memory snapshot. SDK model/thinking setters persist through
     // their SettingsManager, so passing the file-backed manager here would let
     // one account overwrite shared settings and change another account's defaults.
@@ -1721,7 +1598,8 @@ export async function startRpcSession(
     // Resource paths/packages are scope-sensitive: relative global entries are
     // resolved from agentDir, while project entries are resolved from cwd/.pi.
     // Keep those fields separate even though scalar/nested settings are merged.
-    keepResourceSettingsInOriginalScope(settingsSnapshot, globalSettingsSnapshot);
+    // Ambient packages and generic skills must not enter this dedicated Agent.
+    for (const key of ["packages", "extensions", "skills", "prompts", "themes"] as const) settingsSnapshot[key] = [];
     if (preferences.defaultModel) {
       settingsSnapshot.defaultProvider = preferences.defaultModel.provider;
       settingsSnapshot.defaultModel = preferences.defaultModel.modelId;
@@ -1733,64 +1611,23 @@ export async function startRpcSession(
     const settingsManager = SettingsManager.inMemory(settingsSnapshot, {
       projectTrusted: projectTrust.trusted,
     });
-    if (projectSettingsSnapshot.packages !== undefined) {
-      settingsManager.setProjectPackages(projectSettingsSnapshot.packages);
-    }
-    if (projectSettingsSnapshot.extensions !== undefined) {
-      settingsManager.setProjectExtensionPaths(projectSettingsSnapshot.extensions);
-    }
-    if (projectSettingsSnapshot.skills !== undefined) {
-      settingsManager.setProjectSkillPaths(projectSettingsSnapshot.skills);
-    }
-    if (projectSettingsSnapshot.prompts !== undefined) {
-      settingsManager.setProjectPromptTemplatePaths(projectSettingsSnapshot.prompts);
-    }
-    if (projectSettingsSnapshot.themes !== undefined) {
-      settingsManager.setProjectThemePaths(projectSettingsSnapshot.themes);
-    }
     const modelRuntime = await ModelRuntime.create({
       // Models and credentials stay in the shared Pi home even when an account
       // selects a different Agent suite for settings/resources.
       authPath: join(sharedAgentDir, "auth.json"),
       modelsPath: join(sharedAgentDir, "models.json"),
     });
-    const selectedSkills = agentConfig?.skills ? new Set(agentConfig.skills) : null;
     const trustReloadOptions = projectTrustReloadOptions(sessionCwd, sharedAgentDir);
     const services = await createAgentSessionServices({
       cwd: sessionCwd,
       agentDir,
       settingsManager,
       modelRuntime,
-      resourceLoaderOptions: {
-        systemPrompt: agentConfig?.systemPrompt,
-        extensionFactories: [
-          createProjectCommandBashExtension({
-            cwd: sessionCwd,
-            settings: settingsManager,
-          }),
-        ],
-        extensionsOverride: preferUserBashExtension,
-        ...(selectedSkills
-          ? {
-              skillsOverride: (base) => ({
-                ...base,
-                skills: base.skills.filter((skill) => selectedSkills.has(skill.name)),
-              }),
-            }
-          : {}),
-      },
+      resourceLoaderOptions: fcnResourceLoaderOptions(
+        join(sessionCwd, ".pi", "extensions", "ifcn", "index.ts"), agentConfig.systemPrompt,
+      ),
       ...(trustReloadOptions ? { resourceLoaderReloadOptions: trustReloadOptions } : {}),
     });
-
-    const enabledMcpNames = preferences.enabledMcpServers === undefined
-      ? undefined
-      : new Set(preferences.enabledMcpServers);
-    const customTools = await createMcpCustomTools(
-      sessionCwd,
-      sharedAgentDir,
-      accountUid,
-      enabledMcpNames,
-    );
 
     // Build services first so extension-registered providers are available
     // before the SDK restores the saved model from the session file.
@@ -1817,10 +1654,9 @@ export async function startRpcSession(
       ...(initial.thinkingLevel ? { thinkingLevel: initial.thinkingLevel } : {}),
       ...(initial.scopedModels.length > 0 ? { scopedModels: initial.scopedModels } : {}),
       ...(toolsOption !== undefined ? { tools: toolsOption } : {}),
-      ...(customTools.length > 0 ? { customTools } : {}),
     });
 
-    if (agentConfig) persistUnflushedSession(sessionManager);
+    persistUnflushedSession(sessionManager);
 
     const persistedPreferences = await persistExplicitStartupPreferences(
       services.settingsManager,
@@ -1838,13 +1674,7 @@ export async function startRpcSession(
     );
     if (persistedPreferences.modelDefaultChanged) invalidateModelsCache();
 
-    // Generic toolbar presets retain installed extensions. Bound profiles use
-    // only their explicitly listed tools, including extension and MCP tools.
-    if (agentConfig?.tools === undefined && effectiveToolNames && effectiveToolNames.length > 0) {
-      inner.setActiveToolsByName(withExtensionTools(inner, effectiveToolNames));
-    }
-
-    const wrapper = new AgentSessionWrapper(inner, agentConfig?.tools);
+    const wrapper = new AgentSessionWrapper(inner, effectiveToolNames);
     // When all tools are disabled, clear the system prompt entirely.
     // pi's buildSystemPrompt always produces a non-empty prompt even with no tools;
     // keep this forced after extension resource discovery and reloads as well.

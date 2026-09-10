@@ -1,0 +1,244 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "9a6d4e109fad4b9aa85aeffe5655d465",
+  "created_at": "2026-09-08T04:22:01.201459+00:00",
+  "updated_at": "2026-09-08T04:22:03.605813+00:00",
+  "status": "failed",
+  "current_stage": "pnr",
+  "source": "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/inputs/MAJ/1bitAdderMaj.v",
+  "design_type": "combinational",
+  "configuration": {
+    "root": "/home/lys/projects/github/FCNPilot/engine",
+    "build_dir": "/home/lys/projects/github/FCNPilot/engine/build",
+    "python": "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+    "backend": "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_combinational_pnr",
+    "sequential_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_sequential_cyclic_pnr",
+    "regular_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_regular_clock_pnr",
+    "yosys_binary": "/home/lys/projects/github/FCNPilot/engine/build/tools/yosys-local/usr/bin/yosys"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "x0",
+      "x1",
+      "x2"
+    ],
+    "warnings": [],
+    "outputs": [
+      "y0"
+    ],
+    "assignment_count": 2,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 45,
+    "model": "bistable",
+    "algorithm": "normal_2ddwave",
+    "clock_scheme": "2DDWave",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-08T04:22:01.248958+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "45"
+        ]
+      ],
+      "completed_at": "2026-09-08T04:22:01.409098+00:00"
+    },
+    "pnr": {
+      "status": "failed",
+      "started_at": "2026-09-08T04:22:01.409847+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/01_normal_2ddwave_original",
+          "--algorithm",
+          "normal_2ddwave",
+          "--seed",
+          "1",
+          "--budget",
+          "42",
+          "--clock",
+          "2DDWave",
+          "--initial-placement",
+          "original"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/01_normal_2ddwave_original/layout.ifcn",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/01_normal_2ddwave_original/interface_check",
+          "--qca-only"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/02_normal_2ddwave_source_order_transposed",
+          "--algorithm",
+          "normal_2ddwave",
+          "--seed",
+          "1",
+          "--budget",
+          "41",
+          "--clock",
+          "2DDWave",
+          "--initial-placement",
+          "transposed"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/02_normal_2ddwave_source_order_transposed/layout.ifcn",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/02_normal_2ddwave_source_order_transposed/interface_check",
+          "--qca-only"
+        ]
+      ],
+      "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log."
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 151,
+      "sha256": "8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 399,
+      "sha256": "36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 1801,
+      "sha256": "7b4dbf7b658fa89555727ae432a1a069950b24673dc534b38eb020b0a169c360"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 412,
+      "sha256": "ee89a2b48f8340eede61f58682094ad3e1b1fbd3a42195dc91e8aa1053ed031d"
+    },
+    "pnr_attempts/01_normal_2ddwave_original_pnr.json": {
+      "path": "02_pnr_1/01_normal_2ddwave_original/pnr.json",
+      "bytes": 4297,
+      "sha256": "fa656be6191dbcd677ab1928787167762c46d5b175c71dedcd435141d9ef0920"
+    },
+    "pnr_attempts/01_normal_2ddwave_original_logic.json": {
+      "path": "02_pnr_1/01_normal_2ddwave_original/logic.json",
+      "bytes": 2467,
+      "sha256": "db917aae5cb81a759b01a3ba3f8537ace83deb1abb0e296b942044a98c91e7f1"
+    },
+    "pnr_attempts/01_normal_2ddwave_original_clock.json": {
+      "path": "02_pnr_1/01_normal_2ddwave_original/clock.json",
+      "bytes": 1954,
+      "sha256": "4cbc4d9642b46ab4b5857dd0cfdf2be7482f4047502b84c2795530cda8c1ce7e"
+    },
+    "pnr_attempts/02_normal_2ddwave_source_order_transposed_input.v": {
+      "path": "02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input.v",
+      "bytes": 399,
+      "sha256": "36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525"
+    },
+    "pnr_attempts/02_normal_2ddwave_source_order_transposed_pnr.json": {
+      "path": "02_pnr_1/02_normal_2ddwave_source_order_transposed/pnr.json",
+      "bytes": 4372,
+      "sha256": "a89b6795b23dc66569f1c568a42a40a63cc03dec216419ce3d8625f60baa324c"
+    },
+    "pnr_attempts/02_normal_2ddwave_source_order_transposed_logic.json": {
+      "path": "02_pnr_1/02_normal_2ddwave_source_order_transposed/logic.json",
+      "bytes": 2482,
+      "sha256": "57db8c29378f76a1893251725612dd053451fcff12d7b9b16ca5e07e5fa5782f"
+    },
+    "pnr_attempts/02_normal_2ddwave_source_order_transposed_clock.json": {
+      "path": "02_pnr_1/02_normal_2ddwave_source_order_transposed/clock.json",
+      "bytes": 1954,
+      "sha256": "b943c4d130dc5b0f20d8169fd9071ceb749203e73bebeab35c87dbadd98e4066"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 1188,
+      "sha256": "411cde6c27819d64bcb6e03c34fd8e302e2213be630ec921b232cc551f70c747"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 7576,
+      "sha256": "d1e8a46dfaf51096811df2fa7fc7a4b41830b31bcc95f4c436162c71b59dd1f3"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 3,
+      "output_count": 1
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "normal_2ddwave",
+      "requested_clock": "2DDWave",
+      "selected_algorithm": null,
+      "selected_variant": null,
+      "policy": "First validated backend; bounded variants replace the valid baseline only when area and actual QCA cell count do not increase and at least one decreases; no global optimality claim",
+      "attempts": [
+        {
+          "algorithm": "normal_2ddwave",
+          "variant": "original",
+          "status": "failed",
+          "budget_s": 45.0,
+          "started_at": "2026-09-08T04:22:01.410883+00:00",
+          "directory": "02_pnr_1/01_normal_2ddwave_original",
+          "error": "pnr command exited with 1. ifcn_energy_analysis failed: physical route endpoint is missing from its node template\n",
+          "elapsed_s": 1.257
+        },
+        {
+          "algorithm": "normal_2ddwave",
+          "variant": "source_order_transposed",
+          "status": "failed",
+          "budget_s": 43.742,
+          "started_at": "2026-09-08T04:22:02.669092+00:00",
+          "directory": "02_pnr_1/02_normal_2ddwave_source_order_transposed",
+          "error": "pnr command exited with 1. ifcn_energy_analysis failed: physical route endpoint is missing from its node template\n",
+          "elapsed_s": 0.936
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log.",
+  "worker_pid": 82576,
+  "active": false,
+  "log_tail": "-------------------Orginal circuit info-------------------\ncircuit name : /home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/normalized.v\nnode number: 12\nedges number: 14\n-------------------After optimize-------------------\nparse mode: requested=compact, resolved=compact\nnodes number: 9\nedges number: 11\ntotal layers: 5\ndiffer-layer route pairs: 4\n-------------------Graphviz + exact-gain sifting-------------------\n[Graphviz+sifting] crossings=0 (removed 0 after dot), dot=0.007s, sift=0.000s, evaluations=10, fallback=False\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/01_normal_2ddwave_original/normalized_raw.svg\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/01_normal_2ddwave_original/normalized.svg\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/01_normal_2ddwave_original/normalized_physical.svg\n[✅] Latex file generated: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/01_normal_2ddwave_original/normalized.v.tex\nifcn_energy_analysis failed: physical route endpoint is missing from its node template\n-------------------Orginal circuit info-------------------\ncircuit name : /home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input.v\nnode number: 12\nedges number: 14\n-------------------After optimize-------------------\nparse mode: requested=compact, resolved=compact\nnodes number: 9\nedges number: 11\ntotal layers: 5\ndiffer-layer route pairs: 4\n-------------------Graphviz + exact-gain sifting-------------------\n[Graphviz+sifting] crossings=0 (removed 0 after dot), dot=0.006s, sift=0.000s, evaluations=10, fallback=False\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input_raw.svg\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input.svg\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input_physical.svg\n[✅] Latex file generated: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465/02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input.v.tex\nifcn_energy_analysis failed: physical route endpoint is missing from its node template\n",
+  "run_directory": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9a6d4e109fad4b9aa85aeffe5655d465"
+}

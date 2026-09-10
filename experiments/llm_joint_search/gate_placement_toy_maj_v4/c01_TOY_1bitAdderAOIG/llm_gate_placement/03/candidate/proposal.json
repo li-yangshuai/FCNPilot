@@ -1,0 +1,119 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        20,
+        31
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        24,
+        31
+      ]
+    },
+    {
+      "op": "move",
+      "node": 12,
+      "to": [
+        24,
+        34
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        22,
+        28
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "op": "swap",
+      "nodes": [
+        5,
+        6
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      11
+    ],
+    [
+      0,
+      10
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      9,
+      11
+    ],
+    [
+      10,
+      3
+    ],
+    [
+      11,
+      4
+    ],
+    [
+      12,
+      3
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      11,
+      12
+    ]
+  ],
+  "rationale": "Contract vertical fanout cluster around x=22–24: move 9→(22,28) aligns with fanin from 5 (now at original 6’s position (25,23)) and 7→(24,26), reducing edge [7,9] Manhattan to 4 (unchanged) but enabling straighter routing. Swap 5↔6 separates them cleanly (5→(25,23), 6→(23,23)) avoiding prior collision while preserving fanin symmetry to 9 and 4. Move 10→(20,31) and 11→(24,31) place them directly under outputs 3(23,37) and 4(27,37), shortening [10,3] to Manhattan 7 (x=20→23, y=31→37) and [11,4] to Manhattan 6 (x=24→27, y=31→37). 12→(24,34) keeps [11,12] Manhattan 3 and [12,3] Manhattan 4 with vertical path through x=24→23. Vacancy hotspots at (18–21,32–34) and (24–26,30–31) absorb moves; min_x reduces to 20 (port 0 unchanged), max_x stays 27 (port 4), but y-extent compresses via tighter internal packing—critical edge [2,6] detour drops further (now 4 steps), and total routed area is expected to shrink below 144 due to reduced wire spread in central column."
+}

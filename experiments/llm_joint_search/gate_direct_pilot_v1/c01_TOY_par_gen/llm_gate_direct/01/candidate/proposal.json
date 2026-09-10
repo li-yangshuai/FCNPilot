@@ -1,0 +1,95 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        25,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        23,
+        25
+      ]
+    },
+    {
+      "op": "swap",
+      "nodes": [
+        12,
+        15
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      4,
+      10
+    ],
+    [
+      6,
+      11
+    ],
+    [
+      8,
+      15
+    ],
+    [
+      10,
+      12
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      13,
+      16
+    ],
+    [
+      15,
+      3
+    ],
+    [
+      16,
+      3
+    ],
+    [
+      0,
+      16
+    ],
+    [
+      1,
+      11
+    ],
+    [
+      2,
+      10
+    ]
+  ],
+  "rationale": "Prioritize early fanout edges (0→8,1→4,2→6) to reduce congestion in dense mid-layer region; route reconvergent paths (10→12,11→12) before their merge node 12 is used downstream; place high-detour edge [4,10] earlier after moving 10/11 into vacancy at (25,25)/(23,25) to cut 13-step detour; swap 12↔15 to align with lower-y vacancy and shorten 12→15 and 15→3."
+}

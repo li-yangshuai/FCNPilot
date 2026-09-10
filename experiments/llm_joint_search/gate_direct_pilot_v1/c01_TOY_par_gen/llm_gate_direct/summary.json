@@ -1,0 +1,1445 @@
+{
+  "initial": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "selected": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "selected_round": null,
+  "selected_artifact_source": "inputs",
+  "port_policy": "movable",
+  "round_budget": 4,
+  "rounds_completed": 4,
+  "budget_complete": true,
+  "model_request_attempts": 4,
+  "successful_model_proposals": 4,
+  "backend_evaluation_attempts": 4,
+  "native_execution_reports": 4,
+  "diagnostic_backend_evaluation_attempts": 0,
+  "outcomes": {
+    "retain_best": 4
+  },
+  "model_errors": {},
+  "final_node_changes": [],
+  "selected_hashes": {
+    "device_energy_input.qca": "e0e6d5d3e856f126449bb97fda9e842e867245628e0ab679e591c761ca6ba7b8",
+    "interface.json": "671d433f37297cd9e22e8d570043f7cd04a3dfece12b9d3f9c553bab517348fa",
+    "logic.json": "517310f41bd5e7b6be2595fea0f5ce5adefdef7b29eed0c10603cbccf3875e67",
+    "layout_candidate.json": "e2184ba7d2736c21bd19a8141c38ce8c7f9b116ea622b0e6655484f1b9035184",
+    "normalized.v": "74dd4c190b54b0c946f481d3134148de153f5afe27e90626234ee29ed9f48f1b",
+    "layout.ifcn": "60868009231b32c6f3d99257ae4b3a1d64c886890ce7292ed50303ec56db1b96",
+    "source.v": "9b345754736a4fff843aee1499631f401cd5fe39214c7e649343a880eb028762",
+    "physical.json": "d29443e9e4f38a69a7e30133cdbd6e5ad1222236b118e6edccc4484c8a7ef678",
+    "clock.json": "ec650a83bf1682f439a16c82708b52edfe6c6fabd86e61f1395888ac5e58ca76",
+    "routed_dag.json": "dd8f6b6b75b003dca9ced0a7d0eaf0d9a6dfd29530bb6075845000148cbf5539"
+  },
+  "source_and_DAG_unchanged": true,
+  "rounds": [
+    {
+      "round": 1,
+      "status": "certified",
+      "start_metrics": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "start_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb",
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 12540,
+        "output": 283,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 12823
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              25,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              25
+            ]
+          },
+          {
+            "op": "swap",
+            "nodes": [
+              12,
+              15
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            16,
+            3
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            10
+          ]
+        ],
+        "rationale": "Prioritize early fanout edges (0→8,1→4,2→6) to reduce congestion in dense mid-layer region; route reconvergent paths (10→12,11→12) before their merge node 12 is used downstream; place high-detour edge [4,10] earlier after moving 10/11 into vacancy at (25,25)/(23,25) to cut 13-step detour; swap 12↔15 to align with lower-y vacancy and shorten 12→15 and 15→3."
+      },
+      "start_sha256": "e2184ba7d2736c21bd19a8141c38ce8c7f9b116ea622b0e6655484f1b9035184",
+      "moves": [
+        {
+          "node_id": 10,
+          "name": "w2",
+          "from": [
+            26,
+            26
+          ],
+          "to": [
+            25,
+            25
+          ]
+        },
+        {
+          "node_id": 11,
+          "name": "w4",
+          "from": [
+            24,
+            26
+          ],
+          "to": [
+            23,
+            25
+          ]
+        },
+        {
+          "node_id": 12,
+          "name": "n1",
+          "from": [
+            24,
+            28
+          ],
+          "to": [
+            22,
+            31
+          ]
+        },
+        {
+          "node_id": 15,
+          "name": "w8",
+          "from": [
+            22,
+            31
+          ],
+          "to": [
+            24,
+            28
+          ]
+        }
+      ],
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            16,
+            3
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            10
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            16,
+            3
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            10
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true,
+        "io_locked": false
+      },
+      "metrics": {
+        "width": 11,
+        "height": 18,
+        "area_tiles": 198,
+        "qca_cells": 576,
+        "edge_steps": 118,
+        "output_arrival_ticks": {
+          "3": [
+            21,
+            21
+          ]
+        }
+      },
+      "certificates": {
+        "logic": "equivalent",
+        "clock": true,
+        "physical": true,
+        "interface": true
+      },
+      "route_changes": [
+        {
+          "source": 0,
+          "target": 16,
+          "before_steps": 18,
+          "after_steps": 20
+        },
+        {
+          "source": 1,
+          "target": 4,
+          "before_steps": 6,
+          "after_steps": 4
+        },
+        {
+          "source": 1,
+          "target": 11,
+          "before_steps": 7,
+          "after_steps": 7
+        },
+        {
+          "source": 2,
+          "target": 10,
+          "before_steps": 8,
+          "after_steps": 14
+        },
+        {
+          "source": 4,
+          "target": 10,
+          "before_steps": 13,
+          "after_steps": 3
+        },
+        {
+          "source": 6,
+          "target": 11,
+          "before_steps": 7,
+          "after_steps": 9
+        },
+        {
+          "source": 8,
+          "target": 15,
+          "before_steps": 9,
+          "after_steps": 8
+        },
+        {
+          "source": 10,
+          "target": 12,
+          "before_steps": 6,
+          "after_steps": 9
+        },
+        {
+          "source": 11,
+          "target": 12,
+          "before_steps": 2,
+          "after_steps": 11
+        },
+        {
+          "source": 12,
+          "target": 13,
+          "before_steps": 3,
+          "after_steps": 2
+        },
+        {
+          "source": 12,
+          "target": 15,
+          "before_steps": 5,
+          "after_steps": 5
+        },
+        {
+          "source": 15,
+          "target": 3,
+          "before_steps": 7,
+          "after_steps": 12
+        },
+        {
+          "source": 16,
+          "target": 3,
+          "before_steps": 4,
+          "after_steps": 4
+        }
+      ],
+      "elapsed_s": 14.463203641000291,
+      "node_changes": [
+        {
+          "node_id": 10,
+          "name": "w2",
+          "from": [
+            26,
+            26
+          ],
+          "to": [
+            25,
+            25
+          ]
+        },
+        {
+          "node_id": 11,
+          "name": "w4",
+          "from": [
+            24,
+            26
+          ],
+          "to": [
+            23,
+            25
+          ]
+        },
+        {
+          "node_id": 12,
+          "name": "n1",
+          "from": [
+            24,
+            28
+          ],
+          "to": [
+            22,
+            31
+          ]
+        },
+        {
+          "node_id": 15,
+          "name": "w8",
+          "from": [
+            22,
+            31
+          ],
+          "to": [
+            24,
+            28
+          ]
+        }
+      ],
+      "decision": "retain_best",
+      "retained_metrics": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "next_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb"
+    },
+    {
+      "round": 2,
+      "status": "failed",
+      "start_metrics": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "start_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb",
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 1154,
+        "output": 288,
+        "cacheRead": 12160,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 13602
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              25
+            ]
+          },
+          {
+            "op": "swap",
+            "nodes": [
+              12,
+              15
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            16,
+            3
+          ]
+        ],
+        "rationale": "Prioritize high-detour edges [4,10] and [6,11] first to exploit newly created vacancy at (22,25)/(23,25) and reduce congestion in dense mid-layer; route reconvergent inputs (10→12, 11→12) immediately after their sources are placed; swap 12↔15 aligns n1 and w8 vertically to shorten 12→15 and 15→3 while freeing y=28 for cleaner vertical routing; preserve early fanout (0→8,0→16) after critical path edges to avoid blocking."
+      },
+      "start_sha256": "e2184ba7d2736c21bd19a8141c38ce8c7f9b116ea622b0e6655484f1b9035184",
+      "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: rerouting violates the baseline algorithm's same-phase clock constraints; Native process exited with 10\n",
+      "routing_audit": {
+        "requested_order": [
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            16,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            16,
+            3
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true,
+        "io_locked": false
+      },
+      "unrouted_edges": [],
+      "elapsed_s": 16.0414839999994,
+      "decision": "retain_best",
+      "retained_metrics": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "next_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb"
+    },
+    {
+      "round": 3,
+      "status": "failed",
+      "start_metrics": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "start_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb",
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 13965,
+        "output": 318,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 14283
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              26
+            ]
+          },
+          {
+            "op": "swap",
+            "nodes": [
+              12,
+              15
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            16,
+            3
+          ]
+        ],
+        "rationale": "Prioritize high-detour edges [4,10] and [6,11] first to exploit low-congestion vacancy at (22,26)/(23,26) and reduce mid-layer wire density; route reconvergent paths (10→12, 11→12) immediately after their sources are placed to avoid blocking the shared node 12; swap 12↔15 aligns n1 and w8 vertically using y=28–31 vacancy, shortening both 12→15 (now 3 steps) and 15→3 (now 5 steps); retain all 16 edges in exact order with early fanout edges after critical path to preserve timing while freeing space for compact vertical routing near output."
+      },
+      "start_sha256": "e2184ba7d2736c21bd19a8141c38ce8c7f9b116ea622b0e6655484f1b9035184",
+      "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: rerouting violates the baseline algorithm's same-phase clock constraints; Native process exited with 10\n",
+      "routing_audit": {
+        "requested_order": [
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            16,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            16,
+            3
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true,
+        "io_locked": false
+      },
+      "unrouted_edges": [],
+      "elapsed_s": 13.638929885000834,
+      "decision": "retain_best",
+      "retained_metrics": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "next_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb"
+    },
+    {
+      "round": 4,
+      "status": "failed",
+      "start_metrics": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "start_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb",
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 1719,
+        "output": 326,
+        "cacheRead": 12928,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 14973
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              25
+            ]
+          },
+          {
+            "op": "swap",
+            "nodes": [
+              12,
+              15
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            16,
+            3
+          ]
+        ],
+        "rationale": "Prioritize low-detour fanout edges first (0→8,1→4,2→6) to establish clean early routing; place high-detour [4,10] and [6,11] immediately after their sources are relocated into the low-density vacancy at (22,25)/(23,25), reducing congestion in the dense mid-layer; route reconvergent paths (10→12,11→12) before node 12 is used downstream; swap 12↔15 aligns n1 and w8 vertically using y=28–31 vacancy to shorten 12→15 and 15→3; defer long-path edges (0→16,16→3) until after critical reconvergence to avoid blocking compact vertical channels near output."
+      },
+      "start_sha256": "e2184ba7d2736c21bd19a8141c38ce8c7f9b116ea622b0e6655484f1b9035184",
+      "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 8) has an absent or invalid clock phase at (20, 20); Route (0, 8) has an absent or invalid clock phase at (20, 21); Route (0, 8) has an absent or invalid clock phase at (20, 22); Route (0, 8) has an absent or invalid clock phase at (20, 23)\n",
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            16,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            0,
+            16
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            10
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true,
+        "io_locked": false
+      },
+      "unrouted_edges": [
+        [
+          2,
+          10
+        ],
+        [
+          16,
+          3
+        ]
+      ],
+      "elapsed_s": 10.696523213000546,
+      "decision": "retain_best",
+      "retained_metrics": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "next_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb"
+    }
+  ]
+}

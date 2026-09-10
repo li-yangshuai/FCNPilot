@@ -1,0 +1,104 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        22,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 6,
+      "to": [
+        27,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        23,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 18,
+      "to": [
+        28,
+        26
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      1,
+      16
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      8,
+      5
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      9,
+      13
+    ],
+    [
+      14,
+      6
+    ],
+    [
+      14,
+      16
+    ],
+    [
+      16,
+      5
+    ],
+    [
+      18,
+      6
+    ],
+    [
+      1,
+      9
+    ],
+    [
+      4,
+      11
+    ],
+    [
+      7,
+      14
+    ],
+    [
+      13,
+      18
+    ]
+  ],
+  "rationale": "Selects the sink-pressure/layer/long-edge routing order with a 2-tile y-height reduction (proxy area 100 vs current 120) and minimal node moves (4 nodes), preserving existing congestion patterns while prioritizing long critical-path edges early—observable from routing_order placing [1,16] and [2,7] first, which have high fanout and contribute to output arrival; this ordering matches the current longest-delay edges (e.g., [8,5] at 9 ticks, [14,6] at 7 ticks) for potential congestion relief."
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 3,
+      "to": [
+        21,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        21,
+        23
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      5,
+      2
+    ],
+    [
+      4,
+      2
+    ]
+  ],
+  "rationale": "Move AND gate 3 to (21,21) and NOT gate 5 to (21,23) to collapse the internal y-span from 22–25 to 21–23, eliminating the congested horizontal detour on edge [1,3] (6→4 steps) and enabling a shared vertical channel at x=21 for both fanin paths to output 2. Routing order prioritizes reconvergent inputs (0→4, 1→4), then local fanins (0→3, 1→3), then sequential chain (3→5, 5→2), ending with longest path (4→2) to avoid blocking—consistent with prior successful ordering and reduced Manhattan proxy (27→25)."
+}

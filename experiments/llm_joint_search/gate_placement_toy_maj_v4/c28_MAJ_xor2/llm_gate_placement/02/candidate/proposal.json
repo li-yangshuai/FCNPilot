@@ -1,0 +1,200 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 17,
+      "to": [
+        28,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 18,
+      "to": [
+        28,
+        28
+      ]
+    },
+    {
+      "op": "move",
+      "node": 19,
+      "to": [
+        28,
+        30
+      ]
+    },
+    {
+      "op": "move",
+      "node": 29,
+      "to": [
+        27,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 30,
+      "to": [
+        27,
+        28
+      ]
+    },
+    {
+      "op": "move",
+      "node": 6,
+      "to": [
+        25,
+        28
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      16,
+      4
+    ],
+    [
+      15,
+      4
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      28,
+      7
+    ],
+    [
+      30,
+      10
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      25,
+      8
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      26,
+      11
+    ],
+    [
+      13,
+      14
+    ],
+    [
+      23,
+      14
+    ],
+    [
+      1,
+      16
+    ],
+    [
+      0,
+      15
+    ],
+    [
+      16,
+      29
+    ],
+    [
+      3,
+      17
+    ],
+    [
+      15,
+      27
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      4,
+      24
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      17,
+      18
+    ],
+    [
+      27,
+      28
+    ],
+    [
+      29,
+      30
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      24,
+      25
+    ],
+    [
+      19,
+      20
+    ],
+    [
+      10,
+      26
+    ],
+    [
+      20,
+      21
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      21,
+      22
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      22,
+      23
+    ],
+    [
+      14,
+      2
+    ]
+  ],
+  "rationale": "Contract the right-side wire chain (17→18→19→20→…→23) and fanout branch (16→29→30→10) toward the central column x=27–28, reducing horizontal span from x=21–30 to x=21–28. Nodes 17–19 move left 2 columns into vacancy hotspots (window_27_32_27_33, window_25_31_25_31), aligning with node 29’s anchor at [24,22] and node 30’s at [26,25]. Node 6 moves to [25,28] to bridge the gap between nodes 5 and 7, eliminating the detour in edge [5,6] (was 4 steps, Manhattan 4) and enabling shared vertical routing with node 9. All moved nodes are internal, non-colliding, and within bounds; this reduces min_x unchanged but cuts max_x from 30→28, shrinking width from 10→9 while preserving logical levels and port positions."
+}

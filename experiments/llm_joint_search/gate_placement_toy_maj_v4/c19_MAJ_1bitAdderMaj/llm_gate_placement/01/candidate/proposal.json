@@ -1,0 +1,104 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 4,
+      "to": [
+        24,
+        20
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        22,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        24,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        22,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        23,
+        29
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      1,
+      10
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      11,
+      3
+    ]
+  ],
+  "rationale": "Contract internal gates toward neighbor-anchor medians (e.g., node 4→[24,20], 5→[22,25], 7→[24,23], 10→[22,23]) to reduce horizontal spread; shift 8 and 11 vertically into sparse y=26–29 band (vacancy hotspot in window_21_27_25_31) to shrink top extent. This aligns with unevaluated hint #5 but adjusts 8 and 11 upward to avoid congestion at y=28 and exploit empty tiles above 8’s current position. All moves stay within coordinate bounds, preserve DAG edges, and target area-controlling nodes: left (id=1), right (id=7 now at x=24), bottom (PIs fixed), top (id=3 at y=34 remains but 11 moves to y=29, enabling tighter routing). No port moved, but internal contraction reduces routed bbox width from 8→6 and height potentially from 15→14 if routing succeeds."
+}

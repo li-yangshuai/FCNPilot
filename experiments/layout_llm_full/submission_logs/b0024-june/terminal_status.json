@@ -1,0 +1,208 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "b4bde9e621db484691497bb474521d5b",
+  "created_at": "2026-09-08T04:23:47.271744+00:00",
+  "updated_at": "2026-09-08T04:23:47.799772+00:00",
+  "status": "failed",
+  "current_stage": "pnr",
+  "source": "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/inputs/MAJ/par_check.v",
+  "design_type": "combinational",
+  "configuration": {
+    "root": "/home/lys/projects/github/FCNPilot/engine",
+    "build_dir": "/home/lys/projects/github/FCNPilot/engine/build",
+    "python": "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+    "backend": "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_combinational_pnr",
+    "sequential_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_sequential_cyclic_pnr",
+    "regular_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_regular_clock_pnr",
+    "yosys_binary": "/home/lys/projects/github/FCNPilot/engine/build/tools/yosys-local/usr/bin/yosys"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "x0",
+      "x1",
+      "x2",
+      "x3"
+    ],
+    "warnings": [],
+    "outputs": [
+      "y0"
+    ],
+    "assignment_count": 6,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 45,
+    "model": "bistable",
+    "algorithm": "june_random",
+    "clock_scheme": "irregular",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-08T04:23:47.319047+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b4bde9e621db484691497bb474521d5b/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b4bde9e621db484691497bb474521d5b/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "45"
+        ]
+      ],
+      "completed_at": "2026-09-08T04:23:47.480357+00:00"
+    },
+    "pnr": {
+      "status": "failed",
+      "started_at": "2026-09-08T04:23:47.481133+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b4bde9e621db484691497bb474521d5b/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b4bde9e621db484691497bb474521d5b/02_pnr_1/01_june_random_layer_redundancy_buffers",
+          "--algorithm",
+          "june_random",
+          "--seed",
+          "1",
+          "--budget",
+          "42",
+          "--clock",
+          "irregular",
+          "--topology",
+          "layer_redundancy_buffers"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b4bde9e621db484691497bb474521d5b/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b4bde9e621db484691497bb474521d5b/02_pnr_1/02_june_random_optimized_buffers",
+          "--algorithm",
+          "june_random",
+          "--seed",
+          "1",
+          "--budget",
+          "42",
+          "--clock",
+          "irregular",
+          "--topology",
+          "optimized_buffers"
+        ]
+      ],
+      "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log."
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 324,
+      "sha256": "e1b4dac91a022b87540a04d1297b1f5decea86b55ea0e44fbabc46b8ede18bb1"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 1151,
+      "sha256": "e000adf06ccd55177f0f1017ce2017d9a49e2d9ddc194249d9f912b089f4b566"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 5204,
+      "sha256": "6a728b9e60c8889aa6f9ce463bcf918c2f769293bb1f37d34302435c189cda25"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 1297,
+      "sha256": "63dcae0a999e67a67b45b72c2bcf7787131efcc961610d0fae929cac41d77d81"
+    },
+    "pnr_attempts/01_june_random_layer_redundancy_buffers_pnr.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/pnr.json",
+      "bytes": 5426,
+      "sha256": "2238ee66801910eda70fddb73c138c3393d7e454a5ca5b749f9f49648c9469ea"
+    },
+    "pnr_attempts/02_june_random_optimized_buffers_pnr.json": {
+      "path": "02_pnr_1/02_june_random_optimized_buffers/pnr.json",
+      "bytes": 2275,
+      "sha256": "2a5dc01ac0d4b9ec3df43b476d7cafae8da2807ee1195862bb85f027f0db3d72"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 2636,
+      "sha256": "c9e2b5099e1e056517c16c3d03d856035e968cf6b7e6079fc5373a8361ac71dd"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 6902,
+      "sha256": "80c9927eaf17c4987789b0b450f3e90451b303264c548c7c51a4d2902c62358d"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 4,
+      "output_count": 1
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "june_random",
+      "requested_clock": "irregular",
+      "selected_algorithm": null,
+      "selected_variant": null,
+      "policy": "First validated backend; bounded variants replace the valid baseline only when area and actual QCA cell count do not increase and at least one decreases; no global optimality claim",
+      "attempts": [
+        {
+          "algorithm": "june_random",
+          "variant": "layer_redundancy_buffers",
+          "status": "failed",
+          "budget_s": 45.0,
+          "started_at": "2026-09-08T04:23:47.482132+00:00",
+          "directory": "02_pnr_1/01_june_random_layer_redundancy_buffers",
+          "error": "pnr command exited with 1. Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 175, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (18, 19) has an absent or invalid clock phase at (28, 39); Route (18, 19) has an absent or invalid clock phase at (27, 39); Route (18, 19) has an absent or invalid clock phase at (27, 38); Route (18, 19) has an absent or invalid clock phase at (26, 38)\n",
+          "elapsed_s": 0.158
+        },
+        {
+          "algorithm": "june_random",
+          "variant": "optimized_buffers",
+          "status": "failed",
+          "budget_s": 44.841,
+          "started_at": "2026-09-08T04:23:47.641148+00:00",
+          "directory": "02_pnr_1/02_june_random_optimized_buffers",
+          "error": "pnr command exited with 1. Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 175, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: The same source-tree pair crosses more than once: (13, 24)\n",
+          "elapsed_s": 0.158
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log.",
+  "worker_pid": 83351,
+  "active": false,
+  "log_tail": "Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 175, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (18, 19) has an absent or invalid clock phase at (28, 39); Route (18, 19) has an absent or invalid clock phase at (27, 39); Route (18, 19) has an absent or invalid clock phase at (27, 38); Route (18, 19) has an absent or invalid clock phase at (26, 38)\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 175, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: The same source-tree pair crosses more than once: (13, 24)\n",
+  "run_directory": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b4bde9e621db484691497bb474521d5b"
+}

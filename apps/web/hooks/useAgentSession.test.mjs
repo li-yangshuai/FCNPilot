@@ -34,7 +34,7 @@ test("keeps the session event stream open through the idle grace window", () => 
   );
   const sendSource = source.slice(
     source.indexOf("  const handleSend = useCallback"),
-    source.indexOf("  const executeBash = useCallback"),
+    source.indexOf("  const handleAbort = useCallback"),
   );
 
   assert.match(source, /const EVENT_STREAM_IDLE_GRACE_MS = 30_000/);
@@ -70,10 +70,10 @@ test("a rejected submission preserves a different run reported by the server", (
   assert.match(reconcileSource, /if \(!agentRunningRef\.current\) return;[\s\S]*?finishPromptWithoutStream/);
 });
 
-test("opening System lazily starts a dormant session without sending a prompt", () => {
+test("the optional main-policy inspector starts a dormant session without sending a prompt", () => {
   const loadSystemPromptSource = source.slice(
     source.indexOf("  const loadSystemPrompt = useCallback"),
-    source.indexOf("  const loadSlashCommands = useCallback"),
+    source.indexOf("  const cancelEventStreamGrace = useCallback"),
   );
   const loaderEffectSource = source.slice(
     source.indexOf("  useEffect(() => {\n    onSystemPromptLoaderChange"),
@@ -87,15 +87,8 @@ test("opening System lazily starts a dormant session without sending a prompt", 
   assert.match(loadSystemPromptSource, /setSystemPrompt\(state\.systemPrompt \?\? ""\)/);
   assert.match(loaderEffectSource, /onSystemPromptLoaderChange\?\.\(loadSystemPrompt\)/);
   assert.match(loaderEffectSource, /onSystemPromptLoaderChange\?\.\(null\)/);
-  assert.match(appShellSource, /onClick=\{\(\) => handleSystemPromptToggle\(mobile\)\}/);
-  assert.match(appShellSource, /systemPromptLoaderRef\.current/);
-  assert.doesNotMatch(appShellSource, /systemPrompt !== null \|\| systemPromptLoading/);
-  assert.match(appShellSource, /const loadId = \+\+systemPromptLoadIdRef\.current/);
-  assert.match(appShellSource, /systemPromptLoadIdRef\.current === loadId/);
-  assert.match(
-    appShellSource,
-    /handleSystemPromptLoaderChange[\s\S]*?systemPromptLoadIdRef\.current \+= 1;[\s\S]*?setSystemPromptLoading\(false\)/,
-  );
+  assert.match(chatWindowSource, /onSystemPromptLoaderChange/);
+  assert.doesNotMatch(loadSystemPromptSource, /set_tools|install|delegate/);
 });
 
 test("new-session promotion rekeys drafts before publishing the real session", () => {
@@ -114,27 +107,16 @@ test("new-session promotion rekeys drafts before publishing the real session", (
   assert.match(chatWindowSource, /draftKey=\{session\?\.id \?\? newSessionDraftKey \?\? undefined\}/);
 });
 
-test("fresh sessions restore the preferred tool preset without overriding existing sessions", () => {
-  const preferenceSource = source.slice(
-    source.indexOf("  const setToolPresetState"),
-    source.indexOf("  const scrollToBottom"),
-  );
-  const loadToolsSource = source.slice(
-    source.indexOf("  const loadTools = useCallback"),
-    source.indexOf("  const promoteNewSession"),
-  );
-  const changeSource = source.slice(
-    source.indexOf("  const handleToolPresetChange = useCallback"),
-    source.indexOf("  const scrollUserMsgToTop"),
-  );
-
-  assert.match(
-    preferenceSource,
-    /useLayoutEffect\(\(\) => \{\s*if \(!isNew \|\| sessionIdRef\.current\) return;\s*setToolPresetState\(getPreferredToolPreset\(\)\)/,
-  );
-  assert.match(changeSource, /setPreferredToolPreset\(preset\)/);
-  assert.match(changeSource, /sendAgentCommand\(sid, \{ type: "set_tools", toolNames \}\)/);
-  assert.doesNotMatch(loadToolsSource, /setPreferredToolPreset/);
+test("fresh FCN sessions send only the fixed main identity and seven-tool policy", () => {
+  const start = source.indexOf("  const ensureNewSession = useCallback");
+  const end = source.indexOf("  const handleAgentChange = useCallback", start);
+  assert.ok(start >= 0 && end > start);
+  const startup = source.slice(start, end);
+  assert.match(startup, /toolNames: \[\.\.\.FCN_TOOL_NAMES\]/);
+  assert.match(startup, /agentConfig: \{ id: FCN_AGENT_ID \}/);
+  assert.doesNotMatch(startup, /systemPrompt:|skills:|agentVersionId:|getToolNamesForPreset/);
+  assert.doesNotMatch(source, /getPreferredToolPreset|setPreferredToolPreset|handleToolPresetChange/);
+  assert.doesNotMatch(source, /type: "bash"|type: "set_tools"|buildSubagentDelegationPrompt/);
 });
 
 test("submission recovery updates live refs before a possible session rekey", () => {
@@ -154,36 +136,28 @@ test("submission recovery updates live refs before a possible session rekey", ()
 });
 
 test("stale fresh-session completion cannot replace the active composer", () => {
-  const cwdChangeSource = appShellSource.slice(
-    appShellSource.indexOf("  const handleCwdChange = useCallback"),
-    appShellSource.indexOf("  const handleSelectSession = useCallback"),
-  );
-  const newSessionSource = appShellSource.slice(
-    appShellSource.indexOf("  const handleNewSession = useCallback"),
-    appShellSource.indexOf("  // Global keyboard shortcuts"),
-  );
-  const createdSource = appShellSource.slice(
-    appShellSource.indexOf("  const handleSessionCreated = useCallback"),
-    appShellSource.indexOf("  const handleAgentEnd = useCallback"),
-  );
-
-  assert.match(newSessionSource, /const draftKey = `new:\$\{sessionId\}:\$\{cwd\}`/);
-  assert.match(newSessionSource, /activeNewSessionDraftKeyRef\.current = draftKey/);
-  assert.match(createdSource, /activeNewSessionDraftKeyRef\.current !== sourceDraftKey/);
-  assert.match(cwdChangeSource, /const currentFreshCwd = newSessionCwd \?\? activeCwd/);
-  assert.match(
-    cwdChangeSource,
-    /currentProject === newProject\s*&& \(selectedSession !== null \|\| currentFreshCwd === cwd\)/,
-  );
-  assert.match(cwdChangeSource, /if \(currentProject !== newProject\) \{[\s\S]*?setFileTabs\(\[\]\)/);
-  assert.match(
-    appShellSource,
-    /useLayoutEffect\(\(\) => \{\s*activeNewSessionDraftKeyRef\.current = newSessionDraftKey;/,
-  );
-  assert.ok(
-    createdSource.indexOf("activeNewSessionDraftKeyRef.current !== sourceDraftKey")
-      < createdSource.indexOf("setSelectedSession(session)"),
-  );
+  const created = appShellSource.match(/const onSessionCreated = useCallback\(\(session: SessionInfo, sourceDraftKey: string\) => \{([\s\S]*?)\n  \}, \[router\]\);/);
+  assert.ok(created, "the FCN shell must keep a guarded creation callback");
+  const draftKeyRef = { current: "new:active:engine" };
+  const selectedRef = { current: null };
+  const promoted = [];
+  const urls = [];
+  let refreshes = 0;
+  const onCreated = new Function("draftKeyRef", "selectedRef", "setSelected", "router", "setRefresh",
+    `return (session, sourceDraftKey) => {${created[1]}};`)(draftKeyRef, selectedRef,
+    (value) => promoted.push(value), { replace: (url) => urls.push(url) }, () => refreshes++);
+  const result = { id: "completed-circuit" };
+  onCreated(result, "new:abandoned:engine");
+  assert.deepEqual(promoted, []);
+  assert.deepEqual(urls, []);
+  selectedRef.current = { id: "other-selected-circuit" };
+  onCreated(result, draftKeyRef.current);
+  assert.deepEqual(promoted, []);
+  selectedRef.current = null;
+  onCreated(result, draftKeyRef.current);
+  assert.deepEqual(promoted, [result]);
+  assert.deepEqual(urls, ["/?session=completed-circuit"]);
+  assert.equal(refreshes, 3, "completed designs remain discoverable even if their composer was replaced");
 });
 
 test("abandoned fresh-session drafts are cleared and cannot be recreated by late rejection", () => {
@@ -255,8 +229,10 @@ test("connects a selected session when another browser reports it running", () =
   assert.doesNotMatch(source, /void connectEvents\(/);
   assert.match(chatWindowSource, /sessionRunning\?: boolean/);
   assert.match(chatWindowSource, /session, sessionRunning, newSessionCwd/);
-  assert.match(appShellSource, /runningSessionIds\.has\(selectedSession\.id\)/);
-  assert.match(appShellSource, /onRunningSessionIdsChange=\{handleRunningSessionIdsChange\}/);
+  assert.match(appShellSource, /sessionRunning=\{!!selected && running\.has\(selected\.id\)\}/);
+  assert.match(appShellSource, /"\/api\/agent\/running"/);
+  assert.match(appShellSource, /setRunning\(new Set\(data\.runningSessionIds\)\)/);
+  assert.match(appShellSource, /addEventListener\("visibilitychange", poll\)/);
 });
 
 test("keeps one reducer-owned assistant partial and consumes Pi JSON deltas", () => {
@@ -311,31 +287,15 @@ test("plays the enabled sound once for each extension dialog", () => {
   assert.match(chatWindowSource, /playDoneSoundRef\.current\(\)/);
 });
 
-test("routes blocking extension requests through deduplicated browser attention notifications", () => {
-  const completionSource = appShellSource.slice(
-    appShellSource.indexOf("  const handleAgentEnd = useCallback"),
-    appShellSource.indexOf("  const handleAttentionNeeded = useCallback"),
-  );
-  const extensionRequestSource = source.slice(
-    source.indexOf("  const handleExtensionUiRequest = useCallback"),
-    source.indexOf("  const settleUiStage = useCallback"),
-  );
-  const attentionSource = appShellSource.slice(
-    appShellSource.indexOf("  const handleAttentionNeeded = useCallback"),
-    appShellSource.indexOf("  const handleAutoName = useCallback"),
-  );
-
-  assert.match(
-    extensionRequestSource,
-    /isBlockingExtensionUiRequest\(request\)[\s\S]*?onAttentionNeeded\?\.\(request\)/,
-  );
-  assert.match(chatWindowSource, /onAttentionNeeded, onSessionCreated/);
-  assert.match(completionSource, /if \(!shouldShowBrowserNotification\(\)\) return/);
-  assert.doesNotMatch(completionSource, /document\.visibilityState === "visible"/);
-  assert.match(attentionSource, /shouldShowBrowserNotification\(\)/);
-  assert.match(attentionSource, /claimExtensionAttentionNotification\(request, notifiedAttentionRequestIdsRef\.current\)/);
-  assert.match(attentionSource, /tag: `pi-extension-ui:\$\{request\.id\}`/);
-  assert.match(appShellSource, /onAttentionNeeded=\{handleAttentionNeeded\}/);
+test("FCN extension interactions remain in the active design dialog and notification flow", () => {
+  const request = source.slice(source.indexOf("  const handleExtensionUiRequest = useCallback"),
+    source.indexOf("  const settleUiStage = useCallback"));
+  assert.match(request, /case "select":[\s\S]*?case "confirm":[\s\S]*?setExtensionDialog\(request\)/);
+  assert.match(request, /case "notify":[\s\S]*?addNotice\(/);
+  assert.match(request, /case "setStatus":[\s\S]*?setExtensionStatuses/);
+  assert.match(chatWindowSource, /extensionDialog &&/);
+  assert.match(chatWindowSource, /respondToExtensionUi/);
+  assert.doesNotMatch(appShellSource, /Notification\.requestPermission|new Notification|claimExtensionAttentionNotification/);
 });
 
 test("keeps live following cancellable when the user scrolls away from the tail", () => {
@@ -377,7 +337,7 @@ test("keeps a newly sent user message at the top while its response starts", () 
   );
   const scrollEffectSource = source.slice(
     source.indexOf("useLayoutEffect(() => {\n    if (messages.length > 0)"),
-    source.indexOf("// Load Agent backend versions"),
+    source.indexOf("// Load model list"),
   );
 
   assert.match(streamUpdateSource, /!pendingScrollToUserRef\.current && isNearBottomRef\.current/);
@@ -439,7 +399,7 @@ test("uses the prompt anchor as the only trailing message spacer", () => {
 test("keeps a detached viewport in place when streaming completes", () => {
   const scrollEffectSource = source.slice(
     source.indexOf("useLayoutEffect(() => {\n    if (messages.length > 0)"),
-    source.indexOf("// Load Agent backend versions"),
+    source.indexOf("// Load model list"),
   );
 
   assert.match(scrollEffectSource, /!agentRunningRef\.current && isNearBottomRef\.current[\s\S]*?scrollToBottom\("auto"\)/);

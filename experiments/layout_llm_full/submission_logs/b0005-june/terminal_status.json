@@ -1,0 +1,261 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "8868155d013646ba84a3e92315f15a2d",
+  "created_at": "2026-09-08T04:19:27.752725+00:00",
+  "updated_at": "2026-09-08T04:19:29.275010+00:00",
+  "status": "failed",
+  "current_stage": "pnr",
+  "source": "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/inputs/TOY/clpl.v",
+  "design_type": "combinational",
+  "configuration": {
+    "root": "/home/lys/projects/github/FCNPilot/engine",
+    "build_dir": "/home/lys/projects/github/FCNPilot/engine/build",
+    "python": "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+    "backend": "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_combinational_pnr",
+    "sequential_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_sequential_cyclic_pnr",
+    "regular_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_regular_clock_pnr",
+    "yosys_binary": "/home/lys/projects/github/FCNPilot/engine/build/tools/yosys-local/usr/bin/yosys"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "pi00",
+      "pi01",
+      "pi02",
+      "pi03",
+      "pi04",
+      "pi05",
+      "pi06",
+      "pi07",
+      "pi08",
+      "pi09",
+      "pi10"
+    ],
+    "warnings": [],
+    "outputs": [
+      "po0",
+      "po1",
+      "po2",
+      "po3",
+      "po4"
+    ],
+    "assignment_count": 10,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 45,
+    "model": "bistable",
+    "algorithm": "june_random",
+    "clock_scheme": "irregular",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-08T04:19:27.800685+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "45"
+        ]
+      ],
+      "completed_at": "2026-09-08T04:19:27.961593+00:00"
+    },
+    "pnr": {
+      "status": "failed",
+      "started_at": "2026-09-08T04:19:27.962367+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/02_pnr_1/01_june_random_layer_redundancy_buffers",
+          "--algorithm",
+          "june_random",
+          "--seed",
+          "1",
+          "--budget",
+          "42",
+          "--clock",
+          "irregular",
+          "--topology",
+          "layer_redundancy_buffers"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/02_pnr_1/01_june_random_layer_redundancy_buffers/layout.ifcn",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/02_pnr_1/01_june_random_layer_redundancy_buffers/interface_check",
+          "--qca-only"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/02_pnr_1/02_june_random_optimized_buffers",
+          "--algorithm",
+          "june_random",
+          "--seed",
+          "1",
+          "--budget",
+          "42",
+          "--clock",
+          "irregular",
+          "--topology",
+          "optimized_buffers"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/02_pnr_1/02_june_random_optimized_buffers/layout.ifcn",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/02_pnr_1/02_june_random_optimized_buffers/interface_check",
+          "--qca-only"
+        ]
+      ],
+      "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log."
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 527,
+      "sha256": "de7d65ca4373d2ed5089fa702ac40349d963ebdd3eb78e0d8c74013d284f5f62"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 498,
+      "sha256": "668f414d5dac7091dbbaeb04684342a81d2d508f951e943a829d248b13b7b6a2"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 3816,
+      "sha256": "9e2297bfcd4b75dfa0736a4a4917852719bc411beb2df57f595723e780b114b4"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 854,
+      "sha256": "e4d221d23e6cb70f22963cec3b331fc2e9dd17e59630218757256ab6d9a3768e"
+    },
+    "pnr_attempts/01_june_random_layer_redundancy_buffers_pnr.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/pnr.json",
+      "bytes": 14489,
+      "sha256": "dff5f86e5eb3b08fa6f2729ca18617b8a73bfb8e7c963c812a6019c2cfacfcda"
+    },
+    "pnr_attempts/01_june_random_layer_redundancy_buffers_logic.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/logic.json",
+      "bytes": 5194,
+      "sha256": "5781b6eba0eba5ad8525882aff0bc3b965a3652bea72bc5166ef5bb85f12e03f"
+    },
+    "pnr_attempts/01_june_random_layer_redundancy_buffers_clock.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/clock.json",
+      "bytes": 7967,
+      "sha256": "da1067fbb1d0832ba2453d1b17680ca5901c93e32f4758071341b1b9e9d986cf"
+    },
+    "pnr_attempts/01_june_random_layer_redundancy_buffers_interface.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/interface.json",
+      "bytes": 376,
+      "sha256": "e820d6b875b263f530c6b30b7b438b19a656ef6a7741b974d8da12bed265f539"
+    },
+    "pnr_attempts/02_june_random_optimized_buffers_pnr.json": {
+      "path": "02_pnr_1/02_june_random_optimized_buffers/pnr.json",
+      "bytes": 7726,
+      "sha256": "1f4be3256fea13a38acba1c971d438f5d2b906a39e321246a87de470c5352561"
+    },
+    "pnr_attempts/02_june_random_optimized_buffers_logic.json": {
+      "path": "02_pnr_1/02_june_random_optimized_buffers/logic.json",
+      "bytes": 5142,
+      "sha256": "e0a4259d27d5eba09991017391fe7f3b22292dcedf80676043b83e0aa4332bfd"
+    },
+    "pnr_attempts/02_june_random_optimized_buffers_clock.json": {
+      "path": "02_pnr_1/02_june_random_optimized_buffers/clock.json",
+      "bytes": 3169,
+      "sha256": "cd3f65842dc68c27ff84ff335e7c857addaaa5cfdc8967b37261e67672806e42"
+    },
+    "pnr_attempts/02_june_random_optimized_buffers_interface.json": {
+      "path": "02_pnr_1/02_june_random_optimized_buffers/interface.json",
+      "bytes": 376,
+      "sha256": "6e9588f6e1d2a408163c475352f138aba8f8cd5ecf77c7c47a8bb7ee1afddd38"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 1165,
+      "sha256": "09d24d4a63a8675fa6d6b031546bf0d2f6d3bbe957a7c3176bb3b26f694641fe"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 8012,
+      "sha256": "523a188453b3b822111e1c69921461d94e045ad464d7b2d7f871eae5e0234db9"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 11,
+      "output_count": 5
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "june_random",
+      "requested_clock": "irregular",
+      "selected_algorithm": null,
+      "selected_variant": null,
+      "policy": "First validated backend; bounded variants replace the valid baseline only when area and actual QCA cell count do not increase and at least one decreases; no global optimality claim",
+      "attempts": [
+        {
+          "algorithm": "june_random",
+          "variant": "layer_redundancy_buffers",
+          "status": "failed",
+          "budget_s": 45.0,
+          "started_at": "2026-09-08T04:19:27.963525+00:00",
+          "directory": "02_pnr_1/01_june_random_layer_redundancy_buffers",
+          "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+          "elapsed_s": 0.666
+        },
+        {
+          "algorithm": "june_random",
+          "variant": "optimized_buffers",
+          "status": "failed",
+          "budget_s": 44.333,
+          "started_at": "2026-09-08T04:19:28.630487+00:00",
+          "directory": "02_pnr_1/02_june_random_optimized_buffers",
+          "error": "QCA interface incomplete: expected 11 inputs/5 outputs, got 11 inputs/1 outputs; see interface.json.",
+          "elapsed_s": 0.644
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log.",
+  "worker_pid": 77532,
+  "active": false,
+  "log_tail": "qca=/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/02_pnr_1/01_june_random_layer_redundancy_buffers/interface_check_energy_input.qca\nqca=/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d/02_pnr_1/02_june_random_optimized_buffers/interface_check_energy_input.qca\n",
+  "run_directory": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8868155d013646ba84a3e92315f15a2d"
+}

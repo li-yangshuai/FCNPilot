@@ -6,7 +6,7 @@ import test from "node:test";
 import { ProjectTrustStore } from "@earendil-works/pi-coding-agent";
 import { createJiti } from "jiti";
 
-test("new iFCN sessions default to the trusted main profile without overriding explicit choices", async (t) => {
+test("new iFCN sessions default to the trusted main profile and reject other agent profiles", async (t) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "pi-new-session-agent-"));
   const cwd = path.join(root, "engine");
   const otherCwd = path.join(root, "other");
@@ -46,14 +46,14 @@ test("new iFCN sessions default to the trusted main profile without overriding e
   const main = await resolveNewSessionAgentConfig(cwd, uid);
   assert.equal(main.id, "project:ifcn");
   assert.equal(main.systemPrompt, "Directly own the circuit design workflow.");
-  assert.deepEqual(main.tools, ["read", "ifcn_capabilities", "ifcn_run", "ifcn_status", "ifcn_artifact"]);
-  assert.equal((await resolveNewSessionAgentConfig(cwd, uid, { id: "project:review" })).id, "project:review");
-  assert.equal(await resolveNewSessionAgentConfig(otherCwd, uid), undefined);
-  await assert.rejects(resolveNewSessionAgentConfig(cwd, uid, { id: "project:missing" }), /definition not found/);
-  await assert.rejects(resolveNewSessionAgentConfig(cwd, uid, {}), /valid Agent id/);
+  assert.deepEqual(main.tools, ["read", "write", "edit", "ifcn_capabilities", "ifcn_run", "ifcn_status", "ifcn_artifact"]);
+  await assert.rejects(resolveNewSessionAgentConfig(cwd, uid, { id: "project:review" }), /only supports/);
+  await assert.rejects(resolveNewSessionAgentConfig(otherCwd, uid));
+  await assert.rejects(resolveNewSessionAgentConfig(cwd, uid, { id: "project:missing" }), /only supports/);
+  await assert.rejects(resolveNewSessionAgentConfig(cwd, uid, {}), /only supports/);
 
   fs.unlinkSync(profilePath);
   await assert.rejects(resolveNewSessionAgentConfig(cwd, uid), { status: 409 });
-  assert.equal((await resolveNewSessionAgentConfig(cwd, uid, { id: "project:review" })).id, "project:review");
-  assert.equal(await resolveNewSessionAgentConfig(otherCwd, uid), undefined);
+  await assert.rejects(resolveNewSessionAgentConfig(cwd, uid, { id: "project:review" }), /only supports/);
+  await assert.rejects(resolveNewSessionAgentConfig(otherCwd, uid));
 });

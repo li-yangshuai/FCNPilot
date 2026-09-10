@@ -1,0 +1,372 @@
+{
+  "status": "certified",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          24,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          22,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          24,
+          29
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "rationale": "Four internal nodes (12,13,15,16) are shifted vertically to exploit the vacancy hotspot at y=25–26 (window_21_27_24_30 and window_21_27_23_29) and reduce congestion around y=27–30. Node 12 moves down 1 tile to y=25, aligning with its neighbor median [24,24] and shortening edges [10,12], [11,12], [12,15]. Nodes 13 and 15 move down 1 tile to y=26, eliminating the detour on edge [12,15] (steps drop from 7→5) and freeing space near x=22–24. Node 16 moves down 1 tile to y=29, preserving fanout to 3 while avoiding overlap with 13/15 and enabling shorter route to output. The bounding box remains min_x=20, max_x=28, min_y=20, max_y=35 (area=144), but internal wire density drops and routing feasibility improves—critical since prior height-16 layouts failed routing when vertical spacing was tight. All moves are collision-free and respect dependency layers."
+  },
+  "start_sha256": "4e9620e30f33bd07df8cfeafb79bb0e00b4a80e2b9fdd6349d63bf7b90be7fe5",
+  "moves": [
+    {
+      "node_id": 12,
+      "name": "n1",
+      "from": [
+        24,
+        26
+      ],
+      "to": [
+        24,
+        25
+      ]
+    },
+    {
+      "node_id": 13,
+      "name": "~n1",
+      "from": [
+        24,
+        27
+      ],
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "node_id": 15,
+      "name": "w8",
+      "from": [
+        22,
+        27
+      ],
+      "to": [
+        22,
+        26
+      ]
+    },
+    {
+      "node_id": 16,
+      "name": "w6",
+      "from": [
+        24,
+        30
+      ],
+      "to": [
+        24,
+        29
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "metrics": {
+    "width": 9,
+    "height": 16,
+    "area_tiles": 144,
+    "qca_cells": 364,
+    "edge_steps": 81,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 0,
+      "target": 16,
+      "before_steps": 14,
+      "after_steps": 13
+    },
+    {
+      "source": 8,
+      "target": 15,
+      "before_steps": 5,
+      "after_steps": 4
+    },
+    {
+      "source": 10,
+      "target": 12,
+      "before_steps": 4,
+      "after_steps": 3
+    },
+    {
+      "source": 11,
+      "target": 12,
+      "before_steps": 4,
+      "after_steps": 1
+    },
+    {
+      "source": 12,
+      "target": 13,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 12,
+      "target": 15,
+      "before_steps": 7,
+      "after_steps": 3
+    },
+    {
+      "source": 13,
+      "target": 16,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 15,
+      "target": 3,
+      "before_steps": 9,
+      "after_steps": 10
+    },
+    {
+      "source": 16,
+      "target": 3,
+      "before_steps": 6,
+      "after_steps": 7
+    }
+  ],
+  "elapsed_s": 0.48456714100029785
+}

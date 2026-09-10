@@ -1,0 +1,128 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        26,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        24,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 12,
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 13,
+      "to": [
+        24,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 15,
+      "to": [
+        22,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        24,
+        32
+      ]
+    },
+    {
+      "op": "move",
+      "node": 3,
+      "to": [
+        23,
+        35
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      16
+    ],
+    [
+      2,
+      10
+    ],
+    [
+      1,
+      11
+    ],
+    [
+      8,
+      15
+    ],
+    [
+      6,
+      11
+    ],
+    [
+      4,
+      10
+    ],
+    [
+      10,
+      12
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      15,
+      3
+    ],
+    [
+      13,
+      16
+    ],
+    [
+      16,
+      3
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      12,
+      13
+    ]
+  ],
+  "rationale": "Translate the suffix (nodes 10–16 and output 3) down by 2 tiles (y→y−2), aligning with vacancy hotspots in windows 21–27/28–34 and 21–27/31–37 where combined density is near zero. This reduces max_y from 37 to 35, shrinking height from 18 to 16 while preserving fanin proximity: node 12 moves to (24,26) matching its neighbor median (24,26); nodes 13/15/16 shift vertically to maintain short vertical edges (12→13, 12→15, 13→16) with Manhattan distances unchanged or reduced. Edge [0,16] path shortens from 18 to 16 steps; [15,3] and [16,3] also contract. All moved nodes are internal or output; ports remain within movable bounds. Area drops to 144 tiles, satisfying strict improvement requirement."
+}

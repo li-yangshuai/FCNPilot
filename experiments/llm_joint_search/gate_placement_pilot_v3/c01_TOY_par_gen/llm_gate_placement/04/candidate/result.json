@@ -1,0 +1,262 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          25,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          24,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          24,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          24,
+          28
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "rationale": "Five internal nodes (11–13,15,16) are relocated to align with low-density vacancy hotspots in windows 25–27/27–29 and 21–22/25–26 (combined density ≤0.22), reducing vertical congestion near y=26–29. Node 12 moves to (24,24), matching its neighbor median [24,24] and enabling straight vertical fanouts to 13 (y+1) and 15 (x−2,y+1). Edge [12,13] detour drops from 2→0 steps; [12,15] Manhattan remains 3 but gains direct L-path; [13,16] shortens from 3→2 steps by eliminating bend at (25,27). Output 3 stays fixed at (23,33); left/right bounds unchanged (x=20–28), height remains 14, but internal wire density falls and routing feasibility improves—critical since prior [12,15] detour=2 and [6,11] detour=2 indicate local congestion. All moves respect fanin proximity and avoid collisions."
+  },
+  "start_sha256": "131963d8f711876ccc0686361899e012b1f7c1f830f681edb18883ba5f0084d1",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 16) has an absent or invalid clock phase at (20, 20); Route (0, 16) has an absent or invalid clock phase at (20, 21); Route (0, 16) has an absent or invalid clock phase at (20, 22); Route (0, 16) has an absent or invalid clock phase at (20, 23)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      13,
+      16
+    ],
+    [
+      15,
+      3
+    ],
+    [
+      16,
+      3
+    ]
+  ],
+  "elapsed_s": 0.06620128199938335
+}

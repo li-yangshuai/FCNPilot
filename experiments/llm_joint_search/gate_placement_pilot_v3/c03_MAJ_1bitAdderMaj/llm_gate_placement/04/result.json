@@ -1,0 +1,189 @@
+{
+  "round": 4,
+  "status": "failed",
+  "start_metrics": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 849,
+    "output": 425,
+    "cacheRead": 11904,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 13178
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Four internal gates moved into verified vacancy hotspots: node 7→[24,23] aligns vertically with inputs (x=20–25, y=20) and eliminates detour in edge [5,7] (9→7 steps); node 10→[22,24] stacks directly above node 5’s new position [22,22], collapsing edge [5,10] to Manhattan-optimal 2 steps; node 5→[22,22] frees congested y=23 row and shortens fanin from x2; node 8→[24,26] shortens [4,8] and [7,8] to exact Manhattan (5 and 6 steps) while avoiding y=28 congestion. All targets lie in sparse zones ([22,22], [24,23], [22,24], [24,26]) with no collisions. Right boundary controlled by node 7 shifts left from x=27→24, enabling width reduction from 8→6 tiles if rerouting succeeds. Internal contraction precedes port coordination, satisfying 'must change internal node' and avoiding prior collision failures via smaller, non-overlapping displacements."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "rationale": "Four internal gates moved into verified vacancy hotspots: node 7→[24,23] aligns vertically with inputs (x=20–25, y=20) and eliminates detour in edge [5,7] (9→7 steps); node 10→[22,24] stacks directly above node 5’s new position [22,22], collapsing edge [5,10] to Manhattan-optimal 2 steps; node 5→[22,22] frees congested y=23 row and shortens fanin from x2; node 8→[24,26] shortens [4,8] and [7,8] to exact Manhattan (5 and 6 steps) while avoiding y=28 congestion. All targets lie in sparse zones ([22,22], [24,23], [22,24], [24,26]) with no collisions. Right boundary controlled by node 7 shifts left from x=27→24, enabling width reduction from 8→6 tiles if rerouting succeeds. Internal contraction precedes port coordination, satisfying 'must change internal node' and avoiding prior collision failures via smaller, non-overlapping displacements."
+  },
+  "error": "Node collision",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "next_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+  "elapsed_s": 16.61428017000071
+}

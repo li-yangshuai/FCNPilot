@@ -1,0 +1,1634 @@
+{
+  "initial": {
+    "width": 15,
+    "height": 19,
+    "area_tiles": 285,
+    "qca_cells": 698,
+    "edge_steps": 135,
+    "output_arrival_ticks": {
+      "8": [
+        18,
+        18
+      ]
+    }
+  },
+  "selected": {
+    "width": 15,
+    "height": 18,
+    "area_tiles": 270,
+    "qca_cells": 568,
+    "edge_steps": 109,
+    "output_arrival_ticks": {
+      "8": [
+        17,
+        17
+      ]
+    }
+  },
+  "selected_round": 1,
+  "outcomes": {
+    "accepted": 1,
+    "failed": 1
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "status": "accepted",
+      "start_metrics": {
+        "width": 15,
+        "height": 19,
+        "area_tiles": 285,
+        "qca_cells": 698,
+        "edge_steps": 135,
+        "output_arrival_ticks": {
+          "8": [
+            18,
+            18
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          20,
+          20
+        ],
+        [
+          1,
+          25,
+          20
+        ],
+        [
+          2,
+          22,
+          20
+        ],
+        [
+          3,
+          34,
+          20
+        ],
+        [
+          4,
+          29,
+          20
+        ],
+        [
+          5,
+          27,
+          20
+        ],
+        [
+          6,
+          31,
+          20
+        ],
+        [
+          7,
+          33,
+          20
+        ],
+        [
+          8,
+          27,
+          37
+        ],
+        [
+          9,
+          31,
+          23
+        ],
+        [
+          10,
+          29,
+          23
+        ],
+        [
+          12,
+          27,
+          23
+        ],
+        [
+          14,
+          29,
+          26
+        ],
+        [
+          17,
+          27,
+          26
+        ],
+        [
+          18,
+          22,
+          23
+        ],
+        [
+          20,
+          24,
+          26
+        ],
+        [
+          21,
+          31,
+          26
+        ],
+        [
+          23,
+          29,
+          28
+        ],
+        [
+          24,
+          20,
+          23
+        ],
+        [
+          26,
+          24,
+          28
+        ],
+        [
+          27,
+          28,
+          31
+        ],
+        [
+          28,
+          28,
+          34
+        ],
+        [
+          29,
+          25,
+          31
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": null,
+      "model_latency_s": 12.209826269000132,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              29,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 12,
+            "to": [
+              27,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 17,
+            "to": [
+              28,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 27,
+            "to": [
+              28,
+              29
+            ]
+          },
+          {
+            "op": "move",
+            "node": 28,
+            "to": [
+              28,
+              32
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            6,
+            9
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            1,
+            20
+          ],
+          [
+            18,
+            20
+          ],
+          [
+            10,
+            14
+          ],
+          [
+            10,
+            17
+          ],
+          [
+            12,
+            14
+          ],
+          [
+            12,
+            17
+          ],
+          [
+            14,
+            23
+          ],
+          [
+            21,
+            23
+          ],
+          [
+            17,
+            27
+          ],
+          [
+            23,
+            27
+          ],
+          [
+            20,
+            26
+          ],
+          [
+            24,
+            26
+          ],
+          [
+            26,
+            29
+          ],
+          [
+            29,
+            8
+          ],
+          [
+            27,
+            28
+          ],
+          [
+            28,
+            8
+          ],
+          [
+            0,
+            24
+          ],
+          [
+            2,
+            18
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            5,
+            12
+          ],
+          [
+            9,
+            21
+          ],
+          [
+            3,
+            28
+          ]
+        ],
+        "rationale": "Reorder to prioritize congested fanin (nodes 9, 14, 17, 23) early; move internal group {10,12,17,27,28} vertically into y=24–32 window to eliminate long detours on edges (6,9), (12,14), (17,27), and (28,8), reducing routed area and QCA cells while preserving all logical connections and fixed ports."
+      },
+      "matches_suggested_coordinates": false,
+      "start_sha256": "2972b9fd0b5d67e1cafa6ffacf90b78a620fde821e3952d60956b2a03dfec8b1",
+      "io_lock": {
+        "passed": true,
+        "fixed_node_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "scope": "PI/PO node XY coordinates only; clock phases are not pinned"
+      },
+      "moves": [
+        {
+          "node_id": 10,
+          "name": "~pi4",
+          "from": [
+            29,
+            23
+          ],
+          "to": [
+            29,
+            24
+          ]
+        },
+        {
+          "node_id": 12,
+          "name": "~pi5",
+          "from": [
+            27,
+            23
+          ],
+          "to": [
+            27,
+            24
+          ]
+        },
+        {
+          "node_id": 17,
+          "name": "n123",
+          "from": [
+            27,
+            26
+          ],
+          "to": [
+            28,
+            25
+          ]
+        },
+        {
+          "node_id": 27,
+          "name": "n12",
+          "from": [
+            28,
+            31
+          ],
+          "to": [
+            28,
+            29
+          ]
+        },
+        {
+          "node_id": 28,
+          "name": "n13",
+          "from": [
+            28,
+            34
+          ],
+          "to": [
+            28,
+            32
+          ]
+        }
+      ],
+      "routing_audit": {
+        "requested_order": [
+          [
+            6,
+            9
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            1,
+            20
+          ],
+          [
+            18,
+            20
+          ],
+          [
+            10,
+            14
+          ],
+          [
+            10,
+            17
+          ],
+          [
+            12,
+            14
+          ],
+          [
+            12,
+            17
+          ],
+          [
+            14,
+            23
+          ],
+          [
+            21,
+            23
+          ],
+          [
+            17,
+            27
+          ],
+          [
+            23,
+            27
+          ],
+          [
+            20,
+            26
+          ],
+          [
+            24,
+            26
+          ],
+          [
+            26,
+            29
+          ],
+          [
+            29,
+            8
+          ],
+          [
+            27,
+            28
+          ],
+          [
+            28,
+            8
+          ],
+          [
+            0,
+            24
+          ],
+          [
+            2,
+            18
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            5,
+            12
+          ],
+          [
+            9,
+            21
+          ],
+          [
+            3,
+            28
+          ]
+        ],
+        "executed_order": [
+          [
+            6,
+            9
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            1,
+            20
+          ],
+          [
+            18,
+            20
+          ],
+          [
+            10,
+            14
+          ],
+          [
+            10,
+            17
+          ],
+          [
+            12,
+            14
+          ],
+          [
+            12,
+            17
+          ],
+          [
+            14,
+            23
+          ],
+          [
+            21,
+            23
+          ],
+          [
+            17,
+            27
+          ],
+          [
+            23,
+            27
+          ],
+          [
+            20,
+            26
+          ],
+          [
+            24,
+            26
+          ],
+          [
+            26,
+            29
+          ],
+          [
+            29,
+            8
+          ],
+          [
+            27,
+            28
+          ],
+          [
+            28,
+            8
+          ],
+          [
+            0,
+            24
+          ],
+          [
+            2,
+            18
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            5,
+            12
+          ],
+          [
+            9,
+            21
+          ],
+          [
+            3,
+            28
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true,
+        "io_locked": true
+      },
+      "metrics": {
+        "width": 15,
+        "height": 18,
+        "area_tiles": 270,
+        "qca_cells": 568,
+        "edge_steps": 109,
+        "output_arrival_ticks": {
+          "8": [
+            17,
+            17
+          ]
+        }
+      },
+      "certificates": {
+        "logic": "equivalent",
+        "clock": true,
+        "physical": true,
+        "interface": true
+      },
+      "route_changes": [
+        {
+          "source": 3,
+          "target": 28,
+          "before_steps": 20,
+          "after_steps": 18
+        },
+        {
+          "source": 4,
+          "target": 10,
+          "before_steps": 3,
+          "after_steps": 4
+        },
+        {
+          "source": 5,
+          "target": 12,
+          "before_steps": 3,
+          "after_steps": 4
+        },
+        {
+          "source": 6,
+          "target": 9,
+          "before_steps": 13,
+          "after_steps": 3
+        },
+        {
+          "source": 7,
+          "target": 9,
+          "before_steps": 5,
+          "after_steps": 5
+        },
+        {
+          "source": 9,
+          "target": 21,
+          "before_steps": 5,
+          "after_steps": 3
+        },
+        {
+          "source": 10,
+          "target": 14,
+          "before_steps": 3,
+          "after_steps": 2
+        },
+        {
+          "source": 10,
+          "target": 17,
+          "before_steps": 5,
+          "after_steps": 2
+        },
+        {
+          "source": 12,
+          "target": 14,
+          "before_steps": 9,
+          "after_steps": 4
+        },
+        {
+          "source": 12,
+          "target": 17,
+          "before_steps": 5,
+          "after_steps": 2
+        },
+        {
+          "source": 17,
+          "target": 27,
+          "before_steps": 6,
+          "after_steps": 4
+        },
+        {
+          "source": 21,
+          "target": 23,
+          "before_steps": 4,
+          "after_steps": 4
+        },
+        {
+          "source": 23,
+          "target": 27,
+          "before_steps": 4,
+          "after_steps": 2
+        },
+        {
+          "source": 27,
+          "target": 28,
+          "before_steps": 3,
+          "after_steps": 3
+        },
+        {
+          "source": 28,
+          "target": 8,
+          "before_steps": 4,
+          "after_steps": 6
+        }
+      ],
+      "elapsed_s": 0.4420691039999838,
+      "internal_changes": {
+        "fixed_port_count": 9,
+        "all_port_coordinates_unchanged": true,
+        "moved_internal_nodes": [
+          {
+            "id": 10,
+            "type": "not",
+            "from": [
+              29,
+              23
+            ],
+            "to": [
+              29,
+              24
+            ]
+          },
+          {
+            "id": 12,
+            "type": "not",
+            "from": [
+              27,
+              23
+            ],
+            "to": [
+              27,
+              24
+            ]
+          },
+          {
+            "id": 17,
+            "type": "or",
+            "from": [
+              27,
+              26
+            ],
+            "to": [
+              28,
+              25
+            ]
+          },
+          {
+            "id": 27,
+            "type": "and",
+            "from": [
+              28,
+              31
+            ],
+            "to": [
+              28,
+              29
+            ]
+          },
+          {
+            "id": 28,
+            "type": "and",
+            "from": [
+              28,
+              34
+            ],
+            "to": [
+              28,
+              32
+            ]
+          }
+        ],
+        "changed_route_count": 15,
+        "route_changes": [
+          {
+            "edge": [
+              3,
+              28
+            ],
+            "before_steps": 20,
+            "after_steps": 18
+          },
+          {
+            "edge": [
+              4,
+              10
+            ],
+            "before_steps": 3,
+            "after_steps": 4
+          },
+          {
+            "edge": [
+              5,
+              12
+            ],
+            "before_steps": 3,
+            "after_steps": 4
+          },
+          {
+            "edge": [
+              6,
+              9
+            ],
+            "before_steps": 13,
+            "after_steps": 3
+          },
+          {
+            "edge": [
+              7,
+              9
+            ],
+            "before_steps": 5,
+            "after_steps": 5
+          },
+          {
+            "edge": [
+              9,
+              21
+            ],
+            "before_steps": 5,
+            "after_steps": 3
+          },
+          {
+            "edge": [
+              10,
+              14
+            ],
+            "before_steps": 3,
+            "after_steps": 2
+          },
+          {
+            "edge": [
+              10,
+              17
+            ],
+            "before_steps": 5,
+            "after_steps": 2
+          },
+          {
+            "edge": [
+              12,
+              14
+            ],
+            "before_steps": 9,
+            "after_steps": 4
+          },
+          {
+            "edge": [
+              12,
+              17
+            ],
+            "before_steps": 5,
+            "after_steps": 2
+          },
+          {
+            "edge": [
+              17,
+              27
+            ],
+            "before_steps": 6,
+            "after_steps": 4
+          },
+          {
+            "edge": [
+              21,
+              23
+            ],
+            "before_steps": 4,
+            "after_steps": 4
+          },
+          {
+            "edge": [
+              23,
+              27
+            ],
+            "before_steps": 4,
+            "after_steps": 2
+          },
+          {
+            "edge": [
+              27,
+              28
+            ],
+            "before_steps": 3,
+            "after_steps": 3
+          },
+          {
+            "edge": [
+              28,
+              8
+            ],
+            "before_steps": 4,
+            "after_steps": 6
+          }
+        ],
+        "placement_proxy_before": {
+          "min_x": 20,
+          "max_x": 34,
+          "min_y": 20,
+          "max_y": 37,
+          "width": 15,
+          "height": 18,
+          "area_tiles": 270,
+          "manhattan_edges": 117
+        },
+        "placement_proxy_after": {
+          "min_x": 20,
+          "max_x": 34,
+          "min_y": 20,
+          "max_y": 37,
+          "width": 15,
+          "height": 18,
+          "area_tiles": 270,
+          "manhattan_edges": 109
+        }
+      },
+      "total_elapsed_s": 13.201962220000041
+    },
+    {
+      "round": 2,
+      "status": "failed",
+      "start_metrics": {
+        "width": 15,
+        "height": 18,
+        "area_tiles": 270,
+        "qca_cells": 568,
+        "edge_steps": 109,
+        "output_arrival_ticks": {
+          "8": [
+            17,
+            17
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          20,
+          20
+        ],
+        [
+          1,
+          25,
+          20
+        ],
+        [
+          2,
+          22,
+          20
+        ],
+        [
+          3,
+          34,
+          20
+        ],
+        [
+          4,
+          29,
+          20
+        ],
+        [
+          5,
+          27,
+          20
+        ],
+        [
+          6,
+          31,
+          20
+        ],
+        [
+          7,
+          33,
+          20
+        ],
+        [
+          8,
+          27,
+          37
+        ],
+        [
+          9,
+          31,
+          23
+        ],
+        [
+          10,
+          29,
+          24
+        ],
+        [
+          12,
+          27,
+          24
+        ],
+        [
+          14,
+          29,
+          26
+        ],
+        [
+          17,
+          28,
+          25
+        ],
+        [
+          18,
+          22,
+          23
+        ],
+        [
+          20,
+          24,
+          26
+        ],
+        [
+          21,
+          31,
+          26
+        ],
+        [
+          23,
+          29,
+          28
+        ],
+        [
+          24,
+          20,
+          23
+        ],
+        [
+          26,
+          24,
+          28
+        ],
+        [
+          27,
+          28,
+          29
+        ],
+        [
+          28,
+          28,
+          32
+        ],
+        [
+          29,
+          25,
+          31
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": null,
+      "model_latency_s": 14.531406786999923,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              29,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 12,
+            "to": [
+              27,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 17,
+            "to": [
+              28,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 23,
+            "to": [
+              29,
+              27
+            ]
+          },
+          {
+            "op": "move",
+            "node": 27,
+            "to": [
+              28,
+              28
+            ]
+          },
+          {
+            "op": "move",
+            "node": 28,
+            "to": [
+              28,
+              30
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            6,
+            9
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            10,
+            14
+          ],
+          [
+            10,
+            17
+          ],
+          [
+            12,
+            14
+          ],
+          [
+            12,
+            17
+          ],
+          [
+            14,
+            23
+          ],
+          [
+            21,
+            23
+          ],
+          [
+            17,
+            27
+          ],
+          [
+            23,
+            27
+          ],
+          [
+            20,
+            26
+          ],
+          [
+            24,
+            26
+          ],
+          [
+            26,
+            29
+          ],
+          [
+            29,
+            8
+          ],
+          [
+            27,
+            28
+          ],
+          [
+            28,
+            8
+          ],
+          [
+            0,
+            24
+          ],
+          [
+            2,
+            18
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            5,
+            12
+          ],
+          [
+            9,
+            21
+          ],
+          [
+            1,
+            20
+          ],
+          [
+            18,
+            20
+          ],
+          [
+            3,
+            28
+          ]
+        ],
+        "rationale": "Relocate connected internal group {10,12,17,23,27,28} into a compact y=24–30 window to eliminate long vertical detours on edges (12,14), (17,27), (24,26), and (28,8); prioritize fanin-convergent nodes (9,14,17,23) early in routing order to reduce congestion and multi-source interior conflicts observed in prior routes."
+      },
+      "matches_suggested_coordinates": false,
+      "start_sha256": "59c5c2c0931f2ea76692c2c475a9d93c7c8c7da7cafe21659bed17329bb3f42e",
+      "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: physical route is missing its template port; Native process exited with 10\n",
+      "routing_audit": {
+        "requested_order": [
+          [
+            6,
+            9
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            10,
+            14
+          ],
+          [
+            10,
+            17
+          ],
+          [
+            12,
+            14
+          ],
+          [
+            12,
+            17
+          ],
+          [
+            14,
+            23
+          ],
+          [
+            21,
+            23
+          ],
+          [
+            17,
+            27
+          ],
+          [
+            23,
+            27
+          ],
+          [
+            20,
+            26
+          ],
+          [
+            24,
+            26
+          ],
+          [
+            26,
+            29
+          ],
+          [
+            29,
+            8
+          ],
+          [
+            27,
+            28
+          ],
+          [
+            28,
+            8
+          ],
+          [
+            0,
+            24
+          ],
+          [
+            2,
+            18
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            5,
+            12
+          ],
+          [
+            9,
+            21
+          ],
+          [
+            1,
+            20
+          ],
+          [
+            18,
+            20
+          ],
+          [
+            3,
+            28
+          ]
+        ],
+        "executed_order": [
+          [
+            6,
+            9
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            10,
+            14
+          ],
+          [
+            10,
+            17
+          ],
+          [
+            12,
+            14
+          ],
+          [
+            12,
+            17
+          ],
+          [
+            14,
+            23
+          ],
+          [
+            21,
+            23
+          ],
+          [
+            17,
+            27
+          ],
+          [
+            23,
+            27
+          ],
+          [
+            20,
+            26
+          ],
+          [
+            24,
+            26
+          ],
+          [
+            26,
+            29
+          ],
+          [
+            29,
+            8
+          ],
+          [
+            27,
+            28
+          ],
+          [
+            28,
+            8
+          ],
+          [
+            0,
+            24
+          ],
+          [
+            2,
+            18
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            5,
+            12
+          ],
+          [
+            9,
+            21
+          ],
+          [
+            1,
+            20
+          ],
+          [
+            18,
+            20
+          ],
+          [
+            3,
+            28
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true,
+        "io_locked": true
+      },
+      "unrouted_edges": [],
+      "elapsed_s": 0.11476389600011316,
+      "total_elapsed_s": 14.789393222999934
+    }
+  ],
+  "live_native_evaluations": 2,
+  "real_model_requests": 2,
+  "diagnostic_native_evaluations": 1,
+  "final_internal_changes": {
+    "fixed_port_count": 9,
+    "all_port_coordinates_unchanged": true,
+    "moved_internal_nodes": [
+      {
+        "id": 10,
+        "type": "not",
+        "from": [
+          29,
+          23
+        ],
+        "to": [
+          29,
+          24
+        ]
+      },
+      {
+        "id": 12,
+        "type": "not",
+        "from": [
+          27,
+          23
+        ],
+        "to": [
+          27,
+          24
+        ]
+      },
+      {
+        "id": 17,
+        "type": "or",
+        "from": [
+          27,
+          26
+        ],
+        "to": [
+          28,
+          25
+        ]
+      },
+      {
+        "id": 27,
+        "type": "and",
+        "from": [
+          28,
+          31
+        ],
+        "to": [
+          28,
+          29
+        ]
+      },
+      {
+        "id": 28,
+        "type": "and",
+        "from": [
+          28,
+          34
+        ],
+        "to": [
+          28,
+          32
+        ]
+      }
+    ],
+    "changed_route_count": 15,
+    "route_changes": [
+      {
+        "edge": [
+          3,
+          28
+        ],
+        "before_steps": 20,
+        "after_steps": 18
+      },
+      {
+        "edge": [
+          4,
+          10
+        ],
+        "before_steps": 3,
+        "after_steps": 4
+      },
+      {
+        "edge": [
+          5,
+          12
+        ],
+        "before_steps": 3,
+        "after_steps": 4
+      },
+      {
+        "edge": [
+          6,
+          9
+        ],
+        "before_steps": 13,
+        "after_steps": 3
+      },
+      {
+        "edge": [
+          7,
+          9
+        ],
+        "before_steps": 5,
+        "after_steps": 5
+      },
+      {
+        "edge": [
+          9,
+          21
+        ],
+        "before_steps": 5,
+        "after_steps": 3
+      },
+      {
+        "edge": [
+          10,
+          14
+        ],
+        "before_steps": 3,
+        "after_steps": 2
+      },
+      {
+        "edge": [
+          10,
+          17
+        ],
+        "before_steps": 5,
+        "after_steps": 2
+      },
+      {
+        "edge": [
+          12,
+          14
+        ],
+        "before_steps": 9,
+        "after_steps": 4
+      },
+      {
+        "edge": [
+          12,
+          17
+        ],
+        "before_steps": 5,
+        "after_steps": 2
+      },
+      {
+        "edge": [
+          17,
+          27
+        ],
+        "before_steps": 6,
+        "after_steps": 4
+      },
+      {
+        "edge": [
+          21,
+          23
+        ],
+        "before_steps": 4,
+        "after_steps": 4
+      },
+      {
+        "edge": [
+          23,
+          27
+        ],
+        "before_steps": 4,
+        "after_steps": 2
+      },
+      {
+        "edge": [
+          27,
+          28
+        ],
+        "before_steps": 3,
+        "after_steps": 3
+      },
+      {
+        "edge": [
+          28,
+          8
+        ],
+        "before_steps": 4,
+        "after_steps": 6
+      }
+    ],
+    "placement_proxy_before": {
+      "min_x": 20,
+      "max_x": 34,
+      "min_y": 20,
+      "max_y": 37,
+      "width": 15,
+      "height": 18,
+      "area_tiles": 270,
+      "manhattan_edges": 117
+    },
+    "placement_proxy_after": {
+      "min_x": 20,
+      "max_x": 34,
+      "min_y": 20,
+      "max_y": 37,
+      "width": 15,
+      "height": 18,
+      "area_tiles": 270,
+      "manhattan_edges": 109
+    }
+  }
+}

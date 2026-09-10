@@ -1,0 +1,92 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 4,
+      "to": [
+        24,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        25,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 6,
+      "to": [
+        25,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        24,
+        29
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      9
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      3
+    ],
+    [
+      5,
+      3
+    ]
+  ],
+  "rationale": "Relocate internal group {4,5,6,8,9} to y=21–29: move 4 and 5 to y=21 to enable direct horizontal fanin from inputs (eliminating detours on [1,4], [2,4], [1,5], [2,5]), shift 6 to (25,23) to align with 5’s x and reduce [5,6] detour, and place 8 and 9 on x=24 at y=26/29 to shorten vertical routing and open a clean channel for [0,9]. Routing order prioritizes critical path ([0,9] first), then reconvergent fanin (4 and 5 before 8), and delays high-congestion edge [5,3] until after its fanout nodes are placed."
+}

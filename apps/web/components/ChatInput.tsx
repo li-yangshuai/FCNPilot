@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useCallback, useEffect, useLayoutEffect, useImperativeHandle, forwardRef, KeyboardEvent } from "react";
-import { createPortal } from "react-dom";
-import type { AgentVersionOption, BuiltinSlashCommandResult, CompactResultInfo, McpServerOption, QueuedMessages, SlashCommandInfo } from "@/hooks/useAgentSession";
-import type { SkillsResponse } from "@/lib/api-types";
+import type { BuiltinSlashCommandResult, CompactResultInfo, QueuedMessages } from "@/hooks/useAgentSession";
 import type { TextContent, UserMessage } from "@/lib/types";
 import {
   clearDraft,
@@ -27,10 +25,7 @@ import { FolderIcon, getFileIcon } from "./FileIcons";
 import { FcnPilotIcon } from "./FcnPilotIcon";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useI18n } from "@/hooks/useI18n";
-import type { ToolPreset } from "@/lib/tool-presets";
 import { MAX_DOCQA_DOCUMENTS, type AttachedDocument } from "@/lib/docqa";
-import type { CustomAgent } from "@/lib/custom-agents";
-import type { SubagentOption } from "@/lib/subagents";
 import { textForLanguage, type UiLanguage } from "@/lib/i18n";
 
 export interface AttachedImage {
@@ -46,13 +41,6 @@ interface ModelOption {
   modelId: string;
   name: string;
   input?: string[];
-}
-
-interface SubagentTooltipState {
-  agentId: string;
-  left: number;
-  top: number;
-  placement: "above" | "below";
 }
 
 interface Props {
@@ -71,31 +59,13 @@ interface Props {
   modelScopeWarnings?: string[];
   onModelChange?: (provider: string, modelId: string) => void;
   modelSwitching?: boolean;
-  customAgents?: CustomAgent[];
-  selectedAgentId?: string | null;
-  onAgentChange?: (agentId: string | null) => void;
-  agentSelectionLocked?: boolean;
-  subagents?: SubagentOption[];
-  selectedSubagentIds?: string[];
-  onSubagentToggle?: (agentId: string) => void;
-  subagentExtensionAvailable?: boolean;
-  agentVersions?: AgentVersionOption[];
-  selectedAgentVersionId?: string;
-  onAgentVersionChange?: (versionId: string) => void;
-  agentVersionSelectionLocked?: boolean;
+
   onCompact?: () => void;
   onAbortCompaction?: () => void;
   isCompacting?: boolean;
   compactError?: string | null;
   compactResult?: CompactResultInfo | null;
-  toolPreset?: ToolPreset;
-  onToolPresetChange?: (preset: ToolPreset) => void;
-  mcpServers?: McpServerOption[];
-  mcpServersLoading?: boolean;
-  mcpServersUpdating?: boolean;
-  mcpServersError?: string | null;
-  mcpSelectionLocked?: boolean;
-  onMcpServerToggle?: (name: string, enabled: boolean) => void;
+
   thinkingLevel?: "auto" | "off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
   onThinkingLevelChange?: (level: "auto" | "off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max") => void;
   availableThinkingLevels?: string[] | null;
@@ -104,9 +74,7 @@ interface Props {
   queuedMessages?: QueuedMessages | null;
   inputHistory?: string[];
   onRecallQueue?: () => void;
-  slashCommands?: SlashCommandInfo[];
-  slashCommandsLoading?: boolean;
-  onLoadSlashCommands?: () => Promise<SlashCommandInfo[]> | SlashCommandInfo[];
+
   onBuiltinCommand?: (message: string) => Promise<BuiltinSlashCommandResult>;
   soundEnabled?: boolean;
   onSoundToggle?: () => void;
@@ -128,20 +96,12 @@ export interface ChatInputHandle {
   restoreSubmission: (text: string, images?: ChatDraftImage[], targetDraftKey?: string) => void;
 }
 
-const TOOL_PRESETS = ["off", "read-only", "default", "full"] as const;
-type ToolPresetLabel = typeof TOOL_PRESETS[number];
-const TOOL_PRESET_MAP: Record<ToolPresetLabel, ToolPreset> = {
-  off: "none",
-  "read-only": "read-only",
-  default: "default",
-  full: "full",
-};
 const COMPOSITION_END_ENTER_GRACE_MS = 100;
 const MODEL_FILTER_THRESHOLD = 8;
 const MODEL_OPTION_COLLATOR = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
 const MAX_IMAGES = MAX_ATTACHED_IMAGES;
 const MAX_IMAGE_BYTES = MAX_ATTACHED_IMAGE_BYTES;
-const APP_VERSION = process.env.NEXT_PUBLIC_APP_VERSION?.trim();
+
 const MAX_TOTAL_IMAGE_BYTES = 25 * 1024 * 1024;
 const SUPPORTED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 
@@ -196,7 +156,7 @@ function formatTokenCount(tokens: number): string {
   return tokens.toLocaleString();
 }
 
-type SlashCommandPaletteItem = SlashCommandInfo | {
+type SlashCommandPaletteItem = {
   name: string;
   description: string;
   source: "builtin";
@@ -212,19 +172,13 @@ const BUILTIN_SLASH_COMMANDS: SlashCommandPaletteItem[] = [
   { name: "copy", description: "chat.commandCopy", source: "builtin" },
 ];
 
-const SLASH_SOURCES: SlashCommandSource[] = ["builtin", "extension", "prompt", "skill"];
+const SLASH_SOURCES: SlashCommandSource[] = ["builtin"];
 
 const SLASH_SOURCE_GROUP_LABEL_KEYS: Record<SlashCommandSource, string> = {
   builtin: "chat.builtIn",
-  extension: "chat.extensions",
-  prompt: "chat.prompts",
-  skill: "chat.skills",
 };
 const SLASH_SOURCE_ORDER: Record<SlashCommandSource, number> = {
   builtin: 0,
-  extension: 1,
-  prompt: 2,
-  skill: 3,
 };
 
 function slashMatchRank(command: SlashCommandPaletteItem, query: string, t: (key: string) => string): number {
@@ -241,30 +195,16 @@ function getSlashDescription(command: SlashCommandPaletteItem, t: (key: string) 
   return command.source === "builtin" ? t(command.description) : command.description ?? "";
 }
 
-// Skill slash commands are named "skill:<skillName>"; look the skill up in the
-// dormancy map fetched from /api/skills. Unknown skills are treated as active.
-function isDormantSkillCommand(command: SlashCommandPaletteItem, dormancy: Record<string, boolean>): boolean {
-  if (command.source !== "skill" || !command.name.startsWith("skill:")) return false;
-  return dormancy[command.name.slice("skill:".length)] === true;
-}
-
 export function buildSlashCommandLayout(
   commands: SlashCommandPaletteItem[],
-  dormancy: Record<string, boolean>,
 ) {
   let index = 0;
   const groups = SLASH_SOURCES
     .map((source) => {
       const sourceCommands = commands.filter((command) => command.source === source);
-      const orderedCommands = source === "skill"
-        ? [
-            ...sourceCommands.filter((command) => !isDormantSkillCommand(command, dormancy)),
-            ...sourceCommands.filter((command) => isDormantSkillCommand(command, dormancy)),
-          ]
-        : sourceCommands;
       return {
         source,
-        items: orderedCommands.map((command) => ({ command, index: index++ })),
+        items: sourceCommands.map((command) => ({ command, index: index++ })),
       };
     })
     .filter((group) => group.items.length > 0);
@@ -431,14 +371,9 @@ export function ModelScopeWarningBanner({ warnings }: { warnings?: string[] }) {
 
 export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
   onSend, onAbort, onSteer, onFollowUp, isStreaming, model, isAutoModelSelection, modelNames, modelList, modelError, modelScopeWarnings, onModelChange, modelSwitching,
-  customAgents, selectedAgentId, onAgentChange, agentSelectionLocked,
-  subagents = [], selectedSubagentIds = [], onSubagentToggle, subagentExtensionAvailable = false,
-  agentVersions, selectedAgentVersionId, onAgentVersionChange, agentVersionSelectionLocked,
-  onCompact, onAbortCompaction, isCompacting, compactError, compactResult, toolPreset, onToolPresetChange,
-  mcpServers = [], mcpServersLoading, mcpServersUpdating, mcpServersError, mcpSelectionLocked, onMcpServerToggle,
+  onCompact, onAbortCompaction, isCompacting, compactError, compactResult,
   thinkingLevel, onThinkingLevelChange, availableThinkingLevels, thinkingLevelMap,
   retryInfo, queuedMessages, inputHistory = [], onRecallQueue,
-  slashCommands, slashCommandsLoading, onLoadSlashCommands,
   onBuiltinCommand,
   soundEnabled, onSoundToggle, onAudioUnlock,
   onPromptWithStreamingBehavior,
@@ -454,10 +389,10 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
   const [modelDropdownOpen, setModelDropdownOpen] = useState(false);
   const [modelDropdownRect, setModelDropdownRect] = useState<{ top: number; left: number; width: number } | null>(null);
   const [modelFilter, setModelFilter] = useState("");
-  const [toolDropdownOpen, setToolDropdownOpen] = useState(false);
+
   const [thinkingDropdownOpen, setThinkingDropdownOpen] = useState(false);
   const [controlsMenuOpen, setControlsMenuOpen] = useState(false);
-  const [subagentTooltip, setSubagentTooltip] = useState<SubagentTooltipState | null>(null);
+
   const [attachedImages, setAttachedImages] = useState<AttachedImage[]>(() => (
     draftKey ? draftImagesToAttachedImages(getDraft(draftKey)?.images) : []
   ));
@@ -466,9 +401,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
     draftKey ? getDraft(draftKey)?.documents ?? [] : []
   ));
   const [imageError, setImageError] = useState<string | null>(null);
-  const trimmedValue = value.trimStart();
-  const bashMode = attachedImages.length === 0 && attachedDocuments.length === 0 && trimmedValue.startsWith("!");
-  const bashExcluded = bashMode && trimmedValue.startsWith("!!");
+
   const [slashMenuOpen, setSlashMenuOpen] = useState(false);
   const [slashActiveIndex, setSlashActiveIndex] = useState(0);
   const [slashMenuMaxHeight, setSlashMenuMaxHeight] = useState<number | null>(null);
@@ -480,25 +413,17 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
   const [fileIndex, setFileIndex] = useState<{ cwd: string; entries: FileIndexEntry[]; truncated: boolean } | null>(null);
   const [fileIndexLoading, setFileIndexLoading] = useState(false);
   const [atServerResult, setAtServerResult] = useState<{ cwd: string; query: string; matches: FileIndexEntry[] } | null>(null);
-  const [skillDormancyState, setSkillDormancyState] = useState<{
-    cwd: string;
-    values: Record<string, boolean>;
-  } | null>(null);
-  const skillDormancy = cwd && skillDormancyState?.cwd === cwd
-    ? skillDormancyState.values
-    : {};
-
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const modelDropdownPanelRef = useRef<HTMLDivElement>(null);
-  const toolDropdownRef = useRef<HTMLDivElement>(null);
+
   const thinkingDropdownRef = useRef<HTMLDivElement>(null);
   const controlsMenuRef = useRef<HTMLDivElement>(null);
   const historyMenuRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isComposingRef = useRef(false);
   const lastCompositionEndAtRef = useRef(0);
-  const slashCommandsRequestedRef = useRef(false);
+
   const slashMenuRef = useRef<HTMLDivElement>(null);
   const slashItemRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const atItemRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -519,53 +444,6 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
   const supportsImages = selectedModelEntry?.input
     ? selectedModelEntry.input.includes("image")
     : true;
-  const tooltipSubagent = subagentTooltip
-    ? subagents.find((agent) => agent.id === subagentTooltip.agentId)
-    : undefined;
-  const builtinSubagentDescriptions: Record<string, string> = {
-    "general-purpose": uiText.chatInput.subagentBuiltinDescriptions.generalPurpose,
-    Explore: uiText.chatInput.subagentBuiltinDescriptions.explore,
-    Plan: uiText.chatInput.subagentBuiltinDescriptions.plan,
-  };
-  const tooltipSubagentDescription = tooltipSubagent?.scope === "builtin"
-    ? builtinSubagentDescriptions[tooltipSubagent.name] ?? tooltipSubagent.description
-    : tooltipSubagent?.description;
-  const subagentTooltipFooter = !subagentExtensionAvailable
-    ? uiText.chatInput.subagentExtensionMissing
-    : toolPreset === "none"
-      ? uiText.chatInput.subagentToolsRequired
-      : isStreaming
-        ? uiText.chatInput.subagentBusy
-        : uiText.chatInput.subagentTooltipAction;
-
-  const showSubagentTooltip = useCallback((agentId: string, target: HTMLElement) => {
-    if (typeof window === "undefined") return;
-    const rect = target.getBoundingClientRect();
-    const tooltipWidth = Math.min(288, window.innerWidth - 24);
-    const left = Math.min(
-      window.innerWidth - tooltipWidth / 2 - 12,
-      Math.max(tooltipWidth / 2 + 12, rect.left + rect.width / 2),
-    );
-    const placement = rect.top >= 150 ? "above" : "below";
-    setSubagentTooltip({
-      agentId,
-      left,
-      top: placement === "above" ? rect.top - 8 : rect.bottom + 8,
-      placement,
-    });
-  }, []);
-
-  useEffect(() => {
-    if (!subagentTooltip) return;
-    const closeTooltip = () => setSubagentTooltip(null);
-    window.addEventListener("resize", closeTooltip);
-    window.addEventListener("scroll", closeTooltip, true);
-    return () => {
-      window.removeEventListener("resize", closeTooltip);
-      window.removeEventListener("scroll", closeTooltip, true);
-    };
-  }, [subagentTooltip]);
-
   useEffect(() => {
     if (supportsImages) {
       setImageError(null);
@@ -953,10 +831,6 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
       setImageError(uiText.chatInput.imageUnsupportedDetail);
       return;
     }
-    if (attachedDocuments.length && toolPreset === "none") {
-      setImageError(uiText.chatInput.docQaRequiresTools);
-      return;
-    }
     onAudioUnlock?.();
     if (!attachedImages.length && !attachedDocuments.length && msg.startsWith("/") && onBuiltinCommand) {
       const result = await onBuiltinCommand(msg);
@@ -971,7 +845,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
       attachedImages.length ? attachedImages : undefined,
       attachedDocuments.length ? attachedDocuments : undefined,
     );
-  }, [value, attachedImages, attachedDocuments, isStreaming, supportsImages, toolPreset, onBuiltinCommand, onSend, clearInput, onAudioUnlock, uiText.chatInput.docQaRequiresTools, uiText.chatInput.imageUnsupportedDetail]);
+  }, [value, attachedImages, attachedDocuments, isStreaming, supportsImages, onBuiltinCommand, onSend, clearInput, onAudioUnlock, uiText.chatInput.imageUnsupportedDetail]);
 
   const slashQuery = value.startsWith("/") && !/\s/.test(value.slice(1))
     ? value.slice(1).toLowerCase()
@@ -979,7 +853,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
 
   const filteredSlashCommands = (() => {
     if (slashQuery === null) return [];
-    const commands = [...(isStreaming ? [] : builtinSlashCommands), ...(slashCommands ?? [])];
+    const commands = isStreaming ? [] : builtinSlashCommands;
     return [...commands]
       .filter((command) => {
         const name = command.name.toLowerCase();
@@ -997,7 +871,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
   const {
     commands: displayedSlashCommands,
     groups: groupedSlashCommands,
-  } = buildSlashCommandLayout(filteredSlashCommands, skillDormancy);
+  } = buildSlashCommandLayout(filteredSlashCommands);
 
   const hasInputText = Boolean(value.trim());
   const canQueueStreamingMessage = hasInputText || attachedImages.length > 0 || attachedDocuments.length > 0;
@@ -1195,10 +1069,6 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
       setImageError(uiText.chatInput.imageUnsupportedDetail);
       return;
     }
-    if (attachedDocuments.length && toolPreset === "none") {
-      setImageError(uiText.chatInput.docQaRequiresTools);
-      return;
-    }
     onAudioUnlock?.();
     const streamingBehavior = mode === "steer" ? "steer" : "followUp";
     if (msg.startsWith("/") && onPromptWithStreamingBehavior) {
@@ -1217,7 +1087,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
     } else if (mode === "followup" && onFollowUp) {
       onFollowUp(msg, attachedImages.length ? attachedImages : undefined, attachedDocuments.length ? attachedDocuments : undefined);
     }
-  }, [value, attachedImages, attachedDocuments, supportsImages, toolPreset, onPromptWithStreamingBehavior, onSteer, onFollowUp, clearInput, onAudioUnlock, uiText.chatInput.docQaRequiresTools, uiText.chatInput.imageUnsupportedDetail]);
+  }, [value, attachedImages, attachedDocuments, supportsImages, onPromptWithStreamingBehavior, onSteer, onFollowUp, clearInput, onAudioUnlock, uiText.chatInput.imageUnsupportedDetail]);
 
   const getNextSlashIndex = (direction: "up" | "down" | "left" | "right") => {
     const lastIndex = displayedSlashCommands.length - 1;
@@ -1404,45 +1274,11 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
     if (slashQuery === null) {
       setSlashMenuOpen(false);
       setSlashActiveIndex(0);
-      slashCommandsRequestedRef.current = false;
       return;
     }
     setSlashMenuOpen(true);
     setSlashActiveIndex(0);
-    if (!slashCommandsRequestedRef.current && onLoadSlashCommands) {
-      slashCommandsRequestedRef.current = true;
-      Promise.resolve(onLoadSlashCommands()).catch(() => {
-        slashCommandsRequestedRef.current = false;
-      });
-    }
-  }, [slashQuery, onLoadSlashCommands]);
-
-  // Lazy-load skill dormancy (disable-model-invocation) each time the slash
-  // palette opens, so toggles made in the skills panel are reflected on the
-  // next open. Failures degrade silently to the unannotated palette.
-  useEffect(() => {
-    if (!slashMenuOpen || !cwd) return;
-    const requestCwd = cwd;
-    let cancelled = false;
-    setSkillDormancyState({ cwd: requestCwd, values: {} });
-    fetch(`/api/skills?cwd=${encodeURIComponent(requestCwd)}`)
-      .then((res) => {
-        if (!res.ok) throw new Error(`skills fetch failed: ${res.status}`);
-        return res.json() as Promise<Partial<SkillsResponse>>;
-      })
-      .then((data) => {
-        if (cancelled) return;
-        const dormancy: Record<string, boolean> = {};
-        for (const skill of data.skills ?? []) dormancy[skill.name] = skill.disableModelInvocation;
-        setSkillDormancyState({ cwd: requestCwd, values: dormancy });
-      })
-      .catch(() => {
-        if (!cancelled) setSkillDormancyState({ cwd: requestCwd, values: {} });
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [slashMenuOpen, cwd]);
+  }, [slashQuery]);
 
   useEffect(() => {
     if (slashActiveIndex >= displayedSlashCommands.length) {
@@ -1543,10 +1379,6 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
       ? mapped
       : lvl === "max" ? t(THINKING_LEVEL_DESC_KEYS.max) : uiText.chatInput.thinkingLevels[lvl];
   })();
-  const toolPresetKey = (Object.entries(TOOL_PRESET_MAP).find(([, v]) => v === (toolPreset ?? "default"))?.[0] ?? "default") as ToolPresetLabel;
-  const toolPresetLabel = toolPresetKey === "read-only"
-    ? t("chat.readOnlyTools", { count: 4 })
-    : uiText.chatInput.toolPresets[toolPresetKey];
   const hasInputContent = Boolean(value.trim() || attachedImages.length || attachedDocuments.length);
 
   // Close dropdowns on outside click
@@ -1558,9 +1390,6 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
       ) {
         setModelDropdownOpen(false);
         setModelFilter("");
-      }
-      if (toolDropdownRef.current && !toolDropdownRef.current.contains(e.target as Node)) {
-        setToolDropdownOpen(false);
       }
       if (thinkingDropdownRef.current && !thinkingDropdownRef.current.contains(e.target as Node)) {
         setThinkingDropdownOpen(false);
@@ -1580,8 +1409,6 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
     if (!isMobile) setControlsMenuOpen(false);
   }, [isMobile]);
 
-
-
   return (
     <div
       style={{
@@ -1591,73 +1418,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
         paddingRight: isMobile ? 16 : 52, // desktop: 16px base + 36px for ChatMinimap alignment
       }}
     >
-      {subagentTooltip && tooltipSubagent && typeof document !== "undefined" && createPortal(
-        <div
-          id="pi-web-subagent-tooltip"
-          role="tooltip"
-          style={{
-            position: "fixed",
-            zIndex: 5500,
-            left: subagentTooltip.left,
-            top: subagentTooltip.top,
-            transform: subagentTooltip.placement === "above"
-              ? "translate(-50%, -100%)"
-              : "translate(-50%, 0)",
-            width: 288,
-            maxWidth: "calc(100vw - 24px)",
-            boxSizing: "border-box",
-            padding: "10px 11px 9px",
-            border: "1px solid color-mix(in srgb, var(--border) 88%, var(--accent) 12%)",
-            borderRadius: 10,
-            background: "color-mix(in srgb, var(--bg) 96%, transparent)",
-            color: "var(--text)",
-            boxShadow: "0 12px 34px rgba(2,6,23,0.18), 0 2px 8px rgba(2,6,23,0.08)",
-            backdropFilter: "blur(12px)",
-            pointerEvents: "none",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 7, minWidth: 0 }}>
-            <span style={{
-              width: 22,
-              height: 22,
-              flexShrink: 0,
-              display: "grid",
-              placeItems: "center",
-              borderRadius: 7,
-              background: "color-mix(in srgb, var(--accent) 11%, var(--bg-panel))",
-              color: "var(--accent)",
-            }}>
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <circle cx="8" cy="5" r="2.3" />
-                <path d="M3.8 13c.4-2.4 1.8-3.7 4.2-3.7s3.8 1.3 4.2 3.7" />
-              </svg>
-            </span>
-            <strong style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: 12.5 }}>
-              {tooltipSubagent.displayName || tooltipSubagent.name}
-            </strong>
-            <span style={{
-              marginLeft: "auto",
-              flexShrink: 0,
-              padding: "2px 6px",
-              borderRadius: 999,
-              background: "var(--bg-panel)",
-              border: "1px solid var(--border)",
-              color: "var(--text-dim)",
-              fontSize: 9.5,
-              lineHeight: 1.2,
-            }}>
-              {uiText.chatInput.subagentSources[tooltipSubagent.scope]}
-            </span>
-          </div>
-          <div style={{ marginTop: 8, fontSize: 11.5, lineHeight: 1.5, color: "var(--text-muted)" }}>
-            {tooltipSubagentDescription}
-          </div>
-          <div style={{ marginTop: 7, paddingTop: 7, borderTop: "1px solid color-mix(in srgb, var(--border) 65%, transparent)", fontSize: 10, lineHeight: 1.35, color: "var(--text-dim)" }}>
-            {subagentTooltipFooter}
-          </div>
-        </div>,
-        document.body,
-      )}
+
       {previewImageIndex !== null && attachedImages[previewImageIndex] && (
         <div
           role="dialog"
@@ -2026,11 +1787,11 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
                   flexShrink: 0,
                 }}
               >
-                <span>{slashCommandsLoading ? t("chat.loadingCommands") : t("chat.slashCommands", { label: slashCommandCountLabel })}</span>
+                <span>{t("chat.slashCommands", { label: slashCommandCountLabel })}</span>
                 <span style={{ fontFamily: "var(--font-mono)" }}>{t("chat.tabEnter")}</span>
               </div>
               <div style={{ flex: "1 1 auto", minHeight: 0, overflowY: "auto", padding: 10 }}>
-                {!slashCommandsLoading && filteredSlashCommands.length === 0 ? (
+                {filteredSlashCommands.length === 0 ? (
                   <div style={{ padding: "2px 2px 4px", fontSize: 12, color: "var(--text-dim)" }}>
                     {t("chat.noCommands")}
                   </div>
@@ -2066,7 +1827,6 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
                       >
                         {group.items.map(({ command, index }) => {
                           const active = index === slashActiveIndex;
-                          const dormant = isDormantSkillCommand(command, skillDormancy);
                           return (
                             <button
                               key={`${command.source}:${command.name}`}
@@ -2102,22 +1862,8 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
                                 fontFamily: "var(--font-mono)",
                                 overflowWrap: "anywhere",
                                 wordBreak: "break-word",
-                                color: dormant ? "var(--text-dim)" : undefined,
                               }}>
                                 /{command.name}
-                                {dormant && (
-                                  <span style={{
-                                    marginLeft: 6,
-                                    padding: "0 4px",
-                                    border: "1px solid var(--border)",
-                                    borderRadius: 3,
-                                    fontSize: 9,
-                                    color: "var(--text-dim)",
-                                    whiteSpace: "nowrap",
-                                  }}>
-                                    {t("chat.dormant")}
-                                  </span>
-                                )}
                               </span>
                                {command.description && (
                                 <span style={{
@@ -2246,7 +1992,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
               flexDirection: "column",
               gap: 7,
               background: "var(--bg)",
-              border: `1px solid ${bashMode ? "var(--tool-bg)" : isStreaming && (onSteer || onFollowUp)
+              border: `1px solid ${isStreaming && (onSteer || onFollowUp)
                 ? "rgba(234,179,8,0.4)"
                 : "color-mix(in srgb, var(--border) 70%, transparent)"}`,
               borderRadius: 14,
@@ -2255,8 +2001,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
               transition: "border-color 0.15s, background 0.15s, box-shadow 0.15s",
             } as React.CSSProperties}
           >
-            {selectedAgentId === "project:ifcn" && (
-              <div
+            <div
                 aria-label={uiLanguage === "zh" ? "当前主智能体：iFCN" : "Current main agent: iFCN"}
                 style={{ display: "flex", alignItems: "center", gap: 7, paddingBottom: 5, fontSize: 11, color: "var(--text-muted)" }}
               >
@@ -2264,185 +2009,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
                 <strong style={{ color: "var(--text)" }}>iFCN</strong>
                 <span>{uiLanguage === "zh" ? "主智能体 · 直接处理当前对话" : "Main agent · handles this conversation directly"}</span>
               </div>
-            )}
-            {subagentExtensionAvailable && subagents.length > 0 && (
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                minWidth: 0,
-                paddingBottom: 7,
-                borderBottom: "1px solid color-mix(in srgb, var(--border) 55%, transparent)",
-              }}>
-                <span style={{
-                  flexShrink: 0,
-                  fontSize: 10,
-                  lineHeight: 1,
-                  fontWeight: 700,
-                  letterSpacing: "0.06em",
-                  color: "var(--text-dim)",
-                }} title={uiText.chatInput.subagentHint}>
-                  {uiLanguage === "zh" ? "委派" : "Delegate"}
-                </span>
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 5,
-                  minWidth: 0,
-                  overflowX: "auto",
-                  overflowY: "hidden",
-                  scrollbarWidth: "thin",
-                  padding: "1px 1px 2px",
-                }}>
-                  {subagents.map((agent) => {
-                    const selected = selectedSubagentIds.includes(agent.id);
-                    const disabled = Boolean(
-                      isStreaming
-                      || toolPreset === "none"
-                      || !subagentExtensionAvailable
-                      || !onSubagentToggle
-                    );
-                    return (
-                      <span
-                        key={agent.id}
-                        onMouseEnter={(event) => showSubagentTooltip(agent.id, event.currentTarget)}
-                        onMouseLeave={() => setSubagentTooltip(null)}
-                        onFocus={(event) => showSubagentTooltip(agent.id, event.currentTarget)}
-                        onBlur={() => setSubagentTooltip(null)}
-                        style={{ flex: "0 0 auto", display: "inline-flex" }}
-                      >
-                        <button
-                          type="button"
-                          aria-pressed={selected}
-                          aria-describedby={subagentTooltip?.agentId === agent.id ? "pi-web-subagent-tooltip" : undefined}
-                          aria-label={`${agent.displayName || agent.name}: ${agent.scope === "builtin" ? builtinSubagentDescriptions[agent.name] ?? agent.description : agent.description}`}
-                          disabled={disabled}
-                          onClick={() => onSubagentToggle?.(agent.id)}
-                          style={{
-                            flex: "0 0 auto",
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 5,
-                            height: 24,
-                            padding: "0 8px",
-                            border: `1px solid ${selected
-                              ? "color-mix(in srgb, var(--accent) 60%, var(--border))"
-                              : "var(--border)"}`,
-                            borderRadius: 999,
-                            background: selected
-                              ? "color-mix(in srgb, var(--accent) 10%, var(--bg))"
-                              : "var(--bg-panel)",
-                            color: selected ? "var(--accent)" : "var(--text-muted)",
-                            cursor: disabled ? "not-allowed" : "pointer",
-                            opacity: disabled ? 0.58 : 1,
-                            fontSize: 11,
-                            lineHeight: 1,
-                            whiteSpace: "nowrap",
-                            transition: "border-color 0.12s, background 0.12s, color 0.12s",
-                          }}
-                        >
-                          <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <circle cx="8" cy="5" r="2.3" />
-                            <path d="M3.8 13c.4-2.4 1.8-3.7 4.2-3.7s3.8 1.3 4.2 3.7" />
-                          </svg>
-                          <span>{agent.displayName || agent.name}</span>
-                        </button>
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-            {(mcpServersLoading || mcpServers.length > 0 || mcpServersError) && (
-              <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              minWidth: 0,
-              paddingBottom: 7,
-              borderBottom: "1px solid color-mix(in srgb, var(--border) 55%, transparent)",
-            }}>
-              <span style={{
-                flexShrink: 0,
-                fontSize: 10,
-                lineHeight: 1,
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                color: mcpServersError ? "#ef4444" : "var(--text-dim)",
-              }} title={mcpServersError ?? uiText.chatInput.mcpServers}>
-                MCP
-              </span>
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 5,
-                minWidth: 0,
-                overflowX: "auto",
-                overflowY: "hidden",
-                scrollbarWidth: "thin",
-                padding: "1px 1px 2px",
-              }}>
-                {mcpServersLoading && mcpServers.length === 0 ? (
-                  <span style={{ whiteSpace: "nowrap", fontSize: 10, color: "var(--text-dim)" }}>
-                    {uiText.chatInput.mcpLoading}
-                  </span>
-                ) : (
-                  mcpServers.map((server) => {
-                    const disabled = Boolean(mcpSelectionLocked || mcpServersUpdating || !onMcpServerToggle);
-                    const stateHint = mcpSelectionLocked
-                      ? uiText.chatInput.mcpLocked
-                      : uiText.chatInput.mcpNewSessionHint;
-                    return (
-                      <button
-                        key={server.name}
-                        type="button"
-                        role="switch"
-                        aria-checked={server.enabled}
-                        disabled={disabled}
-                        onClick={() => onMcpServerToggle?.(server.name, !server.enabled)}
-                        title={`${server.name} · ${uiText.chatInput.mcpSources[server.source]}\n${stateHint}`}
-                        style={{
-                          flex: "0 0 auto",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 5,
-                          height: 24,
-                          padding: "0 8px",
-                          border: `1px solid ${server.enabled
-                            ? "color-mix(in srgb, #22c55e 55%, var(--border))"
-                            : "var(--border)"}`,
-                          borderRadius: 999,
-                          background: server.enabled
-                            ? "color-mix(in srgb, #22c55e 10%, var(--bg))"
-                            : "var(--bg-panel)",
-                          color: server.enabled ? "var(--text)" : "var(--text-muted)",
-                          cursor: disabled ? "not-allowed" : "pointer",
-                          opacity: disabled ? 0.62 : 1,
-                          fontSize: 11,
-                          lineHeight: 1,
-                          whiteSpace: "nowrap",
-                          transition: "border-color 0.12s, background 0.12s, color 0.12s",
-                        }}
-                      >
-                        <span style={{
-                          width: 6,
-                          height: 6,
-                          flexShrink: 0,
-                          borderRadius: "50%",
-                          background: server.enabled ? "#22c55e" : "var(--text-dim)",
-                          boxShadow: server.enabled ? "0 0 0 2px color-mix(in srgb, #22c55e 18%, transparent)" : "none",
-                        }} />
-                        <span>{server.name}</span>
-                      </button>
-                    );
-                  })
-                )}
-                {mcpServersUpdating && (
-                  <span aria-label={uiText.chatInput.mcpLoading} style={{ flexShrink: 0, color: "var(--text-dim)", fontSize: 11 }}>…</span>
-                )}
-              </div>
-              </div>
-            )}
+
             <div style={{ display: "flex", gap: 8, alignItems: "center", minWidth: 0 }}>
             <textarea
             ref={textareaRef}
@@ -2473,7 +2040,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
               isStreaming && (onSteer || onFollowUp)
                 ? t("chat.steerPlaceholder")
                 : isStreaming ? t("chat.agentPlaceholder")
-                : t("chat.messagePlaceholder")
+                : (uiLanguage === "zh" ? "描述 FCN 电路需求，或用 @ 引用 Verilog / 设计结果…" : "Describe an FCN circuit, or use @ to reference Verilog / design results…")
             }
             rows={1}
             style={{
@@ -2576,13 +2143,6 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
           </div>
         </div>
 
-        {/* Bash mode status label */}
-        {bashMode && (
-          <div className="text-xs px-2 py-1" style={{ color: bashExcluded ? "var(--text-muted)" : "var(--accent)", marginTop: 4 }}>
-             {t("chat.shell")} · {bashExcluded ? t("chat.outputLocal") : t("chat.outputModel")}
-          </div>
-        )}
-
         {/* Bottom bar: left | center (context) | right */}
         <div style={{
           marginTop: 8,
@@ -2624,55 +2184,7 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
                 <polyline points="21 15 16 10 5 21" />
               </svg>
             </button>
-            {agentVersions && agentVersions.length > 0 && selectedAgentVersionId && onAgentVersionChange && (
-              <select
-                value={selectedAgentVersionId}
-                disabled={agentVersionSelectionLocked}
-                onChange={(event) => onAgentVersionChange(event.target.value)}
-                title={agentVersionSelectionLocked ? uiText.chatInput.agentVersionLocked : uiText.chatInput.chooseAgentVersion}
-                aria-label={uiText.chatInput.agentVersion}
-                style={{
-                  height: 30, maxWidth: 130, minWidth: 78,
-                  padding: "0 22px 0 8px",
-                  border: "1px solid var(--border)", borderRadius: 7,
-                  background: "var(--bg)", color: "var(--text-muted)",
-                  fontSize: 11, cursor: agentVersionSelectionLocked ? "not-allowed" : "pointer",
-                  opacity: agentVersionSelectionLocked ? 0.65 : 1,
-                }}
-              >
-                {agentVersions.map((version) => (
-                  <option key={version.id} value={version.id}>
-                    {version.id === "current"
-                      ? `${uiText.chatInput.currentAgentVersion}${APP_VERSION ? ` · v${APP_VERSION}` : ""}`
-                      : version.label}
-                  </option>
-                ))}
-              </select>
-            )}
-            {selectedAgentId !== "project:ifcn" && customAgents && customAgents.length > 0 && onAgentChange && (!agentSelectionLocked || selectedAgentId) && (
-              <select
-                value={selectedAgentId ?? ""}
-                disabled={agentSelectionLocked}
-                onChange={(event) => onAgentChange(event.target.value || null)}
-                title={agentSelectionLocked ? uiText.chatInput.agentLocked : (uiLanguage === "zh" ? "选择主智能体" : "Choose main agent")}
-                aria-label={uiLanguage === "zh" ? "选择主智能体" : "Choose main agent"}
-                style={{
-                  height: 30, maxWidth: 150, minWidth: 92,
-                  padding: "0 24px 0 8px",
-                  border: "1px solid var(--border)", borderRadius: 7,
-                  background: "var(--bg)", color: selectedAgentId ? "var(--accent)" : "var(--text-muted)",
-                  fontSize: 11, cursor: agentSelectionLocked ? "not-allowed" : "pointer",
-                  opacity: agentSelectionLocked ? 0.65 : 1,
-                }}
-              >
-                <option value="">{uiText.chatInput.defaultAgent}</option>
-                {customAgents.map((agent) => (
-                  <option key={agent.id} value={agent.id}>
-                    {agent.id === "project:ifcn" ? "iFCN" : agent.name} · {uiLanguage === "zh" ? "主智能体" : "main agent"}
-                  </option>
-                ))}
-              </select>
-            )}
+
             {/* Model selector — visible always, disabled while the session or switch is busy */}
             {(modelOptions.length > 0 || currentName || modelError) && onModelChange && (
                 <div ref={dropdownRef} style={{ position: "relative", flex: isMobile ? "1 1 auto" : undefined, minWidth: 0 }}>
@@ -3013,89 +2525,6 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
                 )}
               </div>
             )}
-            {!isStreaming && onToolPresetChange && !customAgents?.some((agent) => agent.id === selectedAgentId && agent.tools !== undefined) && (
-              <div ref={toolDropdownRef} style={{ position: "relative" }}>
-                <button
-                  onClick={() => !isStreaming && setToolDropdownOpen((v) => !v)}
-                  disabled={isStreaming}
-                  title={t("chat.changeToolPreset") + `: ${toolPresetLabel}`}
-                  aria-label={t("chat.changeToolPreset")}
-                  style={{
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
-                    padding: isMobile ? "0 6px" : "8px 12px",
-                    width: isMobile ? "auto" : undefined,
-                    height: 32,
-                    background: toolDropdownOpen ? "var(--bg-hover)" : "none",
-                    border: "none",
-                    borderRadius: 9,
-                    color: "var(--text-muted)",
-                    cursor: isStreaming ? "not-allowed" : "pointer",
-                    fontSize: 12,
-                    opacity: isStreaming ? 0.5 : 1,
-                    transition: "background 0.12s, color 0.12s",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (isStreaming) return;
-                    e.currentTarget.style.background = "var(--bg-hover)";
-                    e.currentTarget.style.color = "var(--text)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = toolDropdownOpen ? "var(--bg-hover)" : "none";
-                    e.currentTarget.style.color = "var(--text-muted)";
-                  }}
-                >
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-                  </svg>
-                  {(!isMobile || controlsMenuOpen) && <span style={{ whiteSpace: "nowrap" }}>{toolPresetLabel}</span>}
-                </button>
-                {toolDropdownOpen && (
-                  <div style={{
-                    position: "absolute",
-                    bottom: "calc(100% + 6px)",
-                    right: isMobile ? undefined : 0,
-                    left: isMobile ? 0 : undefined,
-                    zIndex: 100, background: "var(--bg)", border: "1px solid var(--border)",
-                    borderRadius: 8, boxShadow: "0 -4px 16px rgba(0,0,0,0.10)",
-                    overflow: "hidden", minWidth: 120,
-                  }}>
-                    {TOOL_PRESETS.map((lvl) => {
-                      const preset = TOOL_PRESET_MAP[lvl];
-                      const isActive = (toolPreset ?? "default") === preset;
-                      let desc: string;
-                      if (lvl === "off") desc = t("chat.noTools");
-                      else if (lvl === "read-only") desc = t("chat.readOnlyTools", { count: 4 });
-                      else if (lvl === "default") desc = t("chat.builtInTools", { count: 4 });
-                      else desc = t("chat.allBuiltInTools");
-                      return (
-                        <button
-                          key={lvl}
-                          onClick={() => { setToolDropdownOpen(false); if (!isActive) onToolPresetChange(preset); }}
-                          style={{
-                            display: "flex", alignItems: "center", gap: 8,
-                            width: "100%", padding: "7px 12px",
-                            background: isActive ? "var(--bg-selected)" : "none",
-                            border: "none",
-                            color: isActive ? "var(--text)" : "var(--text-muted)",
-                            cursor: "pointer", fontSize: 12, textAlign: "left",
-                            fontWeight: isActive ? 600 : 400,
-                            whiteSpace: "nowrap",
-                          }}
-                          onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = "var(--bg-hover)"; }}
-                          onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = "none"; }}
-                        >
-                          {isActive
-                            ? <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><polyline points="1.5 5 4 7.5 8.5 2.5" /></svg>
-                            : <span style={{ width: 10, flexShrink: 0 }} />}
-                          <span style={{ flex: 1 }}>{lvl === "read-only" ? t("chat.readOnlyTools", { count: 4 }) : uiText.chatInput.toolPresets[lvl]}</span>
-                          <span style={{ fontSize: 11, color: "var(--text-dim)", marginLeft: 8 }}>{desc}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            )}
 
             {!isStreaming && onCompact && (
               <div>
@@ -3217,7 +2646,6 @@ export const ChatInput = forwardRef<ChatInputHandle, Props>(function ChatInput({
                 aria-label={t("chat.collapseControls")}
                 aria-expanded={true}
                 onClick={() => {
-                  setToolDropdownOpen(false);
                   setThinkingDropdownOpen(false);
                   setControlsMenuOpen(false);
                 }}

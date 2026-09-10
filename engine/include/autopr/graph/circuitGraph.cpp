@@ -1889,8 +1889,22 @@ namespace fcngraph
         RoutingFailureInfo *failureInfo,
         bool emitConflictStages,
         int deterministicPolicyLimit,
-        const std::function<bool()> &acceptRoutedLayout)
+        const std::function<bool()> &acceptRoutedLayout,
+        const std::vector<std::pair<int, int>> *explicitOrder)
     {
+        routingOrderTrace = {};
+        if (explicitOrder)
+        {
+            const auto effectiveEdges = parse.getEffectiveEdges();
+            const std::set<std::pair<int, int>> expected(effectiveEdges.begin(), effectiveEdges.end());
+            const std::set<std::pair<int, int>> requested(explicitOrder->begin(), explicitOrder->end());
+            if (expected.empty() || explicitOrder->size() != expected.size() || requested != expected)
+            {
+                throw std::invalid_argument("explicit routing order must be an exact permutation of DAG edges");
+            }
+            routingOrderTrace.explicitOrder = true;
+            routingOrderTrace.requestedOrder = *explicitOrder;
+        }
         enum class RouteOrderPolicy
         {
             SinkPressureFirst,
@@ -2061,6 +2075,9 @@ namespace fcngraph
         };
 
         const auto routeEdges = [&](const std::vector<std::pair<int, int>> &orderedEdges) {
+            ++routingOrderTrace.attempts;
+            routingOrderTrace.executedOrder.clear();
+            routingOrderTrace.fallbackUsed = !explicitOrder && routingOrderTrace.attempts > 1;
             if (!prepareBoard())
             {
                 return false;
@@ -2072,6 +2089,9 @@ namespace fcngraph
                  ++edgeIndex)
             {
                 const auto &edge = orderedEdges[edgeIndex];
+                // Append before findPath: a failed edge was still attempted,
+                // while untouched suffix edges must not appear in the trace.
+                routingOrderTrace.executedOrder.push_back(edge);
                 auto start = nodeIndex_pos[edge.first];
                 auto end = nodeIndex_pos[edge.second];
                 auto path = astar.findPath(start, end, isMultiFanout(edge.first));
@@ -2153,6 +2173,13 @@ namespace fcngraph
             }
             return false;
         };
+
+        if (explicitOrder)
+        {
+            // A model-selected order is one decision and one attempt. Never
+            // silently substitute a deterministic or shuffled fallback order.
+            return routeEdges(*explicitOrder) && acceptsCurrentLayout();
+        }
 
         const RouteOrderPolicy policies[] = {
             RouteOrderPolicy::SinkPressureFirst,
@@ -2265,14 +2292,50 @@ namespace fcngraph
             stageCallback("phase_assigned");
         }
 
+        NodeLinkMap nodeLinks;
+        std::set<position> occupiedNodes;
+        for (const auto &node : nodeIndex_pos)
+        {
+            if (!occupiedNodes.insert(node.second).second)
+            {
+                return false;
+            }
+            nodeLinks[{node.second, parse.getNodeType(node.first)}] = {{}, {}};
+        }
+        std::map<unsigned int, std::set<position>> sinkPorts;
         std::vector<std::vector<position>> routeGeometry;
         routeGeometry.reserve(routes.size());
         for (const auto &route : routes)
         {
-            routeGeometry.push_back(route.second);
+            const auto &path = route.second;
+            const auto source = nodeIndex_pos.find(route.first.first);
+            const auto sink = nodeIndex_pos.find(route.first.second);
+            if (path.size() < 2 || source == nodeIndex_pos.end() ||
+                sink == nodeIndex_pos.end() || path.front() != source->second ||
+                path.back() != sink->second ||
+                !sinkPorts[route.first.second].insert(path[path.size() - 2]).second)
+            {
+                return false;
+            }
+            nodeLinks[{path.front(), parse.getNodeType(route.first.first)}]
+                .second.push_back(path[1]);
+            nodeLinks[{path.back(), parse.getNodeType(route.first.second)}]
+                .first.push_back(path[path.size() - 2]);
+            routeGeometry.push_back(path);
         }
+        for (auto &node : nodeLinks)
+        {
+            for (auto *ports : {&node.second.first, &node.second.second})
+            {
+                std::sort(ports->begin(), ports->end());
+                ports->erase(std::unique(ports->begin(), ports->end()), ports->end());
+            }
+        }
+        // Candidate comparison must use complete gate/port and wire mapping,
+        // not a wire-only geometry that the final device exporter may reject.
         Mapping mapping;
-        mapping.mapping_line(routeGeometry);
+        mapping.node_mapping(nodeLinks, MappingMode::Combinational);
+        mapping.mapping_line(routeGeometry, MappingMode::Combinational);
         std::string crossoverError;
         if (!mapping.validate_crossovers(&crossoverError))
         {
@@ -2289,7 +2352,8 @@ namespace fcngraph
     bool CircuitGraph::routeAndValidateJuneRandomClock(
         int phaseCount,
         int shuffledRouteOrderRetries,
-        int maxSamePhase)
+        int maxSamePhase,
+        const std::vector<std::pair<int, int>> *explicitOrder)
     {
         phaseCount = std::max(2, phaseCount);
 
@@ -2306,7 +2370,8 @@ namespace fcngraph
                 nullptr,
                 true,
                 6,
-                acceptCompleteLayout))
+                acceptCompleteLayout,
+                explicitOrder))
         {
             // Preserve the last partial routing attempt for paper/debug
             // snapshots before the caller rejects or relaxes this candidate.
@@ -2787,6 +2852,8 @@ namespace fcngraph
             std::uint64_t bestArea = baseArea;
             CapacityCut bestCut;
             std::map<int, position> bestPositions;
+            decltype(routes) bestRoutes;
+            decltype(chessboard.gridMap) bestCells;
 
             const auto savedFitnessCallback = fitnessCallback;
             const auto savedStageCallback = stageCallback;
@@ -2801,6 +2868,7 @@ namespace fcngraph
                     continue;
                 }
 
+                ++adaptiveExpansionStats.evaluatedCutCandidates;
                 RoutingFailureInfo trialReport;
                 const bool trialRouted = placeAndRouteInternal(
                     shuffledRouteOrderRetries,
@@ -2827,6 +2895,11 @@ namespace fcngraph
                     bestArea = trialArea;
                     bestCut = cut;
                     bestPositions = nodeIndex_pos;
+                    if (trialRouted)
+                    {
+                        bestRoutes = routes;
+                        bestCells = chessboard.gridMap;
+                    }
                 }
                 if (trialRouted)
                 {
@@ -2889,6 +2962,21 @@ namespace fcngraph
                     (bestCut.row ? "row_at_" : "column_at_") +
                     std::to_string(bestCut.coordinate));
             }
+            if (bestRouted)
+            {
+                // The selected geometry already passed complete routing,
+                // phase, fanout ownership and device mapping checks. Preserve
+                // that exact state instead of solving the same geometry twice.
+                routes = std::move(bestRoutes);
+                chessboard.gridMap = std::move(bestCells);
+                ++adaptiveExpansionStats.reusedRoutedCandidates;
+                if (stageCallback)
+                {
+                    stageCallback("phase_assigned");
+                }
+                removeRedundantCapacity();
+                return true;
+            }
         }
 
         if (stageCallback)
@@ -2896,6 +2984,30 @@ namespace fcngraph
             stageCallback("routing_failed");
         }
         return false;
+    }
+
+    bool CircuitGraph::routeProvidedIrregularPlacement(
+        int phaseCount, int shuffledRouteOrderRetries, int maxSamePhase,
+        const std::vector<std::pair<int, int>> *explicitOrder)
+    {
+        if (nodeIndex_pos.empty() || phaseCount != 4 ||
+            shuffledRouteOrderRetries < 0 || shuffledRouteOrderRetries > 64)
+        {
+            throw std::invalid_argument("invalid bounded irregular placement routing request");
+        }
+        const auto requested = nodeIndex_pos;
+        std::set<position> unique;
+        for (const auto &node : requested)
+        {
+            if (!unique.insert(node.second).second)
+                throw std::invalid_argument("provided placement has overlapping nodes");
+        }
+        adaptiveExpansionStats = {};
+        const bool routed = routeAndValidateJuneRandomClock(
+            phaseCount, shuffledRouteOrderRetries, maxSamePhase, explicitOrder);
+        if (nodeIndex_pos != requested)
+            throw std::runtime_error("rerouting changed caller-supplied node coordinates");
+        return routed;
     }
 
     bool CircuitGraph::placeAndRouteJuneRandomClock(int phaseCount,

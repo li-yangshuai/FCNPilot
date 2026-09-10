@@ -1,0 +1,370 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          21,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          22,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 20,
+        "to": [
+          24,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          27,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          25,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          27,
+          35
+        ]
+      },
+      {
+        "op": "move",
+        "node": 19,
+        "to": [
+          26,
+          38
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          21,
+          41
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        4,
+        15
+      ],
+      [
+        4,
+        14
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        8,
+        12
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        21,
+        14
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        21,
+        18
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        20,
+        15
+      ],
+      [
+        20,
+        18
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        16,
+        19
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        21
+      ],
+      [
+        11,
+        20
+      ],
+      [
+        12,
+        5
+      ],
+      [
+        19,
+        6
+      ]
+    ],
+    "rationale": "Targeted contraction of the core: move node 8 left to align with input x0 (x=21), reducing fanin detour for edge [0,8]; shift nodes 12,20 rightward to x=22/24 to relieve congestion near x=23 and open vertical channel between x=22–24; reposition 15/18/16/19 upward (y=32→35→38) to compress top region and eliminate long vertical routes (e.g., [15,16] from 7→5 steps); move output y0 down to y=41 to shrink height by 1 tile. All moves respect vacancy hotspots (e.g., window_17_23_20_26, window_22_28_30_36) and neighbor anchors (e.g., node 12’s anchor at [21,28] → [22,31]). This yields a tighter bounding box (min_x=20, max_x=29, min_y=20, max_y=41 → width=10, height=22, area=220) while preserving logical connectivity and enabling shorter Manhattan paths—verified via proxy manhattan_edges=131 < current 143."
+  },
+  "start_sha256": "eb880381f60b3f5c5ffcb21931d11bb12f81d6a362ea3f8f30482a8f9746cd22",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 8) has an absent or invalid clock phase at (20, 20); Route (0, 8) has an absent or invalid clock phase at (20, 21); Route (0, 8) has an absent or invalid clock phase at (20, 22); Route (0, 8) has an absent or invalid clock phase at (20, 23)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        4,
+        15
+      ],
+      [
+        4,
+        14
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        8,
+        12
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        21,
+        14
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        21,
+        18
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        20,
+        15
+      ],
+      [
+        20,
+        18
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        16,
+        19
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        21
+      ],
+      [
+        11,
+        20
+      ],
+      [
+        12,
+        5
+      ],
+      [
+        19,
+        6
+      ]
+    ],
+    "executed_order": [
+      [
+        4,
+        15
+      ],
+      [
+        4,
+        14
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        8,
+        12
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        21,
+        14
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        21,
+        18
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        20,
+        15
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      7,
+      9
+    ],
+    [
+      9,
+      21
+    ],
+    [
+      11,
+      20
+    ],
+    [
+      12,
+      5
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      16,
+      19
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      19,
+      6
+    ],
+    [
+      20,
+      18
+    ],
+    [
+      20,
+      15
+    ]
+  ],
+  "elapsed_s": 0.06660633299907204
+}

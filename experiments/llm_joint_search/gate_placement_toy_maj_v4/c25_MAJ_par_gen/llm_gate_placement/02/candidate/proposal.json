@@ -1,0 +1,216 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 12,
+      "to": [
+        22,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 29,
+      "to": [
+        22,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 30,
+      "to": [
+        25,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 32,
+      "to": [
+        26,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 20,
+      "to": [
+        31,
+        35
+      ]
+    },
+    {
+      "op": "move",
+      "node": 33,
+      "to": [
+        29,
+        35
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      28,
+      23
+    ],
+    [
+      31,
+      18
+    ],
+    [
+      29,
+      15
+    ],
+    [
+      28,
+      20
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      32,
+      8
+    ],
+    [
+      30,
+      6
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      32,
+      10
+    ],
+    [
+      30,
+      10
+    ],
+    [
+      31,
+      12
+    ],
+    [
+      29,
+      12
+    ],
+    [
+      12,
+      16
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      6,
+      9
+    ],
+    [
+      9,
+      11
+    ],
+    [
+      33,
+      26
+    ],
+    [
+      13,
+      15
+    ],
+    [
+      13,
+      18
+    ],
+    [
+      33,
+      20
+    ],
+    [
+      20,
+      24
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      16,
+      19
+    ],
+    [
+      21,
+      23
+    ],
+    [
+      21,
+      26
+    ],
+    [
+      26,
+      27
+    ],
+    [
+      23,
+      24
+    ],
+    [
+      24,
+      27
+    ],
+    [
+      1,
+      30
+    ],
+    [
+      2,
+      31
+    ],
+    [
+      2,
+      32
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      0,
+      28
+    ],
+    [
+      1,
+      29
+    ],
+    [
+      11,
+      33
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      19,
+      21
+    ],
+    [
+      27,
+      3
+    ]
+  ],
+  "rationale": "Contract left-side fanout cluster (12,29,30,32) toward median anchor (22,23–24) using smaller Y displacements than prior failed attempt to avoid routing gaps; move 20→(31,35) and 33→(29,35) to align with neighbor anchors (28,23), (21,26), reducing right boundary from x=33→31. All six moves target verified vacancy hotspots (e.g., window_17_23_20_26, window_24_30_23_29) with low wire density and no collisions. This preserves layer dependencies while shrinking width from 15→12 tiles (min_x=22, max_x=31) and lowering Manhattan edge sum. Executor will derive a valid order from new positions; prior failure stemmed from over-aggressive Y shifts causing unrouted edges—here we use conservative, locally anchored displacements."
+}

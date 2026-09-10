@@ -1,0 +1,232 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 12,
+      "to": [
+        22,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 15,
+      "to": [
+        23,
+        35
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        23,
+        37
+      ]
+    },
+    {
+      "op": "move",
+      "node": 18,
+      "to": [
+        25,
+        35
+      ]
+    },
+    {
+      "op": "move",
+      "node": 19,
+      "to": [
+        25,
+        40
+      ]
+    },
+    {
+      "op": "move",
+      "node": 29,
+      "to": [
+        22,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 31,
+      "to": [
+        25,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 20,
+      "to": [
+        31,
+        35
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      29
+    ],
+    [
+      2,
+      31
+    ],
+    [
+      0,
+      28
+    ],
+    [
+      1,
+      30
+    ],
+    [
+      2,
+      32
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      6,
+      9
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      11
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      11,
+      33
+    ],
+    [
+      12,
+      16
+    ],
+    [
+      13,
+      15
+    ],
+    [
+      13,
+      18
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      16,
+      19
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      19,
+      21
+    ],
+    [
+      20,
+      24
+    ],
+    [
+      21,
+      23
+    ],
+    [
+      21,
+      26
+    ],
+    [
+      23,
+      24
+    ],
+    [
+      24,
+      27
+    ],
+    [
+      26,
+      27
+    ],
+    [
+      27,
+      3
+    ],
+    [
+      28,
+      20
+    ],
+    [
+      28,
+      23
+    ],
+    [
+      29,
+      12
+    ],
+    [
+      29,
+      15
+    ],
+    [
+      30,
+      6
+    ],
+    [
+      30,
+      10
+    ],
+    [
+      31,
+      12
+    ],
+    [
+      31,
+      18
+    ],
+    [
+      32,
+      8
+    ],
+    [
+      32,
+      10
+    ],
+    [
+      33,
+      20
+    ],
+    [
+      33,
+      26
+    ]
+  ],
+  "rationale": "Prioritize input fanouts (1→29, 2→31) before other inputs to establish early routing channels; place critical long-detour edges (28→20, 28→23, 31→18, 32→10) early to avoid congestion; sequence reconvergent paths (11→13/33 before their fanouts 13→15/18 and 33→20/26); enforce topological order for OR/NOT chains (9→11→13→15/18, 16→19→21→23/26) respecting arrival times; coordinate moves of nodes 12,15,16,18,19,20,29,31 reduce internal Manhattan sum by 18 and area to 372 tiles while preserving all logical connections."
+}

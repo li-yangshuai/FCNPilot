@@ -1,0 +1,499 @@
+{
+  "round": 2,
+  "status": "certified",
+  "start_metrics": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 12226,
+    "output": 527,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 12753
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          23,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          23,
+          30
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          5,
+          10
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Node 7 (current [27,25]) is the rightmost internal node controlling width; moving it left to [23,24] reduces max_x from 27→23, directly shrinking width by 4 tiles. Node 8 moves up to [24,26] into a verified vacancy hotspot (window_21_27_25_31, y=26–27, x=25–27) and aligns vertically with 7’s new y=24 and 11’s target y=30, shortening vertical fanout paths. Node 11 shifts to [23,30] (from [23,31]), exploiting empty tiles above (window_20_26_28_34 shows vacancy at y=30–31, x=20–21) and reducing top extent marginally while preserving output arrival. Swapping 5 and 10 ([22,23]↔[22,25]) co-locates their shared fanin (x2→5, x1→10) and fanout (both →7,10/5), eliminating the long detour on edge [5,7] (9→5 steps in prior certified attempt) and balancing load across y=23–25 band. All moves stay within bounds, avoid collisions, and coordinate internal contraction without moving ports—addressing the failed prior proposal where 2→5 routing exploded (13 steps). This geometry targets measured high-detour edges ([5,7], [4,8]) and uses sparse regions observed in window_21_27_25_31 and window_20_26_28_34."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          23,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          23,
+          30
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          5,
+          10
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "rationale": "Node 7 (current [27,25]) is the rightmost internal node controlling width; moving it left to [23,24] reduces max_x from 27→23, directly shrinking width by 4 tiles. Node 8 moves up to [24,26] into a verified vacancy hotspot (window_21_27_25_31, y=26–27, x=25–27) and aligns vertically with 7’s new y=24 and 11’s target y=30, shortening vertical fanout paths. Node 11 shifts to [23,30] (from [23,31]), exploiting empty tiles above (window_20_26_28_34 shows vacancy at y=30–31, x=20–21) and reducing top extent marginally while preserving output arrival. Swapping 5 and 10 ([22,23]↔[22,25]) co-locates their shared fanin (x2→5, x1→10) and fanout (both →7,10/5), eliminating the long detour on edge [5,7] (9→5 steps in prior certified attempt) and balancing load across y=23–25 band. All moves stay within bounds, avoid collisions, and coordinate internal contraction without moving ports—addressing the failed prior proposal where 2→5 routing exploded (13 steps). This geometry targets measured high-detour edges ([5,7], [4,8]) and uses sparse regions observed in window_21_27_25_31 and window_20_26_28_34."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+  "moves": [
+    {
+      "node_id": 5,
+      "name": "~x2",
+      "from": [
+        22,
+        23
+      ],
+      "to": [
+        22,
+        25
+      ]
+    },
+    {
+      "node_id": 7,
+      "name": "ifcn_tmp_2",
+      "from": [
+        27,
+        25
+      ],
+      "to": [
+        23,
+        24
+      ]
+    },
+    {
+      "node_id": 8,
+      "name": "ifcn_tmp_3",
+      "from": [
+        24,
+        28
+      ],
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "node_id": 10,
+      "name": "ifcn_tmp_5",
+      "from": [
+        22,
+        25
+      ],
+      "to": [
+        22,
+        23
+      ]
+    },
+    {
+      "node_id": 11,
+      "name": "n4",
+      "from": [
+        23,
+        31
+      ],
+      "to": [
+        23,
+        30
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "executed_order": [
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "metrics": {
+    "width": 7,
+    "height": 15,
+    "area_tiles": 105,
+    "qca_cells": 289,
+    "edge_steps": 62,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 0,
+      "target": 7,
+      "before_steps": 7,
+      "after_steps": 6
+    },
+    {
+      "source": 1,
+      "target": 10,
+      "before_steps": 7,
+      "after_steps": 5
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "before_steps": 3,
+      "after_steps": 11
+    },
+    {
+      "source": 4,
+      "target": 8,
+      "before_steps": 5,
+      "after_steps": 3
+    },
+    {
+      "source": 5,
+      "target": 7,
+      "before_steps": 9,
+      "after_steps": 2
+    },
+    {
+      "source": 5,
+      "target": 10,
+      "before_steps": 2,
+      "after_steps": 2
+    },
+    {
+      "source": 7,
+      "target": 8,
+      "before_steps": 6,
+      "after_steps": 3
+    },
+    {
+      "source": 8,
+      "target": 11,
+      "before_steps": 4,
+      "after_steps": 5
+    },
+    {
+      "source": 10,
+      "target": 11,
+      "before_steps": 7,
+      "after_steps": 10
+    },
+    {
+      "source": 11,
+      "target": 3,
+      "before_steps": 3,
+      "after_steps": 4
+    }
+  ],
+  "elapsed_s": 20.94755042900215,
+  "node_changes": [
+    {
+      "node_id": 5,
+      "name": "~x2",
+      "from": [
+        22,
+        23
+      ],
+      "to": [
+        22,
+        25
+      ]
+    },
+    {
+      "node_id": 7,
+      "name": "ifcn_tmp_2",
+      "from": [
+        27,
+        25
+      ],
+      "to": [
+        23,
+        24
+      ]
+    },
+    {
+      "node_id": 8,
+      "name": "ifcn_tmp_3",
+      "from": [
+        24,
+        28
+      ],
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "node_id": 10,
+      "name": "ifcn_tmp_5",
+      "from": [
+        22,
+        25
+      ],
+      "to": [
+        22,
+        23
+      ]
+    },
+    {
+      "node_id": 11,
+      "name": "n4",
+      "from": [
+        23,
+        31
+      ],
+      "to": [
+        23,
+        30
+      ]
+    }
+  ],
+  "decision": "improved_retained",
+  "retained_metrics": {
+    "width": 7,
+    "height": 15,
+    "area_tiles": 105,
+    "qca_cells": 289,
+    "edge_steps": 62,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "next_state": "afc5e17b2b09d4289632d4a74ac0ac3ce4c48346ab00ae9ea385454ec52db734"
+}

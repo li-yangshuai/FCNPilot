@@ -1,0 +1,668 @@
+{
+  "round": 1,
+  "status": "failed",
+  "start_metrics": {
+    "width": 11,
+    "height": 29,
+    "area_tiles": 319,
+    "qca_cells": 656,
+    "edge_steps": 136,
+    "output_arrival_ticks": {
+      "2": [
+        26,
+        26
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 11,
+    "height": 29,
+    "area_tiles": 319,
+    "qca_cells": 656,
+    "edge_steps": 136,
+    "output_arrival_ticks": {
+      "2": [
+        26,
+        26
+      ]
+    }
+  },
+  "start_state": "7a458d654676f81a16c34a92025261528f741d274a39f74d5658e8577d8e9d25",
+  "cumulative_round": 5,
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 22049,
+    "output": 503,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 22552
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          22,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 29,
+        "to": [
+          22,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 28,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          26,
+          34
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          27,
+          37
+        ]
+      },
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          27,
+          39
+        ]
+      },
+      {
+        "op": "move",
+        "node": 14,
+        "to": [
+          28,
+          40
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          28,
+          43
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Contract both left and right vertical spans: move left-side nodes (7,28,29) from x=21→22 to close the left margin (min_x from 20→21), and shift suffix chain (11–15) down by 2 tiles (y=36→34, 39→37, 41→39, 42→40, 45→43) to reduce max_y from 48→43. This yields a new bounding box min_x=21, max_x=30, min_y=20, max_y=43 → width=10, height=24, area=240 (vs 319), while preserving all fanin/fanout adjacency and aligning with vacancy hotspots at (21,20–23) and (28,40–43). The moves are small, avoid collisions, and target regions with zero gate/wire density per spatial_regions."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          22,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 29,
+        "to": [
+          22,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 28,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          26,
+          34
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          27,
+          37
+        ]
+      },
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          27,
+          39
+        ]
+      },
+      {
+        "op": "move",
+        "node": 14,
+        "to": [
+          28,
+          40
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          28,
+          43
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        17,
+        4
+      ],
+      [
+        16,
+        4
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        31,
+        10
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        29,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        26,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        27,
+        11
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        24,
+        14
+      ],
+      [
+        1,
+        17
+      ],
+      [
+        0,
+        16
+      ],
+      [
+        3,
+        18
+      ],
+      [
+        17,
+        30
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        16,
+        28
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        4,
+        25
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        28,
+        29
+      ],
+      [
+        30,
+        31
+      ],
+      [
+        19,
+        20
+      ],
+      [
+        25,
+        26
+      ],
+      [
+        20,
+        21
+      ],
+      [
+        10,
+        27
+      ],
+      [
+        21,
+        22
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        22,
+        23
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        23,
+        24
+      ],
+      [
+        14,
+        15
+      ],
+      [
+        15,
+        2
+      ]
+    ],
+    "rationale": "Contract both left and right vertical spans: move left-side nodes (7,28,29) from x=21→22 to close the left margin (min_x from 20→21), and shift suffix chain (11–15) down by 2 tiles (y=36→34, 39→37, 41→39, 42→40, 45→43) to reduce max_y from 48→43. This yields a new bounding box min_x=21, max_x=30, min_y=20, max_y=43 → width=10, height=24, area=240 (vs 319), while preserving all fanin/fanout adjacency and aligning with vacancy hotspots at (21,20–23) and (28,40–43). The moves are small, avoid collisions, and target regions with zero gate/wire density per spatial_regions."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "80a04a7e9d8a87360f8f5a49238bfdfe91ad74a8969f81a7bf7008f9ad4660ea",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 3) has an absent or invalid clock phase at (23, 20); Route (0, 3) has an absent or invalid clock phase at (23, 21); Route (0, 3) has an absent or invalid clock phase at (23, 22); Route (0, 3) has an absent or invalid clock phase at (24, 22)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        17,
+        4
+      ],
+      [
+        16,
+        4
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        31,
+        10
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        29,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        26,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        27,
+        11
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        24,
+        14
+      ],
+      [
+        1,
+        17
+      ],
+      [
+        0,
+        16
+      ],
+      [
+        3,
+        18
+      ],
+      [
+        17,
+        30
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        16,
+        28
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        4,
+        25
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        28,
+        29
+      ],
+      [
+        30,
+        31
+      ],
+      [
+        19,
+        20
+      ],
+      [
+        25,
+        26
+      ],
+      [
+        20,
+        21
+      ],
+      [
+        10,
+        27
+      ],
+      [
+        21,
+        22
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        22,
+        23
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        23,
+        24
+      ],
+      [
+        14,
+        15
+      ],
+      [
+        15,
+        2
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        17,
+        4
+      ],
+      [
+        16,
+        4
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        31,
+        10
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        29,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        26,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        27,
+        11
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        24,
+        14
+      ],
+      [
+        1,
+        17
+      ],
+      [
+        0,
+        16
+      ],
+      [
+        3,
+        18
+      ],
+      [
+        17,
+        30
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        16,
+        28
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        4,
+        25
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      4,
+      25
+    ],
+    [
+      10,
+      27
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      14,
+      15
+    ],
+    [
+      15,
+      2
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      19,
+      20
+    ],
+    [
+      20,
+      21
+    ],
+    [
+      21,
+      22
+    ],
+    [
+      22,
+      23
+    ],
+    [
+      23,
+      24
+    ],
+    [
+      25,
+      26
+    ],
+    [
+      28,
+      29
+    ],
+    [
+      30,
+      31
+    ]
+  ],
+  "elapsed_s": 13.87656254600006,
+  "decision": "retain_best",
+  "retained_metrics": {
+    "width": 11,
+    "height": 29,
+    "area_tiles": 319,
+    "qca_cells": 656,
+    "edge_steps": 136,
+    "output_arrival_ticks": {
+      "2": [
+        26,
+        26
+      ]
+    }
+  },
+  "next_state": "7a458d654676f81a16c34a92025261528f741d274a39f74d5658e8577d8e9d25"
+}

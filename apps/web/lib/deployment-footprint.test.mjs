@@ -34,17 +34,16 @@ test("ships only modern WOFF2 KaTeX fonts", async () => {
   assert.match(css, new RegExp(`KaTeX ${katexPackage.version.replaceAll(".", "\\.")} CSS`));
 });
 
-test("keeps Monaco language support aligned with files and code artifacts", async () => {
+test("keeps local editor tokenizers for circuit sources and supporting files", async () => {
   const editor = await readFile(projectFile("components/MonacoCodeEditor.tsx"), "utf8");
   const contributions = [...editor.matchAll(/basic-languages\/([^/]+)\/\1\.contribution\.js/g)]
     .map((match) => match[1]);
 
   assert.deepEqual(contributions, [
-    "bat", "cpp", "csharp", "css", "dart", "dockerfile", "elixir", "fsharp", "go",
-    "graphql", "hcl", "html", "java", "javascript", "kotlin", "less", "lua",
-    "markdown", "perl", "php", "powershell", "python", "r", "ruby", "rust", "scala",
-    "scss", "shell", "sql", "swift", "typescript", "vb", "xml", "yaml",
+    "cpp", "css", "html", "javascript", "markdown", "python", "shell", "typescript", "xml", "yaml",
   ]);
+  assert.match(editor, /id: "verilog", extensions: \["\.v", "\.vh", "\.sv", "\.svh"\]/);
+  assert.doesNotMatch(editor, /fetch\(|code-intelligence|registerInlineCompletionsProvider/);
 });
 
 test("loads the browser-only workspace shell without duplicating it in SSR", async () => {

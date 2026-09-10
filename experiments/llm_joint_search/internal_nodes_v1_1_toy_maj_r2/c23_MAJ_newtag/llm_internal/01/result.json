@@ -1,0 +1,1187 @@
+{
+  "round": 1,
+  "status": "accepted",
+  "start_metrics": {
+    "width": 22,
+    "height": 38,
+    "area_tiles": 836,
+    "qca_cells": 1284,
+    "edge_steps": 266,
+    "output_arrival_ticks": {
+      "8": [
+        35,
+        35
+      ]
+    }
+  },
+  "start_placement": [
+    [
+      0,
+      20,
+      20
+    ],
+    [
+      1,
+      25,
+      20
+    ],
+    [
+      2,
+      22,
+      20
+    ],
+    [
+      3,
+      28,
+      20
+    ],
+    [
+      4,
+      38,
+      20
+    ],
+    [
+      5,
+      40,
+      20
+    ],
+    [
+      6,
+      35,
+      20
+    ],
+    [
+      7,
+      31,
+      20
+    ],
+    [
+      8,
+      26,
+      56
+    ],
+    [
+      9,
+      29,
+      23
+    ],
+    [
+      11,
+      33,
+      26
+    ],
+    [
+      13,
+      31,
+      26
+    ],
+    [
+      14,
+      33,
+      29
+    ],
+    [
+      15,
+      35,
+      23
+    ],
+    [
+      16,
+      35,
+      31
+    ],
+    [
+      17,
+      22,
+      23
+    ],
+    [
+      19,
+      24,
+      26
+    ],
+    [
+      20,
+      39,
+      23
+    ],
+    [
+      21,
+      37,
+      34
+    ],
+    [
+      22,
+      38,
+      37
+    ],
+    [
+      23,
+      41,
+      34
+    ],
+    [
+      24,
+      38,
+      39
+    ],
+    [
+      25,
+      20,
+      23
+    ],
+    [
+      27,
+      24,
+      29
+    ],
+    [
+      28,
+      34,
+      42
+    ],
+    [
+      30,
+      27,
+      45
+    ],
+    [
+      31,
+      27,
+      47
+    ],
+    [
+      33,
+      26,
+      50
+    ],
+    [
+      34,
+      26,
+      53
+    ]
+  ],
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": null,
+  "model_latency_s": 17.94101252900009,
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 23,
+        "to": [
+          39,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 21,
+        "to": [
+          37,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 22,
+        "to": [
+          38,
+          35
+        ]
+      },
+      {
+        "op": "move",
+        "node": 24,
+        "to": [
+          38,
+          37
+        ]
+      },
+      {
+        "op": "move",
+        "node": 28,
+        "to": [
+          34,
+          40
+        ]
+      },
+      {
+        "op": "move",
+        "node": 30,
+        "to": [
+          27,
+          43
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          35,
+          29
+        ]
+      },
+      {
+        "op": "move",
+        "node": 20,
+        "to": [
+          38,
+          21
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        25
+      ],
+      [
+        1,
+        19
+      ],
+      [
+        2,
+        17
+      ],
+      [
+        3,
+        9
+      ],
+      [
+        3,
+        30
+      ],
+      [
+        4,
+        20
+      ],
+      [
+        4,
+        21
+      ],
+      [
+        5,
+        20
+      ],
+      [
+        5,
+        23
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        6,
+        15
+      ],
+      [
+        7,
+        13
+      ],
+      [
+        7,
+        15
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        14
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        16,
+        21
+      ],
+      [
+        16,
+        23
+      ],
+      [
+        17,
+        19
+      ],
+      [
+        19,
+        27
+      ],
+      [
+        20,
+        22
+      ],
+      [
+        21,
+        22
+      ],
+      [
+        22,
+        24
+      ],
+      [
+        23,
+        24
+      ],
+      [
+        24,
+        28
+      ],
+      [
+        25,
+        27
+      ],
+      [
+        27,
+        33
+      ],
+      [
+        28,
+        30
+      ],
+      [
+        30,
+        31
+      ],
+      [
+        31,
+        33
+      ],
+      [
+        33,
+        34
+      ],
+      [
+        34,
+        8
+      ]
+    ],
+    "rationale": "Relocate nodes 23,21,22,24,28,30,16,20 to compress the central fanout region (nodes 16→21/23 and 20/21/23→22/24), eliminating long vertical detours on edges (16,23) and (20,22); route order prioritizes early fanin (PIs first), then reconvergent paths (7→13/15, 6→11/15), and finally long critical-path chains (27→33, 28→30→31→33) to avoid congestion near output."
+  },
+  "matches_suggested_coordinates": false,
+  "start_sha256": "d6f40eafd47a35f9dcabae921ea4c801242aa3e9af3edd9806e7a985c0fb3196",
+  "io_lock": {
+    "passed": true,
+    "fixed_node_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "scope": "PI/PO node XY coordinates only; clock phases are not pinned"
+  },
+  "moves": [
+    {
+      "node_id": 16,
+      "name": "n9",
+      "from": [
+        35,
+        31
+      ],
+      "to": [
+        35,
+        29
+      ]
+    },
+    {
+      "node_id": 20,
+      "name": "ifcn_tmp_7",
+      "from": [
+        39,
+        23
+      ],
+      "to": [
+        38,
+        21
+      ]
+    },
+    {
+      "node_id": 21,
+      "name": "ifcn_tmp_8",
+      "from": [
+        37,
+        34
+      ],
+      "to": [
+        37,
+        32
+      ]
+    },
+    {
+      "node_id": 22,
+      "name": "ifcn_tmp_9",
+      "from": [
+        38,
+        37
+      ],
+      "to": [
+        38,
+        35
+      ]
+    },
+    {
+      "node_id": 23,
+      "name": "ifcn_tmp_10",
+      "from": [
+        41,
+        34
+      ],
+      "to": [
+        39,
+        32
+      ]
+    },
+    {
+      "node_id": 24,
+      "name": "n10",
+      "from": [
+        38,
+        39
+      ],
+      "to": [
+        38,
+        37
+      ]
+    },
+    {
+      "node_id": 28,
+      "name": "~n10",
+      "from": [
+        34,
+        42
+      ],
+      "to": [
+        34,
+        40
+      ]
+    },
+    {
+      "node_id": 30,
+      "name": "n11",
+      "from": [
+        27,
+        45
+      ],
+      "to": [
+        27,
+        43
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        25
+      ],
+      [
+        1,
+        19
+      ],
+      [
+        2,
+        17
+      ],
+      [
+        3,
+        9
+      ],
+      [
+        3,
+        30
+      ],
+      [
+        4,
+        20
+      ],
+      [
+        4,
+        21
+      ],
+      [
+        5,
+        20
+      ],
+      [
+        5,
+        23
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        6,
+        15
+      ],
+      [
+        7,
+        13
+      ],
+      [
+        7,
+        15
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        14
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        16,
+        21
+      ],
+      [
+        16,
+        23
+      ],
+      [
+        17,
+        19
+      ],
+      [
+        19,
+        27
+      ],
+      [
+        20,
+        22
+      ],
+      [
+        21,
+        22
+      ],
+      [
+        22,
+        24
+      ],
+      [
+        23,
+        24
+      ],
+      [
+        24,
+        28
+      ],
+      [
+        25,
+        27
+      ],
+      [
+        27,
+        33
+      ],
+      [
+        28,
+        30
+      ],
+      [
+        30,
+        31
+      ],
+      [
+        31,
+        33
+      ],
+      [
+        33,
+        34
+      ],
+      [
+        34,
+        8
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        25
+      ],
+      [
+        1,
+        19
+      ],
+      [
+        2,
+        17
+      ],
+      [
+        3,
+        9
+      ],
+      [
+        3,
+        30
+      ],
+      [
+        4,
+        20
+      ],
+      [
+        4,
+        21
+      ],
+      [
+        5,
+        20
+      ],
+      [
+        5,
+        23
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        6,
+        15
+      ],
+      [
+        7,
+        13
+      ],
+      [
+        7,
+        15
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        14
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        16,
+        21
+      ],
+      [
+        16,
+        23
+      ],
+      [
+        17,
+        19
+      ],
+      [
+        19,
+        27
+      ],
+      [
+        20,
+        22
+      ],
+      [
+        21,
+        22
+      ],
+      [
+        22,
+        24
+      ],
+      [
+        23,
+        24
+      ],
+      [
+        24,
+        28
+      ],
+      [
+        25,
+        27
+      ],
+      [
+        27,
+        33
+      ],
+      [
+        28,
+        30
+      ],
+      [
+        30,
+        31
+      ],
+      [
+        31,
+        33
+      ],
+      [
+        33,
+        34
+      ],
+      [
+        34,
+        8
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": true
+  },
+  "metrics": {
+    "width": 21,
+    "height": 37,
+    "area_tiles": 777,
+    "qca_cells": 1188,
+    "edge_steps": 243,
+    "output_arrival_ticks": {
+      "8": [
+        35,
+        35
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 3,
+      "target": 30,
+      "before_steps": 26,
+      "after_steps": 24
+    },
+    {
+      "source": 4,
+      "target": 20,
+      "before_steps": 6,
+      "after_steps": 1
+    },
+    {
+      "source": 4,
+      "target": 21,
+      "before_steps": 15,
+      "after_steps": 13
+    },
+    {
+      "source": 5,
+      "target": 20,
+      "before_steps": 4,
+      "after_steps": 3
+    },
+    {
+      "source": 5,
+      "target": 23,
+      "before_steps": 15,
+      "after_steps": 13
+    },
+    {
+      "source": 7,
+      "target": 13,
+      "before_steps": 8,
+      "after_steps": 6
+    },
+    {
+      "source": 7,
+      "target": 15,
+      "before_steps": 11,
+      "after_steps": 9
+    },
+    {
+      "source": 14,
+      "target": 16,
+      "before_steps": 4,
+      "after_steps": 2
+    },
+    {
+      "source": 15,
+      "target": 16,
+      "before_steps": 8,
+      "after_steps": 8
+    },
+    {
+      "source": 16,
+      "target": 21,
+      "before_steps": 5,
+      "after_steps": 5
+    },
+    {
+      "source": 16,
+      "target": 23,
+      "before_steps": 11,
+      "after_steps": 7
+    },
+    {
+      "source": 20,
+      "target": 22,
+      "before_steps": 15,
+      "after_steps": 18
+    },
+    {
+      "source": 21,
+      "target": 22,
+      "before_steps": 4,
+      "after_steps": 4
+    },
+    {
+      "source": 22,
+      "target": 24,
+      "before_steps": 6,
+      "after_steps": 2
+    },
+    {
+      "source": 23,
+      "target": 24,
+      "before_steps": 8,
+      "after_steps": 6
+    },
+    {
+      "source": 24,
+      "target": 28,
+      "before_steps": 7,
+      "after_steps": 7
+    },
+    {
+      "source": 28,
+      "target": 30,
+      "before_steps": 10,
+      "after_steps": 10
+    },
+    {
+      "source": 30,
+      "target": 31,
+      "before_steps": 2,
+      "after_steps": 4
+    }
+  ],
+  "elapsed_s": 0.6038726189999579,
+  "internal_changes": {
+    "fixed_port_count": 9,
+    "all_port_coordinates_unchanged": true,
+    "moved_internal_nodes": [
+      {
+        "id": 16,
+        "type": "or",
+        "from": [
+          35,
+          31
+        ],
+        "to": [
+          35,
+          29
+        ]
+      },
+      {
+        "id": 20,
+        "type": "and",
+        "from": [
+          39,
+          23
+        ],
+        "to": [
+          38,
+          21
+        ]
+      },
+      {
+        "id": 21,
+        "type": "and",
+        "from": [
+          37,
+          34
+        ],
+        "to": [
+          37,
+          32
+        ]
+      },
+      {
+        "id": 22,
+        "type": "or",
+        "from": [
+          38,
+          37
+        ],
+        "to": [
+          38,
+          35
+        ]
+      },
+      {
+        "id": 23,
+        "type": "and",
+        "from": [
+          41,
+          34
+        ],
+        "to": [
+          39,
+          32
+        ]
+      },
+      {
+        "id": 24,
+        "type": "or",
+        "from": [
+          38,
+          39
+        ],
+        "to": [
+          38,
+          37
+        ]
+      },
+      {
+        "id": 28,
+        "type": "not",
+        "from": [
+          34,
+          42
+        ],
+        "to": [
+          34,
+          40
+        ]
+      },
+      {
+        "id": 30,
+        "type": "and",
+        "from": [
+          27,
+          45
+        ],
+        "to": [
+          27,
+          43
+        ]
+      }
+    ],
+    "changed_route_count": 18,
+    "route_changes": [
+      {
+        "edge": [
+          3,
+          30
+        ],
+        "before_steps": 26,
+        "after_steps": 24
+      },
+      {
+        "edge": [
+          4,
+          20
+        ],
+        "before_steps": 6,
+        "after_steps": 1
+      },
+      {
+        "edge": [
+          4,
+          21
+        ],
+        "before_steps": 15,
+        "after_steps": 13
+      },
+      {
+        "edge": [
+          5,
+          20
+        ],
+        "before_steps": 4,
+        "after_steps": 3
+      },
+      {
+        "edge": [
+          5,
+          23
+        ],
+        "before_steps": 15,
+        "after_steps": 13
+      },
+      {
+        "edge": [
+          7,
+          13
+        ],
+        "before_steps": 8,
+        "after_steps": 6
+      },
+      {
+        "edge": [
+          7,
+          15
+        ],
+        "before_steps": 11,
+        "after_steps": 9
+      },
+      {
+        "edge": [
+          14,
+          16
+        ],
+        "before_steps": 4,
+        "after_steps": 2
+      },
+      {
+        "edge": [
+          15,
+          16
+        ],
+        "before_steps": 8,
+        "after_steps": 8
+      },
+      {
+        "edge": [
+          16,
+          21
+        ],
+        "before_steps": 5,
+        "after_steps": 5
+      },
+      {
+        "edge": [
+          16,
+          23
+        ],
+        "before_steps": 11,
+        "after_steps": 7
+      },
+      {
+        "edge": [
+          20,
+          22
+        ],
+        "before_steps": 15,
+        "after_steps": 18
+      },
+      {
+        "edge": [
+          21,
+          22
+        ],
+        "before_steps": 4,
+        "after_steps": 4
+      },
+      {
+        "edge": [
+          22,
+          24
+        ],
+        "before_steps": 6,
+        "after_steps": 2
+      },
+      {
+        "edge": [
+          23,
+          24
+        ],
+        "before_steps": 8,
+        "after_steps": 6
+      },
+      {
+        "edge": [
+          24,
+          28
+        ],
+        "before_steps": 7,
+        "after_steps": 7
+      },
+      {
+        "edge": [
+          28,
+          30
+        ],
+        "before_steps": 10,
+        "after_steps": 10
+      },
+      {
+        "edge": [
+          30,
+          31
+        ],
+        "before_steps": 2,
+        "after_steps": 4
+      }
+    ],
+    "placement_proxy_before": {
+      "min_x": 20,
+      "max_x": 41,
+      "min_y": 20,
+      "max_y": 56,
+      "width": 22,
+      "height": 37,
+      "area_tiles": 814,
+      "manhattan_edges": 250
+    },
+    "placement_proxy_after": {
+      "min_x": 20,
+      "max_x": 40,
+      "min_y": 20,
+      "max_y": 56,
+      "width": 21,
+      "height": 37,
+      "area_tiles": 777,
+      "manhattan_edges": 233
+    }
+  },
+  "total_elapsed_s": 19.35510635899982
+}

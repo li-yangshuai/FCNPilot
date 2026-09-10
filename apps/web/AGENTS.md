@@ -22,7 +22,7 @@ Browser                Next.js Server              AgentSession (in-process)
   ├─ GET /api/agent/running ───────▶ running id snapshot   │
   │                        │                               │
   ├─ send message ─────────▶ POST /api/agent/[id]          │
-  │                        │   startRpcSession() ─────────▶│ createAgentSession()
+  │                        │   startRpcSession() ─────────▶│ createAgentSessionFromServices()
   │                        │   session.send(cmd) ─────────▶│ session.prompt()
   │                        │                               │
   ├─ SSE connect ──────────▶ GET /api/agent/[id]/events    │
@@ -30,11 +30,11 @@ Browser                Next.js Server              AgentSession (in-process)
   │◀── data: {...} ─────────│                               │
 ```
 
-Interactive CLI sessions can instead be owned by `bin/pi-web-sync.js`. Its Pi
+Internal CLI compatibility sessions can still be owned by `bin/pi-web-sync.js`. Its Pi
 extension batches native AgentSession events into `/api/cli-bridge/events` and
 long-polls `/api/cli-bridge/commands` for Web input. When a CLI bridge is
 registered, `/api/agent/[id]` forwards commands to the CLI and must never start
-an in-process AgentSession for the same session file.
+an in-process AgentSession for the same session file. This compatibility transport has no toolbar or terminal panel in the FCN workspace.
 
 **Session browsing** (read-only): reads `.jsonl` files through SDK `SessionManager` helpers and `lib/session-reader.ts` — no AgentSession created.  
 **Sending a message**: `startRpcSession()` in `lib/rpc-manager.ts` creates an AgentSession in-process.
@@ -49,8 +49,8 @@ app/api/
   sessions/[id]/route.ts          GET/PATCH/DELETE session
   sessions/[id]/context/route.ts  GET ?leafId= — context for a specific leaf
   sessions/[id]/export/route.ts   GET exported HTML for a session
-  agent/new/route.ts              POST { cwd, message, toolNames?, provider?, modelId? }
-  agent/[id]/route.ts             GET state | POST any command
+  agent/new/route.ts              POST configured FCN cwd, fixed main profile, model/thinking options
+  agent/[id]/route.ts             GET state | POST allowed FCN session commands
   agent/[id]/events/route.ts      GET SSE stream
   agent/running/route.ts          GET currently-running session ids
   agent/running/events/route.ts   GET SSE stream of currently-running session ids
@@ -63,49 +63,46 @@ app/api/
   default-cwd/route.ts            POST create ~/pi-cwd-YYYYMMDD
   files/[...path]/route.ts        GET file contents for viewer
   home/route.ts                   GET user home directory
+  agents/route.ts                GET the single FCN main profile (read-only)
+  ifcn/workspace/route.ts         GET configured engine, trust, and capabilities
+  ifcn/runs/route.ts              GET actual circuit runs
+  ifcn/runs/[id]/route.ts         GET run stages, metrics, and artifact metadata
+  ifcn/runs/[id]/artifacts/route.ts GET verified downloads and SVG/QCA previews
   models/route.ts                 GET { models, modelList, defaultModel }
   models-config/route.ts          GET/PUT — read/write ~/.pi/agent/models.json
   models-config/catalog/route.ts  GET models.dev pricing presets
   models-config/discover/route.ts POST fetch a configured provider's upstream model list
   models-config/test/route.ts     POST test a configured model/provider
-  plugins/route.ts                GET/POST package plugin management
-  skills/route.ts                 GET/PATCH loaded skills and disable-model-invocation
-  skills/install/route.ts         POST install skills through npx skills add
-  skills/search/route.ts          GET/POST skills.sh search
-  worktrees/route.ts              GET/POST/DELETE git worktrees
 
 lib/
   agent-client.ts      typed fetch helper for /api/agent commands
   draft-store.ts       local draft persistence helpers
-  file-access.ts       allowed file roots for /api/files and worktrees
+  file-access.ts       allowed file roots for circuit files and existing sessions
   file-paths.ts        client/server path encoding helpers
   markdown.ts          shared markdown helpers
-  npx.ts               npx runner used by skill install
   pi-types.ts          local structural types for pi SDK objects
   rpc-manager.ts      AgentSessionWrapper + registry + startRpcSession
   session-reader.ts   SessionManager wrappers + path cache + buildSessionContext adapter
-  tool-presets.ts     PRESET_NONE/READ_ONLY/DEFAULT/FULL + getPresetFromTools()
-  tool-preset-preference.ts  browser-persisted default for fresh sessions
   types.ts            shared TypeScript types
   normalize.ts        normalizeToolCalls() — field name mismatch between file format and our types
-  worktree.ts         project/worktree resolution and git worktree operations
+  worktree.ts         retained project identity helpers used by session discovery
+  fcn-agent-policy.ts fixed seven-tool policy, command allow-list, explicit FCN extension loading
+  ifcn-results.ts     manifest-listed circuit results with path and integrity checks
 
 components/
-  AppShell.tsx        layout + URL state + tab management
-  SessionSidebar.tsx  session tree + FileExplorer
+  AppShell.tsx        FCN design/results views + URL state + circuit file panel
+  SessionSidebar.tsx  circuit design history + FileExplorer
   ChatWindow.tsx      chat composition + completion sound wrapper
-  ChatInput.tsx       input bar + model/thinking/tools/compact controls
+  ChatInput.tsx       circuit prompt + model/thinking + send/stop/compact controls
   MessageView.tsx     renders one message (user/assistant/toolCall/toolResult)
-  BranchNavigator.tsx in-session branch switcher
   ChatMinimap.tsx     scroll minimap alongside the message list
   MarkdownBody.tsx    markdown renderer
-  ModelsConfig.tsx    modal for editing models.json (opened from sidebar bottom)
-  PluginsConfig.tsx   modal for installed package plugins
-  SkillsConfig.tsx    modal for loaded/search/installable skills
+  ModelsConfig.tsx    model/provider configuration
+  IfcnWorkspace.tsx   FCN main-Agent welcome and engine status
+  IfcnResults.tsx     run selection, layout/device previews, and result downloads
   FileExplorer.tsx    file tree inside sidebar
   FileIcons.tsx       file icon helpers
   FileViewer.tsx      file content in a tab
-  TabBar.tsx          tab bar (Chat + open file tabs)
 
 hooks/
   useAgentSession.ts  messages + streaming + SSE + fork/navigate/reconciliation logic
@@ -131,7 +128,7 @@ hooks/
 
 ### Two kinds of branching — don't confuse them
 - **Fork** (Fork button on user message): creates a new independent `.jsonl` file. Shown as a child in the sidebar tree via `parentSession` header field.
-- **In-session branch** (Continue button / BranchNavigator): calls `navigate_tree` within the same file. Multiple entries share the same `parentId`. Switching between them calls `/api/sessions/[id]/context?leafId=`.
+- **In-session branch** (Continue action): calls `navigate_tree` within the same file. Multiple entries share the same `parentId`. Switching between them calls `/api/sessions/[id]/context?leafId=`.
 
 ### Session files can be fully rewritten
 `parentSession` in the header is **display metadata only** — has zero effect on chat content. Safe to `writeFileSync` the entire file (pi does this itself during migrations). Used when cascade-reparenting children on delete.
@@ -139,10 +136,13 @@ hooks/
 ### ToolCall field normalization
 Pi stores toolCall blocks as `{type:"toolCall", id, name, arguments}` but `ToolCallContent` uses `{toolCallId, toolName, input}`. `normalizeToolCalls()` in `lib/normalize.ts` handles this — called in both `session-reader.ts` (file load) and `ChatWindow.handleAgentEvent()` (streaming).
 
-### New session tool preset
-Tool names are passed at session creation (`POST /api/agent/new` → `toolNames[]`). For existing sessions, the active preset is inferred on mount via `get_tools` → `getPresetFromTools()`. When tools are fully disabled (`toolNames = []`), `rpc-manager.ts` passes an empty tool allow-list and forces `agent.state.systemPrompt = ""` after startup/reload/resource discovery.
+### FCN main Agent and tool policy
+Every new or restored runtime resolves the trusted `project:ifcn` profile in the configured engine. Other profile identities and other working directories are rejected. The seven tools are `read`, `write`, `edit`, `ifcn_capabilities`, `ifcn_run`, `ifcn_status`, and `ifcn_artifact`; browser preferences cannot replace or disable this set.
 
-The last preset explicitly selected by the user is stored in browser `localStorage` and initializes fresh-session composers only. Existing sessions never trust that preference; they use their live `get_tools` state or pi's default when no wrapper exists.
+`lib/fcn-agent-policy.ts` supplies the command allow-list and explicit resource-loader options. Only `.pi/extensions/ifcn/index.ts` is loaded; ambient plugins, skills, prompt templates, and context files are excluded. The web application has no generic agent CRUD, plugin/skill/MCP installation, delegation, shell, terminal, Git, or worktree-management surface. Model/auth configuration and the FCN session lifecycle remain available.
+
+### Circuit result access
+`/api/ifcn/runs` reads actual engine manifests without starting an LLM or engine process. Downloads are restricted to manifest-listed relative files, reject symbolic links, and verify file size and SHA-256. SVG previews carry a sandbox CSP; QCA previews display the verified device data. Keep the backend's validation scope and model-estimate qualifications attached to the shown metrics.
 
 ### Model defaults for new sessions
 `GET /api/models` returns `defaultModel` read from `~/.pi/agent/settings.json`. `ChatWindow` pre-selects this on mount for new sessions. Explicit browser model/thinking selections are applied atomically during AgentSession construction, then `lib/startup-preferences.ts` persists their effective values without replaying `set_model`/`set_thinking_level`; implicit `enabledModels` fallbacks and thinking pins are not persisted.
@@ -157,29 +157,18 @@ On `ChatWindow` mount, `GET /api/agent/[id]` is called. If `state.isStreaming ==
 Newer pi emits `compaction_start` / `compaction_end`; older versions emitted `auto_compaction_start` / `auto_compaction_end`. `handleAgentEvent` accepts both sets to keep `isCompacting` in sync. Manual compact is a blocking POST — the button stays disabled until the response returns.
 
 ### Running state polling + reconciliation
-- The sidebar polls `/api/agent/running` every 2.5 seconds while the tab is visible and pauses polling in background tabs. The session-list response remains the initial fallback.
+- `AppShell` polls `/api/agent/running` every 3 seconds while the tab is visible and pauses polling in background tabs. The session-list response remains the initial fallback.
 - `useAgentSession` treats per-session SSE as primary for chat events and opens it before each prompt. `prompt_done` completes the current UI stage and notification immediately, but the idle SSE stays open for a 30-second grace window and is reused by the next prompt. `agent_start` cancels that close timer; `agent_settled` finishes extension-injected runs that have no wrapper-level `prompt_done` and starts a fresh grace window. Do not close on the first `agent_end`: retries, compaction, and extension-queued messages can continue the same logical prompt.
 - While a run is active, `useAgentSession` periodically calls `GET /api/agent/[id]` and also reconciles on `visibilitychange`/`online`. This fixes missed terminal events from background tabs or half-open connections.
 - Prompt runs use a monotonic run id; late SSE or slow reconciliation responses from an old run must be ignored so they cannot resurrect stale streaming bubbles.
 
-### Worktrees and project grouping
-- `lib/worktree.ts` resolves linked worktree top-levels back to the main repo `projectRoot`; `listAllSessions()` attaches that to each `SessionInfo` so all worktrees for one repo are grouped together in the sidebar.
-- Worktree operations are served by `/api/worktrees` and guarded by the same allowed-root rules as `/api/files`.
-- New worktrees are created under `<repoRoot>-worktrees/<sanitized-branch>`. Existing branches are reused; otherwise `git worktree add -b` creates the branch.
-- Removing a dirty worktree returns `409` with `{ dirty: true }` so the UI can ask before retrying with `force`.
-- Sessions whose cwd points at a removed worktree are inferred back into the main project instead of becoming a phantom project row.
-- git prints POSIX-style absolute paths even on Windows, so every path read out of git goes through `toNativePath()` (`lib/paths.ts`) before it is compared or returned. Compare paths with `samePath()`, never `===` — raw equality made `isTopLevel` permanently false on Windows and hid the worktree switcher entirely. Branch names are not paths and must keep their forward slashes. Browser code cannot apply Node path rules, so `/api/worktrees` resolves `currentWorktreePath` server-side; the sidebar must use that identity for highlighting and removal fallback.
+### Circuit workspace and retained project identity
+`lib/fcn-workspace-scope.ts` limits the browser's design history and URL restoration to the configured FCN workspace. Runtime startup separately validates the configured engine path. `lib/worktree.ts` remains for existing session/project identity and file-root resolution; it no longer has a management route or UI. Normalize Git-returned paths through `toNativePath()` and compare paths with `samePath()` when maintaining those helpers.
 
 ### File access allow-list
 - `/api/files` is intentionally not a general filesystem browser. Allowed roots come from session cwds, their resolved project roots, `~/pi-cwd-*`, and roots explicitly added with `allowFileRoot()`.
-- `/api/cwd/validate`, `/api/default-cwd`, and `/api/worktrees` call `allowFileRoot()` when they make a new location browsable.
+- `/api/cwd/validate`, `/api/default-cwd`, and configured FCN workspace initialization call `allowFileRoot()` when they make a location browsable.
 - Allowed roots are stored slash-normalized, but that is a Set-key convention, not a correctness requirement: `isPathWithinRoots()` (`lib/path-security.ts`, the single implementation behind `isFilePathAllowed()`) re-resolves and case-folds both sides, so either path form authorizes correctly. Keep that one implementation — it is the security boundary.
-
-### Plugins and skills
-- `/api/plugins` uses pi's `SettingsManager` + `DefaultPackageManager` for global/project package install, remove, update, enable, and disable. Disabling writes empty `extensions/skills/prompts/themes` arrays for that package entry.
-- `/api/skills` uses `DefaultResourceLoader` so settings paths, package skills, and project `.agents/skills` are listed the same way the runtime sees them.
-- Skill toggling edits only the `disable-model-invocation` frontmatter key on the target `SKILL.md`; keep that surgical so user formatting survives.
-- `/api/skills/install` shells through `npx skills add ... --agent pi`; project installs run with the selected cwd.
 
 ### Auth and model config
 - `ModelsConfig` combines models from `~/.pi/agent/models.json` with provider auth status from pi's `AuthStorage`/`ModelRegistry`.

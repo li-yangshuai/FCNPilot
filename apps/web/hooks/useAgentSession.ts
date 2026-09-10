@@ -16,17 +16,14 @@ import { isBlockingExtensionUiRequest } from "@/lib/browser-notifications";
 import { normalizeToolCalls } from "@/lib/normalize";
 import { isPromptRejectedError, sendAgentCommand } from "@/lib/agent-client";
 import { clearDraft, rekeyDraft, restoreDraftSubmission } from "@/lib/draft-store";
-import { getPreferredToolPreset, setPreferredToolPreset } from "@/lib/tool-preset-preference";
-import { getToolNamesForPreset, type ToolEntry, type ToolPreset } from "@/lib/tool-presets";
 import type { SessionStatsInfo } from "@/lib/pi-types";
 import {
   buildDocQaPrompt,
   type AttachedDocument,
   type PreparedDocument,
 } from "@/lib/docqa";
-import type { AgentRuntimeConfig, CustomAgent } from "@/lib/custom-agents";
-import { buildSubagentDelegationPrompt } from "@/lib/subagent-delegation";
-import type { SubagentOption } from "@/lib/subagents";
+import type { CustomAgent } from "@/lib/custom-agents";
+import { FCN_AGENT_ID, FCN_TOOL_NAMES } from "@/lib/fcn-agent-policy";
 import { userMessageKey } from "@/lib/prompt-recovery";
 import { AgentEventConnection } from "@/lib/agent-event-connection";
 import { getToolExecutionProgress } from "@/lib/tool-execution-progress";
@@ -77,7 +74,6 @@ type AgentStateResponse = {
   thinkingLevel?: string;
   isStreaming?: boolean;
   isPromptRunning?: boolean;
-  isBashRunning?: boolean;
   isCompacting?: boolean;
   extensionStatuses?: ExtensionStatusItem[];
   extensionWidgets?: ExtensionWidgetItem[];
@@ -135,19 +131,6 @@ export interface CompactResultInfo {
   estimatedTokensAfter: number;
 }
 
-export interface SlashCommandInfo {
-  name: string;
-  description?: string;
-  source: "extension" | "prompt" | "skill";
-  sourceInfo?: {
-    path: string;
-    source: string;
-    scope: "user" | "project" | "temporary";
-    origin: "package" | "top-level";
-    baseDir?: string;
-  };
-}
-
 export type BuiltinSlashCommandResult =
   | { handled: false }
   | { handled: true; message?: string; error?: string; action?: "openSessionStats" };
@@ -168,7 +151,6 @@ export interface UseAgentSessionOptions {
   /** Registers an action that lazily starts the session and returns its system prompt. */
   onSystemPromptLoaderChange?: (loader: (() => Promise<void>) | null) => void;
   onSessionStatsPanelOpen?: () => void;
-  setToolPreset?: (preset: ToolPreset) => void;
 }
 
 function getChatInputHandle(
@@ -184,7 +166,6 @@ const PROMPT_SETTLE_POLL_MS = 600;
 const PROMPT_SETTLE_MAX_MS = 20_000;
 const EVENT_STREAM_IDLE_GRACE_MS = 30_000;
 const AGENT_STATE_RECONCILE_MS = 15_000;
-const BASH_STATE_RECONCILE_MS = 1_000;
 const EVENT_STREAM_READY_TIMEOUT_MS = 60_000;
 const EVENT_STREAM_RECONNECT_DELAY_MS = 1_000;
 const MAX_NOTICES = 5;
@@ -279,12 +260,6 @@ export interface AttachedImage {
 
 type SelectedModel = { provider: string; modelId: string };
 type ModelEntry = { id: string; name: string; provider: string; input?: string[] };
-export type AgentVersionOption = { id: string; label: string; description?: string; transport: "local" | "http" };
-type AgentVersionsResponse = {
-  versions?: AgentVersionOption[];
-  selectedVersionId?: string;
-  selectionLocked?: boolean;
-};
 type ModelsResponse = {
   models: Record<string, string>;
   modelList?: ModelEntry[];
@@ -293,31 +268,16 @@ type ModelsResponse = {
   thinkingLevelMaps?: Record<string, Record<string, string | null>>;
   preferences?: {
     defaultModel?: SelectedModel;
-    toolPreset?: ToolPreset;
     thinkingLevel?: ThinkingLevelOption;
     selectedAgentId?: string | null;
-    hiddenBuiltinSubagentIds?: ("general-purpose" | "Explore" | "Plan")[];
   };
   thinkingLevelPins?: Record<string, string>;
   modelError?: string;
   modelScopeWarnings?: string[];
 };
 
-export type McpServerOption = {
-  name: string;
-  source: "global" | "project";
-  enabled: boolean;
-};
-
-type McpToolsResponse = {
-  configured?: McpServerOption[];
-  enabledServers?: string[] | null;
-  error?: string;
-};
-
 type AccountPreferencesPatch = {
   defaultModel?: SelectedModel | null;
-  toolPreset?: ToolPreset | null;
   thinkingLevel?: ThinkingLevelOption | null;
   selectedAgentId?: string | null;
 };
@@ -335,27 +295,9 @@ async function persistAccountPreferences(patch: AccountPreferencesPatch): Promis
   }
 }
 
-function getToolPresetForAgent(tools: string[] | undefined): ToolPreset | null {
-  if (!tools) return null;
-  const active = new Set(tools);
-  const full = ["bash", "read", "edit", "write", "grep", "find", "ls"];
-  const defaults = ["read", "bash", "edit", "write"];
-  const readOnly = ["read", "grep", "find", "ls"];
-  if (tools.length === 0) return "none";
-  if (full.every((tool) => active.has(tool))) return "full";
-  if (defaults.every((tool) => active.has(tool))) return "default";
-  if (readOnly.every((tool) => active.has(tool))
-    && !["bash", "edit", "write"].some((tool) => active.has(tool))) return "read-only";
-  return "default";
-}
-
-type SlashCommandsResponse = {
-  commands?: SlashCommandInfo[];
-};
-
 async function prepareDocQaMessage(message: string, documents?: AttachedDocument[]): Promise<string> {
   if (!documents?.length) return message;
-  const question = message.trim() || "Summarize the attached documents and cite the key evidence.";
+  const question = message.trim() || "Analyze the attached FCN circuit specifications and cite the design evidence.";
   const response = await fetch("/api/documents/context", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -384,8 +326,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   const [entryIds, setEntryIds] = useState<string[]>([]);
   const [streamState, dispatch] = useReducer(streamReducer, INITIAL_STREAMING_STATE);
   const [agentRunning, setAgentRunning] = useState(false);
-  const [bashRunning, setBashRunning] = useState(false);
-  const [pendingBash, setPendingBash] = useState<{ command: string; excludeFromContext: boolean } | null>(null);
   const [modelNames, setModelNames] = useState<Record<string, string>>({});
   const [modelList, setModelList] = useState<ModelEntry[]>([]);
   const [modelError, setModelError] = useState<string | null>(null);
@@ -397,24 +337,9 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   const [workspaceDefaultAgentId, setWorkspaceDefaultAgentId] = useState<string | null>(null);
   const [initialSelectedAgentId, setInitialSelectedAgentId] = useState<string | null | undefined>(undefined);
   const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
-  const [subagents, setSubagents] = useState<SubagentOption[]>([]);
-  const [selectedSubagentIds, setSelectedSubagentIds] = useState<string[]>([]);
-  const [subagentExtensionAvailable, setSubagentExtensionAvailable] = useState(false);
-  const [hiddenBuiltinSubagentIds, setHiddenBuiltinSubagentIds] = useState<string[]>([
-    "general-purpose", "Explore", "Plan",
-  ]);
   const [newSessionModel, setNewSessionModel] = useState<SelectedModel | null>(null);
   const [newSessionDefaultModel, setNewSessionDefaultModel] = useState<SelectedModel | null>(null);
-  const [agentVersions, setAgentVersions] = useState<AgentVersionOption[]>([]);
-  const [selectedAgentVersionId, setSelectedAgentVersionId] = useState<string>("current");
-  const [agentVersionSelectionLocked, setAgentVersionSelectionLocked] = useState(!isNew);
-  const [toolPreset, setToolPreset] = useState<ToolPreset>("default");
   const [thinkingLevel, setThinkingLevel] = useState<ThinkingLevelOption>("auto");
-  const [mcpServers, setMcpServers] = useState<McpServerOption[]>([]);
-  const [mcpServersLoading, setMcpServersLoading] = useState(false);
-  const [mcpServersUpdating, setMcpServersUpdating] = useState(false);
-  const [mcpServersError, setMcpServersError] = useState<string | null>(null);
-  const [newSessionRuntimeCreated, setNewSessionRuntimeCreated] = useState(false);
   const [retryInfo, setRetryInfo] = useState<{ attempt: number; maxAttempts: number; errorMessage?: string } | null>(null);
   const [contextUsage, setContextUsage] = useState<{ percent: number | null; contextWindow: number; tokens: number | null } | null>(null);
   const [systemPrompt, setSystemPrompt] = useState<string | null>(null);
@@ -427,8 +352,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   const [compactResult, setCompactResult] = useState<CompactResultInfo | null>(null);
   const [agentPhase, setAgentPhase] = useState<AgentPhase>(null);
   const [promptAnchorActive, setPromptAnchorActive] = useState(false);
-  const [slashCommands, setSlashCommands] = useState<SlashCommandInfo[]>([]);
-  const [slashCommandsLoading, setSlashCommandsLoading] = useState(false);
   const [noticeState, dispatchNotice] = useReducer(noticeReducer, { visible: [], pending: [] });
   const [sessionStatsOverride, setSessionStatsOverride] = useState<SessionStatsInfo | null>(null);
   const [extensionDialog, setExtensionDialog] = useState<ExtensionUiDialogRequest | null>(null);
@@ -453,8 +376,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   const sdkAgentActiveRef = useRef(false);
   const rpcPromptPendingRef = useRef(false);
   const notifiedPromptRunIdRef = useRef(-1);
-  const bashRunningRef = useRef(false);
-  const bashRecoveryIdRef = useRef(0);
   const handleAgentEventRef = useRef<((event: AgentEvent) => void) | null>(null);
   const initialScrollDoneRef = useRef(false);
   const lastUserMsgRef = useRef<HTMLDivElement | null>(null);
@@ -462,7 +383,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   const isNearBottomRef = useRef(true);
   const previousScrollTopRef = useRef(0);
   const liveFollowFrameRef = useRef<number | null>(null);
-  const executeBashRef = useRef<(command: string, excludeFromContext: boolean) => Promise<void> | undefined>(undefined);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const ensuringNewSessionRef = useRef<Promise<string | null> | null>(null);
@@ -472,7 +392,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   const promptRunIdRef = useRef(0);
   const newSessionPreferencesInitializedRef = useRef(false);
   const initialAgentPreferenceAppliedRef = useRef(false);
-  const accountToolPresetRef = useRef<ToolPreset>("default");
   const accountThinkingLevelRef = useRef<ThinkingLevelOption>("auto");
   const optimisticUserMessageKeyRef = useRef<string | null>(null);
   const modelSwitchPendingRef = useRef(false);
@@ -503,13 +422,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     });
   }
 
-  const setToolPresetState = opts.setToolPreset ?? setToolPreset;
-
-  useLayoutEffect(() => {
-    if (!isNew || sessionIdRef.current) return;
-    setToolPresetState(getPreferredToolPreset());
-  }, [isNew, setToolPresetState]);
-
   const scrollToBottom = useCallback((behavior: ScrollBehavior = "smooth") => {
     const container = scrollContainerRef.current;
     messagesEndRef.current?.scrollIntoView({ behavior });
@@ -519,55 +431,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   const currentModel = currentModelOverride ?? data?.context.model ?? pendingModel ?? null;
   const displayModel = isNew ? (newSessionModel ?? newSessionDefaultModel) : currentModel;
   const selectedAgent = customAgents.find((agent) => agent.id === selectedAgentId) ?? null;
-  const visibleSubagents = subagents.filter((agent) => (
-    agent.scope !== "builtin" || !hiddenBuiltinSubagentIds.includes(agent.name)
-  ));
-  const selectedSubagents = visibleSubagents.filter((agent) => selectedSubagentIds.includes(agent.id));
-
-  const handleSubagentToggle = useCallback((agentId: string) => {
-    if (!subagents.some((agent) => agent.id === agentId)) return;
-    setSelectedSubagentIds((current) => (
-      current.includes(agentId)
-        ? current.filter((id) => id !== agentId)
-        : [...current, agentId]
-    ));
-  }, [subagents]);
-
-  useEffect(() => {
-    setSelectedSubagentIds((current) => current.filter((id) => {
-      const agent = subagents.find((item) => item.id === id);
-      return Boolean(agent && (agent.scope !== "builtin" || !hiddenBuiltinSubagentIds.includes(agent.name)));
-    }));
-  }, [hiddenBuiltinSubagentIds, subagents]);
-
-  const delegateToSelectedSubagents = useCallback((message: string) => (
-    buildSubagentDelegationPrompt(message, selectedSubagents)
-  ), [selectedSubagents]);
-
-  const ensureSelectedSubagentTool = useCallback(async (sid: string) => {
-    if (selectedSubagents.length === 0) return;
-    if (!subagentExtensionAvailable) throw new Error("@tintinweb/pi-subagents is not installed");
-    if (toolPreset === "none") throw new Error("Enable the default or full tool preset before using subagents");
-
-    let tools = await sendAgentCommand<ToolEntry[]>(sid, { type: "get_tools" });
-    if (tools?.some((tool) => tool.name === "Agent" && tool.active)) return;
-    const previouslyActiveTools = tools?.filter((tool) => tool.active).map((tool) => tool.name) ?? [];
-
-    // A session wrapper may predate extension installation. Reload resources
-    // once, then preserve its active built-ins while activating extension tools.
-    await sendAgentCommand(sid, { type: "reload" });
-    const { PRESET_DEFAULT, PRESET_FULL } = await import("@/lib/tool-presets");
-    await sendAgentCommand(sid, {
-      type: "set_tools",
-      toolNames: previouslyActiveTools.length > 0
-        ? previouslyActiveTools
-        : toolPreset === "full" ? PRESET_FULL : PRESET_DEFAULT,
-    });
-    tools = await sendAgentCommand<ToolEntry[]>(sid, { type: "get_tools" });
-    if (!tools?.some((tool) => tool.name === "Agent" && tool.active)) {
-      throw new Error("The pi-subagents Agent tool did not load. Start a new session and try again.");
-    }
-  }, [selectedSubagents.length, subagentExtensionAvailable, toolPreset]);
   const composerDraftKey = session?.id ?? newSessionDraftKey ?? undefined;
 
   const resolveComposerDraftKey = useCallback((key: string | undefined) => {
@@ -728,18 +591,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     }
   }, []);
 
-  const loadTools = useCallback(async (sid: string) => {
-    try {
-      const tools = await sendAgentCommand<ToolEntry[]>(sid, { type: "get_tools" });
-      if (tools) {
-        const { getPresetFromTools } = await import("@/lib/tool-presets");
-        setToolPresetState(getPresetFromTools(tools));
-      }
-    } catch (e) {
-      console.error("Failed to load tools:", e);
-    }
-  }, [setToolPresetState]);
-
   const promoteNewSession = useCallback((messageCount = 0, firstMessage = "(no messages)") => {
     const sid = sessionIdRef.current;
     if (!isNew || !newSessionCwd || !sid || newSessionPromotedRef.current) return;
@@ -781,15 +632,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
         : null;
       const effectiveModel = selectedModel ?? profileModel;
       if (effectiveModel) setPendingModel(effectiveModel);
-      const toolNames = profile?.tools
-        ?? getToolNamesForPreset(toolPreset);
-      const agentConfig: AgentRuntimeConfig | undefined = profile ? {
-        id: profile.id,
-        name: profile.name,
-        systemPrompt: profile.systemPrompt,
-        tools: profile.tools,
-        ...(profile.allSkills ? {} : { skills: profile.skills ?? [] }),
-      } : undefined;
       const selectedThinkingLevel = thinkingLevelOverrideRef.current;
       const effectiveThinkingLevel = selectedThinkingLevel ?? profile?.thinkingLevel ?? null;
       const res = await fetch("/api/agent/new", {
@@ -798,11 +640,10 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
         body: JSON.stringify({
           cwd: newSessionCwd,
           type: "ensure_session",
-          toolNames,
-          ...(agentConfig ? { agentConfig } : {}),
+          toolNames: [...FCN_TOOL_NAMES],
+          agentConfig: { id: FCN_AGENT_ID },
           ...(effectiveModel ? { provider: effectiveModel.provider, modelId: effectiveModel.modelId } : {}),
           ...(effectiveThinkingLevel ? { thinkingLevel: effectiveThinkingLevel } : {}),
-          agentVersionId: selectedAgentVersionId,
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -815,7 +656,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
       const realId = result.sessionId;
       sessionIdRef.current = realId;
       if (result.agentProfileId !== undefined) setSelectedAgentId(result.agentProfileId);
-      setNewSessionRuntimeCreated(true);
       if (result.model && newSessionModelOverrideRef.current === selectedModel) {
         setPendingModel(result.model);
         if (!effectiveModel) setNewSessionDefaultModel(result.model);
@@ -835,44 +675,11 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     } finally {
       ensuringNewSessionRef.current = null;
     }
-  }, [isNew, newSessionCwd, customAgents, selectedAgentId, toolPreset, selectedAgentVersionId]);
-
-  const handleAgentVersionChange = useCallback((versionId: string) => {
-    if (!isNew || sessionIdRef.current || newSessionRuntimeCreated) return;
-    if (!agentVersions.some((entry) => entry.id === versionId)) return;
-    setSelectedAgentVersionId(versionId);
-    void fetch("/api/agent-versions", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ selectedVersionId: versionId }),
-    }).then((response) => {
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    }).catch((saveError) => console.error("Failed to save Agent version preference:", saveError));
-  }, [agentVersions, isNew, newSessionRuntimeCreated]);
+  }, [isNew, newSessionCwd, customAgents, selectedAgentId ]);
 
   const handleAgentChange = useCallback((agentId: string | null) => {
-    if (!isNew || sessionIdRef.current) return;
-    initialAgentPreferenceAppliedRef.current = true;
-    setSelectedAgentId(agentId);
-    newSessionModelOverrideRef.current = null;
-    thinkingLevelOverrideRef.current = null;
-    setNewSessionModel(null);
-    void persistAccountPreferences({ selectedAgentId: agentId });
-    const profile = customAgents.find((agent) => agent.id === agentId);
-    if (!profile) {
-      setThinkingLevel(accountThinkingLevelRef.current);
-      setToolPresetState(accountToolPresetRef.current);
-      return;
-    }
-    setThinkingLevel("auto");
-    setToolPresetState("default");
-    if (profile.provider && profile.modelId) {
-      setNewSessionModel({ provider: profile.provider, modelId: profile.modelId });
-    }
-    if (profile.thinkingLevel) setThinkingLevel(profile.thinkingLevel);
-    const profileToolPreset = getToolPresetForAgent(profile.tools);
-    if (profileToolPreset) setToolPresetState(profileToolPreset);
-  }, [customAgents, isNew, setToolPresetState]);
+    if (agentId === FCN_AGENT_ID && isNew && !sessionIdRef.current) setSelectedAgentId(FCN_AGENT_ID);
+  }, [isNew]);
 
   // Opening the System panel is also allowed to initialize an otherwise dormant
   // session. This is deliberately a non-prompt command: it creates no message
@@ -884,27 +691,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     const state = await sendAgentCommand<AgentStateResponse>(sid, { type: "get_state" });
     if (!sessionHookMountedRef.current || sessionIdRef.current !== sid) return;
     setSystemPrompt(state.systemPrompt ?? "");
-  }, [ensureNewSession]);
-
-  const loadSlashCommands = useCallback(async () => {
-    const sid = sessionIdRef.current ?? await ensureNewSession();
-    if (!sid) {
-      setSlashCommands([]);
-      return [] as SlashCommandInfo[];
-    }
-    setSlashCommandsLoading(true);
-    try {
-      const data = await sendAgentCommand<SlashCommandsResponse>(sid, { type: "get_commands" });
-      const commands = data?.commands ?? [];
-      setSlashCommands(commands);
-      return commands;
-    } catch (e) {
-      console.error("Failed to load slash commands:", e);
-      setSlashCommands([]);
-      return [] as SlashCommandInfo[];
-    } finally {
-      setSlashCommandsLoading(false);
-    }
   }, [ensureNewSession]);
 
   const cancelEventStreamGrace = useCallback(() => {
@@ -1165,34 +951,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
       await delay(PROMPT_SETTLE_POLL_MS);
     }
   }, [finishPromptWithoutStream]);
-
-  const waitForBashSettlement = useCallback(async (sid: string) => {
-    const recoveryId = bashRecoveryIdRef.current + 1;
-    bashRecoveryIdRef.current = recoveryId;
-
-    while (
-      bashRunningRef.current
-      && bashRecoveryIdRef.current === recoveryId
-      && sessionIdRef.current === sid
-    ) {
-      await delay(BASH_STATE_RECONCILE_MS);
-      try {
-        const res = await fetch(`/api/agent/${encodeURIComponent(sid)}`);
-        if (!res.ok) continue;
-        const data = await res.json() as { state?: AgentStateResponse };
-        if (data.state?.isBashRunning) continue;
-
-        await loadSession(sid);
-        if (bashRecoveryIdRef.current !== recoveryId || sessionIdRef.current !== sid) return;
-        bashRunningRef.current = false;
-        setBashRunning(false);
-        setPendingBash(null);
-        return;
-      } catch {
-        // Keep polling while the page is mounted; network recovery is transparent.
-      }
-    }
-  }, [loadSession]);
 
   // Reconcile client streaming state with the server. When SSE events are
   // missed (network drop, mobile tab backgrounded, half-open connection),
@@ -1614,25 +1372,14 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   const handleSend = useCallback(async (message: string, images?: AttachedImage[], documents?: AttachedDocument[]) => {
     const trimmedMessage = message.trim();
     if (!trimmedMessage && !images?.length && !documents?.length) return;
-    if (agentRunningRef.current || bashRunningRef.current) {
+    if (agentRunningRef.current) {
       restoreSubmission(message, images, composerDraftKey);
       return;
     }
-    const question = trimmedMessage || (documents?.length ? "Summarize the attached documents and cite the key evidence." : "");
+    const question = trimmedMessage || (documents?.length ? "Analyze the attached FCN circuit specifications and cite the design evidence." : "");
     const displayMessage = documents?.length ? buildDocQaPrompt(question, documents) : message;
     const isSlashCommandPrompt = !images?.length && !documents?.length && trimmedMessage.startsWith("/");
 
-    const isBashCommand = !images?.length && !documents?.length && trimmedMessage.startsWith("!");
-    if (isBashCommand) {
-      const isExcluded = trimmedMessage.startsWith("!!");
-      const bashCmd = (isExcluded ? trimmedMessage.slice(2) : trimmedMessage.slice(1)).trim();
-      if (!bashCmd) {
-        restoreSubmission(message, images, composerDraftKey);
-        return;
-      }
-      await executeBashRef.current?.(bashCmd, isExcluded);
-      return;
-    }
     const promptRunId = promptRunIdRef.current + 1;
     cancelEventStreamGrace();
     rpcPromptPendingRef.current = true;
@@ -1661,7 +1408,7 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
 
     try {
       const preparedMessage = await prepareDocQaMessage(question, documents);
-      const modelMessage = delegateToSelectedSubagents(preparedMessage);
+      const modelMessage = preparedMessage;
       if (isNew && newSessionCwd) {
         const profile = customAgents.find((agent) => agent.id === selectedAgentId) ?? null;
         const profileModel = profile?.provider && profile.modelId
@@ -1680,7 +1427,7 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
           }
         }
         await ensureEventsConnected(sid);
-        await ensureSelectedSubagentTool(sid);
+
         promptRequestStarted = true;
         await sendAgentCommand(sid, {
           type: "prompt",
@@ -1690,7 +1437,7 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
         promoteNewSession(1, question);
       } else if (session) {
         sentSessionId = session.id;
-        await ensureSelectedSubagentTool(session.id);
+
         await ensureEventsConnected(session.id);
         promptRequestStarted = true;
         await sendAgentCommand(session.id, {
@@ -1737,47 +1484,11 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
       setAgentPhase(null);
       dispatch({ type: "end" });
     }
-  }, [isNew, newSessionCwd, customAgents, selectedAgentId, session, ensureNewSession, ensureEventsConnected, ensureSelectedSubagentTool, delegateToSelectedSubagents, promoteNewSession, waitForPromptSettlement, addNotice, cancelEventStreamGrace, closeEvents, composerDraftKey, reconcileAgentState, restoreSubmission]);
-
-  const executeBash = useCallback(async (command: string, excludeFromContext: boolean) => {
-    if (agentRunningRef.current || bashRunningRef.current) return;
-    const inputText = `${excludeFromContext ? "!!" : "!"}${command}`;
-    bashRunningRef.current = true;
-    setPendingBash({ command, excludeFromContext });
-    setBashRunning(true);
-    try {
-      const sid = sessionIdRef.current ?? session?.id ?? await ensureNewSession();
-      if (!sid) throw new Error("Unable to create a session for the shell command");
-      await sendAgentCommand(sid, {
-        type: "bash",
-        command,
-        excludeFromContext,
-      });
-      await loadSession(sid);
-      promoteNewSession(1, inputText);
-    } catch (e) {
-      console.error("Failed to execute shell command:", e);
-      addNotice({ type: "error", message: e instanceof Error ? e.message : String(e) });
-      restoreSubmission(inputText, undefined, composerDraftKey);
-    } finally {
-      bashRunningRef.current = false;
-      setPendingBash(null);
-      setBashRunning(false);
-    }
-  }, [addNotice, composerDraftKey, ensureNewSession, loadSession, promoteNewSession, restoreSubmission, session]);
-  executeBashRef.current = executeBash;
+  }, [isNew, newSessionCwd, customAgents, selectedAgentId, session, ensureNewSession, ensureEventsConnected, promoteNewSession, waitForPromptSettlement, addNotice, cancelEventStreamGrace, closeEvents, composerDraftKey, reconcileAgentState, restoreSubmission]);
 
   const handleAbort = useCallback(async () => {
     const sid = sessionIdRef.current;
     if (!sid) return;
-    if (bashRunningRef.current) {
-      try {
-        await sendAgentCommand(sid, { type: "abort_bash" });
-      } catch (e) {
-        console.error("Failed to abort bash:", e);
-      }
-      return;
-    }
     try {
       await sendAgentCommand(sid, { type: "abort" });
     } catch (e) {
@@ -1786,7 +1497,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   }, []);
 
   const handleFork = useCallback(async (entryId: string) => {
-    if (bashRunningRef.current) return;
     const sid = sessionIdRef.current;
     if (!sid) return;
     setForkingEntryId(entryId);
@@ -1807,7 +1517,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   }, [onSessionForked]);
 
   const handleNavigate = useCallback(async (entryId: string) => {
-    if (bashRunningRef.current) return;
     const sid = sessionIdRef.current;
     if (!sid) return;
     sendAgentCommand(sid, { type: "navigate_tree", targetId: entryId }).catch(() => {});
@@ -1816,7 +1525,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   }, [loadContext]);
 
   const handleLeafChange = useCallback(async (leafId: string | null) => {
-    if (bashRunningRef.current) return;
     setActiveLeafId(leafId);
     const sid = sessionIdRef.current;
     if (!sid) return;
@@ -1906,9 +1614,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     setModelThinkingLevelMaps(d.thinkingLevelMaps ?? {});
     const nextModelList = d.modelList ?? [];
     setModelList(nextModelList);
-    setHiddenBuiltinSubagentIds(
-      d.preferences?.hiddenBuiltinSubagentIds ?? ["general-purpose", "Explore", "Plan"],
-    );
     if (isNew && !sessionIdRef.current) {
       const match = d.defaultModel
         ? nextModelList.find((m) => m.id === d.defaultModel?.modelId && m.provider === d.defaultModel?.provider)
@@ -1923,16 +1628,13 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
       }
       if (!newSessionPreferencesInitializedRef.current) {
         newSessionPreferencesInitializedRef.current = true;
-        const preferredToolPreset = d.preferences?.toolPreset ?? "default";
         const preferredThinkingLevel = d.preferences?.thinkingLevel ?? "auto";
-        accountToolPresetRef.current = preferredToolPreset;
         accountThinkingLevelRef.current = preferredThinkingLevel;
-        setToolPresetState(preferredToolPreset);
         if (!pinned) setThinkingLevel(preferredThinkingLevel);
-        setInitialSelectedAgentId(d.preferences?.selectedAgentId ?? null);
+        setInitialSelectedAgentId(FCN_AGENT_ID);
       }
     }
-  }, [isNew, newSessionCwd, session?.cwd, setToolPresetState]);
+  }, [isNew, newSessionCwd, session?.cwd]);
 
   const handleBuiltinSlashCommand = useCallback(async (text: string): Promise<BuiltinSlashCommandResult> => {
     if (!text.startsWith("/")) return { handled: false };
@@ -1973,8 +1675,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
           await sendAgentCommand(sid, { type: "reload" });
           await Promise.all([
             loadSession(sid, false, true),
-            loadTools(sid),
-            loadSlashCommands(),
             loadModels(),
           ]);
           return complete({ handled: true, message: "Reloaded session resources" });
@@ -2015,7 +1715,7 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     } finally {
       if (commandName === "compact") setIsCompacting(false);
     }
-  }, [addNotice, ensureNewSession, isCompacting, loadModels, loadSession, loadSlashCommands, loadTools, promoteNewSession, onSessionStatsPanelOpen]);
+  }, [addNotice, ensureNewSession, isCompacting, loadModels, loadSession, promoteNewSession, onSessionStatsPanelOpen]);
 
   // Let AgentSession.prompt decide atomically whether to queue against the
   // current run or start a new turn if it settled while the request was in
@@ -2027,7 +1727,7 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     documents?: AttachedDocument[],
   ) => {
     const sid = sessionIdRef.current;
-    const question = message.trim() || "Summarize the attached documents and cite the key evidence.";
+    const question = message.trim() || "Analyze the attached FCN circuit specifications and cite the design evidence.";
     const restore = () => restoreSubmission(message, images, composerDraftKey);
     if (!sid) {
       restore();
@@ -2118,49 +1818,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     }
   }, [isNew]);
 
-  const handleToolPresetChange = useCallback(async (preset: ToolPreset) => {
-    const toolNames = getToolNamesForPreset(preset);
-    setPreferredToolPreset(preset);
-    setToolPresetState(preset);
-    accountToolPresetRef.current = preset;
-    void persistAccountPreferences({ toolPreset: preset });
-    const sid = sessionIdRef.current ?? await ensuringNewSessionRef.current;
-    if (!sid) return;
-    try {
-      await sendAgentCommand(sid, { type: "set_tools", toolNames });
-    } catch (e) {
-      console.error("Failed to set tools:", e);
-    }
-  }, [setToolPresetState]);
-
-  const handleMcpServerToggle = useCallback(async (name: string, enabled: boolean) => {
-    if (!isNew || sessionIdRef.current || newSessionRuntimeCreated || mcpServersUpdating) return;
-    if (!mcpServers.some((server) => server.name === name)) return;
-
-    const previous = mcpServers;
-    const next = previous.map((server) => (
-      server.name === name ? { ...server, enabled } : server
-    ));
-    setMcpServers(next);
-    setMcpServersUpdating(true);
-    setMcpServersError(null);
-    try {
-      const response = await fetch("/api/mcp/tools", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          enabledServers: next.filter((server) => server.enabled).map((server) => server.name),
-        }),
-      });
-      const body = await response.json() as { error?: string };
-      if (!response.ok) throw new Error(body.error || `HTTP ${response.status}`);
-    } catch (toggleError) {
-      setMcpServers(previous);
-      setMcpServersError(toggleError instanceof Error ? toggleError.message : String(toggleError));
-    } finally {
-      setMcpServersUpdating(false);
-    }
-  }, [isNew, mcpServers, mcpServersUpdating, newSessionRuntimeCreated]);
   const scrollUserMsgToTop = useCallback(() => {
     const container = scrollContainerRef.current;
     const el = lastUserMsgRef.current;
@@ -2212,7 +1869,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
       sessionIdRef.current = session.id;
       loadSession(session.id, true, true).then((agentState) => {
         if (agentState?.running) {
-          loadTools(session.id);
           // A CLI-owned session must keep its SSE bridge open even while idle,
           // otherwise prompts typed in the terminal would not appear in Web.
           if (agentState.state?.transport === "cli") {
@@ -2229,11 +1885,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
             if (!agentState.state.isStreaming && agentState.state.isPromptRunning) {
               void waitForPromptSettlement(session.id);
             }
-          }
-          if (agentState.state?.isBashRunning) {
-            bashRunningRef.current = true;
-            setBashRunning(true);
-            void waitForBashSettlement(session.id);
           }
         }
         if (agentState?.state) {
@@ -2265,7 +1916,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
         cancelAnimationFrame(liveFollowFrameRef.current);
         liveFollowFrameRef.current = null;
       }
-      bashRecoveryIdRef.current += 1;
       cancelEventStreamGrace();
       closeEvents();
     };
@@ -2364,30 +2014,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     }
   }, [messages.length, agentRunning, scrollToBottom, scrollUserMsgToTop]);
 
-  // Load Agent backend versions. Existing sessions are intentionally locked to
-  // the version captured when they were created.
-  useEffect(() => {
-    const url = session?.id
-      ? `/api/agent-versions?sessionId=${encodeURIComponent(session.id)}`
-      : "/api/agent-versions";
-    const controller = new AbortController();
-    fetch(url, { signal: controller.signal, cache: "no-store" })
-      .then((response) => {
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json() as Promise<AgentVersionsResponse>;
-      })
-      .then((result) => {
-        setAgentVersions(result.versions ?? []);
-        setSelectedAgentVersionId(result.selectedVersionId ?? "current");
-        setAgentVersionSelectionLocked(Boolean(result.selectionLocked) || !isNew);
-      })
-      .catch((loadError) => {
-        if (loadError instanceof DOMException && loadError.name === "AbortError") return;
-        console.error("Failed to load Agent versions:", loadError);
-      });
-    return () => controller.abort();
-  }, [isNew, session?.id]);
-
   // Load model list
   useEffect(() => {
     const controller = new AbortController();
@@ -2396,35 +2022,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     });
     return () => controller.abort();
   }, [loadModels, modelsRefreshKey]);
-
-  useEffect(() => {
-    const cwd = newSessionCwd ?? session?.cwd;
-    if (!cwd) {
-      setMcpServers([]);
-      setMcpServersLoading(false);
-      setMcpServersError(null);
-      return;
-    }
-
-    const controller = new AbortController();
-    setMcpServersLoading(true);
-    setMcpServersError(null);
-    fetch(`/api/mcp/tools?cwd=${encodeURIComponent(cwd)}&inspect=0`, { signal: controller.signal })
-      .then(async (response) => {
-        const body = await response.json() as McpToolsResponse;
-        if (!response.ok) throw new Error(body.error || `HTTP ${response.status}`);
-        setMcpServers(body.configured ?? []);
-      })
-      .catch((mcpError) => {
-        if (mcpError instanceof DOMException && mcpError.name === "AbortError") return;
-        setMcpServers([]);
-        setMcpServersError(mcpError instanceof Error ? mcpError.message : String(mcpError));
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setMcpServersLoading(false);
-      });
-    return () => controller.abort();
-  }, [modelsRefreshKey, newSessionCwd, session?.cwd]);
 
   useEffect(() => {
     const cwd = newSessionCwd ?? session?.cwd;
@@ -2456,40 +2053,6 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   }, [modelsRefreshKey, newSessionCwd, session?.cwd]);
 
   useEffect(() => {
-    const cwd = newSessionCwd ?? session?.cwd;
-    if (!cwd) {
-      setSubagents([]);
-      setSubagentExtensionAvailable(false);
-      setSelectedSubagentIds([]);
-      return;
-    }
-
-    const controller = new AbortController();
-    fetch(`/api/subagents?cwd=${encodeURIComponent(cwd)}`, { signal: controller.signal })
-      .then(async (response) => {
-        const body = await response.json() as {
-          subagents?: SubagentOption[];
-          extensionAvailable?: boolean;
-          error?: string;
-        };
-        if (!response.ok) throw new Error(body.error || `HTTP ${response.status}`);
-        const availableSubagents = body.subagents ?? [];
-        setSubagents(availableSubagents);
-        setSubagentExtensionAvailable(Boolean(body.extensionAvailable));
-        setSelectedSubagentIds((current) => (
-          current.filter((id) => availableSubagents.some((agent) => agent.id === id))
-        ));
-      })
-      .catch((subagentError) => {
-        if (subagentError instanceof DOMException && subagentError.name === "AbortError") return;
-        setSubagents([]);
-        setSubagentExtensionAvailable(false);
-        setSelectedSubagentIds([]);
-      });
-    return () => controller.abort();
-  }, [modelsRefreshKey, newSessionCwd, session?.cwd]);
-
-  useEffect(() => {
     if (
       !isNew
       || initialAgentPreferenceAppliedRef.current
@@ -2510,8 +2073,7 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
       ? { provider: profile.provider, modelId: profile.modelId }
       : null);
     setThinkingLevel(profile.thinkingLevel ?? "auto");
-    setToolPresetState(getToolPresetForAgent(profile.tools) ?? "default");
-  }, [customAgents, customAgentsLoaded, initialSelectedAgentId, workspaceDefaultAgentId, isNew, setToolPresetState]);
+  }, [customAgents, customAgentsLoaded, initialSelectedAgentId, workspaceDefaultAgentId, isNew]);
 
   // Compact error auto-dismiss
   useEffect(() => {
@@ -2550,19 +2112,15 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
   return {
     // State
     data, loading, error, activeLeafId, messages, entryIds, streamState,
-    agentRunning, modelNames, modelList, modelError, modelScopeWarnings, modelThinkingLevels, modelThinkingLevelMaps, newSessionModel, toolPreset, thinkingLevel,
-    agentVersions, selectedAgentVersionId,
-    mcpServers, mcpServersLoading, mcpServersUpdating, mcpServersError,
-    customAgents, selectedAgent, selectedAgentId, subagents: visibleSubagents, selectedSubagentIds, subagentExtensionAvailable,
+    agentRunning, modelNames, modelList, modelError, modelScopeWarnings, modelThinkingLevels, modelThinkingLevelMaps, newSessionModel, thinkingLevel,
+    customAgents, selectedAgent, selectedAgentId,
     retryInfo, contextUsage, systemPrompt, forkingEntryId,
     isCompacting, compactError, compactResult, currentModel, displayModel, modelSwitching, sessionStats,
-    slashCommands, slashCommandsLoading, queuedMessages,
+    queuedMessages,
     notices: noticeState.visible, extensionDialog, extensionCustomUi, extensionStatuses, extensionWidgets, respondToExtensionUi, sendExtensionCustomInput,
     cliConnected, liveToolResults, liveToolExecutions,
     isAutoModelSelection: isNew && newSessionModel === null,
     agentSelectionLocked: !isNew || Boolean(sessionIdRef.current),
-    agentVersionSelectionLocked: agentVersionSelectionLocked || Boolean(sessionIdRef.current) || newSessionRuntimeCreated,
-    mcpSelectionLocked: !isNew || Boolean(sessionIdRef.current) || newSessionRuntimeCreated,
     agentPhase,
     isNew,
     promptAnchorActive,
@@ -2570,14 +2128,13 @@ export function useAgentSession(opts: UseAgentSessionOptions) {
     sessionIdRef, messagesEndRef, scrollContainerRef,
     lastUserMsgRef, pendingScrollToUserRef, initialScrollDoneRef,
     // Actions
-    handleSend, handleAbort, handleFork, handleNavigate, handleModelChange, handleAgentChange, handleAgentVersionChange, handleSubagentToggle,
+    handleSend, handleAbort, handleFork, handleNavigate, handleModelChange, handleAgentChange,
     handleCompact, handleSteer, handleFollowUp, handlePromptWithStreamingBehavior, handleAbortCompaction,
     handleRecallQueue,
     handleBuiltinSlashCommand,
-    handleToolPresetChange, handleThinkingLevelChange, handleMcpServerToggle, loadTools, loadSlashCommands, setActiveLeafId, setData, setMessages,
+    handleThinkingLevelChange, setActiveLeafId, setData, setMessages,
     scrollToBottom, scrollUserMsgToTop,
     dispatch, setAgentRunning, setForkingEntryId,
-    bashRunning, pendingBash,
     // Subscriptions
     handleAgentEventRef,
   };

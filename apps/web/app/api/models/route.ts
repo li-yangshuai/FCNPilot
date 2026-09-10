@@ -9,7 +9,6 @@ import {
 import { getSupportedThinkingLevels } from "@earendil-works/pi-ai";
 import { getAccountPreferences } from "@/lib/account-preferences";
 import { getCurrentAccountUid } from "@/lib/accounts";
-import { getActiveAgentDir } from "@/lib/agent-suite";
 import {
   loadModelsWithCache,
   withModelRuntimeError,
@@ -53,6 +52,7 @@ async function loadModels(
     cwd,
     agentDir,
     modelRuntime,
+    resourceLoaderOptions: { noExtensions: true, noSkills: true, noPromptTemplates: true, noThemes: true, noContextFiles: true },
     ...(trustReloadOptions ? { resourceLoaderReloadOptions: trustReloadOptions } : {}),
   });
   const modelError = services.modelRuntime.getError();
@@ -135,7 +135,7 @@ export async function GET(req: Request) {
   }
 
   const sharedAgentDir = getAgentDir();
-  const agentDir = getActiveAgentDir(accountUid);
+  const agentDir = getAgentDir();
   const cacheKey = `${accountUid}\0${agentDir}\0${cwd}`;
   try {
     const models = await loadModelsWithCache(

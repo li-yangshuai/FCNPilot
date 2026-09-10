@@ -1,0 +1,136 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        26,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        21,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        27,
+        20
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        29,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 13,
+      "to": [
+        27,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 14,
+      "to": [
+        26,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        23,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 18,
+      "to": [
+        27,
+        24
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      1,
+      16
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      8,
+      5
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      9,
+      13
+    ],
+    [
+      14,
+      6
+    ],
+    [
+      14,
+      16
+    ],
+    [
+      16,
+      5
+    ],
+    [
+      18,
+      6
+    ],
+    [
+      1,
+      9
+    ],
+    [
+      4,
+      11
+    ],
+    [
+      7,
+      14
+    ],
+    [
+      13,
+      18
+    ]
+  ],
+  "rationale": "Target high-detour edges [1,9] (steps=6, detour=2) and [9,13] (steps=4, detour=2) by vertically compressing layer 2 nodes toward their fanin inputs: move 9→[27,20] aligns with input 1@24 via shorter x=27 vertical path; 11→[29,21] follows 4@29; 7→[26,21] and 8→[21,21] reduce horizontal spread of fanin from inputs 0–3. Then reposition layer 3–4 nodes (13,14,16,18) to y=22–24 forming a tight vertical stack aligned with their new fanin positions, eliminating the prior y=23 bottleneck where multi-source interior sites caused detours. All moved nodes are internal; no collisions (vacancy hotspots at [21,21], [27,20], [29,21], [27,22], [26,25], [23,24], [27,24] confirmed empty). This coordinated shift reduces Manhattan edge sum and frees y=26–29 for outputs without expanding bounding box."
+}

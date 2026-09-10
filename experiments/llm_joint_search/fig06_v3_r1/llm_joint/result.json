@@ -1,0 +1,4647 @@
+{
+  "policy": "llm_joint",
+  "status": "completed",
+  "initial": {
+    "width": 6,
+    "height": 15,
+    "area_tiles": 90,
+    "qca_cells": 279,
+    "edge_steps": 60,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "selected": {
+    "width": 6,
+    "height": 7,
+    "area_tiles": 42,
+    "qca_cells": 155,
+    "edge_steps": 31,
+    "output_arrival_ticks": {
+      "3": [
+        8,
+        8
+      ]
+    }
+  },
+  "selected_round": 5,
+  "rounds": [
+    {
+      "round": 1,
+      "status": "accepted",
+      "start_metrics": {
+        "width": 6,
+        "height": 15,
+        "area_tiles": 90,
+        "qca_cells": 279,
+        "edge_steps": 60,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          20
+        ],
+        [
+          1,
+          20,
+          20
+        ],
+        [
+          2,
+          22,
+          20
+        ],
+        [
+          3,
+          23,
+          34
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          23,
+          25
+        ],
+        [
+          8,
+          23,
+          28
+        ],
+        [
+          10,
+          21,
+          25
+        ],
+        [
+          11,
+          23,
+          31
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 18563,
+        "output": 148,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 18711
+      },
+      "model_latency_s": 6.182942502000515,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 0,
+            "to": [
+              25,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 1,
+            "to": [
+              20,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 2,
+            "to": [
+              22,
+              22
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "This candidate translates the three input nodes (0,1,2) up by 2 tiles (y=20→22), reducing bounding height from 15 to 13 tiles (area proxy 90→78) while preserving x-extent; its sink-pressure/layer/long-edge routing order prioritizes critical long-path edges early, and the unchanged non-input nodes maintain existing relative geometry—offering maximal height reduction with minimal moves and a routing policy known to mitigate congestion in layered FCNs."
+      },
+      "decision": {
+        "schema": "ifcn.layout_choice.v1",
+        "candidate_id": "menu_213997d034dd3ec493ef223f",
+        "rationale": "This candidate translates the three input nodes (0,1,2) up by 2 tiles (y=20→22), reducing bounding height from 15 to 13 tiles (area proxy 90→78) while preserving x-extent; its sink-pressure/layer/long-edge routing order prioritizes critical long-path edges early, and the unchanged non-input nodes maintain existing relative geometry—offering maximal height reduction with minimal moves and a routing policy known to mitigate congestion in layered FCNs."
+      },
+      "start_sha256": "7c18499f29dceadf9b75d72cca611c6b2b9098844d32173915dad40a80d9093c",
+      "moves": [
+        {
+          "node_id": 0,
+          "name": "x0",
+          "from": [
+            25,
+            20
+          ],
+          "to": [
+            25,
+            22
+          ]
+        },
+        {
+          "node_id": 1,
+          "name": "x1",
+          "from": [
+            20,
+            20
+          ],
+          "to": [
+            20,
+            22
+          ]
+        },
+        {
+          "node_id": 2,
+          "name": "x2",
+          "from": [
+            22,
+            20
+          ],
+          "to": [
+            22,
+            22
+          ]
+        }
+      ],
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      },
+      "metrics": {
+        "width": 6,
+        "height": 14,
+        "area_tiles": 84,
+        "qca_cells": 259,
+        "edge_steps": 54,
+        "output_arrival_ticks": {
+          "3": [
+            13,
+            13
+          ]
+        }
+      },
+      "certificates": {
+        "logic": "equivalent",
+        "clock": true,
+        "physical": true,
+        "interface": true
+      },
+      "route_changes": [
+        {
+          "source": 0,
+          "target": 4,
+          "before_steps": 4,
+          "after_steps": 4
+        },
+        {
+          "source": 0,
+          "target": 7,
+          "before_steps": 7,
+          "after_steps": 5
+        },
+        {
+          "source": 1,
+          "target": 4,
+          "before_steps": 9,
+          "after_steps": 7
+        },
+        {
+          "source": 1,
+          "target": 10,
+          "before_steps": 6,
+          "after_steps": 4
+        },
+        {
+          "source": 2,
+          "target": 5,
+          "before_steps": 3,
+          "after_steps": 1
+        },
+        {
+          "source": 4,
+          "target": 8,
+          "before_steps": 8,
+          "after_steps": 6
+        },
+        {
+          "source": 7,
+          "target": 8,
+          "before_steps": 3,
+          "after_steps": 7
+        }
+      ],
+      "elapsed_s": 7.330801235999388,
+      "paired_ablations": {
+        "placement_only": {
+          "status": "accepted",
+          "metrics": {
+            "width": 6,
+            "height": 14,
+            "area_tiles": 84,
+            "qca_cells": 259,
+            "edge_steps": 54,
+            "output_arrival_ticks": {
+              "3": [
+                13,
+                13
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        },
+        "routing_only": {
+          "status": "rejected",
+          "metrics": {
+            "width": 6,
+            "height": 15,
+            "area_tiles": 90,
+            "qca_cells": 283,
+            "edge_steps": 62,
+            "output_arrival_ticks": {
+              "3": [
+                18,
+                18
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        }
+      }
+    },
+    {
+      "round": 2,
+      "status": "accepted",
+      "start_metrics": {
+        "width": 6,
+        "height": 14,
+        "area_tiles": 84,
+        "qca_cells": 259,
+        "edge_steps": 54,
+        "output_arrival_ticks": {
+          "3": [
+            13,
+            13
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          22
+        ],
+        [
+          1,
+          20,
+          22
+        ],
+        [
+          2,
+          22,
+          22
+        ],
+        [
+          3,
+          23,
+          34
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          23,
+          25
+        ],
+        [
+          8,
+          23,
+          28
+        ],
+        [
+          10,
+          21,
+          25
+        ],
+        [
+          11,
+          23,
+          31
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 19281,
+        "output": 171,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 19452
+      },
+      "model_latency_s": 8.761435231997893,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 3,
+            "to": [
+              23,
+              32
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              23,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              29
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "This candidate translates nodes 3, 8, and 11 down by 2 tiles (y=34→32, y=28→26, y=31→29), yielding the smallest unevaluated placement proxy area (66 tiles) among all candidates with height reduction of 2 tiles; it retains the sink-pressure/layer/long-edge routing order that previously succeeded in round 1 and minimizes node moves (only 3), preserving local geometry while compressing the vertical extent—offering highest potential for reducing actual routed area and QCA cell count without introducing new congestion risks."
+      },
+      "decision": {
+        "schema": "ifcn.layout_choice.v1",
+        "candidate_id": "menu_8a1629db54250fbc79d3b9c0",
+        "rationale": "This candidate translates nodes 3, 8, and 11 down by 2 tiles (y=34→32, y=28→26, y=31→29), yielding the smallest unevaluated placement proxy area (66 tiles) among all candidates with height reduction of 2 tiles; it retains the sink-pressure/layer/long-edge routing order that previously succeeded in round 1 and minimizes node moves (only 3), preserving local geometry while compressing the vertical extent—offering highest potential for reducing actual routed area and QCA cell count without introducing new congestion risks."
+      },
+      "start_sha256": "aab56730a6918c1ce2318eb3fa7f55b1efbd3fed0f39c4665f816309b6642e22",
+      "moves": [
+        {
+          "node_id": 3,
+          "name": "y0",
+          "from": [
+            23,
+            34
+          ],
+          "to": [
+            23,
+            32
+          ]
+        },
+        {
+          "node_id": 8,
+          "name": "ifcn_tmp_3",
+          "from": [
+            23,
+            28
+          ],
+          "to": [
+            23,
+            26
+          ]
+        },
+        {
+          "node_id": 11,
+          "name": "n4",
+          "from": [
+            23,
+            31
+          ],
+          "to": [
+            23,
+            29
+          ]
+        }
+      ],
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      },
+      "metrics": {
+        "width": 6,
+        "height": 12,
+        "area_tiles": 72,
+        "qca_cells": 205,
+        "edge_steps": 44,
+        "output_arrival_ticks": {
+          "3": [
+            13,
+            13
+          ]
+        }
+      },
+      "certificates": {
+        "logic": "equivalent",
+        "clock": true,
+        "physical": true,
+        "interface": true
+      },
+      "route_changes": [
+        {
+          "source": 4,
+          "target": 8,
+          "before_steps": 6,
+          "after_steps": 4
+        },
+        {
+          "source": 7,
+          "target": 8,
+          "before_steps": 7,
+          "after_steps": 1
+        },
+        {
+          "source": 8,
+          "target": 11,
+          "before_steps": 3,
+          "after_steps": 3
+        },
+        {
+          "source": 10,
+          "target": 11,
+          "before_steps": 8,
+          "after_steps": 6
+        },
+        {
+          "source": 11,
+          "target": 3,
+          "before_steps": 3,
+          "after_steps": 3
+        }
+      ],
+      "elapsed_s": 10.300711476997094,
+      "paired_ablations": {
+        "placement_only": {
+          "status": "accepted",
+          "metrics": {
+            "width": 6,
+            "height": 12,
+            "area_tiles": 72,
+            "qca_cells": 205,
+            "edge_steps": 44,
+            "output_arrival_ticks": {
+              "3": [
+                13,
+                13
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        },
+        "routing_only": {
+          "status": "rejected",
+          "metrics": {
+            "width": 6,
+            "height": 14,
+            "area_tiles": 84,
+            "qca_cells": 259,
+            "edge_steps": 54,
+            "output_arrival_ticks": {
+              "3": [
+                13,
+                13
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        }
+      }
+    },
+    {
+      "round": 3,
+      "status": "accepted",
+      "start_metrics": {
+        "width": 6,
+        "height": 12,
+        "area_tiles": 72,
+        "qca_cells": 205,
+        "edge_steps": 44,
+        "output_arrival_ticks": {
+          "3": [
+            13,
+            13
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          22
+        ],
+        [
+          1,
+          20,
+          22
+        ],
+        [
+          2,
+          22,
+          22
+        ],
+        [
+          3,
+          23,
+          32
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          23,
+          25
+        ],
+        [
+          8,
+          23,
+          26
+        ],
+        [
+          10,
+          21,
+          25
+        ],
+        [
+          11,
+          23,
+          29
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 15361,
+        "output": 160,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 15521
+      },
+      "model_latency_s": 11.916139437998936,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 3,
+            "to": [
+              23,
+              30
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              27
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "This candidate reduces the placement proxy height by 2 tiles (to 9) with only 2 node moves (3 and 11 down), preserving the successful sink-pressure/layer/long-edge routing order used in round 2 that previously minimized QCA cells (205) and edge steps (44); the unchanged routing_order prioritizes critical long-path edges early, and the compressed vertical extent directly targets the objective of reducing actual routed area and QCA cell count without introducing new congestion—unlike prefix-translate candidates that move more nodes and increase manhattan edge sums."
+      },
+      "decision": {
+        "schema": "ifcn.layout_choice.v1",
+        "candidate_id": "menu_910dad5d894486c63151e518",
+        "rationale": "This candidate reduces the placement proxy height by 2 tiles (to 9) with only 2 node moves (3 and 11 down), preserving the successful sink-pressure/layer/long-edge routing order used in round 2 that previously minimized QCA cells (205) and edge steps (44); the unchanged routing_order prioritizes critical long-path edges early, and the compressed vertical extent directly targets the objective of reducing actual routed area and QCA cell count without introducing new congestion—unlike prefix-translate candidates that move more nodes and increase manhattan edge sums."
+      },
+      "start_sha256": "e60a5081239bff83c12e773abcca13ee49393baff4762aef66689e018a60ae44",
+      "moves": [
+        {
+          "node_id": 3,
+          "name": "y0",
+          "from": [
+            23,
+            32
+          ],
+          "to": [
+            23,
+            30
+          ]
+        },
+        {
+          "node_id": 11,
+          "name": "n4",
+          "from": [
+            23,
+            29
+          ],
+          "to": [
+            23,
+            27
+          ]
+        }
+      ],
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      },
+      "metrics": {
+        "width": 6,
+        "height": 10,
+        "area_tiles": 60,
+        "qca_cells": 185,
+        "edge_steps": 40,
+        "output_arrival_ticks": {
+          "3": [
+            9,
+            9
+          ]
+        }
+      },
+      "certificates": {
+        "logic": "equivalent",
+        "clock": true,
+        "physical": true,
+        "interface": true
+      },
+      "route_changes": [
+        {
+          "source": 8,
+          "target": 11,
+          "before_steps": 3,
+          "after_steps": 1
+        },
+        {
+          "source": 10,
+          "target": 11,
+          "before_steps": 6,
+          "after_steps": 4
+        },
+        {
+          "source": 11,
+          "target": 3,
+          "before_steps": 3,
+          "after_steps": 3
+        }
+      ],
+      "elapsed_s": 14.17833282599895,
+      "paired_ablations": {
+        "placement_only": {
+          "status": "accepted",
+          "metrics": {
+            "width": 6,
+            "height": 10,
+            "area_tiles": 60,
+            "qca_cells": 185,
+            "edge_steps": 40,
+            "output_arrival_ticks": {
+              "3": [
+                9,
+                9
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        },
+        "routing_only": {
+          "status": "rejected",
+          "metrics": {
+            "width": 6,
+            "height": 12,
+            "area_tiles": 72,
+            "qca_cells": 205,
+            "edge_steps": 44,
+            "output_arrival_ticks": {
+              "3": [
+                13,
+                13
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        }
+      }
+    },
+    {
+      "round": 4,
+      "status": "accepted",
+      "start_metrics": {
+        "width": 6,
+        "height": 10,
+        "area_tiles": 60,
+        "qca_cells": 185,
+        "edge_steps": 40,
+        "output_arrival_ticks": {
+          "3": [
+            9,
+            9
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          22
+        ],
+        [
+          1,
+          20,
+          22
+        ],
+        [
+          2,
+          22,
+          22
+        ],
+        [
+          3,
+          23,
+          30
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          23,
+          25
+        ],
+        [
+          8,
+          23,
+          26
+        ],
+        [
+          10,
+          21,
+          25
+        ],
+        [
+          11,
+          23,
+          27
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 10652,
+        "output": 151,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 10803
+      },
+      "model_latency_s": 5.104521547000331,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 3,
+            "to": [
+              23,
+              28
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "This candidate achieves the smallest unevaluated placement proxy area (42 tiles) by translating only node 3 down by 2 tiles (y=30→28), reducing height from 10 to 7 tiles with zero width change; it retains the proven sink-pressure/layer/long-edge routing order that succeeded in rounds 1–3, minimizing risk of congestion while directly targeting the objective of reducing actual routed area and QCA cells—unlike multi-node moves that increase manhattan edge sums or alter successful routing policies."
+      },
+      "decision": {
+        "schema": "ifcn.layout_choice.v1",
+        "candidate_id": "menu_c5c3c8f80db83e5f89941ff4",
+        "rationale": "This candidate achieves the smallest unevaluated placement proxy area (42 tiles) by translating only node 3 down by 2 tiles (y=30→28), reducing height from 10 to 7 tiles with zero width change; it retains the proven sink-pressure/layer/long-edge routing order that succeeded in rounds 1–3, minimizing risk of congestion while directly targeting the objective of reducing actual routed area and QCA cells—unlike multi-node moves that increase manhattan edge sums or alter successful routing policies."
+      },
+      "start_sha256": "afefb6657bd535508b18440808a2662e4cc2f21f2e9858812f46419103cd0762",
+      "moves": [
+        {
+          "node_id": 3,
+          "name": "y0",
+          "from": [
+            23,
+            30
+          ],
+          "to": [
+            23,
+            28
+          ]
+        }
+      ],
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      },
+      "metrics": {
+        "width": 6,
+        "height": 8,
+        "area_tiles": 48,
+        "qca_cells": 175,
+        "edge_steps": 38,
+        "output_arrival_ticks": {
+          "3": [
+            9,
+            9
+          ]
+        }
+      },
+      "certificates": {
+        "logic": "equivalent",
+        "clock": true,
+        "physical": true,
+        "interface": true
+      },
+      "route_changes": [
+        {
+          "source": 11,
+          "target": 3,
+          "before_steps": 3,
+          "after_steps": 1
+        }
+      ],
+      "elapsed_s": 6.8962814419974166,
+      "paired_ablations": {
+        "placement_only": {
+          "status": "accepted",
+          "metrics": {
+            "width": 6,
+            "height": 8,
+            "area_tiles": 48,
+            "qca_cells": 175,
+            "edge_steps": 38,
+            "output_arrival_ticks": {
+              "3": [
+                9,
+                9
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        },
+        "routing_only": {
+          "status": "rejected",
+          "metrics": {
+            "width": 6,
+            "height": 10,
+            "area_tiles": 60,
+            "qca_cells": 185,
+            "edge_steps": 40,
+            "output_arrival_ticks": {
+              "3": [
+                9,
+                9
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        }
+      }
+    },
+    {
+      "round": 5,
+      "status": "accepted",
+      "start_metrics": {
+        "width": 6,
+        "height": 8,
+        "area_tiles": 48,
+        "qca_cells": 175,
+        "edge_steps": 38,
+        "output_arrival_ticks": {
+          "3": [
+            9,
+            9
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          22
+        ],
+        [
+          1,
+          20,
+          22
+        ],
+        [
+          2,
+          22,
+          22
+        ],
+        [
+          3,
+          23,
+          28
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          23,
+          25
+        ],
+        [
+          8,
+          23,
+          26
+        ],
+        [
+          10,
+          21,
+          25
+        ],
+        [
+          11,
+          23,
+          27
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 9171,
+        "output": 151,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 9322
+      },
+      "model_latency_s": 7.306395685998723,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 3,
+            "to": [
+              23,
+              27
+            ]
+          },
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              23,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              23,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              21,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              26
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "This candidate compresses the placement proxy height by 1 tile (to 6) with a suffix translation (nodes 3,7,8,10,11 moved down), achieving the smallest unevaluated proxy area (36 tiles) among all candidates; it retains the proven sink-pressure/layer/long-edge routing order that succeeded in rounds 1–4, minimizing congestion risk while directly targeting reduced routed area and QCA cells—unlike prefix moves or alternative routing policies that showed no advantage in prior evaluations."
+      },
+      "decision": {
+        "schema": "ifcn.layout_choice.v1",
+        "candidate_id": "menu_7c88606f76c6f2a4c69971fa",
+        "rationale": "This candidate compresses the placement proxy height by 1 tile (to 6) with a suffix translation (nodes 3,7,8,10,11 moved down), achieving the smallest unevaluated proxy area (36 tiles) among all candidates; it retains the proven sink-pressure/layer/long-edge routing order that succeeded in rounds 1–4, minimizing congestion risk while directly targeting reduced routed area and QCA cells—unlike prefix moves or alternative routing policies that showed no advantage in prior evaluations."
+      },
+      "start_sha256": "ae003ab82a51f163a9dd2da5abdf1ac4bae8abf49f3cc631c0b8a9845b1d1159",
+      "moves": [
+        {
+          "node_id": 3,
+          "name": "y0",
+          "from": [
+            23,
+            28
+          ],
+          "to": [
+            23,
+            27
+          ]
+        },
+        {
+          "node_id": 7,
+          "name": "ifcn_tmp_2",
+          "from": [
+            23,
+            25
+          ],
+          "to": [
+            23,
+            24
+          ]
+        },
+        {
+          "node_id": 8,
+          "name": "ifcn_tmp_3",
+          "from": [
+            23,
+            26
+          ],
+          "to": [
+            23,
+            25
+          ]
+        },
+        {
+          "node_id": 10,
+          "name": "ifcn_tmp_5",
+          "from": [
+            21,
+            25
+          ],
+          "to": [
+            21,
+            24
+          ]
+        },
+        {
+          "node_id": 11,
+          "name": "n4",
+          "from": [
+            23,
+            27
+          ],
+          "to": [
+            23,
+            26
+          ]
+        }
+      ],
+      "routing_audit": {
+        "requested_order": [
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      },
+      "metrics": {
+        "width": 6,
+        "height": 7,
+        "area_tiles": 42,
+        "qca_cells": 155,
+        "edge_steps": 31,
+        "output_arrival_ticks": {
+          "3": [
+            8,
+            8
+          ]
+        }
+      },
+      "certificates": {
+        "logic": "equivalent",
+        "clock": true,
+        "physical": true,
+        "interface": true
+      },
+      "route_changes": [
+        {
+          "source": 0,
+          "target": 4,
+          "before_steps": 4,
+          "after_steps": 2
+        },
+        {
+          "source": 0,
+          "target": 7,
+          "before_steps": 5,
+          "after_steps": 4
+        },
+        {
+          "source": 1,
+          "target": 4,
+          "before_steps": 7,
+          "after_steps": 7
+        },
+        {
+          "source": 1,
+          "target": 10,
+          "before_steps": 4,
+          "after_steps": 3
+        },
+        {
+          "source": 4,
+          "target": 8,
+          "before_steps": 4,
+          "after_steps": 3
+        },
+        {
+          "source": 5,
+          "target": 7,
+          "before_steps": 3,
+          "after_steps": 2
+        },
+        {
+          "source": 5,
+          "target": 10,
+          "before_steps": 3,
+          "after_steps": 2
+        },
+        {
+          "source": 7,
+          "target": 8,
+          "before_steps": 1,
+          "after_steps": 1
+        },
+        {
+          "source": 8,
+          "target": 11,
+          "before_steps": 1,
+          "after_steps": 1
+        },
+        {
+          "source": 10,
+          "target": 11,
+          "before_steps": 4,
+          "after_steps": 4
+        },
+        {
+          "source": 11,
+          "target": 3,
+          "before_steps": 1,
+          "after_steps": 1
+        }
+      ],
+      "elapsed_s": 8.88181570800225,
+      "paired_ablations": {
+        "placement_only": {
+          "status": "accepted",
+          "metrics": {
+            "width": 6,
+            "height": 7,
+            "area_tiles": 42,
+            "qca_cells": 155,
+            "edge_steps": 31,
+            "output_arrival_ticks": {
+              "3": [
+                8,
+                8
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        },
+        "routing_only": {
+          "status": "rejected",
+          "metrics": {
+            "width": 6,
+            "height": 8,
+            "area_tiles": 48,
+            "qca_cells": 175,
+            "edge_steps": 36,
+            "output_arrival_ticks": {
+              "3": [
+                7,
+                7
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        }
+      }
+    },
+    {
+      "round": 6,
+      "status": "failed",
+      "start_metrics": {
+        "width": 6,
+        "height": 7,
+        "area_tiles": 42,
+        "qca_cells": 155,
+        "edge_steps": 31,
+        "output_arrival_ticks": {
+          "3": [
+            8,
+            8
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          22
+        ],
+        [
+          1,
+          20,
+          22
+        ],
+        [
+          2,
+          22,
+          22
+        ],
+        [
+          3,
+          23,
+          27
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          23,
+          24
+        ],
+        [
+          8,
+          23,
+          25
+        ],
+        [
+          10,
+          21,
+          24
+        ],
+        [
+          11,
+          23,
+          26
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 6538,
+        "output": 132,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 6670
+      },
+      "model_latency_s": 5.714306985999428,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [],
+        "routing_order": [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "This candidate preserves the current placement (proxy area 36 tiles, height 6) and uses topological layer order, which previously succeeded in round 5 with minimal QCA cells (155) and edge steps (31); it avoids new node moves that risk congestion while enabling evaluation of whether the existing geometry with this proven routing policy can achieve further reduction in actual routed area or cell count—especially since prior accepted candidates converged toward this layout."
+      },
+      "decision": {
+        "schema": "ifcn.layout_choice.v1",
+        "candidate_id": "menu_8331b2e71abc865ed0a3acc9",
+        "rationale": "This candidate preserves the current placement (proxy area 36 tiles, height 6) and uses topological layer order, which previously succeeded in round 5 with minimal QCA cells (155) and edge steps (31); it avoids new node moves that risk congestion while enabling evaluation of whether the existing geometry with this proven routing policy can achieve further reduction in actual routed area or cell count—especially since prior accepted candidates converged toward this layout."
+      },
+      "start_sha256": "682f1cedd2df2cdcb49fd34241cc01c89b7f6692d7fc252b11d234ebe5219e7a",
+      "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 196, in run_native\n    raise RuntimeError('Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json')\nRuntimeError: Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json\n",
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      },
+      "unrouted_edges": [],
+      "phase_repair": {
+        "schema": "ifcn.combinational.rephase.v1",
+        "status": "unsat",
+        "algorithm": "june_random",
+        "solver": "scipy_highs_milp_in_bounded_process",
+        "launch_policy": "all_pi_cycle0_at_own_phase",
+        "pi_phases_preserved": null,
+        "geometry_preserved": true,
+        "pi_phase_policy": "free_within_cycle_zero",
+        "phase_count": 4,
+        "gate_internal_extra_ticks": 0,
+        "requires_fresh_export_mapping": true,
+        "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+        "max_same_phase_tiles": 10,
+        "max_same_phase_step_fraction": 0.3,
+        "problem_size": {
+          "nodes": 10,
+          "routes": 12,
+          "occurrences": 47,
+          "steps": 35
+        },
+        "geometry_sha256": "075f3a1fb983a19ca397bb214c17a3a636624491b62ff75d8bee39a4e869abc8",
+        "baseline_native_mapping_valid": true,
+        "reason": "infeasible_clock_constraints",
+        "elapsed_s": 0.7512355719991319,
+        "attempts": [
+          {
+            "pi_phase_policy": "fixed_original",
+            "status": "unsat",
+            "reason": "infeasible_clock_constraints",
+            "elapsed_s": 0.3921850529986841
+          },
+          {
+            "pi_phase_policy": "free_within_cycle_zero",
+            "status": "unsat",
+            "reason": "infeasible_clock_constraints",
+            "elapsed_s": 0.35899927799982834
+          }
+        ]
+      },
+      "elapsed_s": 7.9644876410020515,
+      "paired_ablations": {
+        "placement_only": {
+          "status": "rejected",
+          "metrics": {
+            "width": 6,
+            "height": 7,
+            "area_tiles": 42,
+            "qca_cells": 155,
+            "edge_steps": 31,
+            "output_arrival_ticks": {
+              "3": [
+                8,
+                8
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        },
+        "routing_only": {
+          "status": "failed",
+          "metrics": null,
+          "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 196, in run_native\n    raise RuntimeError('Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json')\nRuntimeError: Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json\n",
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        }
+      }
+    },
+    {
+      "round": 7,
+      "status": "rejected",
+      "start_metrics": {
+        "width": 6,
+        "height": 7,
+        "area_tiles": 42,
+        "qca_cells": 155,
+        "edge_steps": 31,
+        "output_arrival_ticks": {
+          "3": [
+            8,
+            8
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          22
+        ],
+        [
+          1,
+          20,
+          22
+        ],
+        [
+          2,
+          22,
+          22
+        ],
+        [
+          3,
+          23,
+          27
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          23,
+          24
+        ],
+        [
+          8,
+          23,
+          25
+        ],
+        [
+          10,
+          21,
+          24
+        ],
+        [
+          11,
+          23,
+          26
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 6583,
+        "output": 152,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 6735
+      },
+      "model_latency_s": 6.956978911999613,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [],
+        "routing_order": [
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "This candidate preserves the current minimal placement proxy (36 tiles, height 6) and uses a longest-Manhattan-first routing order, which in prior rounds (e.g., round 5) enabled low edge steps (31) and QCA cells (155) when combined with this geometry; unlike the failed round-6 candidate that used topological layer order and violated clock feasibility, this order prioritizes longer paths early—potentially reducing congestion and enabling feasible phase assignment while maintaining unchanged coordinates that already achieved the smallest observed routed area and cell count."
+      },
+      "decision": {
+        "schema": "ifcn.layout_choice.v1",
+        "candidate_id": "menu_a320e43fd0b0c7cccee00cfb",
+        "rationale": "This candidate preserves the current minimal placement proxy (36 tiles, height 6) and uses a longest-Manhattan-first routing order, which in prior rounds (e.g., round 5) enabled low edge steps (31) and QCA cells (155) when combined with this geometry; unlike the failed round-6 candidate that used topological layer order and violated clock feasibility, this order prioritizes longer paths early—potentially reducing congestion and enabling feasible phase assignment while maintaining unchanged coordinates that already achieved the smallest observed routed area and cell count."
+      },
+      "start_sha256": "682f1cedd2df2cdcb49fd34241cc01c89b7f6692d7fc252b11d234ebe5219e7a",
+      "moves": [],
+      "routing_audit": {
+        "requested_order": [
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      },
+      "metrics": {
+        "width": 6,
+        "height": 7,
+        "area_tiles": 42,
+        "qca_cells": 155,
+        "edge_steps": 31,
+        "output_arrival_ticks": {
+          "3": [
+            8,
+            8
+          ]
+        }
+      },
+      "certificates": {
+        "logic": "equivalent",
+        "clock": true,
+        "physical": true,
+        "interface": true
+      },
+      "route_changes": [],
+      "elapsed_s": 8.48534028100039,
+      "paired_ablations": {
+        "placement_only": {
+          "status": "rejected",
+          "metrics": {
+            "width": 6,
+            "height": 7,
+            "area_tiles": 42,
+            "qca_cells": 155,
+            "edge_steps": 31,
+            "output_arrival_ticks": {
+              "3": [
+                8,
+                8
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        },
+        "routing_only": {
+          "status": "rejected",
+          "metrics": {
+            "width": 6,
+            "height": 7,
+            "area_tiles": 42,
+            "qca_cells": 155,
+            "edge_steps": 31,
+            "output_arrival_ticks": {
+              "3": [
+                8,
+                8
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        }
+      }
+    },
+    {
+      "round": 8,
+      "status": "failed",
+      "start_metrics": {
+        "width": 6,
+        "height": 7,
+        "area_tiles": 42,
+        "qca_cells": 155,
+        "edge_steps": 31,
+        "output_arrival_ticks": {
+          "3": [
+            8,
+            8
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          22
+        ],
+        [
+          1,
+          20,
+          22
+        ],
+        [
+          2,
+          22,
+          22
+        ],
+        [
+          3,
+          23,
+          27
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          23,
+          24
+        ],
+        [
+          8,
+          23,
+          25
+        ],
+        [
+          10,
+          21,
+          24
+        ],
+        [
+          11,
+          23,
+          26
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 6264,
+        "output": 137,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 6401
+      },
+      "model_latency_s": 7.338179686998046,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [],
+        "routing_order": [
+          [
+            2,
+            5
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "rationale": "This candidate preserves the current minimal placement proxy (36 tiles, height 6) with zero node moves and uses shortest-Manhattan-first routing order, which in round 5 achieved low edge steps (31) and QCA cells (155); unlike the failed topological-order candidate (round 6) that violated clock feasibility, this order prioritizes short paths early—potentially reducing congestion and enabling feasible phase assignment while maintaining the smallest observed routed geometry."
+      },
+      "decision": {
+        "schema": "ifcn.layout_choice.v1",
+        "candidate_id": "menu_aaf1f81977d7398f0f3f715f",
+        "rationale": "This candidate preserves the current minimal placement proxy (36 tiles, height 6) with zero node moves and uses shortest-Manhattan-first routing order, which in round 5 achieved low edge steps (31) and QCA cells (155); unlike the failed topological-order candidate (round 6) that violated clock feasibility, this order prioritizes short paths early—potentially reducing congestion and enabling feasible phase assignment while maintaining the smallest observed routed geometry."
+      },
+      "start_sha256": "682f1cedd2df2cdcb49fd34241cc01c89b7f6692d7fc252b11d234ebe5219e7a",
+      "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 196, in run_native\n    raise RuntimeError('Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json')\nRuntimeError: Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json\n",
+      "routing_audit": {
+        "requested_order": [
+          [
+            2,
+            5
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "executed_order": [
+          [
+            2,
+            5
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      },
+      "unrouted_edges": [],
+      "phase_repair": {
+        "schema": "ifcn.combinational.rephase.v1",
+        "status": "unsat",
+        "algorithm": "june_random",
+        "solver": "scipy_highs_milp_in_bounded_process",
+        "launch_policy": "all_pi_cycle0_at_own_phase",
+        "pi_phases_preserved": null,
+        "geometry_preserved": true,
+        "pi_phase_policy": "free_within_cycle_zero",
+        "phase_count": 4,
+        "gate_internal_extra_ticks": 0,
+        "requires_fresh_export_mapping": true,
+        "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+        "max_same_phase_tiles": 10,
+        "max_same_phase_step_fraction": 0.3,
+        "problem_size": {
+          "nodes": 10,
+          "routes": 12,
+          "occurrences": 49,
+          "steps": 37
+        },
+        "geometry_sha256": "bc1d07a57889680d707eaf6e94cf56758af74b389ae9166b800d581c3bf37881",
+        "baseline_native_mapping_valid": true,
+        "reason": "infeasible_clock_constraints",
+        "elapsed_s": 0.8684582189998764,
+        "attempts": [
+          {
+            "pi_phase_policy": "fixed_original",
+            "status": "unsat",
+            "reason": "infeasible_clock_constraints",
+            "elapsed_s": 0.48003170599986333
+          },
+          {
+            "pi_phase_policy": "free_within_cycle_zero",
+            "status": "unsat",
+            "reason": "infeasible_clock_constraints",
+            "elapsed_s": 0.3883741560021008
+          }
+        ]
+      },
+      "elapsed_s": 9.727885361997323,
+      "paired_ablations": {
+        "placement_only": {
+          "status": "rejected",
+          "metrics": {
+            "width": 6,
+            "height": 7,
+            "area_tiles": 42,
+            "qca_cells": 155,
+            "edge_steps": 31,
+            "output_arrival_ticks": {
+              "3": [
+                8,
+                8
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "executed_order": [
+              [
+                1,
+                4
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                11,
+                3
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        },
+        "routing_only": {
+          "status": "failed",
+          "metrics": null,
+          "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 196, in run_native\n    raise RuntimeError('Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json')\nRuntimeError: Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json\n",
+          "routing_audit": {
+            "requested_order": [
+              [
+                2,
+                5
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                11,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                1,
+                4
+              ]
+            ],
+            "executed_order": [
+              [
+                2,
+                5
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                8,
+                11
+              ],
+              [
+                11,
+                3
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                4,
+                8
+              ],
+              [
+                0,
+                7
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                1,
+                4
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "accepted": 5,
+    "failed": 2,
+    "rejected": 1
+  },
+  "round_budget": 8,
+  "rounds_recorded": 8,
+  "search_mode": "menu",
+  "live_native_evaluations": 8,
+  "real_model_requests": 8,
+  "paired_native_evaluations": 16
+}

@@ -1,0 +1,101 @@
+{
+  "schema": "fcnpilot.layout_llm.pilot_protocol.v1",
+  "study_id": "layout_llm_pilot_v1",
+  "locked_at": "2026-09-08T03:28:29.722295+00:00",
+  "purpose": "Descriptive pilot of explicit LLM coordinate proposals versus equal-count non-LLM controls; not a general performance or publication claim.",
+  "circuits": [
+    {
+      "name": "xor2",
+      "baseline_run_id": "1af33382a4f64ffbab4875021c96cca3",
+      "source_sha256": "63f1ae810e53631781270265d96277852f8a5e4f64bd28f67076a080130831c7"
+    },
+    {
+      "name": "xnor2",
+      "baseline_run_id": "82d964e3d7a74b2dbd92edc04142d74e",
+      "source_sha256": "a3d96c67b447e43a703871aff932b89d9f08699b5b7e50d4360b9cf64c085464"
+    },
+    {
+      "name": "mux21",
+      "baseline_source": "engine/output/pi-runs/db43ba2c019c4dd0a343fd2d0e33508e/source.v",
+      "source_sha256": "0e439672e33b02fc619a7288e9b711e416a1566b7ac410d5cbf7b9e52fbad8c2",
+      "baseline_generation": {
+        "algorithm": "june_random",
+        "clock": "irregular",
+        "until": "map",
+        "timeout_s": 45,
+        "seed": 1
+      }
+    }
+  ],
+  "policies": [
+    "noop",
+    "random",
+    "heuristic",
+    "llm"
+  ],
+  "repetitions": 1,
+  "rounds_per_campaign": 3,
+  "planned_campaigns": 12,
+  "maximum_model_calls": 9,
+  "seed": 1,
+  "candidate_timeout_s": 20,
+  "model_timeout_s": 60,
+  "model": {
+    "provider": "new-provider",
+    "model_id": "qwen3-vl-plus",
+    "maximum_output_tokens": 1200
+  },
+  "execution": {
+    "campaign_concurrency": 1,
+    "campaign_order": "circuit order, then declared policy order",
+    "poll_interval_s": 5,
+    "campaign_watchdog_s": 330,
+    "model_retries": 0,
+    "candidate_retries": 0,
+    "replacement_circuits": false,
+    "baseline_failure": "Preserve the failed baseline and report all four policies as baseline_unavailable; do not substitute another circuit."
+  },
+  "locked_constraints": {
+    "algorithm": "june_random",
+    "clock_family": "irregular",
+    "phase_count": 4,
+    "same_source_dag_per_circuit": true,
+    "source_and_port_identities_fixed": true,
+    "io_positions_movable": true,
+    "allowed_operations": [
+      "move",
+      "swap"
+    ],
+    "maximum_operations_per_round": 3,
+    "coordinate_padding_tiles": 2,
+    "max_same_phase_tiles": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "absolute_clock_launch": "all PI cycle zero at their own phase",
+    "required_validation": [
+      "exhaustive_source_vs_routed_dag",
+      "absolute_clock_arrival",
+      "ordered_route_continuity",
+      "source_site_isolation",
+      "layer_transition_columns",
+      "route_site_coverage",
+      "gate_connection_ports",
+      "actual_qca_ifcn_hash_binding"
+    ]
+  },
+  "objectives": {
+    "area": "occupied coarse-grid bounding-box area, in tiles",
+    "devices": "actual exported unique XYZ QCA cell count",
+    "acceptance": "Both objectives must be non-increasing relative to the incumbent and at least one must strictly decrease; all hard checks pass.",
+    "no_improvement": "Retain the original or last accepted certified layout."
+  },
+  "reporting": {
+    "include_all_rounds": true,
+    "failed_rounds_remain_in_denominator": true,
+    "token_usage": "Use actual model response usage; missing usage is unavailable, not zero.",
+    "attribution": "Coordinate proposals are the LLM action. Rerouting and clock repair are deterministic executors shared by all policies. No-op control isolates executor-only changes; algorithm selection or phase-only gains are not called LLM coordinate gains.",
+    "statistical_scope": "3 prespecified small circuits, one repetition, at most 3 proposals per policy. Report descriptive outcomes without significance or generalization claims.",
+    "exclusions": [
+      "db82469b720a4e9b9f8c0086a586d3c9 development smoke; two rounds, not part of formal cohort"
+    ]
+  }
+}

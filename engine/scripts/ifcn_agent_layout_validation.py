@@ -135,7 +135,7 @@ def export_native_ifcn(candidate, output, algorithm):
     def coord(p):
         return f'({p[0]-min_x},{p[1]-min_y})'
     lines = [f'#circuit name: {output.stem}', f'#algorithm: {algorithm}', '#mapping mode: combinational',
-             '#phase count: 4', '#clock scheme: irregular', '#clock scheme consistency: success',
+             '#phase count: 4', f"#clock scheme: {candidate.get('clock_scheme', 'irregular')}", f'#clock template origin: ({-min_x},{-min_y})', '#clock scheme consistency: success',
              f'#layout area: width: {width}, height: {height}, area: {width*height}',
              '#nodes info', '### nodeIndex, nodeName, nodeType, nodePosition ###']
     for node in candidate['nodes']:

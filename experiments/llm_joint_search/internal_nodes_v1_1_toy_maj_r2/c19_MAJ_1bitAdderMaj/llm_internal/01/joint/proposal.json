@@ -1,0 +1,88 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        23,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        25,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        23,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        23,
+        29
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      2,
+      5
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      10
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      11,
+      3
+    ]
+  ],
+  "rationale": "Relocate nodes 5, 7, 10, and 11 to contract the internal cluster around (23–25, 23–29), eliminating the long detour on edge (5,7) and reducing congestion near x=22–27, y=25. Prioritize reconvergent fanin edges first: route (2,5) before (5,10)/(5,7) to fix early phase alignment; then route shared fanin (0,4)/(1,4) before diverging paths (0,7)/(1,10); finally resolve merge at 8 and 11 with (8,11)/(10,11) before output."
+}

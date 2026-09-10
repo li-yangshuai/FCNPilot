@@ -1,0 +1,170 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "db2e4ac7c578461e8c625c99beb5297b",
+  "created_at": "2026-09-08T04:20:25.872704+00:00",
+  "updated_at": "2026-09-08T04:20:27.004046+00:00",
+  "status": "failed",
+  "current_stage": "pnr",
+  "source": "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/inputs/TOY/paper_2ddwave_xor_demo.v",
+  "design_type": "combinational",
+  "configuration": {
+    "root": "/home/lys/projects/github/FCNPilot/engine",
+    "build_dir": "/home/lys/projects/github/FCNPilot/engine/build",
+    "python": "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+    "backend": "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_combinational_pnr",
+    "sequential_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_sequential_cyclic_pnr",
+    "regular_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_regular_clock_pnr",
+    "yosys_binary": "/home/lys/projects/github/FCNPilot/engine/build/tools/yosys-local/usr/bin/yosys"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "a",
+      "b"
+    ],
+    "warnings": [],
+    "outputs": [
+      "out"
+    ],
+    "assignment_count": 4,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 45,
+    "model": "bistable",
+    "algorithm": "compact",
+    "clock_scheme": "irregular",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-08T04:20:25.924101+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/db2e4ac7c578461e8c625c99beb5297b/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/db2e4ac7c578461e8c625c99beb5297b/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "45"
+        ]
+      ],
+      "completed_at": "2026-09-08T04:20:26.075996+00:00"
+    },
+    "pnr": {
+      "status": "failed",
+      "started_at": "2026-09-08T04:20:26.076781+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/db2e4ac7c578461e8c625c99beb5297b/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/db2e4ac7c578461e8c625c99beb5297b/02_pnr_1/01_compact_default",
+          "--algorithm",
+          "compact",
+          "--seed",
+          "1",
+          "--budget",
+          "42",
+          "--clock",
+          "irregular"
+        ]
+      ],
+      "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log."
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 198,
+      "sha256": "bcb7240baad4c23bfb91d93824e44ff1417d65cabe9e51bb30827a03690eeec6"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 196,
+      "sha256": "e1f23233c5da59a1aebdcf8dd3c884c969f54c141eca6c612c7cf67da98e9283"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 1231,
+      "sha256": "4b15cffcd83965e25dd2dbfce3b8613f908fbabc54aeb59e2581fd4c23c99fd4"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 262,
+      "sha256": "4f7ca19b80c6886d71e1088e258e45e671b8e2c5bf92a896c8acd91bd712b5fe"
+    },
+    "pnr_attempts/01_compact_default_pnr.json": {
+      "path": "02_pnr_1/01_compact_default/pnr.json",
+      "bytes": 3608,
+      "sha256": "da57b394c7824b4e502ba46dcdbcde5cec9b209831ff5cc17508effc7be8e212"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 1350,
+      "sha256": "58bbdf153282f93b2b6dea6f359871821a1b0296a0f46f6f8deaba6119190ba4"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 5097,
+      "sha256": "73506cbd55f6d3f5c82f96b789925fca699551d8eb9037a4229f059ab82f80d8"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 2,
+      "output_count": 1
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "compact",
+      "requested_clock": "irregular",
+      "selected_algorithm": null,
+      "selected_variant": null,
+      "policy": "First validated backend; bounded variants replace the valid baseline only when area and actual QCA cell count do not increase and at least one decreases; no global optimality claim",
+      "attempts": [
+        {
+          "algorithm": "compact",
+          "variant": "default",
+          "status": "failed",
+          "budget_s": 45.0,
+          "started_at": "2026-09-08T04:20:26.077486+00:00",
+          "directory": "02_pnr_1/01_compact_default",
+          "error": "pnr command exited with 1. Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 196, in run_native\n    raise RuntimeError('Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json')\nRuntimeError: Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json\n",
+          "elapsed_s": 0.926
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log.",
+  "worker_pid": 79844,
+  "active": false,
+  "log_tail": "Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 196, in run_native\n    raise RuntimeError('Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json')\nRuntimeError: Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json\n",
+  "run_directory": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/db2e4ac7c578461e8c625c99beb5297b"
+}

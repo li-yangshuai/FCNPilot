@@ -1,0 +1,117 @@
+{
+  "schema": "ifcn.pnr.v1",
+  "algorithm": "june_random",
+  "phase_count": 4,
+  "seed": 1,
+  "layout_legal": false,
+  "clock_legal": true,
+  "failed_edge_count": 0,
+  "validation": {
+    "passed": false,
+    "checks": [
+      "dag_acyclic",
+      "exact_edge_coverage",
+      "exact_node_coverage",
+      "unique_node_positions",
+      "route_endpoints",
+      "simple_four_connected_paths",
+      "no_route_through_gate",
+      "distinct_fanin_ports",
+      "port_sharing_geometry",
+      "clock_range_and_forward_steps",
+      "source_aware_crossings",
+      "native_node_and_crossover_mapping"
+    ],
+    "errors": [
+      "Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json"
+    ],
+    "max_same_phase_run": 4,
+    "topological_order": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      7,
+      10,
+      8,
+      11,
+      3
+    ],
+    "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+  },
+  "algorithm_parameters": {
+    "initial_placement": "exact_recorded_proposal",
+    "route_order_retries": 24,
+    "search_cost": 40,
+    "padding": 2,
+    "topology": "fixed_baseline_dag",
+    "max_same_phase": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "automatic_node_placement": false,
+    "node_expansion_or_compression": false,
+    "phase_count": 4,
+    "timeout_s": 18,
+    "seed_control": "not_exposed_by_native_algorithm"
+  },
+  "clock_scheme": "irregular",
+  "clock_template_ok": null,
+  "clock_template_conflicts": null,
+  "clock_validation_kind": "route_phase_contract",
+  "run_time_s": 0.001938829,
+  "resolved_verilog": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/fig06_v3_r1/inputs/normalized.v",
+  "boolean_canonicalization": false,
+  "expansion": {
+    "inserted_rows": 0,
+    "inserted_columns": 0,
+    "accepted_rounds": 0,
+    "evaluated_cut_candidates": 0,
+    "reused_routed_candidates": 0
+  },
+  "width": 7,
+  "height": 7,
+  "area_tiles": 49,
+  "ifcn": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/fig06_v3_r1/deterministic_joint/06/joint/layout.ifcn",
+  "phase_repair": {
+    "schema": "ifcn.combinational.rephase.v1",
+    "status": "unsat",
+    "algorithm": "june_random",
+    "solver": "scipy_highs_milp_in_bounded_process",
+    "launch_policy": "all_pi_cycle0_at_own_phase",
+    "pi_phases_preserved": null,
+    "geometry_preserved": true,
+    "pi_phase_policy": "free_within_cycle_zero",
+    "phase_count": 4,
+    "gate_internal_extra_ticks": 0,
+    "requires_fresh_export_mapping": true,
+    "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+    "max_same_phase_tiles": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "problem_size": {
+      "nodes": 10,
+      "routes": 12,
+      "occurrences": 47,
+      "steps": 35
+    },
+    "geometry_sha256": "075f3a1fb983a19ca397bb214c17a3a636624491b62ff75d8bee39a4e869abc8",
+    "baseline_native_mapping_valid": true,
+    "reason": "infeasible_clock_constraints",
+    "elapsed_s": 0.7254936440003803,
+    "attempts": [
+      {
+        "pi_phase_policy": "fixed_original",
+        "status": "unsat",
+        "reason": "infeasible_clock_constraints",
+        "elapsed_s": 0.3511127550009405
+      },
+      {
+        "pi_phase_policy": "free_within_cycle_zero",
+        "status": "unsat",
+        "reason": "infeasible_clock_constraints",
+        "elapsed_s": 0.37432445399826975
+      }
+    ]
+  },
+  "failure_reason": "Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json",
+  "total_backend_time_s": 0.7366056820028462
+}

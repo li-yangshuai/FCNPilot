@@ -1,0 +1,595 @@
+{
+  "schema": "ifcn.pnr.v1",
+  "algorithm": "june_random",
+  "phase_count": 4,
+  "seed": 1,
+  "layout_legal": true,
+  "clock_legal": true,
+  "failed_edge_count": 0,
+  "validation": {
+    "passed": true,
+    "checks": [
+      "dag_acyclic",
+      "exact_edge_coverage",
+      "exact_node_coverage",
+      "unique_node_positions",
+      "route_endpoints",
+      "simple_four_connected_paths",
+      "no_route_through_gate",
+      "distinct_fanin_ports",
+      "port_sharing_geometry",
+      "clock_range_and_forward_steps",
+      "source_aware_crossings",
+      "original_native_geometry_mapping",
+      "rephased_geometry_and_clock_contract",
+      "cycle_zero_absolute_arrival_alignment",
+      "exported_ifcn_device_mapping"
+    ],
+    "errors": [],
+    "max_same_phase_run": 5,
+    "topological_order": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      31,
+      32,
+      8,
+      9,
+      33,
+      34,
+      35,
+      36,
+      14,
+      12,
+      13,
+      10,
+      11,
+      18,
+      16,
+      20,
+      37,
+      19,
+      21,
+      22,
+      23,
+      38,
+      24,
+      26,
+      5,
+      6,
+      27,
+      28,
+      29,
+      7
+    ],
+    "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+  },
+  "algorithm_parameters": {
+    "io_coordinates_locked": true,
+    "initial_placement": "exact_recorded_proposal",
+    "route_order_retries": 24,
+    "search_cost": 40,
+    "padding": 2,
+    "topology": "fixed_baseline_dag",
+    "max_same_phase": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "automatic_node_placement": false,
+    "node_expansion_or_compression": false,
+    "phase_count": 4,
+    "timeout_s": 18,
+    "seed_control": "not_exposed_by_native_algorithm"
+  },
+  "clock_scheme": "irregular",
+  "clock_template_ok": null,
+  "clock_template_conflicts": null,
+  "clock_validation_kind": "free_phase_with_absolute_arrival_alignment",
+  "run_time_s": 0.084744348,
+  "resolved_verilog": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/density_feedback_ablation_20260909_r1/c03_TOY_RCA2/inputs/normalized.v",
+  "boolean_canonicalization": false,
+  "expansion": {
+    "inserted_rows": 0,
+    "inserted_columns": 0,
+    "accepted_rounds": 0,
+    "evaluated_cut_candidates": 0,
+    "reused_routed_candidates": 0
+  },
+  "width": 23,
+  "height": 26,
+  "area_tiles": 598,
+  "ifcn": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/density_feedback_ablation_20260909_r1/c03_TOY_RCA2/rep_01/llm_text_feedback/02/candidates/04/layout.ifcn",
+  "phase_repair": {
+    "schema": "ifcn.combinational.rephase.v1",
+    "status": "sat",
+    "algorithm": "june_random",
+    "solver": "scipy_highs_milp_in_bounded_process",
+    "launch_policy": "all_pi_cycle0_at_own_phase",
+    "pi_phases_preserved": true,
+    "geometry_preserved": true,
+    "pi_phase_policy": "fixed_original",
+    "phase_count": 4,
+    "gate_internal_extra_ticks": 0,
+    "requires_fresh_export_mapping": true,
+    "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+    "max_same_phase_tiles": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "problem_size": {
+      "nodes": 35,
+      "routes": 48,
+      "occurrences": 358,
+      "steps": 310
+    },
+    "geometry_sha256": "80f002e10b8cdf3f0717b7b2e582b1e8e5cc3d17683a0bfa2b39b62f50baa608",
+    "baseline_native_mapping_valid": true,
+    "changed_tiles": 202,
+    "actual_max_same_phase_tiles": 8,
+    "same_phase_steps": 93,
+    "node_arrival_ticks": {
+      "0": 3,
+      "1": 2,
+      "2": 2,
+      "3": 2,
+      "4": 3,
+      "5": 26,
+      "6": 28,
+      "7": 28,
+      "8": 3,
+      "9": 6,
+      "10": 7,
+      "11": 8,
+      "12": 8,
+      "13": 8,
+      "14": 7,
+      "16": 10,
+      "18": 9,
+      "19": 14,
+      "20": 15,
+      "21": 18,
+      "22": 15,
+      "23": 17,
+      "24": 20,
+      "26": 16,
+      "27": 21,
+      "28": 21,
+      "29": 23,
+      "31": 5,
+      "32": 4,
+      "33": 3,
+      "34": 5,
+      "35": 11,
+      "36": 8,
+      "37": 14,
+      "38": 20
+    },
+    "pi_launch_ticks": {
+      "a0": 3,
+      "a1": 2,
+      "b0": 2,
+      "b1": 2,
+      "cin": 3
+    },
+    "validation_passed": true,
+    "elapsed_s": 0.41708624999955646,
+    "attempts": [
+      {
+        "pi_phase_policy": "fixed_original",
+        "status": "sat",
+        "elapsed_s": 0.41698836499926983
+      }
+    ]
+  },
+  "clock_arrival": {
+    "schema": "ifcn.clock_arrival.v1",
+    "passed": true,
+    "launch_policy": "cycle_zero_at_template_phase",
+    "ifcn_sha256": "904391c788876552989802cb4fc07341c2e4dc264a5b7e6dcfa9efd43f8440f1",
+    "routed_dag_sha256": "41868ed2e6e0c4d5a644441d8f256d92661652552ca4403ae881ef485a947488",
+    "phase_count": 4,
+    "relative_schedule_consistent": true,
+    "required_input_cycle_offsets": {
+      "a0": 0,
+      "b0": 0,
+      "cin": 0,
+      "a1": 0,
+      "b1": 0
+    },
+    "input_schedule_applied": false,
+    "mismatches": [],
+    "relative_schedule_conflicts": [],
+    "nodes_checked": 35,
+    "routes_checked": 48,
+    "arrival_tick_ranges": {
+      "0": [
+        3,
+        3
+      ],
+      "1": [
+        2,
+        2
+      ],
+      "2": [
+        2,
+        2
+      ],
+      "3": [
+        2,
+        2
+      ],
+      "4": [
+        3,
+        3
+      ],
+      "31": [
+        5,
+        5
+      ],
+      "32": [
+        4,
+        4
+      ],
+      "8": [
+        3,
+        3
+      ],
+      "9": [
+        6,
+        6
+      ],
+      "33": [
+        3,
+        3
+      ],
+      "34": [
+        5,
+        5
+      ],
+      "35": [
+        11,
+        11
+      ],
+      "36": [
+        8,
+        8
+      ],
+      "14": [
+        7,
+        7
+      ],
+      "12": [
+        8,
+        8
+      ],
+      "13": [
+        8,
+        8
+      ],
+      "10": [
+        7,
+        7
+      ],
+      "11": [
+        8,
+        8
+      ],
+      "18": [
+        9,
+        9
+      ],
+      "16": [
+        10,
+        10
+      ],
+      "20": [
+        15,
+        15
+      ],
+      "37": [
+        14,
+        14
+      ],
+      "19": [
+        14,
+        14
+      ],
+      "21": [
+        18,
+        18
+      ],
+      "22": [
+        15,
+        15
+      ],
+      "23": [
+        17,
+        17
+      ],
+      "38": [
+        20,
+        20
+      ],
+      "24": [
+        20,
+        20
+      ],
+      "26": [
+        16,
+        16
+      ],
+      "5": [
+        26,
+        26
+      ],
+      "6": [
+        28,
+        28
+      ],
+      "27": [
+        21,
+        21
+      ],
+      "28": [
+        21,
+        21
+      ],
+      "29": [
+        23,
+        23
+      ],
+      "7": [
+        28,
+        28
+      ]
+    },
+    "route_delays": [
+      {
+        "source": 0,
+        "target": 8,
+        "ticks": 0
+      },
+      {
+        "source": 0,
+        "target": 9,
+        "ticks": 3
+      },
+      {
+        "source": 1,
+        "target": 31,
+        "ticks": 3
+      },
+      {
+        "source": 1,
+        "target": 32,
+        "ticks": 2
+      },
+      {
+        "source": 2,
+        "target": 8,
+        "ticks": 1
+      },
+      {
+        "source": 2,
+        "target": 9,
+        "ticks": 4
+      },
+      {
+        "source": 3,
+        "target": 33,
+        "ticks": 1
+      },
+      {
+        "source": 3,
+        "target": 34,
+        "ticks": 3
+      },
+      {
+        "source": 4,
+        "target": 35,
+        "ticks": 8
+      },
+      {
+        "source": 4,
+        "target": 36,
+        "ticks": 5
+      },
+      {
+        "source": 8,
+        "target": 18,
+        "ticks": 6
+      },
+      {
+        "source": 9,
+        "target": 14,
+        "ticks": 1
+      },
+      {
+        "source": 10,
+        "target": 26,
+        "ticks": 9
+      },
+      {
+        "source": 11,
+        "target": 19,
+        "ticks": 6
+      },
+      {
+        "source": 12,
+        "target": 16,
+        "ticks": 2
+      },
+      {
+        "source": 13,
+        "target": 5,
+        "ticks": 18
+      },
+      {
+        "source": 14,
+        "target": 18,
+        "ticks": 2
+      },
+      {
+        "source": 16,
+        "target": 19,
+        "ticks": 4
+      },
+      {
+        "source": 18,
+        "target": 20,
+        "ticks": 6
+      },
+      {
+        "source": 18,
+        "target": 37,
+        "ticks": 5
+      },
+      {
+        "source": 19,
+        "target": 23,
+        "ticks": 3
+      },
+      {
+        "source": 19,
+        "target": 38,
+        "ticks": 6
+      },
+      {
+        "source": 20,
+        "target": 6,
+        "ticks": 13
+      },
+      {
+        "source": 21,
+        "target": 24,
+        "ticks": 2
+      },
+      {
+        "source": 22,
+        "target": 26,
+        "ticks": 1
+      },
+      {
+        "source": 23,
+        "target": 5,
+        "ticks": 9
+      },
+      {
+        "source": 24,
+        "target": 6,
+        "ticks": 8
+      },
+      {
+        "source": 26,
+        "target": 27,
+        "ticks": 5
+      },
+      {
+        "source": 26,
+        "target": 28,
+        "ticks": 5
+      },
+      {
+        "source": 27,
+        "target": 7,
+        "ticks": 7
+      },
+      {
+        "source": 28,
+        "target": 29,
+        "ticks": 2
+      },
+      {
+        "source": 29,
+        "target": 7,
+        "ticks": 5
+      },
+      {
+        "source": 31,
+        "target": 12,
+        "ticks": 3
+      },
+      {
+        "source": 31,
+        "target": 13,
+        "ticks": 3
+      },
+      {
+        "source": 32,
+        "target": 10,
+        "ticks": 3
+      },
+      {
+        "source": 32,
+        "target": 11,
+        "ticks": 4
+      },
+      {
+        "source": 33,
+        "target": 12,
+        "ticks": 5
+      },
+      {
+        "source": 33,
+        "target": 13,
+        "ticks": 5
+      },
+      {
+        "source": 34,
+        "target": 10,
+        "ticks": 2
+      },
+      {
+        "source": 34,
+        "target": 11,
+        "ticks": 3
+      },
+      {
+        "source": 35,
+        "target": 22,
+        "ticks": 4
+      },
+      {
+        "source": 35,
+        "target": 23,
+        "ticks": 6
+      },
+      {
+        "source": 36,
+        "target": 20,
+        "ticks": 7
+      },
+      {
+        "source": 36,
+        "target": 21,
+        "ticks": 10
+      },
+      {
+        "source": 37,
+        "target": 21,
+        "ticks": 4
+      },
+      {
+        "source": 37,
+        "target": 22,
+        "ticks": 1
+      },
+      {
+        "source": 38,
+        "target": 27,
+        "ticks": 1
+      },
+      {
+        "source": 38,
+        "target": 28,
+        "ticks": 1
+      }
+    ],
+    "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+  },
+  "mapping_validation": {
+    "passed": true,
+    "cell_count": 1390,
+    "cross_count": 12,
+    "io_contraction": false
+  },
+  "total_backend_time_s": 0.5596920729985868
+}

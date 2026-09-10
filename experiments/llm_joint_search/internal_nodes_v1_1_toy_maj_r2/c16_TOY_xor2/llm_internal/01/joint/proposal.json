@@ -1,0 +1,60 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 3,
+      "to": [
+        21,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 4,
+      "to": [
+        21,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        21,
+        25
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      5,
+      2
+    ],
+    [
+      4,
+      2
+    ]
+  ],
+  "rationale": "Relocate AND gate 3 to (21,23), OR gate 4 to (21,22), and NOT gate 5 to (21,25) to compact the internal layer (y=22–25), eliminate the long detour on edge [1,4] (7→5 steps), and align fanin paths to output 2 with shared vertical channel at x=21. Routing order prioritizes reconvergent inputs (0→4, 1→4 first), then local fanins (0→3, 1→3), then sequential chain (3→5, 5→2), ending with longest path (4→2) to avoid blocking."
+}

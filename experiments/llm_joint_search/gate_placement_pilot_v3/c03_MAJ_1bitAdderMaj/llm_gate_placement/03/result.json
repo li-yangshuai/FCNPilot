@@ -1,0 +1,189 @@
+{
+  "round": 3,
+  "status": "failed",
+  "start_metrics": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 1276,
+    "output": 437,
+    "cacheRead": 11008,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 12721
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          22
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Target four internal nodes for coordinated contraction into sparse vacancy zones: node 7→[24,23] aligns vertically with fanins 0/1 and reduces edge [5,7] detour (current 9→LB 7); node 10→[22,24] places it directly above node 5’s new position, collapsing edge [5,10] to Manhattan-optimal 2 steps; node 8→[24,26] shortens both [4,8] and [7,8] to exact Manhattan (5 and 6 steps) while avoiding congested y=28; node 5→[22,22] frees the dense y=23 row and positions it closer to inputs 0/1/2 (y=20), reducing fanin routing overhead. All target coordinates lie in verified vacancy hotspots ([22,22], [24,23], [22,24], [24,26]) with no collisions. This realignment tightens the core without moving ports, targeting area reduction via internal density optimization—critical since right boundary is controlled by internal node 7 (currently x=27), and its leftward move to x=24 enables width reduction from 8 to 6 tiles if rerouting succeeds."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          22
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "rationale": "Target four internal nodes for coordinated contraction into sparse vacancy zones: node 7→[24,23] aligns vertically with fanins 0/1 and reduces edge [5,7] detour (current 9→LB 7); node 10→[22,24] places it directly above node 5’s new position, collapsing edge [5,10] to Manhattan-optimal 2 steps; node 8→[24,26] shortens both [4,8] and [7,8] to exact Manhattan (5 and 6 steps) while avoiding congested y=28; node 5→[22,22] frees the dense y=23 row and positions it closer to inputs 0/1/2 (y=20), reducing fanin routing overhead. All target coordinates lie in verified vacancy hotspots ([22,22], [24,23], [22,24], [24,26]) with no collisions. This realignment tightens the core without moving ports, targeting area reduction via internal density optimization—critical since right boundary is controlled by internal node 7 (currently x=27), and its leftward move to x=24 enables width reduction from 8 to 6 tiles if rerouting succeeds."
+  },
+  "error": "Node collision",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "next_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+  "elapsed_s": 9.575506564000534
+}

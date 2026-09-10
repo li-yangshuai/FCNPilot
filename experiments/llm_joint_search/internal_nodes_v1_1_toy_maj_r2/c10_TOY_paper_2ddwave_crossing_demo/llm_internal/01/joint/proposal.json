@@ -1,0 +1,68 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        21,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        22,
+        25
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      2,
+      6
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      8,
+      3
+    ],
+    [
+      7,
+      3
+    ]
+  ],
+  "rationale": "Move node 5 to (21,22) and 7 to (22,25) to eliminate the 8-step detour on edge [2,6] by opening a vertical channel between x=21–22 and y=22–25; this also reduces congestion at (20,23) and aligns fanin of node 7. Routing order prioritizes high-detour edges first ([2,6], [0,6]) and reconvergent paths ([1,5], [2,5]) before merging at 7 and final output."
+}

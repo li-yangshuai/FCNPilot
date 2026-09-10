@@ -1,0 +1,96 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        21,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        23,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        22,
+        27
+      ]
+    },
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        22,
+        30
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        21,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 3,
+      "to": [
+        23,
+        22
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      8
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      5,
+      8
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      0,
+      5
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      10,
+      2
+    ]
+  ],
+  "rationale": "The prior failed attempt shifted only nodes 7–10 down by 1 but left 3 and 5 at y=23, causing routing conflicts on edges [0,5], [1,3], [7,9], [8,9]. Here, we coordinate a full vertical contraction: move NOTs (3,5) to y=22 and ANDs (7,8) to y=24, aligning fanins vertically (0→5 and 1→3 now Δy=2, Manhattan), and OR/NOT (9,10) to y=27/30. This eliminates the detour in edge [5,8] (now Δx=2, Δy=2 → 4 steps vs 8) and uses vacant band y=21–22 (window_18_24_20_26) and y=26–27 (window_18_24_22_28) without collisions. Bounding box tightens to min_y=20, max_y=30 (height=11), width unchanged at 6 → area ≤66 < 90. All internal nodes relocated; ports remain fixed but internal compression reduces routed extent."
+}

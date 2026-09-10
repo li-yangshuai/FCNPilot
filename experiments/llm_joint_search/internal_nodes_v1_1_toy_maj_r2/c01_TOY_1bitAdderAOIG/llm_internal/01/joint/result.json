@@ -1,0 +1,489 @@
+{
+  "status": "certified",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          24,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          26,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          26,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          29
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          24,
+          29
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          24,
+          32
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        10,
+        3
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        3
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        11,
+        4
+      ],
+      [
+        0,
+        10
+      ],
+      [
+        0,
+        11
+      ]
+    ],
+    "rationale": "Reorder to prioritize early fanin convergence (1→5, 2→5 before 1→6, 2→6) and reduce congestion at y=23; move internal nodes 5–12 vertically down to y=21–32 to eliminate long vertical detours (e.g., 6→4 from 15 to 9 steps), opening horizontal routing channels near y=28–29. The new order protects reconvergent paths (5→9 and 7→9 before 9→10/11) and routes high-delay edges (6→4, 11→4) later after critical paths settle."
+  },
+  "start_sha256": "7959f9c2b137a33e938216fe21e9c21cdde542d9533e809e18a3ba138cb52b04",
+  "io_lock": {
+    "passed": true,
+    "fixed_node_ids": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "scope": "PI/PO node XY coordinates only; clock phases are not pinned"
+  },
+  "moves": [
+    {
+      "node_id": 5,
+      "name": "A",
+      "from": [
+        24,
+        23
+      ],
+      "to": [
+        24,
+        21
+      ]
+    },
+    {
+      "node_id": 6,
+      "name": "B",
+      "from": [
+        26,
+        23
+      ],
+      "to": [
+        26,
+        21
+      ]
+    },
+    {
+      "node_id": 7,
+      "name": "~B",
+      "from": [
+        26,
+        26
+      ],
+      "to": [
+        26,
+        24
+      ]
+    },
+    {
+      "node_id": 9,
+      "name": "D",
+      "from": [
+        24,
+        28
+      ],
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "node_id": 10,
+      "name": "E",
+      "from": [
+        22,
+        31
+      ],
+      "to": [
+        22,
+        29
+      ]
+    },
+    {
+      "node_id": 11,
+      "name": "F",
+      "from": [
+        24,
+        31
+      ],
+      "to": [
+        24,
+        29
+      ]
+    },
+    {
+      "node_id": 12,
+      "name": "~F",
+      "from": [
+        24,
+        34
+      ],
+      "to": [
+        24,
+        32
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        10,
+        3
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        3
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        11,
+        4
+      ],
+      [
+        0,
+        10
+      ],
+      [
+        0,
+        11
+      ]
+    ],
+    "executed_order": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        10,
+        3
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        3
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        11,
+        4
+      ],
+      [
+        0,
+        10
+      ],
+      [
+        0,
+        11
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": true
+  },
+  "metrics": {
+    "width": 8,
+    "height": 18,
+    "area_tiles": 144,
+    "qca_cells": 494,
+    "edge_steps": 112,
+    "output_arrival_ticks": {
+      "3": [
+        16,
+        16
+      ],
+      "4": [
+        19,
+        19
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 0,
+      "target": 10,
+      "before_steps": 13,
+      "after_steps": 11
+    },
+    {
+      "source": 0,
+      "target": 11,
+      "before_steps": 15,
+      "after_steps": 17
+    },
+    {
+      "source": 1,
+      "target": 5,
+      "before_steps": 5,
+      "after_steps": 3
+    },
+    {
+      "source": 1,
+      "target": 6,
+      "before_steps": 5,
+      "after_steps": 3
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "before_steps": 5,
+      "after_steps": 1
+    },
+    {
+      "source": 2,
+      "target": 6,
+      "before_steps": 9,
+      "after_steps": 7
+    },
+    {
+      "source": 5,
+      "target": 9,
+      "before_steps": 5,
+      "after_steps": 5
+    },
+    {
+      "source": 6,
+      "target": 4,
+      "before_steps": 15,
+      "after_steps": 17
+    },
+    {
+      "source": 6,
+      "target": 7,
+      "before_steps": 5,
+      "after_steps": 5
+    },
+    {
+      "source": 7,
+      "target": 9,
+      "before_steps": 4,
+      "after_steps": 4
+    },
+    {
+      "source": 9,
+      "target": 10,
+      "before_steps": 7,
+      "after_steps": 5
+    },
+    {
+      "source": 9,
+      "target": 11,
+      "before_steps": 5,
+      "after_steps": 5
+    },
+    {
+      "source": 10,
+      "target": 3,
+      "before_steps": 7,
+      "after_steps": 9
+    },
+    {
+      "source": 11,
+      "target": 4,
+      "before_steps": 9,
+      "after_steps": 11
+    },
+    {
+      "source": 11,
+      "target": 12,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 12,
+      "target": 3,
+      "before_steps": 4,
+      "after_steps": 6
+    }
+  ],
+  "elapsed_s": 0.7398615840002094
+}

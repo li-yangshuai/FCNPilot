@@ -1,0 +1,1794 @@
+{
+  "request_id": "gate_placement_toy_maj_v4:c11_TOY_paper_2ddwave_xor_demo:1",
+  "context": {
+    "dag": {
+      "nodes": [
+        {
+          "id": 0,
+          "name": "a",
+          "type": "input",
+          "is_input": true,
+          "is_output": false
+        },
+        {
+          "id": 1,
+          "name": "b",
+          "type": "input",
+          "is_input": true,
+          "is_output": false
+        },
+        {
+          "id": 2,
+          "name": "out",
+          "type": "and",
+          "is_input": false,
+          "is_output": true
+        },
+        {
+          "id": 3,
+          "name": "and_ab",
+          "type": "and",
+          "is_input": false,
+          "is_output": false
+        },
+        {
+          "id": 4,
+          "name": "or_ab",
+          "type": "or",
+          "is_input": false,
+          "is_output": false
+        },
+        {
+          "id": 5,
+          "name": "~and_ab",
+          "type": "not",
+          "is_input": false,
+          "is_output": false
+        }
+      ],
+      "edges": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ]
+      ],
+      "layers": [
+        [
+          0,
+          1
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          5
+        ],
+        [
+          2
+        ]
+      ]
+    },
+    "placement": {
+      "nodes": [
+        {
+          "id": 0,
+          "x": 20,
+          "y": 20
+        },
+        {
+          "id": 1,
+          "x": 22,
+          "y": 20
+        },
+        {
+          "id": 2,
+          "x": 21,
+          "y": 29
+        },
+        {
+          "id": 3,
+          "x": 22,
+          "y": 23
+        },
+        {
+          "id": 4,
+          "x": 20,
+          "y": 23
+        },
+        {
+          "id": 5,
+          "x": 22,
+          "y": 26
+        }
+      ]
+    },
+    "routes": [
+      {
+        "source": 0,
+        "target": 3,
+        "path": [
+          [
+            20,
+            20
+          ],
+          [
+            20,
+            22
+          ],
+          [
+            21,
+            22
+          ],
+          [
+            21,
+            23
+          ],
+          [
+            22,
+            23
+          ]
+        ]
+      },
+      {
+        "source": 0,
+        "target": 4,
+        "path": [
+          [
+            20,
+            20
+          ],
+          [
+            20,
+            23
+          ]
+        ]
+      },
+      {
+        "source": 1,
+        "target": 3,
+        "path": [
+          [
+            22,
+            20
+          ],
+          [
+            21,
+            20
+          ],
+          [
+            21,
+            21
+          ],
+          [
+            22,
+            21
+          ],
+          [
+            22,
+            23
+          ]
+        ]
+      },
+      {
+        "source": 1,
+        "target": 4,
+        "path": [
+          [
+            22,
+            20
+          ],
+          [
+            21,
+            20
+          ],
+          [
+            21,
+            21
+          ],
+          [
+            19,
+            21
+          ],
+          [
+            19,
+            23
+          ],
+          [
+            20,
+            23
+          ]
+        ]
+      },
+      {
+        "source": 3,
+        "target": 5,
+        "path": [
+          [
+            22,
+            23
+          ],
+          [
+            22,
+            26
+          ]
+        ]
+      },
+      {
+        "source": 4,
+        "target": 2,
+        "path": [
+          [
+            20,
+            23
+          ],
+          [
+            20,
+            29
+          ],
+          [
+            21,
+            29
+          ]
+        ]
+      },
+      {
+        "source": 5,
+        "target": 2,
+        "path": [
+          [
+            22,
+            26
+          ],
+          [
+            21,
+            26
+          ],
+          [
+            21,
+            29
+          ]
+        ]
+      }
+    ],
+    "metrics": {
+      "width": 4,
+      "height": 10,
+      "area_tiles": 40,
+      "qca_cells": 160,
+      "edge_steps": 34,
+      "output_arrival_ticks": {
+        "2": [
+          13,
+          13
+        ]
+      }
+    },
+    "state_features": {
+      "routed_extent": {
+        "min_x": 19,
+        "max_x": 22,
+        "min_y": 20,
+        "max_y": 29,
+        "width": 4,
+        "height": 10,
+        "area_tiles": 40,
+        "route_bbox": {
+          "min_x": 19,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40
+        }
+      },
+      "route_costs": [
+        {
+          "edge": [
+            1,
+            3
+          ],
+          "steps": 5,
+          "manhattan_lower_bound": 3,
+          "detour_steps": 2,
+          "multi_source_interior_sites": 0
+        },
+        {
+          "edge": [
+            1,
+            4
+          ],
+          "steps": 7,
+          "manhattan_lower_bound": 5,
+          "detour_steps": 2,
+          "multi_source_interior_sites": 1
+        },
+        {
+          "edge": [
+            0,
+            3
+          ],
+          "steps": 5,
+          "manhattan_lower_bound": 5,
+          "detour_steps": 0,
+          "multi_source_interior_sites": 1
+        },
+        {
+          "edge": [
+            0,
+            4
+          ],
+          "steps": 3,
+          "manhattan_lower_bound": 3,
+          "detour_steps": 0,
+          "multi_source_interior_sites": 1
+        },
+        {
+          "edge": [
+            3,
+            5
+          ],
+          "steps": 3,
+          "manhattan_lower_bound": 3,
+          "detour_steps": 0,
+          "multi_source_interior_sites": 0
+        },
+        {
+          "edge": [
+            4,
+            2
+          ],
+          "steps": 7,
+          "manhattan_lower_bound": 7,
+          "detour_steps": 0,
+          "multi_source_interior_sites": 0
+        },
+        {
+          "edge": [
+            5,
+            2
+          ],
+          "steps": 4,
+          "manhattan_lower_bound": 4,
+          "detour_steps": 0,
+          "multi_source_interior_sites": 0
+        }
+      ],
+      "absolute_arrival_ticks": {
+        "0": [
+          3,
+          3
+        ],
+        "1": [
+          3,
+          3
+        ],
+        "3": [
+          7,
+          7
+        ],
+        "4": [
+          6,
+          6
+        ],
+        "5": [
+          9,
+          9
+        ],
+        "2": [
+          13,
+          13
+        ]
+      },
+      "route_delay_ticks": [
+        {
+          "source": 0,
+          "target": 3,
+          "ticks": 4
+        },
+        {
+          "source": 0,
+          "target": 4,
+          "ticks": 3
+        },
+        {
+          "source": 1,
+          "target": 3,
+          "ticks": 4
+        },
+        {
+          "source": 1,
+          "target": 4,
+          "ticks": 3
+        },
+        {
+          "source": 3,
+          "target": 5,
+          "ticks": 2
+        },
+        {
+          "source": 4,
+          "target": 2,
+          "ticks": 7
+        },
+        {
+          "source": 5,
+          "target": 2,
+          "ticks": 4
+        }
+      ],
+      "suggestion_scope": "Regions and neighbor anchors are observations only. They do not restrict node choice, displacement, or grouping. Generate your own coordinated gate moves/swaps and edge order.",
+      "spatial_regions": [
+        {
+          "id": "window_17_23_20_26",
+          "bounds": {
+            "min_x": 17,
+            "max_x": 23,
+            "min_y": 20,
+            "max_y": 26
+          },
+          "gate_density": 0.10204081632653061,
+          "old_wire_density": 0.3469387755102041,
+          "empty_fraction": 0.5510204081632653,
+          "nearby_internal_ids": [
+            3,
+            4,
+            5
+          ],
+          "empty_bands": {
+            "gate_only": [
+              {
+                "axis": "x",
+                "start": 17,
+                "end": 19,
+                "width": 3,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": false
+              },
+              {
+                "axis": "y",
+                "start": 21,
+                "end": 22,
+                "width": 2,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": true
+              }
+            ],
+            "gate_and_old_wire": [
+              {
+                "axis": "x",
+                "start": 17,
+                "end": 18,
+                "width": 2,
+                "occupancy_basis": "gate_and_old_wire_sites",
+                "between_occupied_levels": false
+              },
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 23,
+                "width": 1,
+                "occupancy_basis": "gate_and_old_wire_sites",
+                "between_occupied_levels": false
+              }
+            ]
+          },
+          "vacancy_hotspots": [
+            {
+              "bounds": {
+                "min_x": 17,
+                "max_x": 18,
+                "min_y": 20,
+                "max_y": 21
+              },
+              "area_tiles": 4,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            },
+            {
+              "bounds": {
+                "min_x": 17,
+                "max_x": 18,
+                "min_y": 22,
+                "max_y": 23
+              },
+              "area_tiles": 4,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            }
+          ]
+        },
+        {
+          "id": "window_19_24_20_26",
+          "bounds": {
+            "min_x": 19,
+            "max_x": 24,
+            "min_y": 20,
+            "max_y": 26
+          },
+          "gate_density": 0.11904761904761904,
+          "old_wire_density": 0.40476190476190477,
+          "empty_fraction": 0.47619047619047616,
+          "nearby_internal_ids": [
+            3,
+            4,
+            5
+          ],
+          "empty_bands": {
+            "gate_only": [
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 24,
+                "width": 2,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": false
+              },
+              {
+                "axis": "y",
+                "start": 21,
+                "end": 22,
+                "width": 2,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": true
+              }
+            ],
+            "gate_and_old_wire": [
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 24,
+                "width": 2,
+                "occupancy_basis": "gate_and_old_wire_sites",
+                "between_occupied_levels": false
+              }
+            ]
+          },
+          "vacancy_hotspots": [
+            {
+              "bounds": {
+                "min_x": 23,
+                "max_x": 24,
+                "min_y": 20,
+                "max_y": 21
+              },
+              "area_tiles": 4,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            },
+            {
+              "bounds": {
+                "min_x": 23,
+                "max_x": 24,
+                "min_y": 22,
+                "max_y": 23
+              },
+              "area_tiles": 4,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            }
+          ]
+        },
+        {
+          "id": "window_19_24_23_29",
+          "bounds": {
+            "min_x": 19,
+            "max_x": 24,
+            "min_y": 23,
+            "max_y": 29
+          },
+          "gate_density": 0.09523809523809523,
+          "old_wire_density": 0.30952380952380953,
+          "empty_fraction": 0.5952380952380952,
+          "nearby_internal_ids": [
+            3,
+            4,
+            5
+          ],
+          "empty_bands": {
+            "gate_only": [
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 24,
+                "width": 2,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": false
+              },
+              {
+                "axis": "y",
+                "start": 24,
+                "end": 25,
+                "width": 2,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": true
+              }
+            ],
+            "gate_and_old_wire": [
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 24,
+                "width": 2,
+                "occupancy_basis": "gate_and_old_wire_sites",
+                "between_occupied_levels": false
+              }
+            ]
+          },
+          "vacancy_hotspots": [
+            {
+              "bounds": {
+                "min_x": 23,
+                "max_x": 24,
+                "min_y": 23,
+                "max_y": 24
+              },
+              "area_tiles": 4,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            },
+            {
+              "bounds": {
+                "min_x": 23,
+                "max_x": 24,
+                "min_y": 25,
+                "max_y": 26
+              },
+              "area_tiles": 4,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            }
+          ]
+        },
+        {
+          "id": "window_17_24_18_29",
+          "bounds": {
+            "min_x": 17,
+            "max_x": 24,
+            "min_y": 18,
+            "max_y": 29
+          },
+          "gate_density": 0.0625,
+          "old_wire_density": 0.22916666666666666,
+          "empty_fraction": 0.7083333333333333,
+          "nearby_internal_ids": [
+            3,
+            4,
+            5
+          ],
+          "empty_bands": {
+            "gate_only": [
+              {
+                "axis": "x",
+                "start": 17,
+                "end": 19,
+                "width": 3,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": false
+              },
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 24,
+                "width": 2,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": false
+              }
+            ],
+            "gate_and_old_wire": [
+              {
+                "axis": "x",
+                "start": 17,
+                "end": 18,
+                "width": 2,
+                "occupancy_basis": "gate_and_old_wire_sites",
+                "between_occupied_levels": false
+              },
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 24,
+                "width": 2,
+                "occupancy_basis": "gate_and_old_wire_sites",
+                "between_occupied_levels": false
+              }
+            ]
+          },
+          "vacancy_hotspots": [
+            {
+              "bounds": {
+                "min_x": 17,
+                "max_x": 18,
+                "min_y": 18,
+                "max_y": 21
+              },
+              "area_tiles": 8,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            },
+            {
+              "bounds": {
+                "min_x": 17,
+                "max_x": 18,
+                "min_y": 22,
+                "max_y": 25
+              },
+              "area_tiles": 8,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            }
+          ]
+        },
+        {
+          "id": "window_17_24_20_31",
+          "bounds": {
+            "min_x": 17,
+            "max_x": 24,
+            "min_y": 20,
+            "max_y": 31
+          },
+          "gate_density": 0.0625,
+          "old_wire_density": 0.22916666666666666,
+          "empty_fraction": 0.7083333333333333,
+          "nearby_internal_ids": [
+            3,
+            4,
+            5
+          ],
+          "empty_bands": {
+            "gate_only": [
+              {
+                "axis": "x",
+                "start": 17,
+                "end": 19,
+                "width": 3,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": false
+              },
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 24,
+                "width": 2,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": false
+              }
+            ],
+            "gate_and_old_wire": [
+              {
+                "axis": "x",
+                "start": 17,
+                "end": 18,
+                "width": 2,
+                "occupancy_basis": "gate_and_old_wire_sites",
+                "between_occupied_levels": false
+              },
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 24,
+                "width": 2,
+                "occupancy_basis": "gate_and_old_wire_sites",
+                "between_occupied_levels": false
+              }
+            ]
+          },
+          "vacancy_hotspots": [
+            {
+              "bounds": {
+                "min_x": 17,
+                "max_x": 18,
+                "min_y": 20,
+                "max_y": 23
+              },
+              "area_tiles": 8,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            },
+            {
+              "bounds": {
+                "min_x": 17,
+                "max_x": 18,
+                "min_y": 24,
+                "max_y": 27
+              },
+              "area_tiles": 8,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            }
+          ]
+        },
+        {
+          "id": "window_17_24_18_31",
+          "bounds": {
+            "min_x": 17,
+            "max_x": 24,
+            "min_y": 18,
+            "max_y": 31
+          },
+          "gate_density": 0.05357142857142857,
+          "old_wire_density": 0.19642857142857142,
+          "empty_fraction": 0.75,
+          "nearby_internal_ids": [
+            3,
+            4,
+            5
+          ],
+          "empty_bands": {
+            "gate_only": [
+              {
+                "axis": "x",
+                "start": 17,
+                "end": 19,
+                "width": 3,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": false
+              },
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 24,
+                "width": 2,
+                "occupancy_basis": "gate_sites",
+                "between_occupied_levels": false
+              }
+            ],
+            "gate_and_old_wire": [
+              {
+                "axis": "x",
+                "start": 17,
+                "end": 18,
+                "width": 2,
+                "occupancy_basis": "gate_and_old_wire_sites",
+                "between_occupied_levels": false
+              },
+              {
+                "axis": "x",
+                "start": 23,
+                "end": 24,
+                "width": 2,
+                "occupancy_basis": "gate_and_old_wire_sites",
+                "between_occupied_levels": false
+              }
+            ]
+          },
+          "vacancy_hotspots": [
+            {
+              "bounds": {
+                "min_x": 17,
+                "max_x": 18,
+                "min_y": 18,
+                "max_y": 21
+              },
+              "area_tiles": 8,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            },
+            {
+              "bounds": {
+                "min_x": 17,
+                "max_x": 18,
+                "min_y": 22,
+                "max_y": 26
+              },
+              "area_tiles": 10,
+              "gate_count": 0,
+              "old_wire_count": 0,
+              "combined_density": 0.0
+            }
+          ]
+        }
+      ],
+      "internal_neighbor_anchors": [
+        {
+          "node": 3,
+          "neighbor_ids": [
+            0,
+            1,
+            5
+          ],
+          "neighbor_median_xy": [
+            22,
+            20
+          ]
+        },
+        {
+          "node": 4,
+          "neighbor_ids": [
+            0,
+            1,
+            2
+          ],
+          "neighbor_median_xy": [
+            21,
+            20
+          ]
+        },
+        {
+          "node": 5,
+          "neighbor_ids": [
+            2,
+            3
+          ],
+          "neighbor_median_xy": [
+            21,
+            23
+          ]
+        }
+      ],
+      "phase_tiles_xy_phase": [
+        [
+          19,
+          22,
+          1
+        ],
+        [
+          21,
+          21,
+          1
+        ],
+        [
+          20,
+          25,
+          1
+        ],
+        [
+          22,
+          24,
+          4
+        ],
+        [
+          21,
+          23,
+          3
+        ],
+        [
+          21,
+          27,
+          4
+        ],
+        [
+          21,
+          20,
+          4
+        ],
+        [
+          19,
+          23,
+          2
+        ],
+        [
+          20,
+          26,
+          2
+        ],
+        [
+          22,
+          22,
+          3
+        ],
+        [
+          20,
+          23,
+          3
+        ],
+        [
+          20,
+          22,
+          2
+        ],
+        [
+          22,
+          23,
+          4
+        ],
+        [
+          20,
+          24,
+          4
+        ],
+        [
+          22,
+          25,
+          1
+        ],
+        [
+          20,
+          21,
+          1
+        ],
+        [
+          22,
+          20,
+          4
+        ],
+        [
+          21,
+          26,
+          3
+        ],
+        [
+          22,
+          26,
+          2
+        ],
+        [
+          20,
+          27,
+          3
+        ],
+        [
+          21,
+          29,
+          2
+        ],
+        [
+          22,
+          21,
+          2
+        ],
+        [
+          20,
+          20,
+          4
+        ],
+        [
+          20,
+          28,
+          4
+        ],
+        [
+          21,
+          28,
+          1
+        ],
+        [
+          20,
+          29,
+          1
+        ],
+        [
+          19,
+          21,
+          1
+        ],
+        [
+          21,
+          22,
+          2
+        ]
+      ],
+      "route_path_encoding": "Exact rectilinear bend points; route_costs contain unit-step costs.",
+      "best_retained_metrics": {
+        "width": 4,
+        "height": 10,
+        "area_tiles": 40,
+        "qca_cells": 160,
+        "edge_steps": 34,
+        "output_arrival_ticks": {
+          "2": [
+            13,
+            13
+          ]
+        }
+      },
+      "current_state_id": "9c2574b37bee3913e38848b367b3e669d77b7e7a218709b620436dcd889e51fd",
+      "incumbent_port_envelope": {
+        "coordinates": [
+          {
+            "id": 0,
+            "x": 20,
+            "y": 20
+          },
+          {
+            "id": 1,
+            "x": 22,
+            "y": 20
+          },
+          {
+            "id": 2,
+            "x": 21,
+            "y": 29
+          }
+        ],
+        "width_tiles": 3,
+        "height_tiles": 10,
+        "area_tiles": 30,
+        "coordinates_locked": false,
+        "scope": "Current PI/PO XY envelope only; movable ports mean this is NOT an area lower bound."
+      },
+      "reference_routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "area_controlling_nodes": {
+        "left": [
+          {
+            "id": 0,
+            "xy": [
+              20,
+              20
+            ],
+            "is_port": true
+          },
+          {
+            "id": 4,
+            "xy": [
+              20,
+              23
+            ],
+            "is_port": false
+          }
+        ],
+        "right": [
+          {
+            "id": 1,
+            "xy": [
+              22,
+              20
+            ],
+            "is_port": true
+          },
+          {
+            "id": 3,
+            "xy": [
+              22,
+              23
+            ],
+            "is_port": false
+          },
+          {
+            "id": 5,
+            "xy": [
+              22,
+              26
+            ],
+            "is_port": false
+          }
+        ],
+        "bottom": [
+          {
+            "id": 0,
+            "xy": [
+              20,
+              20
+            ],
+            "is_port": true
+          },
+          {
+            "id": 1,
+            "xy": [
+              22,
+              20
+            ],
+            "is_port": true
+          }
+        ],
+        "top": [
+          {
+            "id": 2,
+            "xy": [
+              21,
+              29
+            ],
+            "is_port": true
+          }
+        ]
+      },
+      "unevaluated_gate_geometry_hints": [
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 2,
+              "to": [
+                21,
+                27
+              ]
+            },
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                20,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                22,
+                24
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 20,
+            "max_y": 27,
+            "width": 3,
+            "height": 8,
+            "area_tiles": 24,
+            "manhattan_edges": 22
+          },
+          "rationale": "Axis y cut at 20: translate the suffix by -2 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 2,
+              "to": [
+                21,
+                27
+              ]
+            },
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                22,
+                24
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 20,
+            "max_y": 27,
+            "width": 3,
+            "height": 8,
+            "area_tiles": 24,
+            "manhattan_edges": 26
+          },
+          "rationale": "Axis y cut at 23: translate the suffix by -2 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 0,
+              "to": [
+                20,
+                22
+              ]
+            },
+            {
+              "op": "move",
+              "node": 1,
+              "to": [
+                22,
+                22
+              ]
+            },
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                25
+              ]
+            },
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                20,
+                25
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 22,
+            "max_y": 29,
+            "width": 3,
+            "height": 8,
+            "area_tiles": 24,
+            "manhattan_edges": 26
+          },
+          "rationale": "Axis y cut at 23: translate the prefix by 2 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 0,
+              "to": [
+                20,
+                22
+              ]
+            },
+            {
+              "op": "move",
+              "node": 1,
+              "to": [
+                22,
+                22
+              ]
+            },
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                25
+              ]
+            },
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                20,
+                25
+              ]
+            },
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                22,
+                28
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 22,
+            "max_y": 29,
+            "width": 3,
+            "height": 8,
+            "area_tiles": 24,
+            "manhattan_edges": 26
+          },
+          "rationale": "Axis y cut at 26: translate the prefix by 2 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 2,
+              "to": [
+                21,
+                28
+              ]
+            },
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                22
+              ]
+            },
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                20,
+                22
+              ]
+            },
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                22,
+                25
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 20,
+            "max_y": 28,
+            "width": 3,
+            "height": 9,
+            "area_tiles": 27,
+            "manhattan_edges": 26
+          },
+          "rationale": "Axis y cut at 20: translate the suffix by -1 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 2,
+              "to": [
+                21,
+                28
+              ]
+            },
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                22,
+                25
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 20,
+            "max_y": 28,
+            "width": 3,
+            "height": 9,
+            "area_tiles": 27,
+            "manhattan_edges": 28
+          },
+          "rationale": "Axis y cut at 23: translate the suffix by -1 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 0,
+              "to": [
+                20,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 1,
+              "to": [
+                22,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                24
+              ]
+            },
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                20,
+                24
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 21,
+            "max_y": 29,
+            "width": 3,
+            "height": 9,
+            "area_tiles": 27,
+            "manhattan_edges": 28
+          },
+          "rationale": "Axis y cut at 23: translate the prefix by 1 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 0,
+              "to": [
+                20,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 1,
+              "to": [
+                22,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                24
+              ]
+            },
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                20,
+                24
+              ]
+            },
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                22,
+                27
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 21,
+            "max_y": 29,
+            "width": 3,
+            "height": 9,
+            "area_tiles": 27,
+            "manhattan_edges": 28
+          },
+          "rationale": "Axis y cut at 26: translate the prefix by 1 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                21,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                21,
+                24
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 20,
+            "max_y": 29,
+            "width": 3,
+            "height": 10,
+            "area_tiles": 30,
+            "manhattan_edges": 25
+          },
+          "rationale": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                21,
+                21
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 20,
+            "max_y": 29,
+            "width": 3,
+            "height": 10,
+            "area_tiles": 30,
+            "manhattan_edges": 25
+          },
+          "rationale": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                21,
+                20
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 20,
+            "max_y": 29,
+            "width": 3,
+            "height": 10,
+            "area_tiles": 30,
+            "manhattan_edges": 26
+          },
+          "rationale": "Relocate one internal node toward its neighbor anchors. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        },
+        {
+          "operations": [
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                21,
+                20
+              ]
+            },
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                21,
+                23
+              ]
+            }
+          ],
+          "placement_proxy": {
+            "min_x": 20,
+            "max_x": 22,
+            "min_y": 20,
+            "max_y": 29,
+            "width": 3,
+            "height": 10,
+            "area_tiles": 30,
+            "manhattan_edges": 26
+          },
+          "rationale": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required.",
+          "scope": "Geometry only, shared with deterministic policy; not routed, not a QCA score, not a menu restriction."
+        }
+      ]
+    },
+    "rules": {
+      "clock_scheme": "irregular",
+      "phase_count": 4,
+      "input_launch": "cycle_zero_at_own_phase",
+      "dag_and_port_identities_fixed": true,
+      "port_coordinates_movable": true,
+      "port_coordinate_scope": "PI/PO node XY may move; identities remain fixed.",
+      "four_connected_routes": true,
+      "max_consecutive_same_phase_tiles": 10,
+      "max_same_phase_step_fraction": 0.3,
+      "physical_net_isolation_and_gate_ports_required": true,
+      "objective": "Reduce actual routed bounding area and exported QCA cells; both non-increasing, one strictly improved. Distinguish node-box proxy from actual routed area.",
+      "routing_execution": "One executor-derived complete order after moves; no portfolio fallback.",
+      "require_explicit_routing_order": false,
+      "search_contract": "Return a direct gate proposal with routing_order=null; the compiler derives and logs one order using exactly the same rule as the deterministic control. All area/device, exploration, graph identity, clock and physical constraints remain enforced.",
+      "require_internal_relocation": true,
+      "proposal_contract": "Model synthesizes internal gate coordinates; routing_order=null; executor derives the disclosed deterministic order after placement.",
+      "geometry_guidance": "Inspect the shared gate-geometry hints as possible starting moves. You may combine or adapt them, or propose new coordinates. Do not repeat a failed geometry merely by swapping the edge list. Use a smaller displacement or a different node subset when routing fails. If moving ports is permitted and they set the outer box, coordinate their relocation with internal gates. Swapping unrelated distant nodes often creates detours; give it a concrete geometric justification."
+    },
+    "feedback": [],
+    "action_space": {
+      "proposal_schema": "ifcn.layout_search.v2",
+      "movable_node_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "coordinate_bounds": {
+        "min_x": 17,
+        "max_x": 24,
+        "min_y": 18,
+        "max_y": 31
+      },
+      "max_operations": 8,
+      "selection_mode": "direct",
+      "cross_region_moves_allowed": true,
+      "permitted_operations": [
+        "move",
+        "swap"
+      ],
+      "empty_operations_allow_routing_only": false,
+      "must_change_internal_node": true,
+      "routing_order_owner": "deterministic_executor"
+    },
+    "feedback_scope": "At most 12 actual past evaluations from the last four rounds; positive metric deltas mean worse."
+  },
+  "timeout_ms": 60000,
+  "max_tokens": 4096,
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "round": 1,
+  "status": "failed",
+  "start_metrics": {
+    "width": 6,
+    "height": 15,
+    "area_tiles": 90,
+    "qca_cells": 234,
+    "edge_steps": 48,
+    "output_arrival_ticks": {
+      "2": [
+        15,
+        15
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 6,
+    "height": 15,
+    "area_tiles": 90,
+    "qca_cells": 234,
+    "edge_steps": 48,
+    "output_arrival_ticks": {
+      "2": [
+        15,
+        15
+      ]
+    }
+  },
+  "start_state": "0269250d2383ba02091c66e1d8ca7bebdff307dc3040b9ce01ea88a1dbe76344",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 10540,
+    "output": 339,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 10879
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          21,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          23,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          22,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          30
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Compress vertical span by shifting the suffix (nodes 7–10) down by 1 tile: y=25→24 for ANDs, y=28→27 for OR, y=31→30 for NOT. This reduces max_y from 34 to 30 while preserving fanin geometry—edges [7,9] and [8,9] become Manhattan (Δy=3), eliminating detour in [5,8] (now Δx=2, Δy=1 → 3 steps vs 8). Vacant band at y=26–27 (window_18_24_22_28) absorbs the shift; no node collisions; ports remain fixed but internal contraction tightens bounding box to width=6, height=11 (area ≤66 < 90)."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          21,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          23,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          22,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          30
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        10,
+        2
+      ]
+    ],
+    "rationale": "Compress vertical span by shifting the suffix (nodes 7–10) down by 1 tile: y=25→24 for ANDs, y=28→27 for OR, y=31→30 for NOT. This reduces max_y from 34 to 30 while preserving fanin geometry—edges [7,9] and [8,9] become Manhattan (Δy=3), eliminating detour in [5,8] (now Δx=2, Δy=1 → 3 steps vs 8). Vacant band at y=26–27 (window_18_24_22_28) absorbs the shift; no node collisions; ports remain fixed but internal contraction tightens bounding box to width=6, height=11 (area ≤66 < 90)."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "7162f9300d59769deb2fba24244f5a6a79231fa262da03551466b6384eb3b566",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 7) has an absent or invalid clock phase at (20, 20); Route (0, 7) has an absent or invalid clock phase at (20, 21); Route (0, 7) has an absent or invalid clock phase at (20, 22); Route (0, 7) has an absent or invalid clock phase at (20, 23)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        10,
+        2
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        7,
+        9
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      0,
+      5
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      10,
+      2
+    ]
+  ],
+  "elapsed_s": 14.363880798999162,
+  "decision": "retain_best",
+  "retained_metrics": {
+    "width": 6,
+    "height": 15,
+    "area_tiles": 90,
+    "qca_cells": 234,
+    "edge_steps": 48,
+    "output_arrival_ticks": {
+      "2": [
+        15,
+        15
+      ]
+    }
+  },
+  "next_state": "0269250d2383ba02091c66e1d8ca7bebdff307dc3040b9ce01ea88a1dbe76344"
+}

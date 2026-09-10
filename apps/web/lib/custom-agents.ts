@@ -7,8 +7,6 @@ export interface CustomAgent {
   scope: CustomAgentScope;
   filePath: string;
   systemPrompt: string;
-  /** Native pi-subagents `enabled` flag; false keeps this profile main-only. */
-  subagentEnabled?: boolean;
   provider?: string;
   modelId?: string;
   tools?: string[];
@@ -22,7 +20,7 @@ export interface AgentRuntimeConfig {
   id: string;
   name: string;
   systemPrompt: string;
-  /** Exact Agent tool selection. MCP tools use their generated mcp_* names. */
+  /** Fixed FCN circuit-design tool selection. */
   tools?: string[];
   skills?: string[];
 }

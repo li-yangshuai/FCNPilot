@@ -2675,6 +2675,24 @@ span.token.table {
 }
 
 /* iFCN branch: circuit workspace and design entry points. */
+.ifcn-workbench-nav {display:flex;align-items:center;gap:6px;flex-shrink:0;padding:7px 18px;border-bottom:1px solid var(--border);background:var(--bg-panel);overflow-x:auto;}
+.ifcn-workbench-nav button {display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid transparent;border-radius:7px;background:transparent;color:var(--text-muted);font-size:12px;cursor:pointer;white-space:nowrap;}
+.ifcn-workbench-nav button>span {font:9px var(--font-mono);opacity:.65;}
+.ifcn-workbench-nav button[aria-pressed=true] {background:color-mix(in srgb,var(--accent) 10%,var(--bg));border-color:color-mix(in srgb,var(--accent) 25%,var(--border));color:var(--accent);font-weight:650;}
+.ifcn-workbench-nav button:focus-visible,.ifcn-question-clouds button:focus-visible {outline:2px solid var(--accent);outline-offset:3px;}
+.ifcn-workbench-hint {margin-left:auto;color:var(--text-dim);font:9px var(--font-mono);white-space:nowrap;}
+.ifcn-results-workspace {flex:1;min-height:0;min-width:0;overflow:auto;}
+.ifcn-question-clouds {display:flex;flex-wrap:wrap;gap:15px 12px;padding:21px 2px 4px;}
+.ifcn-question-clouds button {display:flex;align-items:center;gap:7px;position:relative;isolation:isolate;padding:10px 14px;border:1px solid color-mix(in srgb,var(--accent) 22%,var(--border));border-radius:26px 26px 26px 9px;background:var(--bg-panel);color:var(--text);font-size:11px;cursor:pointer;animation:ifcn-circuit-cloud 5s ease-in-out infinite;}
+.ifcn-question-clouds button::before {content:"";position:absolute;z-index:-1;top:-7px;left:23px;width:22px;height:10px;border:1px solid color-mix(in srgb,var(--accent) 22%,var(--border));border-bottom:0;border-radius:18px 18px 0 0;background:var(--bg-panel);}
+.ifcn-question-clouds button:nth-child(2n) {animation-delay:-2s;}
+.ifcn-question-clouds button svg {color:var(--accent);flex-shrink:0;}
+.ifcn-question-clouds button:hover {border-color:var(--accent);color:var(--accent);}
+.ifcn-question-clouds button:disabled {opacity:.5;cursor:default;}
+.ifcn-output-note {font-size:10px;line-height:1.8;color:var(--accent);margin:14px 2px 0;}
+@keyframes ifcn-circuit-cloud {0%,100% {transform:translateY(0)} 50% {transform:translateY(-3px)}}
+@media(prefers-reduced-motion:reduce) {.ifcn-question-clouds button {animation:none;}}
+@media(max-width:700px) {.ifcn-workbench-nav {padding:6px 10px;}.ifcn-workbench-hint {display:none;}.ifcn-question-clouds {gap:15px 8px;}.ifcn-question-clouds button {font-size:10px;padding:9px 11px;}}
 .ifcn-workspace-bar {display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 20px;border-bottom:1px solid var(--border);background:var(--bg-panel);flex-shrink:0;}
 .ifcn-bar-title {display:flex;align-items:baseline;gap:10px;white-space:nowrap;}
 .ifcn-bar-title strong {font-size:14px;letter-spacing:.02em;}
@@ -2725,3 +2743,47 @@ span.token.table {
  .ifcn-starters button strong {margin-bottom:3px;}
  .ifcn-intro {margin-bottom:18px;}
 }
+
+/* Focused FCN workbench: circuit records, files, results, and model settings. */
+.fcn-app-shell {padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);display:flex;height:var(--app-viewport-height,100dvh);overflow:hidden;background:var(--bg);color:var(--text);}
+.fcn-sidebar {display:flex;flex-direction:column;flex-shrink:0;width:244px;min-height:0;background:var(--bg-panel);border-right:1px solid var(--border);}
+.fcn-sidebar-brand {display:flex;align-items:center;gap:9px;padding:17px 16px;font-size:17px;letter-spacing:-.025em;}
+.fcn-sidebar-context {display:grid;gap:6px;padding:12px;margin:0 10px 10px;background:var(--bg-hover);border:1px solid var(--border);border-radius:9px;font-size:11px;}
+.fcn-sidebar-context span {font-size:10px;color:var(--text-muted);}
+.fcn-new-design {margin:0 10px 14px;padding:11px;border:1px solid color-mix(in srgb,var(--accent) 30%,var(--border));border-radius:8px;text-align:left;background:color-mix(in srgb,var(--accent) 6%,var(--bg-panel));color:var(--text);font-size:12px;cursor:pointer;}
+.fcn-new-design:disabled {opacity:.5;}
+.fcn-sidebar-tabs {display:flex;padding:0 10px;border-bottom:1px solid var(--border);}
+.fcn-sidebar-tabs button {flex:1;padding:9px 4px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--text-muted);font-size:11px;cursor:pointer;}
+.fcn-sidebar-tabs button[aria-selected=true] {color:var(--accent);border-bottom-color:var(--accent);}
+.fcn-session-list,.fcn-sidebar-files {flex:1;min-height:0;overflow:auto;padding:9px 8px;}
+.fcn-sidebar-files {padding:5px 0;}
+.fcn-session-search {display:flex;align-items:center;gap:5px;margin-bottom:10px;}
+.fcn-session-search input {min-width:0;width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 8px;background:var(--bg);color:var(--text);font-size:10px;}
+.fcn-session-search button {border:0;background:none;color:var(--text-muted);cursor:pointer;padding:5px;font-size:17px;}
+.fcn-sidebar-empty {margin:15px 7px;font-size:11px;line-height:1.9;color:var(--text-dim);}
+.fcn-session-row {padding:7px 8px;border:1px solid transparent;border-radius:7px;margin-bottom:5px;}
+.fcn-session-row:hover {background:var(--bg-hover);}.fcn-session-row.active {background:var(--bg-selected);border-color:var(--border);}
+.fcn-session-select {display:grid;gap:7px;width:100%;text-align:left;background:none;border:0;color:var(--text);cursor:pointer;padding:0;}
+.fcn-session-select strong {font-size:11px;font-weight:550;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.fcn-session-select span {font-size:9px;color:var(--text-dim);}
+.fcn-session-select i {display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;margin-right:6px;}
+.fcn-session-actions {display:flex;gap:8px;margin-top:8px;justify-content:flex-end;visibility:hidden;}.fcn-session-row:hover .fcn-session-actions,.fcn-session-row:focus-within .fcn-session-actions {visibility:visible;}
+.fcn-session-actions button {font-size:9px;color:var(--text-muted);border:0;background:none;padding:0;cursor:pointer;}.fcn-session-actions button:disabled {opacity:.4;cursor:default;}
+.fcn-file-tools {display:flex;gap:4px;padding:4px 8px 9px;}.fcn-file-tools button {padding:5px 6px;border:1px solid var(--border);border-radius:5px;font-size:10px;color:var(--text-muted);background:var(--bg-panel);cursor:pointer;}
+.fcn-sidebar-settings {display:flex;gap:8px;padding:12px 10px;border-top:1px solid var(--border);}.fcn-sidebar-settings button {font-size:10px;background:none;color:var(--text-muted);border:0;padding:6px;cursor:pointer;}.fcn-sidebar-settings button:last-child {margin-left:auto;}
+.fcn-main-workspace {display:flex;flex-direction:column;flex:1;min-width:0;min-height:0;overflow:hidden;}
+.fcn-design-view {flex:1;min-width:0;min-height:0;overflow:hidden;flex-direction:column;}
+.fcn-workspace-notice {display:flex;align-items:center;gap:12px;flex-shrink:0;padding:10px 16px;font-size:11px;color:var(--text-muted);background:var(--bg-panel);border-bottom:1px solid var(--border);}
+.fcn-workspace-notice button {border:1px solid var(--border);border-radius:5px;padding:5px 8px;color:var(--accent);background:var(--bg);cursor:pointer;white-space:nowrap;}
+.fcn-loading {margin:auto;padding:20px;color:var(--text-muted);font-size:12px;}
+.fcn-file-panel {display:flex;flex-direction:column;min-height:0;flex-shrink:0;width:clamp(320px,42vw,760px);border-left:1px solid var(--border);background:var(--bg);}
+.fcn-file-panel.is-hidden {display:none;}
+.fcn-file-tabs {display:flex;align-items:stretch;flex-shrink:0;overflow-x:auto;border-bottom:1px solid var(--border);background:var(--bg-panel);font-size:11px;}
+.fcn-file-tabs>div {display:flex;align-items:center;border-right:1px solid var(--border);border-top:2px solid transparent;}.fcn-file-tabs>div.active {border-top-color:var(--accent);background:var(--bg);}
+.fcn-file-tabs button {border:0;background:none;color:var(--text-muted);cursor:pointer;padding:10px 8px;white-space:nowrap;font-size:10px;}.fcn-file-tabs>div.active button {color:var(--text);}
+.fcn-file-tabs .fcn-file-hide {margin-left:auto;color:var(--accent);position:sticky;right:0;background:var(--bg-panel);border-left:1px solid var(--border);}
+.fcn-file-content {flex:1;min-height:0;overflow:hidden;flex-direction:column;}.fcn-file-path {flex-shrink:0;font:9px var(--font-mono);color:var(--text-dim);padding:6px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-top:1px solid var(--border);}
+.fcn-reopen-file {margin-left:auto;}.ifcn-workbench-nav .fcn-mobile-menu,.fcn-mobile-backdrop {display:none;}
+.fcn-app-shell button:focus-visible {outline:2px solid var(--accent);outline-offset:-2px;}
+.ifcn-open-project {background:transparent;cursor:pointer;}
+@media(max-width:1100px) {.fcn-file-panel {position:absolute;z-index:40;inset:0 0 0 auto;width:min(600px,82vw);box-shadow:-15px 0 35px #0004;}}
+@media(max-width:760px) {.fcn-sidebar {display:none;position:absolute;inset:0 auto 0 0;z-index:70;width:min(280px,85vw);}.fcn-sidebar.is-open {display:flex;}.ifcn-workbench-nav .fcn-mobile-menu {display:block;}.fcn-mobile-backdrop {display:block;position:absolute;inset:0;border:0;background:#0006;z-index:60;}.fcn-file-panel {width:100%;z-index:80;}.fcn-session-actions {visibility:visible;}.fcn-reopen-file {font-size:10px!important;padding:8px!important;}.ifcn-workbench-nav {gap:3px;}.ifcn-workbench-nav button {padding:8px;}.ifcn-workbench-nav button>span {display:none;}}

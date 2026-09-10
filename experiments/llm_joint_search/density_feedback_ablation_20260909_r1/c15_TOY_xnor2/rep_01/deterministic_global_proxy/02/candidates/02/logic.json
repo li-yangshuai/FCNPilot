@@ -1,0 +1,85 @@
+{
+  "schema": "ifcn.routed_logic_audit.v1",
+  "scope": "Exhaustive Boolean equivalence of source assignments and exported routed DAG; excludes device behavior, clock timing/alignment, and power.",
+  "source_sha256": "a3d96c67b447e43a703871aff932b89d9f08699b5b7e50d4360b9cf64c085464",
+  "routed_dag_sha256": "05a0bd50abb657b203879bfe448c1528f0664a3fcd3c5d8a84ee0c9939c1302d",
+  "status": "equivalent",
+  "equivalent": true,
+  "max_inputs": 11,
+  "vectors_checked": 4,
+  "mismatch_count": 0,
+  "counterexamples": [],
+  "port_diagnostics": {
+    "source_input_ports": [
+      "a",
+      "b"
+    ],
+    "source_output_ports": [
+      "out"
+    ],
+    "dag_declared_input_count": 2,
+    "dag_declared_output_count": 1,
+    "dag_flagged_inputs": [
+      {
+        "id": 0,
+        "name": "a",
+        "type": "input"
+      },
+      {
+        "id": 1,
+        "name": "b",
+        "type": "input"
+      }
+    ],
+    "dag_flagged_outputs": [
+      {
+        "id": 2,
+        "name": "out",
+        "type": "output"
+      }
+    ]
+  },
+  "input_ports": [
+    "a",
+    "b"
+  ],
+  "output_ports": [
+    "out"
+  ],
+  "source_header_matches_declarations": true,
+  "input_mapping": [
+    {
+      "source_port": "a",
+      "dag_node_id": 0,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "b",
+      "dag_node_id": 1,
+      "basis": "exact_name"
+    }
+  ],
+  "output_mapping": [
+    {
+      "source_port": "out",
+      "dag_node_id": 2,
+      "dag_node_name": "out",
+      "basis": "exact_name",
+      "alias_chain": [
+        "out"
+      ]
+    }
+  ],
+  "gate_semantics": {
+    "and": "AND of exactly two fanins",
+    "input": "primary input; no fanins",
+    "not": "complement of exactly one fanin",
+    "or": "OR of exactly two fanins",
+    "output": "identity of exactly one fanin"
+  },
+  "expected_vector_count": 4,
+  "source_truth_sha256": "8d46cf31af60be5763206b53d8d01e7be9f5a857bda3fab4c274b8300286b3eb",
+  "dag_truth_sha256": "8d46cf31af60be5763206b53d8d01e7be9f5a857bda3fab4c274b8300286b3eb",
+  "source_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/density_feedback_ablation_20260909_r1/c15_TOY_xnor2/inputs/source.v",
+  "routed_dag_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/density_feedback_ablation_20260909_r1/c15_TOY_xnor2/rep_01/deterministic_global_proxy/02/candidates/02/routed_dag.json"
+}

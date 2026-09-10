@@ -1,0 +1,52 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 4,
+      "to": [
+        21,
+        20
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        21,
+        24
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      5,
+      2
+    ],
+    [
+      3,
+      5
+    ]
+  ],
+  "rationale": "Edge [1,4] currently detours (7 steps, MB=5) due to congestion near x=20–22, y=21–23; moving node 4 to (21,20) aligns it vertically with inputs (0,1) at y=20 and eliminates the horizontal绕行 through x=19. Node 5 moves from (22,26) to (21,24) to sit directly above 4 and below output 2, enabling straight vertical routing for [5,2] (current 4 steps → expected 3) and reducing multi-source interior sites on fanin edges. Both moves preserve dependency order, avoid collisions, and shrink routed y-extent: min_y stays 20, max_y reduces from 29 to 28 (height 10→9), while x-range remains 20–22 (width 3). Vacancy hotspots at (17–18,20–21) and (23–24,20–21) provide margin; no port movement needed since internal contraction tightens the core without expanding the envelope. This is a minimal, geometrically justified internal relocation that addresses the highest detour edge ([1,4]) and improves vertical stacking."
+}

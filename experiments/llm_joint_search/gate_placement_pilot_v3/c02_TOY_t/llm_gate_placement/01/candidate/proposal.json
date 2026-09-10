@@ -1,0 +1,127 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 13,
+      "to": [
+        28,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 14,
+      "to": [
+        26,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        23,
+        27
+      ]
+    },
+    {
+      "op": "move",
+      "node": 18,
+      "to": [
+        28,
+        27
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        26,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        22,
+        21
+      ]
+    },
+    {
+      "op": "swap",
+      "nodes": [
+        9,
+        11
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      1,
+      16
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      8,
+      5
+    ],
+    [
+      9,
+      13
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      14,
+      6
+    ],
+    [
+      14,
+      16
+    ],
+    [
+      16,
+      5
+    ],
+    [
+      18,
+      6
+    ],
+    [
+      1,
+      9
+    ],
+    [
+      4,
+      11
+    ],
+    [
+      7,
+      14
+    ],
+    [
+      13,
+      18
+    ]
+  ],
+  "rationale": "Target dense y=22–25 band where multiple edges (e.g., [9,13], [11,13], [7,14]) incur detours due to vertical congestion. Move nodes 13,14 down to y=24 to align with neighbor anchors and reduce vertical routing span; shift 16,18 to y=27 to compress top layer and free y=28–31 for cleaner fanout to POs. Lower layer nodes 7,8 moved to y=21 to close gap near inputs and enable shorter paths from PI0–PI3. Swap 9↔11 to balance x-positions: 9 (now at 29,22) better serves 13’s x=28, while 11 (now at 28,22) reduces crosstalk with 9’s former path and improves symmetry with 7/8. All moves stay within vacancy hotspots (e.g., window_25_31_25_31, window_18_27_18_28) and preserve no collisions. This coordinated contraction targets area reduction via y-height compression (current height=12 → projected 11) while maintaining fanin order and minimizing Manhattan edge growth."
+}

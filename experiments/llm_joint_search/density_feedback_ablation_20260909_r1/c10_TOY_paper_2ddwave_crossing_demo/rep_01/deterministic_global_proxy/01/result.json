@@ -1,0 +1,1219 @@
+{
+  "round": 1,
+  "status": "no_pareto_gain",
+  "allocated_native_slots": 4,
+  "start_metrics": {
+    "width": 7,
+    "height": 10,
+    "area_tiles": 70,
+    "qca_cells": 267,
+    "edge_steps": 59,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 7,
+    "height": 10,
+    "area_tiles": 70,
+    "qca_cells": 267,
+    "edge_steps": 59,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "start_placement": [
+    [
+      0,
+      24,
+      20
+    ],
+    [
+      1,
+      20,
+      20
+    ],
+    [
+      2,
+      22,
+      20
+    ],
+    [
+      3,
+      23,
+      29
+    ],
+    [
+      4,
+      22,
+      23
+    ],
+    [
+      5,
+      20,
+      23
+    ],
+    [
+      6,
+      24,
+      23
+    ],
+    [
+      7,
+      22,
+      26
+    ],
+    [
+      8,
+      24,
+      26
+    ]
+  ],
+  "candidates": [
+    {
+      "candidate_id": "237d76139dabb2b4a50d",
+      "seed_id": "237d76139dabb2b4a50d",
+      "origin": "exact_selected_seed",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              22,
+              21
+            ]
+          },
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              22,
+              24
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "rationale": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+      },
+      "result": {
+        "status": "failed",
+        "proposal": {
+          "schema": "ifcn.layout_search.v2",
+          "operations": [
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                22,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 7,
+              "to": [
+                22,
+                24
+              ]
+            }
+          ],
+          "routing_order": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "rationale": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+        },
+        "start_sha256": "7ba44759d1743239554a3db4ff6a24f176487f2e3486b0506d63910834002225",
+        "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 4) has an absent or invalid clock phase at (24, 20); Route (0, 4) has an absent or invalid clock phase at (23, 20); Route (0, 4) has an absent or invalid clock phase at (23, 21); Route (0, 4) has an absent or invalid clock phase at (23, 22)\n",
+        "routing_audit": {
+          "requested_order": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "executed_order": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "route_order_attempts": 1,
+          "fallback_used": false,
+          "explicit_routing_order": true,
+          "io_locked": true
+        },
+        "unrouted_edges": [
+          [
+            4,
+            7
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ]
+        ],
+        "elapsed_s": 0.06722108300164109
+      },
+      "evaluation_ordinal": 1,
+      "native_ordinal": 1,
+      "elapsed_s": 0.06826843999806442,
+      "launch_evidence": {
+        "evaluation.log": true,
+        "native.log": true
+      },
+      "best_retained_after_call": {
+        "width": 7,
+        "height": 10,
+        "area_tiles": 70,
+        "qca_cells": 267,
+        "edge_steps": 59,
+        "output_arrival_ticks": {
+          "3": [
+            12,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "candidate_id": "e2de29fc52a6a9f3fa44",
+      "seed_id": "237d76139dabb2b4a50d",
+      "origin": "single_member",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              22,
+              21
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "rationale": "Single internal member of the selected spatial seed."
+      },
+      "result": {
+        "status": "failed",
+        "proposal": {
+          "schema": "ifcn.layout_search.v2",
+          "operations": [
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                22,
+                21
+              ]
+            }
+          ],
+          "routing_order": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "rationale": "Single internal member of the selected spatial seed."
+        },
+        "start_sha256": "7ba44759d1743239554a3db4ff6a24f176487f2e3486b0506d63910834002225",
+        "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 4) has an absent or invalid clock phase at (24, 20); Route (0, 4) has an absent or invalid clock phase at (23, 20); Route (0, 4) has an absent or invalid clock phase at (23, 21); Route (0, 4) has an absent or invalid clock phase at (23, 22)\n",
+        "routing_audit": {
+          "requested_order": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "executed_order": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "route_order_attempts": 1,
+          "fallback_used": false,
+          "explicit_routing_order": true,
+          "io_locked": true
+        },
+        "unrouted_edges": [
+          [
+            4,
+            7
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ]
+        ],
+        "elapsed_s": 0.0665069360002235
+      },
+      "evaluation_ordinal": 2,
+      "native_ordinal": 2,
+      "elapsed_s": 0.06795819000035408,
+      "launch_evidence": {
+        "evaluation.log": true,
+        "native.log": true
+      },
+      "best_retained_after_call": {
+        "width": 7,
+        "height": 10,
+        "area_tiles": 70,
+        "qca_cells": 267,
+        "edge_steps": 59,
+        "output_arrival_ticks": {
+          "3": [
+            12,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "candidate_id": "c19e51013ece34c108f2",
+      "seed_id": "237d76139dabb2b4a50d",
+      "origin": "reduced_displacement",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              21,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              22,
+              25
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "rationale": "Reduced displacement inside the selected spatial seed."
+      },
+      "result": {
+        "status": "failed",
+        "proposal": {
+          "schema": "ifcn.layout_search.v2",
+          "operations": [
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                21,
+                22
+              ]
+            },
+            {
+              "op": "move",
+              "node": 7,
+              "to": [
+                22,
+                25
+              ]
+            }
+          ],
+          "routing_order": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "rationale": "Reduced displacement inside the selected spatial seed."
+        },
+        "start_sha256": "7ba44759d1743239554a3db4ff6a24f176487f2e3486b0506d63910834002225",
+        "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: mapped physical route is missing a directed tile boundary; Native process exited with 10\n",
+        "routing_audit": {
+          "requested_order": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "executed_order": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "route_order_attempts": 1,
+          "fallback_used": false,
+          "explicit_routing_order": true,
+          "io_locked": true
+        },
+        "unrouted_edges": [],
+        "elapsed_s": 0.1172786979986995
+      },
+      "evaluation_ordinal": 3,
+      "native_ordinal": 3,
+      "elapsed_s": 0.11857491100090556,
+      "launch_evidence": {
+        "evaluation.log": true,
+        "native.log": true
+      },
+      "best_retained_after_call": {
+        "width": 7,
+        "height": 10,
+        "area_tiles": 70,
+        "qca_cells": 267,
+        "edge_steps": 59,
+        "output_arrival_ticks": {
+          "3": [
+            12,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "candidate_id": "10624d3bf9717e7d6c24",
+      "seed_id": "237d76139dabb2b4a50d",
+      "origin": "explicit_alternate_order",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              22,
+              21
+            ]
+          },
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              22,
+              24
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ]
+        ],
+        "rationale": "The exact seed geometry with ascending directed-edge priority."
+      },
+      "result": {
+        "status": "failed",
+        "proposal": {
+          "schema": "ifcn.layout_search.v2",
+          "operations": [
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                22,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 7,
+              "to": [
+                22,
+                24
+              ]
+            }
+          ],
+          "routing_order": [
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ]
+          ],
+          "rationale": "The exact seed geometry with ascending directed-edge priority."
+        },
+        "start_sha256": "7ba44759d1743239554a3db4ff6a24f176487f2e3486b0506d63910834002225",
+        "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 4) has an absent or invalid clock phase at (24, 20); Route (0, 4) has an absent or invalid clock phase at (23, 20); Route (0, 4) has an absent or invalid clock phase at (23, 21); Route (0, 4) has an absent or invalid clock phase at (23, 22)\n",
+        "routing_audit": {
+          "requested_order": [
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ]
+          ],
+          "executed_order": [
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "route_order_attempts": 1,
+          "fallback_used": false,
+          "explicit_routing_order": true,
+          "io_locked": true
+        },
+        "unrouted_edges": [
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ]
+        ],
+        "elapsed_s": 0.06668283700128086
+      },
+      "evaluation_ordinal": 4,
+      "native_ordinal": 4,
+      "elapsed_s": 0.06778981399838813,
+      "launch_evidence": {
+        "evaluation.log": true,
+        "native.log": true
+      },
+      "best_retained_after_call": {
+        "width": 7,
+        "height": 10,
+        "area_tiles": 70,
+        "qca_cells": 267,
+        "edge_steps": 59,
+        "output_arrival_ticks": {
+          "3": [
+            12,
+            12
+          ]
+        }
+      }
+    }
+  ],
+  "menu_size": 64,
+  "menu_fingerprint": "b6b7e7290d22fcd6310aea82dab0d4bc95b8c4160ac2987fc21388ffe407bf1f",
+  "context_fingerprint": "68d3581a20f2de24d83d158cc1c39de8106cf1876fdcbb772d6a2df99cda5233",
+  "selection": {
+    "source": "deterministic_global_proxy",
+    "menu_index": 0,
+    "menu_size": 64,
+    "candidate_id": "237d76139dabb2b4a50d",
+    "selection_seed": 5133472078396324331
+  },
+  "seed_id": "237d76139dabb2b4a50d",
+  "candidate_count": 4,
+  "retained_metrics": {
+    "width": 7,
+    "height": 10,
+    "area_tiles": 70,
+    "qca_cells": 267,
+    "edge_steps": 59,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "retained_placement": [
+    [
+      0,
+      24,
+      20
+    ],
+    [
+      1,
+      20,
+      20
+    ],
+    [
+      2,
+      22,
+      20
+    ],
+    [
+      3,
+      23,
+      29
+    ],
+    [
+      4,
+      22,
+      23
+    ],
+    [
+      5,
+      20,
+      23
+    ],
+    [
+      6,
+      24,
+      23
+    ],
+    [
+      7,
+      22,
+      26
+    ],
+    [
+      8,
+      24,
+      26
+    ]
+  ],
+  "elapsed_s": 0.4472363669992774,
+  "candidate_outcomes": {
+    "failed": 4
+  }
+}

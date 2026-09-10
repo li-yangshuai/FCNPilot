@@ -1,0 +1,312 @@
+{
+  "status": "certified",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          22,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          20,
+          23
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        2,
+        6
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        6,
+        10
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        10,
+        11
+      ]
+    ],
+    "rationale": "Contract the central vertical stack (nodes 5→7→11 and 9→7) by shifting them toward neighbor-anchor medians: node 5 from y=25→23 (median of 4,7), node 9 from y=25→23 (median of 8,7), node 7 from y=28→26 (median of 5,9,3), node 11 from y=28→26 (median of 10,3). This reduces vertical span from y=20–31 to y=20–29 (height 10), while preserving fanin/fanout adjacency and eliminating the long 5-step edge [9,7] (now Manhattan = 3). All moved nodes are internal; ports remain unchanged. The new layout fits within width 5, height 10 (area 50), a strict improvement over current area 60, with lower expected routing steps and QCA cells."
+  },
+  "start_sha256": "332b3db08c8454b7d092e409e18dcd5e316d9c1b634dde9fb7a10736d6ef5bb5",
+  "moves": [
+    {
+      "node_id": 5,
+      "name": "w1",
+      "from": [
+        22,
+        25
+      ],
+      "to": [
+        22,
+        23
+      ]
+    },
+    {
+      "node_id": 7,
+      "name": "w2",
+      "from": [
+        22,
+        28
+      ],
+      "to": [
+        22,
+        26
+      ]
+    },
+    {
+      "node_id": 9,
+      "name": "8_0_7_1",
+      "from": [
+        20,
+        25
+      ],
+      "to": [
+        20,
+        23
+      ]
+    },
+    {
+      "node_id": 11,
+      "name": "10_6_3_1",
+      "from": [
+        24,
+        28
+      ],
+      "to": [
+        24,
+        26
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        2,
+        6
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        6,
+        10
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        10,
+        11
+      ]
+    ],
+    "executed_order": [
+      [
+        2,
+        6
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        6,
+        10
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        10,
+        11
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "metrics": {
+    "width": 5,
+    "height": 12,
+    "area_tiles": 60,
+    "qca_cells": 186,
+    "edge_steps": 36,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 4,
+      "target": 5,
+      "before_steps": 3,
+      "after_steps": 1
+    },
+    {
+      "source": 5,
+      "target": 7,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 7,
+      "target": 3,
+      "before_steps": 4,
+      "after_steps": 6
+    },
+    {
+      "source": 8,
+      "target": 9,
+      "before_steps": 3,
+      "after_steps": 1
+    },
+    {
+      "source": 9,
+      "target": 7,
+      "before_steps": 5,
+      "after_steps": 5
+    },
+    {
+      "source": 10,
+      "target": 11,
+      "before_steps": 3,
+      "after_steps": 1
+    },
+    {
+      "source": 11,
+      "target": 3,
+      "before_steps": 4,
+      "after_steps": 6
+    }
+  ],
+  "elapsed_s": 0.076290685999993
+}

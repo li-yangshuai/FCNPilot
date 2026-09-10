@@ -1,0 +1,107 @@
+{
+  "schema": "ifcn.clock_arrival.v1",
+  "passed": false,
+  "launch_policy": "cycle_zero_at_template_phase",
+  "phase_count": 4,
+  "relative_schedule_consistent": false,
+  "required_input_cycle_offsets": null,
+  "input_schedule_applied": false,
+  "mismatches": [
+    {
+      "node": 2,
+      "name": "out",
+      "incoming_ticks": [
+        {
+          "source": 4,
+          "min": 12,
+          "max": 12
+        },
+        {
+          "source": 5,
+          "min": 16,
+          "max": 16
+        }
+      ]
+    }
+  ],
+  "relative_schedule_conflicts": [
+    {
+      "from": 5,
+      "to": 2,
+      "expected": 16,
+      "actual": 12
+    },
+    {
+      "from": 2,
+      "to": 5,
+      "expected": 7,
+      "actual": 11
+    }
+  ],
+  "nodes_checked": 6,
+  "routes_checked": 7,
+  "arrival_tick_ranges": {
+    "0": [
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0
+    ],
+    "3": [
+      2,
+      2
+    ],
+    "4": [
+      3,
+      3
+    ],
+    "5": [
+      11,
+      11
+    ],
+    "2": [
+      12,
+      16
+    ]
+  },
+  "route_delays": [
+    {
+      "source": 0,
+      "target": 3,
+      "ticks": 2
+    },
+    {
+      "source": 0,
+      "target": 4,
+      "ticks": 3
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "ticks": 2
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "ticks": 3
+    },
+    {
+      "source": 3,
+      "target": 5,
+      "ticks": 9
+    },
+    {
+      "source": 4,
+      "target": 2,
+      "ticks": 9
+    },
+    {
+      "source": 5,
+      "target": 2,
+      "ticks": 5
+    }
+  ],
+  "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+}

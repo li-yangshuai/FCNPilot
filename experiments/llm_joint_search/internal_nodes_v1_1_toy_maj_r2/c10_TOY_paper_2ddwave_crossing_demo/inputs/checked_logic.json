@@ -1,0 +1,96 @@
+{
+  "schema": "ifcn.routed_logic_audit.v1",
+  "scope": "Exhaustive Boolean equivalence of source assignments and exported routed DAG; excludes device behavior, clock timing/alignment, and power.",
+  "source_sha256": "d471dfe2cfa54e7db65277d0e1a4f0b5f0a5f9e4d0db19ae1a81f431fc669e18",
+  "routed_dag_sha256": "f5b3569df141611b294b9dfa34511f75b9a6071e15d21a4240431d3f5d2c76d1",
+  "status": "equivalent",
+  "equivalent": true,
+  "max_inputs": 11,
+  "vectors_checked": 8,
+  "mismatch_count": 0,
+  "counterexamples": [],
+  "port_diagnostics": {
+    "source_input_ports": [
+      "a",
+      "b",
+      "c"
+    ],
+    "source_output_ports": [
+      "carry"
+    ],
+    "dag_declared_input_count": 3,
+    "dag_declared_output_count": 1,
+    "dag_flagged_inputs": [
+      {
+        "id": 0,
+        "name": "a",
+        "type": "input"
+      },
+      {
+        "id": 1,
+        "name": "b",
+        "type": "input"
+      },
+      {
+        "id": 2,
+        "name": "c",
+        "type": "input"
+      }
+    ],
+    "dag_flagged_outputs": [
+      {
+        "id": 3,
+        "name": "carry",
+        "type": "or"
+      }
+    ]
+  },
+  "input_ports": [
+    "a",
+    "b",
+    "c"
+  ],
+  "output_ports": [
+    "carry"
+  ],
+  "source_header_matches_declarations": true,
+  "input_mapping": [
+    {
+      "source_port": "a",
+      "dag_node_id": 0,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "b",
+      "dag_node_id": 1,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "c",
+      "dag_node_id": 2,
+      "basis": "exact_name"
+    }
+  ],
+  "output_mapping": [
+    {
+      "source_port": "carry",
+      "dag_node_id": 3,
+      "dag_node_name": "carry",
+      "basis": "exact_name",
+      "alias_chain": [
+        "carry"
+      ]
+    }
+  ],
+  "gate_semantics": {
+    "and": "AND of exactly two fanins",
+    "input": "primary input; no fanins",
+    "or": "OR of exactly two fanins",
+    "wire": "identity of exactly one fanin"
+  },
+  "expected_vector_count": 8,
+  "source_truth_sha256": "fa78ff5dc4319095c6efdef068453001c96ecc5a182647d22b4a9a7a1bf18172",
+  "dag_truth_sha256": "fa78ff5dc4319095c6efdef068453001c96ecc5a182647d22b4a9a7a1bf18172",
+  "source_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c10_TOY_paper_2ddwave_crossing_demo/inputs/source.v",
+  "routed_dag_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c10_TOY_paper_2ddwave_crossing_demo/inputs/routed_dag.json"
+}

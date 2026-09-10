@@ -1,0 +1,612 @@
+{
+  "initial": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "selected": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "selected_round": null,
+  "outcomes": {
+    "failed": 3
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "status": "failed",
+      "start_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          20
+        ],
+        [
+          1,
+          20,
+          20
+        ],
+        [
+          2,
+          22,
+          20
+        ],
+        [
+          3,
+          23,
+          34
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          27,
+          25
+        ],
+        [
+          8,
+          24,
+          28
+        ],
+        [
+          10,
+          22,
+          25
+        ],
+        [
+          11,
+          23,
+          31
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 12470,
+        "output": 385,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 12855
+      },
+      "model_latency_s": 10.307774604000087,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              23,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              25,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              23,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              29
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            2,
+            5
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "Prioritize reconvergent fanin (5→7 and 5→10) first to reduce congestion in the shared path from node 5; route critical long-path edges (10→11, 8→11) before final output (11→3) to avoid late-stage detours; place short local edges (2→5, 0→4, 1→4) early to anchor layout. The selected moves compact the internal cluster (nodes 5,7,10,11) vertically and horizontally, reducing Manhattan sum by 5 and internal area to 27 tiles—enabling shorter routes without violating fixed ports."
+      },
+      "matches_suggested_coordinates": false,
+      "start_sha256": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+      "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 4) has an absent or invalid clock phase at (25, 20); Route (0, 4) has an absent or invalid clock phase at (24, 20); Route (0, 4) has an absent or invalid clock phase at (24, 21); Route (0, 4) has an absent or invalid clock phase at (24, 22)\n",
+      "routing_audit": {
+        "requested_order": [
+          [
+            2,
+            5
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "executed_order": [
+          [
+            2,
+            5
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            4,
+            8
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true,
+        "io_locked": true
+      },
+      "unrouted_edges": [
+        [
+          4,
+          8
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          11
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          11,
+          3
+        ]
+      ],
+      "elapsed_s": 0.06461799599992446,
+      "total_elapsed_s": 10.464708824999889
+    },
+    {
+      "round": 2,
+      "status": "failed",
+      "start_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          20
+        ],
+        [
+          1,
+          20,
+          20
+        ],
+        [
+          2,
+          22,
+          20
+        ],
+        [
+          3,
+          23,
+          34
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          27,
+          25
+        ],
+        [
+          8,
+          24,
+          28
+        ],
+        [
+          10,
+          22,
+          25
+        ],
+        [
+          11,
+          23,
+          31
+        ]
+      ],
+      "error": "Model proposal failed: {\"code\": \"invalid_response\", \"message\": \"A move must change the node position\"}",
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 13731,
+        "output": 286,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 14017
+      },
+      "model_error": {
+        "code": "invalid_response",
+        "message": "A move must change the node position"
+      },
+      "total_elapsed_s": 9.450646501999927
+    },
+    {
+      "round": 3,
+      "status": "failed",
+      "start_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          25,
+          20
+        ],
+        [
+          1,
+          20,
+          20
+        ],
+        [
+          2,
+          22,
+          20
+        ],
+        [
+          3,
+          23,
+          34
+        ],
+        [
+          4,
+          24,
+          23
+        ],
+        [
+          5,
+          22,
+          23
+        ],
+        [
+          7,
+          27,
+          25
+        ],
+        [
+          8,
+          24,
+          28
+        ],
+        [
+          10,
+          22,
+          25
+        ],
+        [
+          11,
+          23,
+          31
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 476,
+        "output": 386,
+        "cacheRead": 13440,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 14302
+      },
+      "model_latency_s": 5.935643682000091,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              23,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              25,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              23,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              29
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            2,
+            5
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "Prioritize reconvergent fanin edges (5→10 and 5→7) first to resolve shared congestion at node 5; route short input-to-gate edges (2→5, 0→4, 1→4) early to anchor layout; then route internal merges (4→8, 7→8), followed by critical long-path fanout to output (10→11, 8→11), and finally output edge (11→3). This order matches the successful reference policy structure and avoids phase gaps observed in prior failure by preserving vertical alignment of nodes 5,7,10,11 after compaction."
+      },
+      "matches_suggested_coordinates": false,
+      "error": "Repeated exact placement/order candidate consumes this slot; no retry",
+      "model_error": null,
+      "total_elapsed_s": 5.982988523999893
+    }
+  ],
+  "live_native_evaluations": 1,
+  "real_model_requests": 3,
+  "diagnostic_native_evaluations": 0,
+  "final_internal_changes": {
+    "fixed_port_count": 4,
+    "all_port_coordinates_unchanged": true,
+    "moved_internal_nodes": [],
+    "changed_route_count": 0,
+    "route_changes": [],
+    "placement_proxy_before": {
+      "min_x": 20,
+      "max_x": 27,
+      "min_y": 20,
+      "max_y": 34,
+      "width": 8,
+      "height": 15,
+      "area_tiles": 120,
+      "manhattan_edges": 62
+    },
+    "placement_proxy_after": {
+      "min_x": 20,
+      "max_x": 27,
+      "min_y": 20,
+      "max_y": 34,
+      "width": 8,
+      "height": 15,
+      "area_tiles": 120,
+      "manhattan_edges": 62
+    }
+  }
+}

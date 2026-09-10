@@ -1,0 +1,279 @@
+{
+  "round": 1,
+  "status": "failed",
+  "start_metrics": {
+    "width": 8,
+    "height": 18,
+    "area_tiles": 144,
+    "qca_cells": 479,
+    "edge_steps": 116,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ],
+      "4": [
+        17,
+        17
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 8,
+    "height": 18,
+    "area_tiles": 144,
+    "qca_cells": 479,
+    "edge_steps": 116,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ],
+      "4": [
+        17,
+        17
+      ]
+    }
+  },
+  "start_state": "73bfa8ac976d41bde373b5cf99b1c9979c887f68d9a9068e3692dc476a6b5230",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 14120,
+    "output": 500,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 14620
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          21,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          25,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          25,
+          34
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          25,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          25,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          25,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          25,
+          23
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          0,
+          2
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Compress vertical stack in x=25 column: move 5,6 to (25,23) (shared y avoids fanin detour), 7→(25,26), 9→(25,28), 10→(21,31) and 11→(25,31) aligns with 9’s fanout, 12→(25,34) shortens path to 3. Swap 0↔2 balances input symmetry and reduces edge [2,6] detour (was 9 steps, now Manhattan 3). Vacancy hotspots at (18–21,32–34) and (25–27,30–31) absorb moves without expanding bbox; min_x stays 20 (port 0), max_x drops from 27→25 (port 4 moves implicitly via internal contraction), height unchanged at 18, area reduces to 126 tiles. All moved nodes are internal or inputs; ports remain within movable bounds."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          21,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          25,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          25,
+          34
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          25,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          25,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          25,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          25,
+          23
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          0,
+          2
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        10
+      ],
+      [
+        0,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        10,
+        3
+      ],
+      [
+        11,
+        4
+      ],
+      [
+        12,
+        3
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        11,
+        12
+      ]
+    ],
+    "rationale": "Compress vertical stack in x=25 column: move 5,6 to (25,23) (shared y avoids fanin detour), 7→(25,26), 9→(25,28), 10→(21,31) and 11→(25,31) aligns with 9’s fanout, 12→(25,34) shortens path to 3. Swap 0↔2 balances input symmetry and reduces edge [2,6] detour (was 9 steps, now Manhattan 3). Vacancy hotspots at (18–21,32–34) and (25–27,30–31) absorb moves without expanding bbox; min_x stays 20 (port 0), max_x drops from 27→25 (port 4 moves implicitly via internal contraction), height unchanged at 18, area reduces to 126 tiles. All moved nodes are internal or inputs; ports remain within movable bounds."
+  },
+  "error": "Node collision: [{\"xy\": [25, 23], \"node_ids\": [5, 6]}]; assign distinct final coordinates to these nodes",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 8,
+    "height": 18,
+    "area_tiles": 144,
+    "qca_cells": 479,
+    "edge_steps": 116,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ],
+      "4": [
+        17,
+        17
+      ]
+    }
+  },
+  "next_state": "73bfa8ac976d41bde373b5cf99b1c9979c887f68d9a9068e3692dc476a6b5230",
+  "elapsed_s": 23.4815534019981
+}

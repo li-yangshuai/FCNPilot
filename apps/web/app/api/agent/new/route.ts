@@ -8,11 +8,7 @@ import { startRpcSession } from "@/lib/rpc-manager";
 import { bindSessionToAccount, getCurrentAccountUid, unbindSession } from "@/lib/accounts";
 import { CustomAgentFileError } from "@/lib/custom-agent-files";
 import { resolveNewSessionAgentConfig } from "@/lib/new-session-agent";
-import {
-  bindSessionToAgentVersion,
-  getAgentVersion,
-  getDefaultAgentVersionId,
-} from "@/lib/agent-versions";
+import { isFcnSessionCommand, isFcnToolSelection } from "@/lib/fcn-agent-policy";
 
 const THINKING_LEVELS = new Set<ThinkingLevel>(["off", "minimal", "low", "medium", "high", "xhigh", "max"]);
 
@@ -39,6 +35,7 @@ export async function POST(req: Request) {
     const body = await req.json() as { cwd?: string; [key: string]: unknown };
     const { cwd, ...command } = body;
     commandType = typeof command.type === "string" ? command.type : undefined;
+    if (!isFcnSessionCommand(commandType)) return NextResponse.json({ error: "Unsupported FCN session command" }, { status: 400 });
 
     if (!cwd || typeof cwd !== "string") {
       return NextResponse.json({
@@ -67,7 +64,6 @@ export async function POST(req: Request) {
       toolNames,
       thinkingLevel,
       agentConfig: requestedAgentConfig,
-      agentVersionId,
       ...promptCommand
     } = command as {
       provider?: string;
@@ -75,7 +71,6 @@ export async function POST(req: Request) {
       toolNames?: string[];
       thinkingLevel?: unknown;
       agentConfig?: { id?: unknown };
-      agentVersionId?: string;
       [key: string]: unknown;
     };
     if ((provider && !modelId) || (!provider && modelId)) {
@@ -86,21 +81,10 @@ export async function POST(req: Request) {
     // Accept only the stable id from the browser and re-read the definition
     // through the trust- and path-checked server-side registry.
     const agentConfig = await resolveNewSessionAgentConfig(cwd, accountUid, requestedAgentConfig);
-    const effectiveToolNames = agentConfig?.tools ?? toolNames;
-
-    const selectedAgentVersionId = agentVersionId ?? getDefaultAgentVersionId(accountUid);
-    const selectedAgentVersion = getAgentVersion(selectedAgentVersionId);
-    if (!selectedAgentVersion) {
-      return NextResponse.json({ error: "Agent version is unavailable" }, { status: 400 });
+    if (toolNames !== undefined && !isFcnToolSelection(toolNames)) {
+      throw new CustomAgentFileError("FCN main Agent tools cannot be replaced", 409);
     }
-    // This is the adapter seam for independently deployed Agent images. The
-    // HTTP transport is deliberately explicit until its event/command proxy is
-    // implemented, so a configured remote version can never silently run local.
-    if (selectedAgentVersion.transport !== "local") {
-      return NextResponse.json({
-        error: `Agent version '${selectedAgentVersionId}' uses the reserved HTTP transport, which is not connected yet`,
-      }, { status: 501 });
-    }
+    const effectiveToolNames = agentConfig.tools;
 
     // Must be unique per request: startRpcSession coalesces concurrent callers
     // that share a key onto one session.
@@ -114,7 +98,6 @@ export async function POST(req: Request) {
     });
     try {
       bindSessionToAccount(realSessionId, accountUid);
-      bindSessionToAgentVersion(accountUid, realSessionId, selectedAgentVersionId);
     } catch (error) {
       session.destroy();
       unbindSession(realSessionId);

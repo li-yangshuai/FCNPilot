@@ -1,0 +1,174 @@
+{
+  "round": 1,
+  "status": "failed",
+  "start_metrics": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+  "cumulative_round": 5,
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 13857,
+    "output": 422,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 14279
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          23,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          23
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Node 7 is currently at (27,25), creating a rightward protrusion; moving it left to (23,24) aligns it with the median neighbor xy [24,23] and reduces x-extent. Node 8 at (24,28) is vertically isolated; shifting to (24,26) shortens its fanin from 4 and 7 and places it closer to node 11’s y=31 while staying in a sparse band (y=26–27, x=24–25). Node 10 moves from (22,25) to (22,23) to co-locate with node 5’s y=23 and reduce detour on edge (5,10) and (10,11); this also frees y=25 for vertical routing. All three moves are within vacancy hotspots (e.g., window_18_29_22_34: [18,21]×[26,29]), avoid collisions, and contract internal density without altering port envelope—leftmost port remains id=1 at x=20, rightmost internal node now id=8 at x=24 (vs prior id=7 at x=27), enabling width reduction potential. No port moved; only internal gates relocated per requirement."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          23,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          23
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "rationale": "Node 7 is currently at (27,25), creating a rightward protrusion; moving it left to (23,24) aligns it with the median neighbor xy [24,23] and reduces x-extent. Node 8 at (24,28) is vertically isolated; shifting to (24,26) shortens its fanin from 4 and 7 and places it closer to node 11’s y=31 while staying in a sparse band (y=26–27, x=24–25). Node 10 moves from (22,25) to (22,23) to co-locate with node 5’s y=23 and reduce detour on edge (5,10) and (10,11); this also frees y=25 for vertical routing. All three moves are within vacancy hotspots (e.g., window_18_29_22_34: [18,21]×[26,29]), avoid collisions, and contract internal density without altering port envelope—leftmost port remains id=1 at x=20, rightmost internal node now id=8 at x=24 (vs prior id=7 at x=27), enabling width reduction potential. No port moved; only internal gates relocated per requirement."
+  },
+  "error": "Node collision: [{\"xy\": [22, 23], \"node_ids\": [5, 10]}]; assign distinct final coordinates to these nodes",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "next_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+  "elapsed_s": 10.587838378000015
+}

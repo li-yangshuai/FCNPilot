@@ -1,0 +1,134 @@
+{
+  "schema": "ifcn.clock_arrival.v1",
+  "passed": false,
+  "launch_policy": "cycle_zero_at_template_phase",
+  "phase_count": 4,
+  "relative_schedule_consistent": false,
+  "required_input_cycle_offsets": null,
+  "input_schedule_applied": false,
+  "mismatches": [
+    {
+      "node": 3,
+      "name": "w1",
+      "incoming_ticks": [
+        {
+          "source": 0,
+          "min": 6,
+          "max": 6
+        },
+        {
+          "source": 1,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "node": 5,
+      "name": "~w1",
+      "incoming_ticks": [
+        {
+          "source": 3,
+          "min": 5,
+          "max": 9
+        }
+      ]
+    },
+    {
+      "node": 2,
+      "name": "out",
+      "incoming_ticks": [
+        {
+          "source": 4,
+          "min": 12,
+          "max": 12
+        },
+        {
+          "source": 5,
+          "min": 8,
+          "max": 12
+        }
+      ]
+    }
+  ],
+  "relative_schedule_conflicts": [
+    {
+      "from": 4,
+      "to": 1,
+      "expected": 0,
+      "actual": 4
+    },
+    {
+      "from": 1,
+      "to": 4,
+      "expected": 9,
+      "actual": 5
+    }
+  ],
+  "nodes_checked": 6,
+  "routes_checked": 7,
+  "arrival_tick_ranges": {
+    "0": [
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0
+    ],
+    "3": [
+      2,
+      6
+    ],
+    "4": [
+      5,
+      5
+    ],
+    "5": [
+      5,
+      9
+    ],
+    "2": [
+      8,
+      12
+    ]
+  },
+  "route_delays": [
+    {
+      "source": 0,
+      "target": 3,
+      "ticks": 6
+    },
+    {
+      "source": 0,
+      "target": 4,
+      "ticks": 5
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "ticks": 2
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "ticks": 5
+    },
+    {
+      "source": 3,
+      "target": 5,
+      "ticks": 3
+    },
+    {
+      "source": 4,
+      "target": 2,
+      "ticks": 7
+    },
+    {
+      "source": 5,
+      "target": 2,
+      "ticks": 3
+    }
+  ],
+  "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+}

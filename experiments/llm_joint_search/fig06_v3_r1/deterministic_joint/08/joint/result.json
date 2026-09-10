@@ -1,0 +1,207 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [],
+    "routing_order": [
+      [
+        2,
+        5
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "rationale": "Deterministic first remaining menu entry; same menu and single-pass evaluator as LLM."
+  },
+  "start_sha256": "89664b7a7860c375706836a9c8b4b3b6df39b62fea0ad964871e616c235d0835",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 196, in run_native\n    raise RuntimeError('Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json')\nRuntimeError: Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        2,
+        5
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "executed_order": [
+      [
+        2,
+        5
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true
+  },
+  "unrouted_edges": [],
+  "phase_repair": {
+    "schema": "ifcn.combinational.rephase.v1",
+    "status": "unsat",
+    "algorithm": "june_random",
+    "solver": "scipy_highs_milp_in_bounded_process",
+    "launch_policy": "all_pi_cycle0_at_own_phase",
+    "pi_phases_preserved": null,
+    "geometry_preserved": true,
+    "pi_phase_policy": "free_within_cycle_zero",
+    "phase_count": 4,
+    "gate_internal_extra_ticks": 0,
+    "requires_fresh_export_mapping": true,
+    "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+    "max_same_phase_tiles": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "problem_size": {
+      "nodes": 10,
+      "routes": 12,
+      "occurrences": 49,
+      "steps": 37
+    },
+    "geometry_sha256": "bc1d07a57889680d707eaf6e94cf56758af74b389ae9166b800d581c3bf37881",
+    "baseline_native_mapping_valid": true,
+    "reason": "infeasible_clock_constraints",
+    "elapsed_s": 0.7714870329982659,
+    "attempts": [
+      {
+        "pi_phase_policy": "fixed_original",
+        "status": "unsat",
+        "reason": "infeasible_clock_constraints",
+        "elapsed_s": 0.4088206619999255
+      },
+      {
+        "pi_phase_policy": "free_within_cycle_zero",
+        "status": "unsat",
+        "reason": "infeasible_clock_constraints",
+        "elapsed_s": 0.362615308000386
+      }
+    ]
+  },
+  "elapsed_s": 0.8355008580001595
+}

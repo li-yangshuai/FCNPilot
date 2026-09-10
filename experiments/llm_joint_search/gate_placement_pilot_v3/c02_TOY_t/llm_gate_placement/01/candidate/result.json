@@ -1,0 +1,489 @@
+{
+  "status": "certified",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          28,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 14,
+        "to": [
+          26,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          23,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          28,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          26,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          22,
+          21
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          9,
+          11
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        16
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        8,
+        5
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        14,
+        6
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        16,
+        5
+      ],
+      [
+        18,
+        6
+      ],
+      [
+        1,
+        9
+      ],
+      [
+        4,
+        11
+      ],
+      [
+        7,
+        14
+      ],
+      [
+        13,
+        18
+      ]
+    ],
+    "rationale": "Target dense y=22–25 band where multiple edges (e.g., [9,13], [11,13], [7,14]) incur detours due to vertical congestion. Move nodes 13,14 down to y=24 to align with neighbor anchors and reduce vertical routing span; shift 16,18 to y=27 to compress top layer and free y=28–31 for cleaner fanout to POs. Lower layer nodes 7,8 moved to y=21 to close gap near inputs and enable shorter paths from PI0–PI3. Swap 9↔11 to balance x-positions: 9 (now at 29,22) better serves 13’s x=28, while 11 (now at 28,22) reduces crosstalk with 9’s former path and improves symmetry with 7/8. All moves stay within vacancy hotspots (e.g., window_25_31_25_31, window_18_27_18_28) and preserve no collisions. This coordinated contraction targets area reduction via y-height compression (current height=12 → projected 11) while maintaining fanin order and minimizing Manhattan edge growth."
+  },
+  "start_sha256": "7366f1f219edaf355c5b3b710d2a0f46199e428981ae1299058974224cf53688",
+  "moves": [
+    {
+      "node_id": 7,
+      "name": "n9",
+      "from": [
+        26,
+        22
+      ],
+      "to": [
+        26,
+        21
+      ]
+    },
+    {
+      "node_id": 8,
+      "name": "n11",
+      "from": [
+        21,
+        22
+      ],
+      "to": [
+        22,
+        21
+      ]
+    },
+    {
+      "node_id": 9,
+      "name": "~pi1",
+      "from": [
+        28,
+        22
+      ],
+      "to": [
+        29,
+        22
+      ]
+    },
+    {
+      "node_id": 11,
+      "name": "~pi4",
+      "from": [
+        29,
+        22
+      ],
+      "to": [
+        28,
+        22
+      ]
+    },
+    {
+      "node_id": 13,
+      "name": "n13",
+      "from": [
+        28,
+        25
+      ],
+      "to": [
+        28,
+        24
+      ]
+    },
+    {
+      "node_id": 14,
+      "name": "~n9",
+      "from": [
+        26,
+        25
+      ],
+      "to": [
+        26,
+        24
+      ]
+    },
+    {
+      "node_id": 16,
+      "name": "n10",
+      "from": [
+        23,
+        28
+      ],
+      "to": [
+        23,
+        27
+      ]
+    },
+    {
+      "node_id": 18,
+      "name": "~n13",
+      "from": [
+        28,
+        28
+      ],
+      "to": [
+        28,
+        27
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        1,
+        16
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        8,
+        5
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        14,
+        6
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        16,
+        5
+      ],
+      [
+        18,
+        6
+      ],
+      [
+        1,
+        9
+      ],
+      [
+        4,
+        11
+      ],
+      [
+        7,
+        14
+      ],
+      [
+        13,
+        18
+      ]
+    ],
+    "executed_order": [
+      [
+        1,
+        16
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        8,
+        5
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        14,
+        6
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        16,
+        5
+      ],
+      [
+        18,
+        6
+      ],
+      [
+        1,
+        9
+      ],
+      [
+        4,
+        11
+      ],
+      [
+        7,
+        14
+      ],
+      [
+        13,
+        18
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "metrics": {
+    "width": 11,
+    "height": 13,
+    "area_tiles": 143,
+    "qca_cells": 427,
+    "edge_steps": 95,
+    "output_arrival_ticks": {
+      "5": [
+        15,
+        15
+      ],
+      "6": [
+        15,
+        15
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 0,
+      "target": 8,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 1,
+      "target": 9,
+      "before_steps": 8,
+      "after_steps": 17
+    },
+    {
+      "source": 1,
+      "target": 16,
+      "before_steps": 9,
+      "after_steps": 8
+    },
+    {
+      "source": 2,
+      "target": 7,
+      "before_steps": 6,
+      "after_steps": 7
+    },
+    {
+      "source": 2,
+      "target": 8,
+      "before_steps": 3,
+      "after_steps": 9
+    },
+    {
+      "source": 3,
+      "target": 7,
+      "before_steps": 2,
+      "after_steps": 1
+    },
+    {
+      "source": 4,
+      "target": 11,
+      "before_steps": 2,
+      "after_steps": 3
+    },
+    {
+      "source": 7,
+      "target": 14,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 8,
+      "target": 5,
+      "before_steps": 10,
+      "after_steps": 10
+    },
+    {
+      "source": 9,
+      "target": 13,
+      "before_steps": 5,
+      "after_steps": 3
+    },
+    {
+      "source": 11,
+      "target": 13,
+      "before_steps": 4,
+      "after_steps": 4
+    },
+    {
+      "source": 13,
+      "target": 18,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 14,
+      "target": 6,
+      "before_steps": 7,
+      "after_steps": 8
+    },
+    {
+      "source": 14,
+      "target": 16,
+      "before_steps": 6,
+      "after_steps": 6
+    },
+    {
+      "source": 16,
+      "target": 5,
+      "before_steps": 4,
+      "after_steps": 5
+    },
+    {
+      "source": 18,
+      "target": 6,
+      "before_steps": 4,
+      "after_steps": 5
+    }
+  ],
+  "elapsed_s": 0.7889758050005184
+}

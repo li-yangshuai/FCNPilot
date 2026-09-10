@@ -1,0 +1,68 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        21,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        22,
+        25
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      2,
+      6
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      8,
+      3
+    ],
+    [
+      7,
+      3
+    ]
+  ],
+  "rationale": "Prioritize high-detour edges first (e.g., [2,6] with 8 detour steps) to free congestion; route reconvergent fanins ([0,4],[1,4]) before their merge ([4,7]) to avoid late-stage conflicts; place wire node 8 early since it feeds final output and shares Y=26 with 7, reducing vertical contention."
+}

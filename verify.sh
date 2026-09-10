@@ -8,7 +8,9 @@ python3 integrations/pi/install.py
 python3 -m unittest discover -s integrations/pi -p 'test_*.py'
 ctest --test-dir engine/build --output-on-failure
 (cd apps/web && npm run typecheck)
-(cd apps/web && node --test lib/custom-agent-files.test.mjs lib/new-session-agent.test.mjs \
-  lib/session-agent-profile.test.mjs lib/rpc-manager-tools.test.mjs lib/ifcn-workspace.test.mjs)
+(cd apps/web && node --test lib/fcn-agent-policy.test.mjs lib/new-session-agent.test.mjs \
+  lib/session-agent-profile.test.mjs lib/rpc-manager-tools.test.mjs lib/ifcn-workspace.test.mjs \
+  lib/ifcn-results.test.mjs lib/ifcn-layout.test.mjs \
+  lib/ifcn-algorithms.test.mjs lib/ifcn-sequential-evidence.test.mjs)
 # Real local tools, both simulation models and standard energy; no LLM API call.
 node integrations/pi/smoke.mjs

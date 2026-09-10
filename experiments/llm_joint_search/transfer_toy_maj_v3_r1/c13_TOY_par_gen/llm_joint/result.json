@@ -1,0 +1,679 @@
+{
+  "policy": "llm_joint",
+  "status": "completed",
+  "initial": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "selected": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "selected_round": null,
+  "rounds": [
+    {
+      "round": 1,
+      "status": "failed",
+      "start_metrics": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 501,
+        "edge_steps": 105,
+        "output_arrival_ticks": {
+          "3": [
+            18,
+            18
+          ]
+        }
+      },
+      "start_placement": [
+        [
+          0,
+          20,
+          20
+        ],
+        [
+          1,
+          25,
+          20
+        ],
+        [
+          2,
+          28,
+          20
+        ],
+        [
+          3,
+          23,
+          37
+        ],
+        [
+          4,
+          26,
+          23
+        ],
+        [
+          6,
+          28,
+          23
+        ],
+        [
+          8,
+          21,
+          23
+        ],
+        [
+          10,
+          26,
+          26
+        ],
+        [
+          11,
+          24,
+          26
+        ],
+        [
+          12,
+          24,
+          28
+        ],
+        [
+          13,
+          24,
+          31
+        ],
+        [
+          15,
+          22,
+          31
+        ],
+        [
+          16,
+          24,
+          34
+        ]
+      ],
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 20928,
+        "output": 206,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 21134
+      },
+      "model_latency_s": 13.864981151000393,
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 0,
+            "to": [
+              20,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 1,
+            "to": [
+              25,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 2,
+            "to": [
+              28,
+              22
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            16
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            16,
+            3
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            12,
+            13
+          ]
+        ],
+        "rationale": "Candidate menu_f129f913e7c8a11c979a9180 translates the input layer (nodes 0,1,2) up by 2 tiles (y=22), reducing bounding height from 18 to 16 (area 162→144) with unchanged width; uses sink-pressure/layer/long-edge routing order which prioritizes critical long paths (e.g., 0→16, 2→10) early—observed in current routing as high-step edges (0→16:18 steps, 4→10:13 steps)—potentially alleviating congestion and enabling tighter packing without increasing Manhattan edge sum (79 vs original 91)."
+      },
+      "decision": {
+        "schema": "ifcn.layout_choice.v1",
+        "candidate_id": "menu_f129f913e7c8a11c979a9180",
+        "rationale": "Candidate menu_f129f913e7c8a11c979a9180 translates the input layer (nodes 0,1,2) up by 2 tiles (y=22), reducing bounding height from 18 to 16 (area 162→144) with unchanged width; uses sink-pressure/layer/long-edge routing order which prioritizes critical long paths (e.g., 0→16, 2→10) early—observed in current routing as high-step edges (0→16:18 steps, 4→10:13 steps)—potentially alleviating congestion and enabling tighter packing without increasing Manhattan edge sum (79 vs original 91)."
+      },
+      "start_sha256": "e2184ba7d2736c21bd19a8141c38ce8c7f9b116ea622b0e6655484f1b9035184",
+      "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 175, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: mapped physical route is missing a directed tile boundary; Native process exited with 10\n",
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            16
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            16,
+            3
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            12,
+            13
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            16
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            16,
+            3
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            12,
+            13
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true
+      },
+      "unrouted_edges": [],
+      "elapsed_s": 14.628999385000498,
+      "paired_ablations": {
+        "placement_only": {
+          "status": "failed",
+          "metrics": null,
+          "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 175, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: mapped physical route is missing a directed tile boundary; Native process exited with 10\n",
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                16
+              ],
+              [
+                2,
+                10
+              ],
+              [
+                1,
+                11
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                6,
+                11
+              ],
+              [
+                4,
+                10
+              ],
+              [
+                10,
+                12
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                12,
+                15
+              ],
+              [
+                15,
+                3
+              ],
+              [
+                13,
+                16
+              ],
+              [
+                16,
+                3
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                12,
+                13
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                16
+              ],
+              [
+                2,
+                10
+              ],
+              [
+                1,
+                11
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                6,
+                11
+              ],
+              [
+                4,
+                10
+              ],
+              [
+                10,
+                12
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                12,
+                15
+              ],
+              [
+                15,
+                3
+              ],
+              [
+                13,
+                16
+              ],
+              [
+                16,
+                3
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                12,
+                13
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        },
+        "routing_only": {
+          "status": "rejected",
+          "metrics": {
+            "width": 9,
+            "height": 18,
+            "area_tiles": 162,
+            "qca_cells": 503,
+            "edge_steps": 107,
+            "output_arrival_ticks": {
+              "3": [
+                19,
+                19
+              ]
+            }
+          },
+          "error": null,
+          "routing_audit": {
+            "requested_order": [
+              [
+                0,
+                16
+              ],
+              [
+                2,
+                10
+              ],
+              [
+                1,
+                11
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                6,
+                11
+              ],
+              [
+                4,
+                10
+              ],
+              [
+                10,
+                12
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                12,
+                15
+              ],
+              [
+                15,
+                3
+              ],
+              [
+                13,
+                16
+              ],
+              [
+                16,
+                3
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                12,
+                13
+              ]
+            ],
+            "executed_order": [
+              [
+                0,
+                16
+              ],
+              [
+                2,
+                10
+              ],
+              [
+                1,
+                11
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                6,
+                11
+              ],
+              [
+                4,
+                10
+              ],
+              [
+                10,
+                12
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                12,
+                15
+              ],
+              [
+                15,
+                3
+              ],
+              [
+                13,
+                16
+              ],
+              [
+                16,
+                3
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                6
+              ],
+              [
+                12,
+                13
+              ]
+            ],
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "failed": 1
+  },
+  "round_budget": 1,
+  "rounds_recorded": 1,
+  "search_mode": "menu",
+  "live_native_evaluations": 1,
+  "real_model_requests": 1,
+  "paired_native_evaluations": 2
+}

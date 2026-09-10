@@ -11,7 +11,7 @@ import re
 IDENT = r"[A-Za-z_][A-Za-z0-9_]*"
 
 
-def normalize_verilog(source):
+def normalize_verilog(source, *, source_order=False):
     text = re.sub(r"/\*.*?\*/|//[^\n]*", "", source, flags=re.S)
     if re.search(r"\b(always\w*|initial|reg|posedge|negedge|latch)\b", text):
         raise ValueError("Sequential/behavioral RTL is reserved for the sequential adapter; provide a scalar combinational assign netlist.")
@@ -81,6 +81,27 @@ def normalize_verilog(source):
         order = list(graphlib.TopologicalSorter(dependencies).static_order())
     except graphlib.CycleError as exc:
         raise ValueError("Combinational cycle detected; feedback requires the sequential adapter.") from exc
+    if source_order:
+        # Stable ready-node priority preserves source order when it is already
+        # topological; unlike batched layers it does not move an independent
+        # later assignment in front of a newly ready earlier assignment.
+        import heapq
+        rank = {name:index for index,name in enumerate(assignments)}
+        successors = {name:[] for name in assignments}
+        indegree = {name:len(refs) for name,refs in dependencies.items()}
+        for target,refs in dependencies.items():
+            for ref in refs:
+                successors[ref].append(target)
+        ready = [(rank[name],name) for name,count in indegree.items() if count == 0]
+        heapq.heapify(ready)
+        order = []
+        while ready:
+            _,name = heapq.heappop(ready)
+            order.append(name)
+            for target in successors[name]:
+                indegree[target] -= 1
+                if indegree[target] == 0:
+                    heapq.heappush(ready,(rank[target],target))
     emitted = []
     temporaries = []
 

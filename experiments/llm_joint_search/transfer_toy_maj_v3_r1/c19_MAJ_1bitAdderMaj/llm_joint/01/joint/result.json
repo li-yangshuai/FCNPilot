@@ -1,0 +1,291 @@
+{
+  "status": "certified",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 0,
+        "to": [
+          25,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 1,
+        "to": [
+          20,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 2,
+        "to": [
+          22,
+          22
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "rationale": "This candidate translates the input prefix (nodes 0,1,2) up by 2 tiles (y+2) to y=22, reducing bounding height from 15 to 13 tiles (area proxy 120→104) while preserving x-extent; its routing_order uses sink-pressure/layer/long-edge policy, which prioritizes critical long paths (e.g., [0,7], [1,10]) early—observed in current layout to have minimal detour and multi-source interference—and aligns with the existing low-detour routing pattern (all edges currently have detour_steps=0 except [5,7] with +2). The move avoids congested lower rows (y=20–21) where multiple inputs converge, potentially easing routing congestion without altering gate positions that affect phase-sensitive clock propagation."
+  },
+  "start_sha256": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+  "moves": [
+    {
+      "node_id": 0,
+      "name": "x0",
+      "from": [
+        25,
+        20
+      ],
+      "to": [
+        25,
+        22
+      ]
+    },
+    {
+      "node_id": 1,
+      "name": "x1",
+      "from": [
+        20,
+        20
+      ],
+      "to": [
+        20,
+        22
+      ]
+    },
+    {
+      "node_id": 2,
+      "name": "x2",
+      "from": [
+        22,
+        20
+      ],
+      "to": [
+        22,
+        22
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true
+  },
+  "metrics": {
+    "width": 8,
+    "height": 14,
+    "area_tiles": 112,
+    "qca_cells": 274,
+    "edge_steps": 54,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 0,
+      "target": 4,
+      "before_steps": 4,
+      "after_steps": 2
+    },
+    {
+      "source": 0,
+      "target": 7,
+      "before_steps": 7,
+      "after_steps": 5
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "before_steps": 7,
+      "after_steps": 7
+    },
+    {
+      "source": 1,
+      "target": 10,
+      "before_steps": 7,
+      "after_steps": 5
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "before_steps": 3,
+      "after_steps": 1
+    },
+    {
+      "source": 5,
+      "target": 7,
+      "before_steps": 9,
+      "after_steps": 7
+    },
+    {
+      "source": 7,
+      "target": 8,
+      "before_steps": 6,
+      "after_steps": 6
+    }
+  ],
+  "elapsed_s": 0.48121585400076583
+}

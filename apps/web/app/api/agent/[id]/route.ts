@@ -3,9 +3,9 @@ import { resolveSessionPath } from "@/lib/session-reader";
 import { startRpcSession, getRpcSession } from "@/lib/rpc-manager";
 import { getCliBridgeAgentState, getCliBridgeState, sendCliCommand } from "@/lib/cli-bridge";
 import { accountOwnsSession, bindSessionToAccount, getCurrentAccountUid } from "@/lib/accounts";
-import { inheritSessionAgentVersion } from "@/lib/agent-versions";
 import { CustomAgentFileError } from "@/lib/custom-agent-files";
 import { readSessionAgentProfileId } from "@/lib/session-agent-profile";
+import { isFcnSessionCommand, isFcnToolSelection } from "@/lib/fcn-agent-policy";
 
 async function requireSessionAccess(sessionId: string): Promise<string | Response> {
   const accountUid = await getCurrentAccountUid();
@@ -18,12 +18,11 @@ async function requireSessionAccess(sessionId: string): Promise<string | Respons
   return accountUid;
 }
 
-function bindForkedSession(result: unknown, accountUid: string, parentSessionId: string): void {
+function bindForkedSession(result: unknown, accountUid: string): void {
   if (!result || typeof result !== "object" || Array.isArray(result)) return;
   const newSessionId = (result as { newSessionId?: unknown }).newSessionId;
   if (typeof newSessionId === "string" && newSessionId) {
     bindSessionToAccount(newSessionId, accountUid);
-    inheritSessionAgentVersion(accountUid, parentSessionId, newSessionId);
   }
 }
 
@@ -43,6 +42,10 @@ export async function POST(
 
     const body = await req.json() as { type: string; [key: string]: unknown };
     commandType = typeof body.type === "string" ? body.type : undefined;
+    if (!isFcnSessionCommand(commandType)) return NextResponse.json({ error: "Unsupported FCN session command" }, { status: 400 });
+    if (body.type === "set_tools" && !isFcnToolSelection(body.toolNames)) {
+      return NextResponse.json({ error: "FCN main Agent tools cannot be replaced" }, { status: 409 });
+    }
 
     // An attached interactive CLI owns the AgentSession and session file.
     // Forward commands to its extension instead of creating a second writer.
@@ -53,7 +56,7 @@ export async function POST(
       }
       const result = await sendCliCommand(id, body);
       promptAccepted = body.type === "prompt";
-      bindForkedSession(result, accountUid, id);
+      bindForkedSession(result, accountUid);
       return NextResponse.json({ success: true, data: result });
     }
 
@@ -62,7 +65,7 @@ export async function POST(
     if (existing?.isAlive()) {
       const result = await existing.send(body);
       promptAccepted = body.type === "prompt";
-      bindForkedSession(result, accountUid, id);
+      bindForkedSession(result, accountUid);
       return NextResponse.json({ success: true, data: result });
     }
 
@@ -79,7 +82,7 @@ export async function POST(
     const { session } = await startRpcSession(id, filePath, undefined, { accountUid });
     const result = await session.send(body);
     promptAccepted = body.type === "prompt";
-    bindForkedSession(result, accountUid, id);
+    bindForkedSession(result, accountUid);
 
     return NextResponse.json({ success: true, data: result });
   } catch (error) {

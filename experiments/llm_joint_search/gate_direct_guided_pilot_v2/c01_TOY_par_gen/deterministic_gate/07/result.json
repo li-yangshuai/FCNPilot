@@ -1,0 +1,332 @@
+{
+  "round": 7,
+  "status": "failed",
+  "start_metrics": {
+    "width": 9,
+    "height": 11,
+    "area_tiles": 99,
+    "qca_cells": 304,
+    "edge_steps": 69,
+    "output_arrival_ticks": {
+      "3": [
+        13,
+        13
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 9,
+    "height": 11,
+    "area_tiles": 99,
+    "qca_cells": 304,
+    "edge_steps": 69,
+    "output_arrival_ticks": {
+      "3": [
+        13,
+        13
+      ]
+    }
+  },
+  "start_state": "e707ea7491465001efa14552c66e70b3214ea41d8670eafb5ad6fd736a874024",
+  "proposal_origin": "deterministic_gate_geometry",
+  "control_generation": {
+    "unevaluated_candidates": 129,
+    "selected_proxy": {
+      "min_x": 20,
+      "max_x": 27,
+      "min_y": 21,
+      "max_y": 31,
+      "width": 8,
+      "height": 11,
+      "area_tiles": 88,
+      "manhattan_edges": 59
+    },
+    "scope": "Geometry-only generation; no native evaluator called to rank the pool"
+  },
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 2,
+        "to": [
+          27,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          27,
+          24
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        16
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "rationale": "Axis x cut at 26: translate the suffix by -1 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated."
+  },
+  "matches_shared_hint_positions": true,
+  "start_sha256": "b4126188555abd856da9e1b89ea87cba014d28e0d9ac08dff41809e784046337",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 197, in run_native\n    raise RuntimeError('Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json')\nRuntimeError: Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        16
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        16
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [],
+  "phase_repair": {
+    "schema": "ifcn.combinational.rephase.v1",
+    "status": "unsat",
+    "algorithm": "june_random",
+    "solver": "scipy_highs_milp_in_bounded_process",
+    "launch_policy": "all_pi_cycle0_at_own_phase",
+    "pi_phases_preserved": null,
+    "geometry_preserved": true,
+    "pi_phase_policy": "free_within_cycle_zero",
+    "phase_count": 4,
+    "gate_internal_extra_ticks": 0,
+    "requires_fresh_export_mapping": true,
+    "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+    "max_same_phase_tiles": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "problem_size": {
+      "nodes": 13,
+      "routes": 16,
+      "occurrences": 97,
+      "steps": 81
+    },
+    "geometry_sha256": "9eaae3561dd22fe860e575b4e61c822f0b241610a75ca890c2961b0b5d021e33",
+    "baseline_native_mapping_valid": true,
+    "reason": "infeasible_clock_constraints",
+    "elapsed_s": 0.7772032450011466,
+    "attempts": [
+      {
+        "pi_phase_policy": "fixed_original",
+        "status": "unsat",
+        "reason": "infeasible_clock_constraints",
+        "elapsed_s": 0.3792706950007414
+      },
+      {
+        "pi_phase_policy": "free_within_cycle_zero",
+        "status": "unsat",
+        "reason": "infeasible_clock_constraints",
+        "elapsed_s": 0.3978725550005038
+      }
+    ]
+  },
+  "elapsed_s": 1.6343211660023371,
+  "decision": "retain_best",
+  "retained_metrics": {
+    "width": 9,
+    "height": 11,
+    "area_tiles": 99,
+    "qca_cells": 304,
+    "edge_steps": 69,
+    "output_arrival_ticks": {
+      "3": [
+        13,
+        13
+      ]
+    }
+  },
+  "next_state": "e707ea7491465001efa14552c66e70b3214ea41d8670eafb5ad6fd736a874024"
+}

@@ -1,0 +1,823 @@
+{
+  "round": 1,
+  "status": "failed",
+  "start_metrics": {
+    "width": 23,
+    "height": 26,
+    "area_tiles": 598,
+    "qca_cells": 1435,
+    "edge_steps": 314,
+    "output_arrival_ticks": {
+      "5": [
+        26,
+        26
+      ],
+      "6": [
+        26,
+        26
+      ],
+      "7": [
+        29,
+        29
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 23,
+    "height": 26,
+    "area_tiles": 598,
+    "qca_cells": 1435,
+    "edge_steps": 314,
+    "output_arrival_ticks": {
+      "5": [
+        26,
+        26
+      ],
+      "6": [
+        26,
+        26
+      ],
+      "7": [
+        29,
+        29
+      ]
+    }
+  },
+  "start_state": "ca7656b02f422f0394a775cd60bbc0004def214532d9a5dbf077ffb3cfc4d92c",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 22466,
+    "output": 612,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 23078
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          21,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          23,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 14,
+        "to": [
+          23,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          23,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 20,
+        "to": [
+          26,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 36,
+        "to": [
+          26,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 37,
+        "to": [
+          28,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 21,
+        "to": [
+          26,
+          33
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Compress left-side fanin cluster (nodes 8,9,14,18,36,37,20,21) toward their median neighbor anchors ([22,20], [22,23], [22,26]) using nonuniform displacements to avoid collisions and align with low-density vacancy hotspots in windows 17-23/20-26 and 17-25/25-31. Specifically: shift 8/9 down 1y and x-center; lift 14 up 1y; move 18 to anchor y=27; relocate 36 left to x=26 and down to y=26 to reduce vertical detour on edge [36,20]; move 37 to [28,32] to shorten [37,21]/[37,22]; reposition 20 to [26,30] to align with 18→20 and reduce long route to 6; all moves stay within min_x=17–max_x=43, min_y=18–47 bounds and preserve DAG topology. This coordinated contraction targets the high-detour edges [2,8], [0,9], [18,37], [36,21] and reduces bounding box width from 23→22 (min_x shifts from 20→21) while keeping height unchanged—area reduction is geometrically feasible and internal-node relocation requirement satisfied."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          21,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          23,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 14,
+        "to": [
+          23,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          23,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 20,
+        "to": [
+          26,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 36,
+        "to": [
+          26,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 37,
+        "to": [
+          28,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 21,
+        "to": [
+          26,
+          33
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        9
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        35,
+        23
+      ],
+      [
+        35,
+        22
+      ],
+      [
+        8,
+        18
+      ],
+      [
+        36,
+        21
+      ],
+      [
+        31,
+        13
+      ],
+      [
+        32,
+        11
+      ],
+      [
+        33,
+        12
+      ],
+      [
+        34,
+        10
+      ],
+      [
+        36,
+        20
+      ],
+      [
+        31,
+        12
+      ],
+      [
+        32,
+        10
+      ],
+      [
+        33,
+        13
+      ],
+      [
+        34,
+        11
+      ],
+      [
+        13,
+        5
+      ],
+      [
+        10,
+        26
+      ],
+      [
+        11,
+        19
+      ],
+      [
+        14,
+        18
+      ],
+      [
+        18,
+        20
+      ],
+      [
+        16,
+        19
+      ],
+      [
+        20,
+        6
+      ],
+      [
+        37,
+        22
+      ],
+      [
+        19,
+        23
+      ],
+      [
+        37,
+        21
+      ],
+      [
+        23,
+        5
+      ],
+      [
+        38,
+        28
+      ],
+      [
+        38,
+        27
+      ],
+      [
+        22,
+        26
+      ],
+      [
+        24,
+        6
+      ],
+      [
+        26,
+        27
+      ],
+      [
+        26,
+        28
+      ],
+      [
+        27,
+        7
+      ],
+      [
+        29,
+        7
+      ],
+      [
+        4,
+        36
+      ],
+      [
+        3,
+        34
+      ],
+      [
+        1,
+        31
+      ],
+      [
+        1,
+        32
+      ],
+      [
+        4,
+        35
+      ],
+      [
+        3,
+        33
+      ],
+      [
+        9,
+        14
+      ],
+      [
+        12,
+        16
+      ],
+      [
+        18,
+        37
+      ],
+      [
+        19,
+        38
+      ],
+      [
+        21,
+        24
+      ],
+      [
+        28,
+        29
+      ]
+    ],
+    "rationale": "Compress left-side fanin cluster (nodes 8,9,14,18,36,37,20,21) toward their median neighbor anchors ([22,20], [22,23], [22,26]) using nonuniform displacements to avoid collisions and align with low-density vacancy hotspots in windows 17-23/20-26 and 17-25/25-31. Specifically: shift 8/9 down 1y and x-center; lift 14 up 1y; move 18 to anchor y=27; relocate 36 left to x=26 and down to y=26 to reduce vertical detour on edge [36,20]; move 37 to [28,32] to shorten [37,21]/[37,22]; reposition 20 to [26,30] to align with 18→20 and reduce long route to 6; all moves stay within min_x=17–max_x=43, min_y=18–47 bounds and preserve DAG topology. This coordinated contraction targets the high-detour edges [2,8], [0,9], [18,37], [36,21] and reduces bounding box width from 23→22 (min_x shifts from 20→21) while keeping height unchanged—area reduction is geometrically feasible and internal-node relocation requirement satisfied."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "621812ba72a1d163d8d6ee3d6c80a116007df9836ff8e5c27274cf5d5bbfa307",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 8) has an absent or invalid clock phase at (20, 20); Route (0, 8) has an absent or invalid clock phase at (20, 21); Route (0, 8) has an absent or invalid clock phase at (21, 21); Route (0, 8) has an absent or invalid clock phase at (21, 22)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        9
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        35,
+        23
+      ],
+      [
+        35,
+        22
+      ],
+      [
+        8,
+        18
+      ],
+      [
+        36,
+        21
+      ],
+      [
+        31,
+        13
+      ],
+      [
+        32,
+        11
+      ],
+      [
+        33,
+        12
+      ],
+      [
+        34,
+        10
+      ],
+      [
+        36,
+        20
+      ],
+      [
+        31,
+        12
+      ],
+      [
+        32,
+        10
+      ],
+      [
+        33,
+        13
+      ],
+      [
+        34,
+        11
+      ],
+      [
+        13,
+        5
+      ],
+      [
+        10,
+        26
+      ],
+      [
+        11,
+        19
+      ],
+      [
+        14,
+        18
+      ],
+      [
+        18,
+        20
+      ],
+      [
+        16,
+        19
+      ],
+      [
+        20,
+        6
+      ],
+      [
+        37,
+        22
+      ],
+      [
+        19,
+        23
+      ],
+      [
+        37,
+        21
+      ],
+      [
+        23,
+        5
+      ],
+      [
+        38,
+        28
+      ],
+      [
+        38,
+        27
+      ],
+      [
+        22,
+        26
+      ],
+      [
+        24,
+        6
+      ],
+      [
+        26,
+        27
+      ],
+      [
+        26,
+        28
+      ],
+      [
+        27,
+        7
+      ],
+      [
+        29,
+        7
+      ],
+      [
+        4,
+        36
+      ],
+      [
+        3,
+        34
+      ],
+      [
+        1,
+        31
+      ],
+      [
+        1,
+        32
+      ],
+      [
+        4,
+        35
+      ],
+      [
+        3,
+        33
+      ],
+      [
+        9,
+        14
+      ],
+      [
+        12,
+        16
+      ],
+      [
+        18,
+        37
+      ],
+      [
+        19,
+        38
+      ],
+      [
+        21,
+        24
+      ],
+      [
+        28,
+        29
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        9
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        35,
+        23
+      ],
+      [
+        35,
+        22
+      ],
+      [
+        8,
+        18
+      ],
+      [
+        36,
+        21
+      ],
+      [
+        31,
+        13
+      ],
+      [
+        32,
+        11
+      ],
+      [
+        33,
+        12
+      ],
+      [
+        34,
+        10
+      ],
+      [
+        36,
+        20
+      ],
+      [
+        31,
+        12
+      ],
+      [
+        32,
+        10
+      ],
+      [
+        33,
+        13
+      ],
+      [
+        34,
+        11
+      ],
+      [
+        13,
+        5
+      ],
+      [
+        10,
+        26
+      ],
+      [
+        11,
+        19
+      ],
+      [
+        14,
+        18
+      ],
+      [
+        18,
+        20
+      ],
+      [
+        16,
+        19
+      ],
+      [
+        20,
+        6
+      ],
+      [
+        37,
+        22
+      ],
+      [
+        19,
+        23
+      ],
+      [
+        37,
+        21
+      ],
+      [
+        23,
+        5
+      ],
+      [
+        38,
+        28
+      ],
+      [
+        38,
+        27
+      ],
+      [
+        22,
+        26
+      ],
+      [
+        24,
+        6
+      ],
+      [
+        26,
+        27
+      ],
+      [
+        26,
+        28
+      ],
+      [
+        27,
+        7
+      ],
+      [
+        29,
+        7
+      ],
+      [
+        4,
+        36
+      ],
+      [
+        3,
+        34
+      ],
+      [
+        1,
+        31
+      ],
+      [
+        1,
+        32
+      ],
+      [
+        4,
+        35
+      ],
+      [
+        3,
+        33
+      ],
+      [
+        9,
+        14
+      ],
+      [
+        12,
+        16
+      ],
+      [
+        18,
+        37
+      ],
+      [
+        19,
+        38
+      ],
+      [
+        21,
+        24
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      21,
+      24
+    ],
+    [
+      28,
+      29
+    ]
+  ],
+  "elapsed_s": 21.605814948001353,
+  "decision": "retain_best",
+  "retained_metrics": {
+    "width": 23,
+    "height": 26,
+    "area_tiles": 598,
+    "qca_cells": 1435,
+    "edge_steps": 314,
+    "output_arrival_ticks": {
+      "5": [
+        26,
+        26
+      ],
+      "6": [
+        26,
+        26
+      ],
+      "7": [
+        29,
+        29
+      ]
+    }
+  },
+  "next_state": "ca7656b02f422f0394a775cd60bbc0004def214532d9a5dbf077ffb3cfc4d92c"
+}

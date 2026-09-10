@@ -1,0 +1,189 @@
+{
+  "round": 2,
+  "status": "failed",
+  "start_metrics": {
+    "width": 5,
+    "height": 12,
+    "area_tiles": 60,
+    "qca_cells": 186,
+    "edge_steps": 36,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 5,
+    "height": 12,
+    "area_tiles": 60,
+    "qca_cells": 186,
+    "edge_steps": 36,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "start_state": "360fae38dc1e06cab84ae4e2a7d6a2de8a2a923501b7d2ef09a09f23d04229ad",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 11770,
+    "output": 373,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 12143
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          23,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          24,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          20,
+          22
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Four internal nodes (7,11,10,9) are moved toward their neighbor-anchor medians to compress the vertical fanout stack feeding output 3. Node 7 shifts from y=26→25 (median of 5,9,3), node 11 from y=26→25 (median of 10,3), node 10 from y=25→24 (median of 6,11), and node 9 from y=23→22 (median of 8,7). This eliminates the long edge [9,7] (Manhattan 5→3), reduces max y from 31 to 30 (height 11), and tightens the right-side column (x=24→23 for node 11), shrinking bounding box to width 5, height 11 (area 55). All moves preserve adjacency and avoid collisions; ports remain fixed but internal contraction enables area reduction without relying on port motion."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          23,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          24,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          20,
+          22
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        2,
+        6
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        6,
+        10
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        10,
+        11
+      ]
+    ],
+    "rationale": "Four internal nodes (7,11,10,9) are moved toward their neighbor-anchor medians to compress the vertical fanout stack feeding output 3. Node 7 shifts from y=26→25 (median of 5,9,3), node 11 from y=26→25 (median of 10,3), node 10 from y=25→24 (median of 6,11), and node 9 from y=23→22 (median of 8,7). This eliminates the long edge [9,7] (Manhattan 5→3), reduces max y from 31 to 30 (height 11), and tightens the right-side column (x=24→23 for node 11), shrinking bounding box to width 5, height 11 (area 55). All moves preserve adjacency and avoid collisions; ports remain fixed but internal contraction enables area reduction without relying on port motion."
+  },
+  "error": "Node collision: [{\"xy\": [20, 22], \"node_ids\": [8, 9]}]; assign distinct final coordinates to these nodes",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 5,
+    "height": 12,
+    "area_tiles": 60,
+    "qca_cells": 186,
+    "edge_steps": 36,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "next_state": "360fae38dc1e06cab84ae4e2a7d6a2de8a2a923501b7d2ef09a09f23d04229ad",
+  "elapsed_s": 15.579007001000718
+}

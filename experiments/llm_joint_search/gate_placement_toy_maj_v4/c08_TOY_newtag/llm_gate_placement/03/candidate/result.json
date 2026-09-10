@@ -1,0 +1,382 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 23,
+        "to": [
+          29,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 26,
+        "to": [
+          24,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 27,
+        "to": [
+          28,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 28,
+        "to": [
+          28,
+          33
+        ]
+      },
+      {
+        "op": "move",
+        "node": 29,
+        "to": [
+          25,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          27,
+          36
+        ]
+      },
+      {
+        "op": "move",
+        "node": 14,
+        "to": [
+          29,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 17,
+        "to": [
+          28,
+          24
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        3,
+        28
+      ],
+      [
+        1,
+        20
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        6,
+        9
+      ],
+      [
+        24,
+        26
+      ],
+      [
+        18,
+        20
+      ],
+      [
+        12,
+        14
+      ],
+      [
+        10,
+        17
+      ],
+      [
+        12,
+        17
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        17,
+        27
+      ],
+      [
+        14,
+        23
+      ],
+      [
+        21,
+        23
+      ],
+      [
+        20,
+        26
+      ],
+      [
+        23,
+        27
+      ],
+      [
+        29,
+        8
+      ],
+      [
+        27,
+        28
+      ],
+      [
+        28,
+        8
+      ],
+      [
+        0,
+        24
+      ],
+      [
+        2,
+        18
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        5,
+        12
+      ],
+      [
+        9,
+        21
+      ],
+      [
+        26,
+        29
+      ]
+    ],
+    "rationale": "Resolve prior collision (14/23 at [29,26]) by shifting 23→[29,27] and 14→[29,24], while moving 17→[28,24] to align with its neighbor median [28,23]. Simultaneously compress the suffix chain: 26→[24,27] (near anchor [24,26]), 27→[28,30] (near [28,28]), 28→[28,33], 29→[25,30], 8→[27,36]; this reduces max_y from 37 to 36 (height 19→18) and eliminates vertical congestion near y=28–31. Vacancy hotspots in windows 25_31_28_34 and 22_34_25_37 are used without port movement; internal-only moves satisfy must_change_internal_node. Edge [24,26] detour (9 steps) and [6,9] (13 steps) are expected to shorten due to tighter vertical packing and reduced routing interference."
+  },
+  "start_sha256": "2972b9fd0b5d67e1cafa6ffacf90b78a620fde821e3952d60956b2a03dfec8b1",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (1, 20) has an absent or invalid clock phase at (25, 20); Route (1, 20) has an absent or invalid clock phase at (24, 20); Route (1, 20) has an absent or invalid clock phase at (24, 21); Route (1, 20) has an absent or invalid clock phase at (24, 22)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        3,
+        28
+      ],
+      [
+        1,
+        20
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        6,
+        9
+      ],
+      [
+        24,
+        26
+      ],
+      [
+        18,
+        20
+      ],
+      [
+        12,
+        14
+      ],
+      [
+        10,
+        17
+      ],
+      [
+        12,
+        17
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        17,
+        27
+      ],
+      [
+        14,
+        23
+      ],
+      [
+        21,
+        23
+      ],
+      [
+        20,
+        26
+      ],
+      [
+        23,
+        27
+      ],
+      [
+        29,
+        8
+      ],
+      [
+        27,
+        28
+      ],
+      [
+        28,
+        8
+      ],
+      [
+        0,
+        24
+      ],
+      [
+        2,
+        18
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        5,
+        12
+      ],
+      [
+        9,
+        21
+      ],
+      [
+        26,
+        29
+      ]
+    ],
+    "executed_order": [
+      [
+        3,
+        28
+      ],
+      [
+        1,
+        20
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        6,
+        9
+      ],
+      [
+        24,
+        26
+      ],
+      [
+        18,
+        20
+      ],
+      [
+        12,
+        14
+      ],
+      [
+        10,
+        17
+      ],
+      [
+        12,
+        17
+      ],
+      [
+        10,
+        14
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      0,
+      24
+    ],
+    [
+      2,
+      18
+    ],
+    [
+      4,
+      10
+    ],
+    [
+      5,
+      12
+    ],
+    [
+      9,
+      21
+    ],
+    [
+      10,
+      14
+    ],
+    [
+      14,
+      23
+    ],
+    [
+      17,
+      27
+    ],
+    [
+      20,
+      26
+    ],
+    [
+      21,
+      23
+    ],
+    [
+      23,
+      27
+    ],
+    [
+      26,
+      29
+    ],
+    [
+      27,
+      28
+    ],
+    [
+      28,
+      8
+    ],
+    [
+      29,
+      8
+    ]
+  ],
+  "elapsed_s": 0.06580953400043654
+}

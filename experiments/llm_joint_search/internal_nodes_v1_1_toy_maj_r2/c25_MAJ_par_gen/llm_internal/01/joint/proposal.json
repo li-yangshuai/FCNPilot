@@ -1,0 +1,232 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 12,
+      "to": [
+        22,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 15,
+      "to": [
+        23,
+        35
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        23,
+        37
+      ]
+    },
+    {
+      "op": "move",
+      "node": 18,
+      "to": [
+        25,
+        35
+      ]
+    },
+    {
+      "op": "move",
+      "node": 19,
+      "to": [
+        25,
+        40
+      ]
+    },
+    {
+      "op": "move",
+      "node": 29,
+      "to": [
+        22,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 31,
+      "to": [
+        25,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 20,
+      "to": [
+        31,
+        35
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      4
+    ],
+    [
+      0,
+      28
+    ],
+    [
+      1,
+      29
+    ],
+    [
+      1,
+      30
+    ],
+    [
+      2,
+      31
+    ],
+    [
+      2,
+      32
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      6,
+      9
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      11
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      11,
+      33
+    ],
+    [
+      12,
+      16
+    ],
+    [
+      13,
+      18
+    ],
+    [
+      13,
+      15
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      16,
+      19
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      19,
+      21
+    ],
+    [
+      20,
+      24
+    ],
+    [
+      21,
+      23
+    ],
+    [
+      21,
+      26
+    ],
+    [
+      23,
+      24
+    ],
+    [
+      24,
+      27
+    ],
+    [
+      26,
+      27
+    ],
+    [
+      27,
+      3
+    ],
+    [
+      28,
+      23
+    ],
+    [
+      28,
+      20
+    ],
+    [
+      29,
+      15
+    ],
+    [
+      29,
+      12
+    ],
+    [
+      30,
+      10
+    ],
+    [
+      30,
+      6
+    ],
+    [
+      31,
+      18
+    ],
+    [
+      31,
+      12
+    ],
+    [
+      32,
+      10
+    ],
+    [
+      32,
+      8
+    ],
+    [
+      33,
+      26
+    ],
+    [
+      33,
+      20
+    ]
+  ],
+  "rationale": "Relocate nodes 12, 15, 16, 18, 19, 29, 31, and 20 to compact the middle fanin region (layer 2–4) and eliminate long vertical detours for edges [29,15], [29,12], [31,18], [31,12], and [28,20]; the new positions align fanout targets (29→12/15, 31→12/18) in a shared x=22–25 corridor, reducing congestion near y=26–37. The routing order prioritizes early fanout delivery (PI→fanouts), then critical reconvergent paths (e.g., 6/8→9 before 10→11), and finally output-converging chains (20→24, 21→23/26) to protect timing-critical routes with high delay ticks (e.g., 28→23: 24 ticks, 31→18: 17 ticks)."
+}

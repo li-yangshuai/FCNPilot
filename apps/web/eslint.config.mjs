@@ -3,7 +3,7 @@ import typescript from "eslint-config-next/typescript";
 
 const eslintConfig = [
   {
-    ignores: [".next-appimage/**", ".appimage-stage/**", "dist/**"],
+    ignores: [".next-appimage/**", ".next-fcnpilot/**", ".appimage-stage/**", "dist/**"],
   },
   ...coreWebVitals,
   ...typescript,

@@ -1,0 +1,303 @@
+{
+  "round": 3,
+  "status": "failed",
+  "start_metrics": {
+    "width": 7,
+    "height": 15,
+    "area_tiles": 105,
+    "qca_cells": 289,
+    "edge_steps": 62,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 7,
+    "height": 15,
+    "area_tiles": 105,
+    "qca_cells": 289,
+    "edge_steps": 62,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "start_state": "afc5e17b2b09d4289632d4a74ac0ac3ce4c48346ab00ae9ea385454ec52db734",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 12755,
+    "output": 459,
+    "cacheRead": 384,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 13598
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          23,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          23,
+          29
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Target high-detour edge [2,5] (11 steps, 6 detour) and congested y=23–25 band: move NOT gate 5 down from y=25→24 to align with its fanin x2 (y=20) and fanouts 7/10 (both at y=23–24), reducing vertical span. Move AND gate 7 left/up to [23,23]—closer to neighbor median [24,25] and shared fanins 0/5—eliminating the current 2-step horizontal detour on [5,7]. Move OR gate 8 to [24,25] to vertically stack with 7 (y=23) and 11 (y=29), shortening [7,8] and [4,8] paths. Move OR gate 11 up to [23,29] into verified vacancy hotspot (window_20_26_28_34, y=29–30, x=20–21 empty), reducing top margin while preserving output arrival. All moves stay within bounds, avoid collisions, and contract internal core without moving ports; this coordinated shift exploits sparse tiles at (23,23), (24,25), (23,29) observed in spatial regions and directly addresses the worst routing inefficiencies."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          23,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          23,
+          29
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "rationale": "Target high-detour edge [2,5] (11 steps, 6 detour) and congested y=23–25 band: move NOT gate 5 down from y=25→24 to align with its fanin x2 (y=20) and fanouts 7/10 (both at y=23–24), reducing vertical span. Move AND gate 7 left/up to [23,23]—closer to neighbor median [24,25] and shared fanins 0/5—eliminating the current 2-step horizontal detour on [5,7]. Move OR gate 8 to [24,25] to vertically stack with 7 (y=23) and 11 (y=29), shortening [7,8] and [4,8] paths. Move OR gate 11 up to [23,29] into verified vacancy hotspot (window_20_26_28_34, y=29–30, x=20–21 empty), reducing top margin while preserving output arrival. All moves stay within bounds, avoid collisions, and contract internal core without moving ports; this coordinated shift exploits sparse tiles at (23,23), (24,25), (23,29) observed in spatial regions and directly addresses the worst routing inefficiencies."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "eddc775d14fc625c0764e9842cf14fec67214a1be057370de78c8d16224b0576",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 4) has an absent or invalid clock phase at (25, 20); Route (0, 4) has an absent or invalid clock phase at (24, 20); Route (0, 4) has an absent or invalid clock phase at (24, 21); Route (0, 4) has an absent or invalid clock phase at (25, 21)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "executed_order": [
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      2,
+      5
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      11,
+      3
+    ]
+  ],
+  "elapsed_s": 17.639260371997807,
+  "decision": "retain_best",
+  "retained_metrics": {
+    "width": 7,
+    "height": 15,
+    "area_tiles": 105,
+    "qca_cells": 289,
+    "edge_steps": 62,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "next_state": "afc5e17b2b09d4289632d4a74ac0ac3ce4c48346ab00ae9ea385454ec52db734"
+}

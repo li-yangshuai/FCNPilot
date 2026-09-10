@@ -95,10 +95,12 @@ std::string validateMapping(Parse& parse, CircuitGraph& graph) {
 }
 void snapshot(const std::filesystem::path& output, Parse& parse, CircuitGraph& graph,
               const GridChessboard& board, const std::vector<std::vector<int>>& layers,
-              const std::string& algorithm, bool routed, const std::string& validationError,
+              const std::string& algorithm, const std::string& topology,
+              bool routed, const std::string& validationError,
               double elapsed) {
     std::ofstream out(output); if(!out) throw std::runtime_error("Cannot write native candidate snapshot");
     out << "{\n\"schema\":\"ifcn.native_candidate.v1\",\"algorithm\":" << quote(algorithm)
+        << ",\"topology\":" << quote(topology)
         << ",\"routed\":" << (routed?"true":"false") << ",\"native_mapping_valid\":" << (validationError.empty()&&routed?"true":"false")
         << ",\"native_validation_error\":" << quote(validationError) << ",\"run_time_s\":" << elapsed << ",\"layers\":[";
     bool first=true;
@@ -126,19 +128,30 @@ void snapshot(const std::filesystem::path& output, Parse& parse, CircuitGraph& g
         out << "{\"x\":" << entry.first.first << ",\"y\":" << entry.first.second << ",\"phase\":" << entry.second.getPhase() << '}';
     }
     const auto& stats=graph.getAdaptiveExpansionStats();
-    out << "],\"expansion\":{\"inserted_rows\":"<<stats.insertedRows<<",\"inserted_columns\":"<<stats.insertedColumns<<",\"accepted_rounds\":"<<stats.acceptedRounds<<"}}\n";
+    out << "],\"expansion\":{\"inserted_rows\":"<<stats.insertedRows<<",\"inserted_columns\":"<<stats.insertedColumns<<",\"accepted_rounds\":"<<stats.acceptedRounds<<",\"evaluated_cut_candidates\":"<<stats.evaluatedCutCandidates<<",\"reused_routed_candidates\":"<<stats.reusedRoutedCandidates<<"}}\n";
     if(!out) throw std::runtime_error("Failed writing native candidate snapshot");
 }
 }
 int main(int argc,char** argv) {
     try {
-        if(argc!=4) {std::cerr<<"Usage: ifcn_combinational_pnr <compact|june_random> <input.v> <candidate.json>\n";return 2;}
+        if(argc!=4 && argc!=6) {std::cerr<<"Usage: ifcn_combinational_pnr <compact|june_random> <input.v> <candidate.json> [--topology optimized_buffers|layer_redundancy_buffers]\n";return 2;}
         const std::string algorithm=argv[1];
         if(algorithm!="compact"&&algorithm!="june_random") throw std::runtime_error("Unknown native algorithm");
+        const std::string topology = argc == 6 ? argv[5]
+            : (algorithm == "june_random" ? "layer_redundancy_buffers" : "optimized_buffers");
+        if ((argc == 6 && std::string(argv[4]) != "--topology") ||
+            (topology != "optimized_buffers" && topology != "layer_redundancy_buffers"))
+            throw std::runtime_error("Expected --topology optimized_buffers|layer_redundancy_buffers");
+        if (algorithm == "compact" && topology != "optimized_buffers")
+            throw std::runtime_error("Compact uses optimized_buffers; layer_redundancy_buffers is a June topology option");
         Parse parse; parse.parseVerilog(argv[2]);
         if(!parse.get_input_num()||!parse.get_output_num()) throw std::runtime_error("Circuit must have primary inputs and outputs");
         parse.optimizeAIOG_DRC(2,2,2,2,2,2);
-        if(algorithm=="june_random") parse.addLayerRedundancyNode(); else parse.optimizeBufferNode();
+        // The historical June topology remains reproducible. The optimized
+        // candidate preserves the DRC-limited fanout network while omitting
+        // display-only layer buffers and eligible one-in/one-out chains.
+        if (topology == "layer_redundancy_buffers") parse.addLayerRedundancyNode();
+        else parse.optimizeBufferNode();
         parse.caculateSameLayerNodeRoutePair();
         std::vector<std::vector<int>> layers;
         for(const auto& layer:parse.getlayerNodeDivVec()) layers.emplace_back(layer.begin(),layer.end());
@@ -157,7 +170,7 @@ int main(int argc,char** argv) {
         else if(!graph.validateAssignedRoutePhases(4)) error="Native phase contract validation failed";
         else error=validateMapping(parse,graph);
         const double elapsed=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
-        snapshot(argv[3],parse,graph,board,layers,algorithm,routed,error,elapsed);
+        snapshot(argv[3],parse,graph,board,layers,algorithm,topology,routed,error,elapsed);
         if(!error.empty()){std::cerr<<error<<'\n';return 10;}
         std::cout<<"IFCN_NATIVE_CANDIDATE_READY\n";return 0;
     } catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}

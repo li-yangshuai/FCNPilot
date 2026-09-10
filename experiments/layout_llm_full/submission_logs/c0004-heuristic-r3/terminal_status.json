@@ -1,0 +1,1024 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "7bc640191e38476587c2c64d9a010fbc",
+  "created_at": "2026-09-08T04:28:39.469434+00:00",
+  "updated_at": "2026-09-08T04:28:40.812330+00:00",
+  "status": "completed",
+  "source": "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/inputs/TOY/b1_r2.v",
+  "design_type": "combinational",
+  "configuration": {
+    "root": "/home/lys/projects/github/FCNPilot/engine",
+    "build_dir": "/home/lys/projects/github/FCNPilot/engine/build",
+    "python": "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+    "backend": "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_combinational_pnr",
+    "sequential_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_sequential_cyclic_pnr",
+    "regular_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_regular_clock_pnr",
+    "yosys_binary": "/home/lys/projects/github/FCNPilot/engine/build/tools/yosys-local/usr/bin/yosys"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "pi0",
+      "pi1",
+      "pi2"
+    ],
+    "warnings": [],
+    "outputs": [
+      "po0",
+      "po1",
+      "po2",
+      "po3"
+    ],
+    "assignment_count": 8,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 3,
+    "timeout_s": 20,
+    "model": "bistable",
+    "algorithm": "june_random",
+    "clock_scheme": "irregular",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "requested_until": "map",
+  "current_stage": "pnr",
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "source_run_id": "481ef7da26b64701a9307dd92172c312"
+    },
+    "pnr": {
+      "status": "completed",
+      "log": "optimization.log",
+      "started_at": "2026-09-08T04:28:39.541273+00:00",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/baseline/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/01",
+          "--algorithm",
+          "june_random",
+          "--clock",
+          "irregular",
+          "--budget",
+          "18",
+          "--edit-baseline",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/baseline/layout_candidate.json",
+          "--edit-proposal",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/01/proposal.json"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/01/layout.ifcn",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/01/device",
+          "--qca-only"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/baseline/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/02",
+          "--algorithm",
+          "june_random",
+          "--clock",
+          "irregular",
+          "--budget",
+          "18",
+          "--edit-baseline",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/01/layout_candidate.json",
+          "--edit-proposal",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/02/proposal.json"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/baseline/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/03",
+          "--algorithm",
+          "june_random",
+          "--clock",
+          "irregular",
+          "--budget",
+          "18",
+          "--edit-baseline",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/01/layout_candidate.json",
+          "--edit-proposal",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/03/proposal.json"
+        ]
+      ],
+      "completed_at": "2026-09-08T04:28:40.812318+00:00"
+    },
+    "map": {
+      "status": "completed",
+      "completed_at": "2026-09-08T04:28:40.812323+00:00",
+      "note": "Selected certified QCA is preserved verbatim"
+    }
+  },
+  "artifacts": {
+    "baseline/source.v": {
+      "path": "baseline/source.v",
+      "bytes": 334,
+      "sha256": "e3a30eca140d42e477c7a20e5827cbcf331eabf1c02acf00f49e33b7dcc9fe6c"
+    },
+    "source.v": {
+      "path": "baseline/source.v",
+      "bytes": 334,
+      "sha256": "e3a30eca140d42e477c7a20e5827cbcf331eabf1c02acf00f49e33b7dcc9fe6c"
+    },
+    "baseline/normalized.v": {
+      "path": "baseline/normalized.v",
+      "bytes": 528,
+      "sha256": "a6aa67d0e4bf00b7439dc87ece6a492dd6aba298ff164d80137caa7bac226fe0"
+    },
+    "normalized.v": {
+      "path": "baseline/normalized.v",
+      "bytes": 528,
+      "sha256": "a6aa67d0e4bf00b7439dc87ece6a492dd6aba298ff164d80137caa7bac226fe0"
+    },
+    "baseline/dag.json": {
+      "path": "baseline/dag.json",
+      "bytes": 2665,
+      "sha256": "8cb0f4a40333419dc558e48ac12314c2dbfeb143f9ad1b4cd49f89081d86f794"
+    },
+    "dag.json": {
+      "path": "baseline/dag.json",
+      "bytes": 2665,
+      "sha256": "8cb0f4a40333419dc558e48ac12314c2dbfeb143f9ad1b4cd49f89081d86f794"
+    },
+    "baseline/routed_dag.json": {
+      "path": "baseline/routed_dag.json",
+      "bytes": 3181,
+      "sha256": "051d827d3e298be95b2367977e8910998edb8fafd83a184917c9d23ddf18cc27"
+    },
+    "routed_dag.json": {
+      "path": "rounds/01/routed_dag.json",
+      "bytes": 3181,
+      "sha256": "9dad936b18abf5f46c33c503f022eb631621a0590503c814ebd9722b96626b7d"
+    },
+    "baseline/layout.ifcn": {
+      "path": "baseline/layout.ifcn",
+      "bytes": 2685,
+      "sha256": "3a858cfb70c50aea550522f7b8932fe6c3494008883f4971db2fbbe3cc569963"
+    },
+    "layout.ifcn": {
+      "path": "rounds/01/layout.ifcn",
+      "bytes": 2536,
+      "sha256": "56f25eb9aa1d3c864a39687601a3818ec4b644857c28953efa0a4c1298a5d298"
+    },
+    "baseline/clock.json": {
+      "path": "baseline/clock.json",
+      "bytes": 2873,
+      "sha256": "2be043f0ed1db382ee95f3fc6ed5af177f485ca8cf96087c21235696598d0d3f"
+    },
+    "clock.json": {
+      "path": "rounds/01/clock.json",
+      "bytes": 2877,
+      "sha256": "353e72aa511cfeaa761c58200f74359a76903084420fc3fd2ef4d265ee625e5b"
+    },
+    "baseline/physical.json": {
+      "path": "baseline/physical.json",
+      "bytes": 826,
+      "sha256": "73c56fcb68b90e66a8779d6a8c851e9c899918410698037e63ea7d61eeb634e2"
+    },
+    "physical.json": {
+      "path": "rounds/01/physical.json",
+      "bytes": 826,
+      "sha256": "e34dff9a2e98fed9790ed22748494bc04884c446e964aff4e87de303c2f581f9"
+    },
+    "baseline/interface.json": {
+      "path": "baseline/interface.json",
+      "bytes": 372,
+      "sha256": "6d74aa3173c05dfe362324c2934de52bdd802a2827ef9107b3d38a67ca1c37be"
+    },
+    "interface.json": {
+      "path": "rounds/01/interface.json",
+      "bytes": 372,
+      "sha256": "0514b4f19c8bcce323ee8332680ab5d3043d7aa11d9bad255ff8d1895a31da1e"
+    },
+    "baseline/logic.json": {
+      "path": "baseline/logic.json",
+      "bytes": 3373,
+      "sha256": "5c1de98367fe559142cdb2662cc8de3802bce897fcf17e83112ee05b486371d4"
+    },
+    "logic.json": {
+      "path": "rounds/01/logic.json",
+      "bytes": 3350,
+      "sha256": "f225577cc47dd1459b3cc1bb0c1837e4f2b8b815fe85cbe77327fc4a5dcf4bee"
+    },
+    "baseline/device.qca": {
+      "path": "baseline/device.qca",
+      "bytes": 427014,
+      "sha256": "9cee6177595c382633b2b30704ca12d436318753ece691f980b57ea70c249495"
+    },
+    "validated_device.qca": {
+      "path": "rounds/01/device_energy_input.qca",
+      "bytes": 406291,
+      "sha256": "ed8fd19b4b8aeb2a29c66eaf1baee7cff9f5b48dc803b86aa39fb892e678c33e"
+    },
+    "device.qca": {
+      "path": "rounds/01/device_energy_input.qca",
+      "bytes": 406291,
+      "sha256": "ed8fd19b4b8aeb2a29c66eaf1baee7cff9f5b48dc803b86aa39fb892e678c33e"
+    },
+    "baseline/layout_candidate.json": {
+      "path": "baseline/layout_candidate.json",
+      "bytes": 17591,
+      "sha256": "1bad6717cc0bbd3b1f1e858fd1f084d4df9825be60fe3f73c0beac19f79289af"
+    },
+    "layout_candidate.json": {
+      "path": "rounds/01/layout_candidate.json",
+      "bytes": 27657,
+      "sha256": "57023dd2c12ecfbe5a83d7ce9ea92e8ea7a8a49da9c81d6033f13b76c6797703"
+    },
+    "baseline/pnr.json": {
+      "path": "baseline/pnr.json",
+      "bytes": 5499,
+      "sha256": "fc454d160d95870000d2407ed7bf2be377b24cc120e1bf8f0a7a8725022298ac"
+    },
+    "pnr.json": {
+      "path": "rounds/01/pnr.json",
+      "bytes": 7286,
+      "sha256": "7a745d0531bf9177bf9af4173ae597fdd03f5a8dd91c779a4e18d08055b8095c"
+    },
+    "environment.json": {
+      "path": "environment.json",
+      "bytes": 2955,
+      "sha256": "0552d6f7b31af8e9024b3088f668dbf15d35d237dbe95e74f9b5bbfafcb9fc66"
+    },
+    "campaign.json": {
+      "path": "campaign.json",
+      "bytes": 12590,
+      "sha256": "ffb1e0726af991da119afa2b66e81f5b46bf3002d69864e721895ea94428ada9"
+    },
+    "rounds/01/clock.json": {
+      "path": "rounds/01/clock.json",
+      "bytes": 2877,
+      "sha256": "353e72aa511cfeaa761c58200f74359a76903084420fc3fd2ef4d265ee625e5b"
+    },
+    "rounds/01/device_energy_input.qca": {
+      "path": "rounds/01/device_energy_input.qca",
+      "bytes": 406291,
+      "sha256": "ed8fd19b4b8aeb2a29c66eaf1baee7cff9f5b48dc803b86aa39fb892e678c33e"
+    },
+    "rounds/01/device_physical_validation.json": {
+      "path": "rounds/01/device_physical_validation.json",
+      "bytes": 633,
+      "sha256": "7c7b7b18af065b3c6563ead0bc72ddad80fbda28112c47edf3d74471603a4cb2"
+    },
+    "rounds/01/interface.json": {
+      "path": "rounds/01/interface.json",
+      "bytes": 372,
+      "sha256": "0514b4f19c8bcce323ee8332680ab5d3043d7aa11d9bad255ff8d1895a31da1e"
+    },
+    "rounds/01/layout.ifcn": {
+      "path": "rounds/01/layout.ifcn",
+      "bytes": 2536,
+      "sha256": "56f25eb9aa1d3c864a39687601a3818ec4b644857c28953efa0a4c1298a5d298"
+    },
+    "rounds/01/layout_candidate.json": {
+      "path": "rounds/01/layout_candidate.json",
+      "bytes": 27657,
+      "sha256": "57023dd2c12ecfbe5a83d7ce9ea92e8ea7a8a49da9c81d6033f13b76c6797703"
+    },
+    "rounds/01/logic.json": {
+      "path": "rounds/01/logic.json",
+      "bytes": 3350,
+      "sha256": "f225577cc47dd1459b3cc1bb0c1837e4f2b8b815fe85cbe77327fc4a5dcf4bee"
+    },
+    "rounds/01/mapping_validation.log": {
+      "path": "rounds/01/mapping_validation.log",
+      "bytes": 6,
+      "sha256": "f6cd783e9172fc00b660a64f6c5a853314a59812f7cf42b97198c1de01e118c1"
+    },
+    "rounds/01/native.log": {
+      "path": "rounds/01/native.log",
+      "bytes": 712,
+      "sha256": "7d63b4fa941b61f23cdae0e8f350aa380810002112cf63a8c15149cb55e15b29"
+    },
+    "rounds/01/original_clock.json": {
+      "path": "rounds/01/original_clock.json",
+      "bytes": 5223,
+      "sha256": "72be18009be7a94387ea520c1aebb2ce5458e14cc116ed8edb1467b9ab64288b"
+    },
+    "rounds/01/original_layout.ifcn": {
+      "path": "rounds/01/original_layout.ifcn",
+      "bytes": 2536,
+      "sha256": "38c44434fe27170d8164c56aec02696774ca7ddfec3e56e53fdc0535748719ab"
+    },
+    "rounds/01/original_layout_candidate.json": {
+      "path": "rounds/01/original_layout_candidate.json",
+      "bytes": 27361,
+      "sha256": "2c7070b1c9816f90a8ba63efb841f457172a7a16f7a72a873efdbf5b5ff36161"
+    },
+    "rounds/01/phase_repair.json": {
+      "path": "rounds/01/phase_repair.json",
+      "bytes": 1405,
+      "sha256": "6a6af119a783b507ce7f566a7f43dc38976ea894da07ce54ae790b0fbfbd1957"
+    },
+    "rounds/01/physical.json": {
+      "path": "rounds/01/physical.json",
+      "bytes": 826,
+      "sha256": "e34dff9a2e98fed9790ed22748494bc04884c446e964aff4e87de303c2f581f9"
+    },
+    "rounds/01/pnr.json": {
+      "path": "rounds/01/pnr.json",
+      "bytes": 7286,
+      "sha256": "7a745d0531bf9177bf9af4173ae597fdd03f5a8dd91c779a4e18d08055b8095c"
+    },
+    "rounds/01/proposal.json": {
+      "path": "rounds/01/proposal.json",
+      "bytes": 442,
+      "sha256": "bf3908dc4a20c003ddfbdcc1b24e14aec4fca6db7c8e462e8d80e2b8c6ca9f04"
+    },
+    "rounds/01/routed_dag.json": {
+      "path": "rounds/01/routed_dag.json",
+      "bytes": 3181,
+      "sha256": "9dad936b18abf5f46c33c503f022eb631621a0590503c814ebd9722b96626b7d"
+    },
+    "rounds/02/layout_candidate.json": {
+      "path": "rounds/02/layout_candidate.json",
+      "bytes": 8643,
+      "sha256": "95d8c5dee6e3e5e0e9be286993a85eba43b59aa802429de2859f4fc8cb30c2c9"
+    },
+    "rounds/02/native.log": {
+      "path": "rounds/02/native.log",
+      "bytes": 882,
+      "sha256": "2391805b873d8e711803e0df0600f89bf8c600639d46389fef0023e68f034da3"
+    },
+    "rounds/02/pnr.json": {
+      "path": "rounds/02/pnr.json",
+      "bytes": 2374,
+      "sha256": "781199d892e7c2085d86aaf29ccf9e2d9200977212973a9d419e99d99eeeb5b7"
+    },
+    "rounds/02/proposal.json": {
+      "path": "rounds/02/proposal.json",
+      "bytes": 442,
+      "sha256": "e90de2963939ec548945c7ff181f15bd4cdc654f9cbf1911b3e43952470b100b"
+    },
+    "rounds/03/layout_candidate.json": {
+      "path": "rounds/03/layout_candidate.json",
+      "bytes": 8643,
+      "sha256": "bf8be3d33ddc09b17149eaa8bb35b48d59f5bd963d2ae015cf7b82f84a3400f2"
+    },
+    "rounds/03/native.log": {
+      "path": "rounds/03/native.log",
+      "bytes": 882,
+      "sha256": "2391805b873d8e711803e0df0600f89bf8c600639d46389fef0023e68f034da3"
+    },
+    "rounds/03/pnr.json": {
+      "path": "rounds/03/pnr.json",
+      "bytes": 2375,
+      "sha256": "da8e1cc8363ef9ee8e759b8c65d843324e8086d25bebef655b664a5d32687d0e"
+    },
+    "rounds/03/proposal.json": {
+      "path": "rounds/03/proposal.json",
+      "bytes": 442,
+      "sha256": "e90de2963939ec548945c7ff181f15bd4cdc654f9cbf1911b3e43952470b100b"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 32984,
+      "sha256": "d10e840eb663fade3b5cec9f88df293bfdd27099a755c31453d59104b77728fd"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 3,
+      "output_count": 4
+    },
+    "logic": {
+      "status": "equivalent",
+      "max_inputs": 11,
+      "vectors_checked": 8,
+      "expected_vector_count": 8
+    },
+    "mapping": {
+      "cell_count": 507,
+      "io_contraction": false
+    },
+    "device_interface": {
+      "schema": "ifcn.qca.interface.v1",
+      "qca_sha256": "ed8fd19b4b8aeb2a29c66eaf1baee7cff9f5b48dc803b86aa39fb892e678c33e",
+      "cell_count": 507,
+      "expected_inputs": 3,
+      "expected_outputs": 4,
+      "actual_inputs": 3,
+      "actual_outputs": 4,
+      "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+      "passed": true
+    },
+    "clock_arrival": {
+      "schema": "ifcn.clock_arrival.v1",
+      "passed": true,
+      "launch_policy": "cycle_zero_at_template_phase",
+      "ifcn_sha256": "56f25eb9aa1d3c864a39687601a3818ec4b644857c28953efa0a4c1298a5d298",
+      "routed_dag_sha256": "9dad936b18abf5f46c33c503f022eb631621a0590503c814ebd9722b96626b7d",
+      "phase_count": 4,
+      "relative_schedule_consistent": true,
+      "required_input_cycle_offsets": {
+        "pi0": 0,
+        "pi1": 0,
+        "pi2": 0
+      },
+      "input_schedule_applied": false,
+      "mismatches": [],
+      "relative_schedule_conflicts": [],
+      "nodes_checked": 17,
+      "routes_checked": 20,
+      "arrival_tick_ranges": {
+        "0": [
+          0,
+          0
+        ],
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "8": [
+          4,
+          4
+        ],
+        "7": [
+          2,
+          2
+        ],
+        "10": [
+          2,
+          2
+        ],
+        "13": [
+          3,
+          3
+        ],
+        "21": [
+          2,
+          2
+        ],
+        "16": [
+          6,
+          6
+        ],
+        "12": [
+          6,
+          6
+        ],
+        "6": [
+          6,
+          6
+        ],
+        "15": [
+          8,
+          8
+        ],
+        "3": [
+          5,
+          5
+        ],
+        "18": [
+          9,
+          9
+        ],
+        "20": [
+          9,
+          9
+        ],
+        "4": [
+          13,
+          13
+        ],
+        "5": [
+          13,
+          13
+        ]
+      },
+      "route_delays": [
+        {
+          "source": 0,
+          "target": 7,
+          "ticks": 2
+        },
+        {
+          "source": 0,
+          "target": 8,
+          "ticks": 4
+        },
+        {
+          "source": 1,
+          "target": 7,
+          "ticks": 2
+        },
+        {
+          "source": 1,
+          "target": 10,
+          "ticks": 2
+        },
+        {
+          "source": 2,
+          "target": 13,
+          "ticks": 3
+        },
+        {
+          "source": 2,
+          "target": 21,
+          "ticks": 2
+        },
+        {
+          "source": 7,
+          "target": 15,
+          "ticks": 6
+        },
+        {
+          "source": 7,
+          "target": 16,
+          "ticks": 4
+        },
+        {
+          "source": 8,
+          "target": 12,
+          "ticks": 2
+        },
+        {
+          "source": 10,
+          "target": 12,
+          "ticks": 4
+        },
+        {
+          "source": 12,
+          "target": 18,
+          "ticks": 3
+        },
+        {
+          "source": 12,
+          "target": 20,
+          "ticks": 3
+        },
+        {
+          "source": 13,
+          "target": 6,
+          "ticks": 3
+        },
+        {
+          "source": 13,
+          "target": 15,
+          "ticks": 5
+        },
+        {
+          "source": 15,
+          "target": 5,
+          "ticks": 5
+        },
+        {
+          "source": 16,
+          "target": 4,
+          "ticks": 7
+        },
+        {
+          "source": 18,
+          "target": 4,
+          "ticks": 4
+        },
+        {
+          "source": 20,
+          "target": 5,
+          "ticks": 4
+        },
+        {
+          "source": 21,
+          "target": 3,
+          "ticks": 3
+        },
+        {
+          "source": 21,
+          "target": 20,
+          "ticks": 7
+        }
+      ],
+      "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+    },
+    "physical_routes": {
+      "schema": "ifcn.qca.physical_routes.v1",
+      "passed": true,
+      "qca_sha256": "ed8fd19b4b8aeb2a29c66eaf1baee7cff9f5b48dc803b86aa39fb892e678c33e",
+      "checks": [
+        "ordered_route_continuity",
+        "source_site_isolation",
+        "layer_transition_columns",
+        "route_site_coverage",
+        "gate_connection_ports"
+      ],
+      "cell_count": 507,
+      "emitted_cell_count": 507,
+      "route_count": 20,
+      "net_count": 13,
+      "route_site_count": 434,
+      "io_contraction": false,
+      "scope": "Ordered source-to-sink template ports, route-owned exact XYZ sites, complete L0/L1/L2 transition columns, and retained route continuity after optional terminal trimming. Does not certify electrostatic interference, clock timing, or device-level functional simulation.",
+      "ifcn_sha256": "56f25eb9aa1d3c864a39687601a3818ec4b644857c28953efa0a4c1298a5d298"
+    },
+    "pnr": {
+      "schema": "ifcn.pnr.v1",
+      "algorithm": "june_random",
+      "phase_count": 4,
+      "seed": 1,
+      "layout_legal": true,
+      "clock_legal": true,
+      "failed_edge_count": 0,
+      "validation": {
+        "passed": true,
+        "checks": [
+          "dag_acyclic",
+          "exact_edge_coverage",
+          "exact_node_coverage",
+          "unique_node_positions",
+          "route_endpoints",
+          "simple_four_connected_paths",
+          "no_route_through_gate",
+          "distinct_fanin_ports",
+          "port_sharing_geometry",
+          "clock_range_and_forward_steps",
+          "source_aware_crossings",
+          "original_native_geometry_mapping",
+          "rephased_geometry_and_clock_contract",
+          "cycle_zero_absolute_arrival_alignment",
+          "exported_ifcn_device_mapping"
+        ],
+        "errors": [],
+        "max_same_phase_run": 4,
+        "topological_order": [
+          0,
+          1,
+          2,
+          8,
+          7,
+          10,
+          13,
+          21,
+          16,
+          12,
+          6,
+          15,
+          3,
+          18,
+          20,
+          4,
+          5
+        ],
+        "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+      },
+      "algorithm_parameters": {
+        "initial_placement": "exact_recorded_proposal",
+        "route_order_retries": 24,
+        "search_cost": 40,
+        "padding": 2,
+        "topology": "fixed_baseline_dag",
+        "max_same_phase": 10,
+        "max_same_phase_step_fraction": 0.3,
+        "automatic_node_placement": false,
+        "node_expansion_or_compression": false,
+        "phase_count": 4,
+        "timeout_s": 18,
+        "seed_control": "not_exposed_by_native_algorithm"
+      },
+      "clock_scheme": "irregular",
+      "clock_template_ok": null,
+      "clock_template_conflicts": null,
+      "clock_validation_kind": "free_phase_with_absolute_arrival_alignment",
+      "run_time_s": 0.061009012,
+      "resolved_verilog": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/baseline/normalized.v",
+      "boolean_canonicalization": false,
+      "expansion": {
+        "inserted_rows": 0,
+        "inserted_columns": 0,
+        "accepted_rounds": 0,
+        "evaluated_cut_candidates": 0,
+        "reused_routed_candidates": 0
+      },
+      "width": 11,
+      "height": 13,
+      "area_tiles": 143,
+      "ifcn": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/01/layout.ifcn",
+      "phase_repair": {
+        "schema": "ifcn.combinational.rephase.v1",
+        "status": "sat",
+        "algorithm": "june_random",
+        "solver": "scipy_highs_milp_in_bounded_process",
+        "launch_policy": "all_pi_cycle0_at_own_phase",
+        "pi_phases_preserved": true,
+        "geometry_preserved": true,
+        "pi_phase_policy": "fixed_original",
+        "phase_count": 4,
+        "gate_internal_extra_ticks": 0,
+        "requires_fresh_export_mapping": true,
+        "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+        "max_same_phase_tiles": 10,
+        "max_same_phase_step_fraction": 0.3,
+        "problem_size": {
+          "nodes": 17,
+          "routes": 20,
+          "occurrences": 126,
+          "steps": 106
+        },
+        "geometry_sha256": "2b69f3b9af86cc176c6d21ef4f8309def517932b06831f1d6b3d3de30b0738b9",
+        "baseline_native_mapping_valid": true,
+        "changed_tiles": 48,
+        "actual_max_same_phase_tiles": 7,
+        "same_phase_steps": 31,
+        "node_arrival_ticks": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 5,
+          "4": 13,
+          "5": 13,
+          "6": 6,
+          "7": 2,
+          "8": 4,
+          "10": 2,
+          "12": 6,
+          "13": 3,
+          "15": 8,
+          "16": 6,
+          "18": 9,
+          "20": 9,
+          "21": 2
+        },
+        "pi_launch_ticks": {
+          "pi0": 0,
+          "pi1": 0,
+          "pi2": 0
+        },
+        "validation_passed": true,
+        "elapsed_s": 0.36167440399913175,
+        "attempts": [
+          {
+            "pi_phase_policy": "fixed_original",
+            "status": "sat",
+            "elapsed_s": 0.36165521499970055
+          }
+        ]
+      },
+      "clock_arrival": {
+        "schema": "ifcn.clock_arrival.v1",
+        "passed": true,
+        "launch_policy": "cycle_zero_at_template_phase",
+        "ifcn_sha256": "56f25eb9aa1d3c864a39687601a3818ec4b644857c28953efa0a4c1298a5d298",
+        "routed_dag_sha256": "9dad936b18abf5f46c33c503f022eb631621a0590503c814ebd9722b96626b7d",
+        "phase_count": 4,
+        "relative_schedule_consistent": true,
+        "required_input_cycle_offsets": {
+          "pi0": 0,
+          "pi1": 0,
+          "pi2": 0
+        },
+        "input_schedule_applied": false,
+        "mismatches": [],
+        "relative_schedule_conflicts": [],
+        "nodes_checked": 17,
+        "routes_checked": 20,
+        "arrival_tick_ranges": {
+          "0": [
+            0,
+            0
+          ],
+          "1": [
+            0,
+            0
+          ],
+          "2": [
+            0,
+            0
+          ],
+          "8": [
+            4,
+            4
+          ],
+          "7": [
+            2,
+            2
+          ],
+          "10": [
+            2,
+            2
+          ],
+          "13": [
+            3,
+            3
+          ],
+          "21": [
+            2,
+            2
+          ],
+          "16": [
+            6,
+            6
+          ],
+          "12": [
+            6,
+            6
+          ],
+          "6": [
+            6,
+            6
+          ],
+          "15": [
+            8,
+            8
+          ],
+          "3": [
+            5,
+            5
+          ],
+          "18": [
+            9,
+            9
+          ],
+          "20": [
+            9,
+            9
+          ],
+          "4": [
+            13,
+            13
+          ],
+          "5": [
+            13,
+            13
+          ]
+        },
+        "route_delays": [
+          {
+            "source": 0,
+            "target": 7,
+            "ticks": 2
+          },
+          {
+            "source": 0,
+            "target": 8,
+            "ticks": 4
+          },
+          {
+            "source": 1,
+            "target": 7,
+            "ticks": 2
+          },
+          {
+            "source": 1,
+            "target": 10,
+            "ticks": 2
+          },
+          {
+            "source": 2,
+            "target": 13,
+            "ticks": 3
+          },
+          {
+            "source": 2,
+            "target": 21,
+            "ticks": 2
+          },
+          {
+            "source": 7,
+            "target": 15,
+            "ticks": 6
+          },
+          {
+            "source": 7,
+            "target": 16,
+            "ticks": 4
+          },
+          {
+            "source": 8,
+            "target": 12,
+            "ticks": 2
+          },
+          {
+            "source": 10,
+            "target": 12,
+            "ticks": 4
+          },
+          {
+            "source": 12,
+            "target": 18,
+            "ticks": 3
+          },
+          {
+            "source": 12,
+            "target": 20,
+            "ticks": 3
+          },
+          {
+            "source": 13,
+            "target": 6,
+            "ticks": 3
+          },
+          {
+            "source": 13,
+            "target": 15,
+            "ticks": 5
+          },
+          {
+            "source": 15,
+            "target": 5,
+            "ticks": 5
+          },
+          {
+            "source": 16,
+            "target": 4,
+            "ticks": 7
+          },
+          {
+            "source": 18,
+            "target": 4,
+            "ticks": 4
+          },
+          {
+            "source": 20,
+            "target": 5,
+            "ticks": 4
+          },
+          {
+            "source": 21,
+            "target": 3,
+            "ticks": 3
+          },
+          {
+            "source": 21,
+            "target": 20,
+            "ticks": 7
+          }
+        ],
+        "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+      },
+      "mapping_validation": {
+        "passed": true,
+        "cell_count": 507,
+        "cross_count": 4,
+        "io_contraction": false
+      },
+      "total_backend_time_s": 0.44074707999970997,
+      "qca_cells": 507
+    },
+    "optimization": {
+      "policy": "heuristic",
+      "rounds": 3,
+      "accepted": 1,
+      "baseline": {
+        "area_tiles": 169,
+        "qca_cells": 532
+      },
+      "selected": {
+        "area_tiles": 143,
+        "qca_cells": 507
+      },
+      "selected_round": 1
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "exhaustive_scalar_source_vs_routed_dag",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff",
+    "physical_routes": "source_isolation_and_ordered_paths_passed",
+    "clock_arrival": "cycle_zero_at_template_phase_passed",
+    "device_terminal_counts": "match_source_declarations"
+  },
+  "optimization": {
+    "status": "completed",
+    "policy": "heuristic",
+    "rounds": 3,
+    "seed": 3,
+    "candidate_timeout_s": 20,
+    "model_timeout_s": 60,
+    "node": "/home/lys/.nvm/versions/node/v22.22.2/bin/node",
+    "source_run_id": "481ef7da26b64701a9307dd92172c312",
+    "model": {
+      "provider": "new-provider",
+      "modelId": "qwen3-vl-plus"
+    }
+  },
+  "error": null,
+  "worker_pid": 93197,
+  "active": false,
+  "log_tail": "qca=/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc/rounds/01/device_energy_input.qca\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 175, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: physical route is missing its template port; Native process exited with 10\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 175, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: physical route is missing its template port; Native process exited with 10\n",
+  "run_directory": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7bc640191e38476587c2c64d9a010fbc"
+}

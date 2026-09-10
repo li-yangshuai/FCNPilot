@@ -506,6 +506,37 @@ int main()
         return 34;
     }
 
+    // A legal crossover may turn once within its tile. The physical net
+    // materializer must preserve that bend rather than require H/V straightness
+    // from a particular placement algorithm's coarse crossing policy.
+    Mapping bentLiftedRoute;
+    const std::vector<std::vector<position>> bentCoarseRoute{
+        {{0, 1}, {1, 1}, {1, 2}},
+    };
+    const auto bentKey = std::make_pair(position{0, 1}, position{1, 2});
+    const std::vector<position> bentCorridor{
+        {5, 7}, {6, 7}, {7, 7}, {7, 8}, {7, 9},
+    };
+    bentLiftedRoute.deviatemapping_list[bentKey] = {bentCorridor};
+    bentLiftedRoute.crossline_list[bentKey] = {bentCorridor};
+    const auto bentLayeredPaths =
+        bentLiftedRoute.orderedLayerAwarePhysicalRoutes(bentCoarseRoute);
+    if (!bentLiftedRoute.validate_crossovers(&validationError) ||
+        bentLayeredPaths.size() != 1 ||
+        !isLayerAwareNeighborPath(bentLayeredPaths.front()) ||
+        bentLiftedRoute.physicalCellSites(bentCoarseRoute).size() != 11) {
+        std::cerr << "physical validation discarded a legal bent lifted corridor\n";
+        return 42;
+    }
+    const auto bentSites = bentLiftedRoute.physicalCellSites(bentCoarseRoute);
+    for (int layer = 0; layer != 3; ++layer) {
+        if (bentSites.count({5, 7, layer}) != 1 ||
+            bentSites.count({7, 9, layer}) != 1) {
+            std::cerr << "bent lifted corridor has an incomplete transition column\n";
+            return 43;
+        }
+    }
+
     // Two routes with different sources may cross on different layers, but
     // they must never claim the same exact QCA site.  This deliberately makes
     // their ordinary L0 paths overlap inside one coarse tile and verifies the

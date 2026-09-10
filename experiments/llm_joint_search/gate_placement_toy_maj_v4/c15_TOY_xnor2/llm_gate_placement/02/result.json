@@ -1,0 +1,533 @@
+{
+  "round": 2,
+  "status": "certified",
+  "start_metrics": {
+    "width": 6,
+    "height": 15,
+    "area_tiles": 90,
+    "qca_cells": 234,
+    "edge_steps": 48,
+    "output_arrival_ticks": {
+      "2": [
+        15,
+        15
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 6,
+    "height": 15,
+    "area_tiles": 90,
+    "qca_cells": 234,
+    "edge_steps": 48,
+    "output_arrival_ticks": {
+      "2": [
+        15,
+        15
+      ]
+    }
+  },
+  "start_state": "0269250d2383ba02091c66e1d8ca7bebdff307dc3040b9ce01ea88a1dbe76344",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 976,
+    "output": 483,
+    "cacheRead": 10240,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 11699
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          21,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          23,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          22,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          21,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 3,
+        "to": [
+          23,
+          22
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "The prior failed attempt shifted only nodes 7–10 down by 1 but left 3 and 5 at y=23, causing routing conflicts on edges [0,5], [1,3], [7,9], [8,9]. Here, we coordinate a full vertical contraction: move NOTs (3,5) to y=22 and ANDs (7,8) to y=24, aligning fanins vertically (0→5 and 1→3 now Δy=2, Manhattan), and OR/NOT (9,10) to y=27/30. This eliminates the detour in edge [5,8] (now Δx=2, Δy=2 → 4 steps vs 8) and uses vacant band y=21–22 (window_18_24_20_26) and y=26–27 (window_18_24_22_28) without collisions. Bounding box tightens to min_y=20, max_y=30 (height=11), width unchanged at 6 → area ≤66 < 90. All internal nodes relocated; ports remain fixed but internal compression reduces routed extent."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          21,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          23,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          22,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          21,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 3,
+        "to": [
+          23,
+          22
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        10,
+        2
+      ]
+    ],
+    "rationale": "The prior failed attempt shifted only nodes 7–10 down by 1 but left 3 and 5 at y=23, causing routing conflicts on edges [0,5], [1,3], [7,9], [8,9]. Here, we coordinate a full vertical contraction: move NOTs (3,5) to y=22 and ANDs (7,8) to y=24, aligning fanins vertically (0→5 and 1→3 now Δy=2, Manhattan), and OR/NOT (9,10) to y=27/30. This eliminates the detour in edge [5,8] (now Δx=2, Δy=2 → 4 steps vs 8) and uses vacant band y=21–22 (window_18_24_20_26) and y=26–27 (window_18_24_22_28) without collisions. Bounding box tightens to min_y=20, max_y=30 (height=11), width unchanged at 6 → area ≤66 < 90. All internal nodes relocated; ports remain fixed but internal compression reduces routed extent."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "7162f9300d59769deb2fba24244f5a6a79231fa262da03551466b6384eb3b566",
+  "moves": [
+    {
+      "node_id": 3,
+      "name": "~b",
+      "from": [
+        23,
+        23
+      ],
+      "to": [
+        23,
+        22
+      ]
+    },
+    {
+      "node_id": 5,
+      "name": "~a",
+      "from": [
+        21,
+        23
+      ],
+      "to": [
+        21,
+        22
+      ]
+    },
+    {
+      "node_id": 7,
+      "name": "w2",
+      "from": [
+        21,
+        25
+      ],
+      "to": [
+        21,
+        24
+      ]
+    },
+    {
+      "node_id": 8,
+      "name": "w4",
+      "from": [
+        23,
+        25
+      ],
+      "to": [
+        23,
+        24
+      ]
+    },
+    {
+      "node_id": 9,
+      "name": "w5",
+      "from": [
+        22,
+        28
+      ],
+      "to": [
+        22,
+        27
+      ]
+    },
+    {
+      "node_id": 10,
+      "name": "~w5",
+      "from": [
+        22,
+        31
+      ],
+      "to": [
+        22,
+        30
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        10,
+        2
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        10,
+        2
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "metrics": {
+    "width": 6,
+    "height": 15,
+    "area_tiles": 90,
+    "qca_cells": 247,
+    "edge_steps": 47,
+    "output_arrival_ticks": {
+      "2": [
+        17,
+        17
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 0,
+      "target": 5,
+      "before_steps": 4,
+      "after_steps": 3
+    },
+    {
+      "source": 0,
+      "target": 7,
+      "before_steps": 8,
+      "after_steps": 5
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "before_steps": 3,
+      "after_steps": 2
+    },
+    {
+      "source": 1,
+      "target": 8,
+      "before_steps": 7,
+      "after_steps": 6
+    },
+    {
+      "source": 3,
+      "target": 7,
+      "before_steps": 4,
+      "after_steps": 4
+    },
+    {
+      "source": 5,
+      "target": 8,
+      "before_steps": 8,
+      "after_steps": 10
+    },
+    {
+      "source": 7,
+      "target": 9,
+      "before_steps": 4,
+      "after_steps": 4
+    },
+    {
+      "source": 8,
+      "target": 9,
+      "before_steps": 4,
+      "after_steps": 6
+    },
+    {
+      "source": 9,
+      "target": 10,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 10,
+      "target": 2,
+      "before_steps": 3,
+      "after_steps": 4
+    }
+  ],
+  "elapsed_s": 15.091168872000708,
+  "node_changes": [
+    {
+      "node_id": 3,
+      "name": "~b",
+      "from": [
+        23,
+        23
+      ],
+      "to": [
+        23,
+        22
+      ]
+    },
+    {
+      "node_id": 5,
+      "name": "~a",
+      "from": [
+        21,
+        23
+      ],
+      "to": [
+        21,
+        22
+      ]
+    },
+    {
+      "node_id": 7,
+      "name": "w2",
+      "from": [
+        21,
+        25
+      ],
+      "to": [
+        21,
+        24
+      ]
+    },
+    {
+      "node_id": 8,
+      "name": "w4",
+      "from": [
+        23,
+        25
+      ],
+      "to": [
+        23,
+        24
+      ]
+    },
+    {
+      "node_id": 9,
+      "name": "w5",
+      "from": [
+        22,
+        28
+      ],
+      "to": [
+        22,
+        27
+      ]
+    },
+    {
+      "node_id": 10,
+      "name": "~w5",
+      "from": [
+        22,
+        31
+      ],
+      "to": [
+        22,
+        30
+      ]
+    }
+  ],
+  "decision": "certified_exploration",
+  "retained_metrics": {
+    "width": 6,
+    "height": 15,
+    "area_tiles": 90,
+    "qca_cells": 234,
+    "edge_steps": 48,
+    "output_arrival_ticks": {
+      "2": [
+        15,
+        15
+      ]
+    }
+  },
+  "next_state": "28355e84caf82b64daac009263c4ef15a295f9003f871257d232528446f1aa38"
+}

@@ -1,0 +1,809 @@
+{
+  "round": 1,
+  "status": "failed",
+  "start_metrics": {
+    "width": 21,
+    "height": 34,
+    "area_tiles": 714,
+    "qca_cells": 1494,
+    "edge_steps": 304,
+    "output_arrival_ticks": {
+      "5": [
+        37,
+        37
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 21,
+    "height": 34,
+    "area_tiles": 714,
+    "qca_cells": 1494,
+    "edge_steps": 304,
+    "output_arrival_ticks": {
+      "5": [
+        37,
+        37
+      ]
+    }
+  },
+  "start_state": "5630902f42fad9d9bedddeab8ed4dd4c277255d605065036de2846e9ac232289",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 22265,
+    "output": 502,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 22767
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          22,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 32,
+        "to": [
+          24,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 34,
+        "to": [
+          26,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 36,
+        "to": [
+          26,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 53,
+        "to": [
+          26,
+          34
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          45,
+          47
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          28,
+          51
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Contract the left-side fanin cluster (nodes 16,18,32,34,36,53) toward the vacancy hotspot at (22–26,21–28), reducing horizontal span from x=20→40 to x=22→40 (width −2). Node 16 moves to its neighbor-median y=21; 18/32/34/36/53 shift right/up into empty bands (x=24–26, y=26–34) with low wire density. Swapping 45↔47 aligns their y-coordinates (now both at y=40/42) to shorten the 44→47 and 45→49 paths, eliminating a detour in the top-right region. Moving output 5 down by 2 tiles reduces height from 53→51, directly cutting area by 42 tiles. All moves use vacant local sites per spatial regions, avoid collisions, and preserve DAG edges."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          22,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 32,
+        "to": [
+          24,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 34,
+        "to": [
+          26,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 36,
+        "to": [
+          26,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 53,
+        "to": [
+          26,
+          34
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          45,
+          47
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          28,
+          51
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        39
+      ],
+      [
+        3,
+        21
+      ],
+      [
+        4,
+        18
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        40,
+        44
+      ],
+      [
+        16,
+        18
+      ],
+      [
+        57,
+        13
+      ],
+      [
+        56,
+        15
+      ],
+      [
+        19,
+        21
+      ],
+      [
+        22,
+        26
+      ],
+      [
+        9,
+        15
+      ],
+      [
+        7,
+        11
+      ],
+      [
+        7,
+        13
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        32,
+        36
+      ],
+      [
+        34,
+        36
+      ],
+      [
+        36,
+        52
+      ],
+      [
+        27,
+        31
+      ],
+      [
+        29,
+        31
+      ],
+      [
+        24,
+        26
+      ],
+      [
+        53,
+        55
+      ],
+      [
+        37,
+        39
+      ],
+      [
+        42,
+        44
+      ],
+      [
+        47,
+        49
+      ],
+      [
+        45,
+        49
+      ],
+      [
+        49,
+        55
+      ],
+      [
+        50,
+        52
+      ],
+      [
+        55,
+        5
+      ],
+      [
+        52,
+        5
+      ],
+      [
+        0,
+        40
+      ],
+      [
+        2,
+        57
+      ],
+      [
+        4,
+        19
+      ],
+      [
+        1,
+        56
+      ],
+      [
+        3,
+        16
+      ],
+      [
+        56,
+        7
+      ],
+      [
+        6,
+        22
+      ],
+      [
+        57,
+        9
+      ],
+      [
+        21,
+        34
+      ],
+      [
+        18,
+        32
+      ],
+      [
+        11,
+        24
+      ],
+      [
+        13,
+        27
+      ],
+      [
+        15,
+        29
+      ],
+      [
+        36,
+        53
+      ],
+      [
+        26,
+        37
+      ],
+      [
+        31,
+        42
+      ],
+      [
+        39,
+        45
+      ],
+      [
+        44,
+        47
+      ],
+      [
+        49,
+        50
+      ]
+    ],
+    "rationale": "Contract the left-side fanin cluster (nodes 16,18,32,34,36,53) toward the vacancy hotspot at (22–26,21–28), reducing horizontal span from x=20→40 to x=22→40 (width −2). Node 16 moves to its neighbor-median y=21; 18/32/34/36/53 shift right/up into empty bands (x=24–26, y=26–34) with low wire density. Swapping 45↔47 aligns their y-coordinates (now both at y=40/42) to shorten the 44→47 and 45→49 paths, eliminating a detour in the top-right region. Moving output 5 down by 2 tiles reduces height from 53→51, directly cutting area by 42 tiles. All moves use vacant local sites per spatial regions, avoid collisions, and preserve DAG edges."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "a79d589450e10b688bc8f228587c5a90cea158b3bdd2db48809ce45e8b3c7fd8",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 39) has an absent or invalid clock phase at (40, 20); Route (0, 39) has an absent or invalid clock phase at (39, 20); Route (0, 39) has an absent or invalid clock phase at (38, 20); Route (0, 39) has an absent or invalid clock phase at (37, 20)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        39
+      ],
+      [
+        3,
+        21
+      ],
+      [
+        4,
+        18
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        40,
+        44
+      ],
+      [
+        16,
+        18
+      ],
+      [
+        57,
+        13
+      ],
+      [
+        56,
+        15
+      ],
+      [
+        19,
+        21
+      ],
+      [
+        22,
+        26
+      ],
+      [
+        9,
+        15
+      ],
+      [
+        7,
+        11
+      ],
+      [
+        7,
+        13
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        32,
+        36
+      ],
+      [
+        34,
+        36
+      ],
+      [
+        36,
+        52
+      ],
+      [
+        27,
+        31
+      ],
+      [
+        29,
+        31
+      ],
+      [
+        24,
+        26
+      ],
+      [
+        53,
+        55
+      ],
+      [
+        37,
+        39
+      ],
+      [
+        42,
+        44
+      ],
+      [
+        47,
+        49
+      ],
+      [
+        45,
+        49
+      ],
+      [
+        49,
+        55
+      ],
+      [
+        50,
+        52
+      ],
+      [
+        55,
+        5
+      ],
+      [
+        52,
+        5
+      ],
+      [
+        0,
+        40
+      ],
+      [
+        2,
+        57
+      ],
+      [
+        4,
+        19
+      ],
+      [
+        1,
+        56
+      ],
+      [
+        3,
+        16
+      ],
+      [
+        56,
+        7
+      ],
+      [
+        6,
+        22
+      ],
+      [
+        57,
+        9
+      ],
+      [
+        21,
+        34
+      ],
+      [
+        18,
+        32
+      ],
+      [
+        11,
+        24
+      ],
+      [
+        13,
+        27
+      ],
+      [
+        15,
+        29
+      ],
+      [
+        36,
+        53
+      ],
+      [
+        26,
+        37
+      ],
+      [
+        31,
+        42
+      ],
+      [
+        39,
+        45
+      ],
+      [
+        44,
+        47
+      ],
+      [
+        49,
+        50
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        39
+      ],
+      [
+        3,
+        21
+      ],
+      [
+        4,
+        18
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        40,
+        44
+      ],
+      [
+        16,
+        18
+      ],
+      [
+        57,
+        13
+      ],
+      [
+        56,
+        15
+      ],
+      [
+        19,
+        21
+      ],
+      [
+        22,
+        26
+      ],
+      [
+        9,
+        15
+      ],
+      [
+        7,
+        11
+      ],
+      [
+        7,
+        13
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        32,
+        36
+      ],
+      [
+        34,
+        36
+      ],
+      [
+        36,
+        52
+      ],
+      [
+        27,
+        31
+      ],
+      [
+        29,
+        31
+      ],
+      [
+        24,
+        26
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      0,
+      40
+    ],
+    [
+      1,
+      56
+    ],
+    [
+      2,
+      57
+    ],
+    [
+      3,
+      16
+    ],
+    [
+      4,
+      19
+    ],
+    [
+      6,
+      22
+    ],
+    [
+      11,
+      24
+    ],
+    [
+      13,
+      27
+    ],
+    [
+      15,
+      29
+    ],
+    [
+      18,
+      32
+    ],
+    [
+      21,
+      34
+    ],
+    [
+      24,
+      26
+    ],
+    [
+      26,
+      37
+    ],
+    [
+      31,
+      42
+    ],
+    [
+      36,
+      53
+    ],
+    [
+      37,
+      39
+    ],
+    [
+      39,
+      45
+    ],
+    [
+      42,
+      44
+    ],
+    [
+      44,
+      47
+    ],
+    [
+      45,
+      49
+    ],
+    [
+      47,
+      49
+    ],
+    [
+      49,
+      50
+    ],
+    [
+      49,
+      55
+    ],
+    [
+      50,
+      52
+    ],
+    [
+      52,
+      5
+    ],
+    [
+      53,
+      55
+    ],
+    [
+      55,
+      5
+    ],
+    [
+      56,
+      7
+    ],
+    [
+      57,
+      9
+    ]
+  ],
+  "elapsed_s": 23.994646966999426,
+  "decision": "retain_best",
+  "retained_metrics": {
+    "width": 21,
+    "height": 34,
+    "area_tiles": 714,
+    "qca_cells": 1494,
+    "edge_steps": 304,
+    "output_arrival_ticks": {
+      "5": [
+        37,
+        37
+      ]
+    }
+  },
+  "next_state": "5630902f42fad9d9bedddeab8ed4dd4c277255d605065036de2846e9ac232289"
+}

@@ -155,3 +155,11 @@ test("renders custom-message images as buttons that open a larger preview", () =
   assert.match(html, /<button[^>]+aria-label="Preview image"[^>]*>/);
   assert.match(html, /<img[^>]+src="data:image\/png;base64,YWJj"/);
 });
+
+
+test("renders archived command messages without links to the retired command-output service", () => {
+  const html = renderMessage({ role: "bashExecution", command: "old circuit conversion", output: "archived result",
+    exitCode: 0, truncated: true, fullOutputPath: "/tmp/old.log", timestamp: 1 }, { sessionId: "saved-design" });
+  assert.match(html, /old circuit conversion/);
+  assert.doesNotMatch(html, /bash-output|view full output|download full output/);
+});

@@ -1,0 +1,171 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "b8361e9269f04981885d1f63ce9fc669",
+  "created_at": "2026-09-08T04:24:06.042559+00:00",
+  "updated_at": "2026-09-08T04:24:46.082861+00:00",
+  "status": "failed",
+  "current_stage": "pnr",
+  "source": "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/inputs/MAJ/par_gen.v",
+  "design_type": "combinational",
+  "configuration": {
+    "root": "/home/lys/projects/github/FCNPilot/engine",
+    "build_dir": "/home/lys/projects/github/FCNPilot/engine/build",
+    "python": "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+    "backend": "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_combinational_pnr",
+    "sequential_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_sequential_cyclic_pnr",
+    "regular_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_regular_clock_pnr",
+    "yosys_binary": "/home/lys/projects/github/FCNPilot/engine/build/tools/yosys-local/usr/bin/yosys"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "x0",
+      "x1",
+      "x2"
+    ],
+    "warnings": [],
+    "outputs": [
+      "y0"
+    ],
+    "assignment_count": 4,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 45,
+    "model": "bistable",
+    "algorithm": "compact",
+    "clock_scheme": "irregular",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-08T04:24:06.095658+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b8361e9269f04981885d1f63ce9fc669/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b8361e9269f04981885d1f63ce9fc669/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "45"
+        ]
+      ],
+      "completed_at": "2026-09-08T04:24:06.256466+00:00"
+    },
+    "pnr": {
+      "status": "failed",
+      "started_at": "2026-09-08T04:24:06.257726+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b8361e9269f04981885d1f63ce9fc669/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b8361e9269f04981885d1f63ce9fc669/02_pnr_1/01_compact_default",
+          "--algorithm",
+          "compact",
+          "--seed",
+          "1",
+          "--budget",
+          "42",
+          "--clock",
+          "irregular"
+        ]
+      ],
+      "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log."
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 261,
+      "sha256": "c89d153622f389fe370e43f7a0bc68ade61cb2ad7d5b4faa5925d1931e71ac01"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 1045,
+      "sha256": "4e6616ac9ff7ced8bd1a3a8439a32e13deb81ed7bf192b3d67848f4e22e3419a"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 4669,
+      "sha256": "2f6e17258a2a6abbf0c09444b061fcd43df64044dce474a01f3ba3cfc07cad11"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 1170,
+      "sha256": "dc79736ca9d2b1ea2828c2ae6483fd7fc33db89ccc4cd09219ffa5b16e9e0f19"
+    },
+    "pnr_attempts/01_compact_default_pnr.json": {
+      "path": "02_pnr_1/01_compact_default/pnr.json",
+      "bytes": 865,
+      "sha256": "e5581dc4b4102d436739646ac79c92882aad63a164b141acdb215ad7463376d9"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 2074,
+      "sha256": "a3bbbdaeeb233dca008f9781ac9200f58c5e1d0f92feeb6de63035f8263d27e3"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 5822,
+      "sha256": "d7d8b19d2b56c43e837099b1de0c8a437d32706cd3e2b1955f42b589cb0a6051"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 3,
+      "output_count": 1
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "compact",
+      "requested_clock": "irregular",
+      "selected_algorithm": null,
+      "selected_variant": null,
+      "policy": "First validated backend; bounded variants replace the valid baseline only when area and actual QCA cell count do not increase and at least one decreases; no global optimality claim",
+      "attempts": [
+        {
+          "algorithm": "compact",
+          "variant": "default",
+          "status": "failed",
+          "budget_s": 45.0,
+          "started_at": "2026-09-08T04:24:06.258533+00:00",
+          "directory": "02_pnr_1/01_compact_default",
+          "error": "pnr command exited with 1. maining_time(endtime))\n  File \"/usr/lib/python3.12/subprocess.py\", line 1264, in wait\n    return self._wait(timeout=timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 2045, in _wait\n    raise TimeoutExpired(self.args, timeout)\nsubprocess.TimeoutExpired: Command '['/home/lys/projects/github/FCNPilot/engine/build/ifcn_combinational_pnr', 'compact', '/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b8361e9269f04981885d1f63ce9fc669/normalized.v', '/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b8361e9269f04981885d1f63ce9fc669/02_pnr_1/01_compact_default/layout_candidate.json']' timed out after 41.999993340999936 seconds\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 146, in run_native\n    raise RuntimeError(f'{args.algorithm} exceeded its {args.budget}s native routing budget; see native.log.') from exc\nRuntimeError: compact exceeded its 42s native routing budget; see native.log.\n",
+          "elapsed_s": 42.095
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log.",
+  "worker_pid": 83534,
+  "active": false,
+  "log_tail": "Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 143, in run_native\n    result = subprocess.run(command,\n             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 550, in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 1209, in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 2141, in _communicate\n    self.wait(timeout=self._remaining_time(endtime))\n  File \"/usr/lib/python3.12/subprocess.py\", line 1264, in wait\n    return self._wait(timeout=timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/subprocess.py\", line 2045, in _wait\n    raise TimeoutExpired(self.args, timeout)\nsubprocess.TimeoutExpired: Command '['/home/lys/projects/github/FCNPilot/engine/build/ifcn_combinational_pnr', 'compact', '/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b8361e9269f04981885d1f63ce9fc669/normalized.v', '/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b8361e9269f04981885d1f63ce9fc669/02_pnr_1/01_compact_default/layout_candidate.json']' timed out after 41.999993340999936 seconds\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 146, in run_native\n    raise RuntimeError(f'{args.algorithm} exceeded its {args.budget}s native routing budget; see native.log.') from exc\nRuntimeError: compact exceeded its 42s native routing budget; see native.log.\n",
+  "run_directory": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/b8361e9269f04981885d1f63ce9fc669"
+}

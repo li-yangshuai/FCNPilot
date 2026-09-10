@@ -1,0 +1,187 @@
+{
+  "schema": "fcn.spatial_density_study.v1",
+  "created_at": "2026-09-09T03:28:12.956674+00:00",
+  "case_entries": [
+    {
+      "ordinal": 1,
+      "case_id": "TOY/par_gen.v",
+      "status": "eligible",
+      "eligible": true,
+      "reasons": [],
+      "folder": "c01_TOY_par_gen",
+      "run_id": "a907376697454f1795d960d62b161073",
+      "starting_state": "c13_TOY_par_gen/deterministic_internal/02/joint",
+      "initial": {
+        "width": 9,
+        "height": 18,
+        "area_tiles": 162,
+        "qca_cells": 418,
+        "edge_steps": 91,
+        "output_arrival_ticks": {
+          "3": [
+            19,
+            19
+          ]
+        }
+      }
+    },
+    {
+      "ordinal": 2,
+      "case_id": "TOY/xor5R.v",
+      "status": "eligible",
+      "eligible": true,
+      "reasons": [],
+      "folder": "c02_TOY_xor5R",
+      "run_id": "7143a5d9ecb443c8a4dbc075be2475ea",
+      "starting_state": "original_baseline",
+      "initial": {
+        "width": 21,
+        "height": 34,
+        "area_tiles": 714,
+        "qca_cells": 1494,
+        "edge_steps": 304,
+        "output_arrival_ticks": {
+          "5": [
+            37,
+            37
+          ]
+        }
+      }
+    },
+    {
+      "ordinal": 3,
+      "case_id": "MAJ/par_gen.v",
+      "status": "eligible",
+      "eligible": true,
+      "reasons": [],
+      "folder": "c03_MAJ_par_gen",
+      "run_id": "84e933871a534feaa6787e209597a810",
+      "starting_state": "original_baseline",
+      "initial": {
+        "width": 15,
+        "height": 37,
+        "area_tiles": 555,
+        "qca_cells": 1361,
+        "edge_steps": 304,
+        "output_arrival_ticks": {
+          "3": [
+            38,
+            38
+          ]
+        }
+      }
+    },
+    {
+      "ordinal": 4,
+      "case_id": "MAJ/xor2.v",
+      "status": "eligible",
+      "eligible": true,
+      "reasons": [],
+      "folder": "c04_MAJ_xor2",
+      "run_id": "237d80c7f99242509ef1dd0018c0ca4d",
+      "starting_state": "original_baseline",
+      "initial": {
+        "width": 11,
+        "height": 29,
+        "area_tiles": 319,
+        "qca_cells": 673,
+        "edge_steps": 142,
+        "output_arrival_ticks": {
+          "2": [
+            28,
+            28
+          ]
+        }
+      }
+    }
+  ],
+  "rounds_per_policy": 2,
+  "batch_size": 4,
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "policies": {
+    "deterministic_density": "first spatial seed",
+    "llm_text_density": "JSON density context",
+    "llm_vision_density": "same context plus verified native-coordinate PNG"
+  },
+  "image_contract": "Image shows native XY nodes, routes, phase-colored sites and local gate/old-wire occupancy; sparsity is a search hint, never a DRC certificate.",
+  "search_contract": "Model selects one spatial seed ID. Seed, single-member, reduced-displacement and alternate-order neighbors are separate native calls with explicit origin and no hidden retry.",
+  "acceptance": "PI/PO XY fixed; source/DAG equivalence, original irregular-clock constraints, exact one-pass route order, physical QCA paths/ports and actual Pareto area/cell checks remain mandatory.",
+  "prior_state_policy": "The best previously certified internal state is used when available, otherwise the registered baseline; source and normalized Verilog remain the frozen corpus inputs.",
+  "original_artifact_hashes": {
+    "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/protocol.json": "7d448ec9d07c33eef1453063e551c2fb13c7b27c4221390901972695dc45014e",
+    "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/index.json": "afaa55b456f5d695530d74df8a601490d5ee952ccd4bd4a4777ab3637daa48d2",
+    "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/audit.json": "0ac476598561b2a5e9d2b3c37925b650bf89bc262834e7575a854f2e5a060694",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/a907376697454f1795d960d62b161073/source.v": "9b345754736a4fff843aee1499631f401cd5fe39214c7e649343a880eb028762",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/a907376697454f1795d960d62b161073/normalized.v": "74dd4c190b54b0c946f481d3134148de153f5afe27e90626234ee29ed9f48f1b",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/a907376697454f1795d960d62b161073/02_pnr_1/02_june_random_optimized_buffers/layout_candidate.json": "e2184ba7d2736c21bd19a8141c38ce8c7f9b116ea622b0e6655484f1b9035184",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/a907376697454f1795d960d62b161073/02_pnr_1/02_june_random_optimized_buffers/routed_dag.json": "dd8f6b6b75b003dca9ced0a7d0eaf0d9a6dfd29530bb6075845000148cbf5539",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/a907376697454f1795d960d62b161073/02_pnr_1/02_june_random_optimized_buffers/layout.ifcn": "60868009231b32c6f3d99257ae4b3a1d64c886890ce7292ed50303ec56db1b96",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/a907376697454f1795d960d62b161073/02_pnr_1/02_june_random_optimized_buffers/physical.json": "d29443e9e4f38a69a7e30133cdbd6e5ad1222236b118e6edccc4484c8a7ef678",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/a907376697454f1795d960d62b161073/02_pnr_1/02_june_random_optimized_buffers/clock.json": "ec650a83bf1682f439a16c82708b52edfe6c6fabd86e61f1395888ac5e58ca76",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/a907376697454f1795d960d62b161073/02_pnr_1/02_june_random_optimized_buffers/interface_check_energy_input.qca": "e0e6d5d3e856f126449bb97fda9e842e867245628e0ab679e591c761ca6ba7b8",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/a907376697454f1795d960d62b161073/manifest.json": "17e117bf500bcb1d1ced276261efe924d5a6693160fb53e2f9a72846ad7b94ae",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7143a5d9ecb443c8a4dbc075be2475ea/source.v": "8139d222736c073dccf0a16e6f711dc05e3a3912e283f8a21c082a068b15661f",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7143a5d9ecb443c8a4dbc075be2475ea/normalized.v": "a81d6ec8e721dbbf10bd8f6eeb79b9d65029993d73646e39be2036c18ccc06d7",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7143a5d9ecb443c8a4dbc075be2475ea/02_pnr_1/02_june_random_optimized_buffers/layout_candidate.json": "a79d589450e10b688bc8f228587c5a90cea158b3bdd2db48809ce45e8b3c7fd8",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7143a5d9ecb443c8a4dbc075be2475ea/02_pnr_1/02_june_random_optimized_buffers/routed_dag.json": "c530984d913790f9db83d58d597a619dbf823181e3e65d3859be2a37a612a1a0",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7143a5d9ecb443c8a4dbc075be2475ea/02_pnr_1/02_june_random_optimized_buffers/layout.ifcn": "35b210126033a38d40447b64c39773588a14c021d25f51f5052c8ba28a128e14",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7143a5d9ecb443c8a4dbc075be2475ea/02_pnr_1/02_june_random_optimized_buffers/physical.json": "83b839688c54f941ebb19d283c9e3c62b2f619e266ee3972c134a6d51c695d49",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7143a5d9ecb443c8a4dbc075be2475ea/02_pnr_1/02_june_random_optimized_buffers/clock.json": "cac9a73662c8160ee18b02e0f9832f61f5001fd7408703e01b8eb629e9f5190e",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7143a5d9ecb443c8a4dbc075be2475ea/02_pnr_1/02_june_random_optimized_buffers/interface_check_energy_input.qca": "e491b27755d22753d1f87aad9a7d813a17b8b3225b354f7a51788ea74aae88d7",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/7143a5d9ecb443c8a4dbc075be2475ea/manifest.json": "2504aefdbf8d3197296a85251d495c570b13ef7da59adb43c83afce7c4ff0e51",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/source.v": "c89d153622f389fe370e43f7a0bc68ade61cb2ad7d5b4faa5925d1931e71ac01",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/normalized.v": "4e6616ac9ff7ced8bd1a3a8439a32e13deb81ed7bf192b3d67848f4e22e3419a",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/layout_candidate.json": "42a0576bf3ff8458f1bed017caed77da3a884de547c514923bb8e785a0e28fa3",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/routed_dag.json": "02e8e8be8fea4d94c7700d2abb0332638b3857793cc46fa62a3656b82b314123",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/layout.ifcn": "e188dfa276c832a0cecf1b7cf76066a9e989f38ece9ad77edf1812736eaf5f92",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/physical.json": "0c44c779df2df0025f761bdd7b593345c6ffb50d4ee04dc01c6e32f4725f1100",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/clock.json": "6682b396065d3e93734dba0defcc059115fbede169377c52cbcd8b733a19442a",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/interface_check_energy_input.qca": "54328b3d023e23ee39d0835b942ae0ef80b1060a888881430bd233e9a99f313f",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/manifest.json": "bb6d59613668053d80be49fd214db864d3526f3a4c12a6c67214394194abcdd1",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/237d80c7f99242509ef1dd0018c0ca4d/source.v": "9e9945ea2d76036ecd3f60c9103b50e16e06ac85785348da517f2c18b694b15e",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/237d80c7f99242509ef1dd0018c0ca4d/normalized.v": "76cef37e13a86b9305cd0de8c261439471e048b7e034069a34ff5f4628d3e9a6",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/237d80c7f99242509ef1dd0018c0ca4d/02_pnr_1/01_june_random_layer_redundancy_buffers/layout_candidate.json": "c03fd60dec2813cd8032e1d32479660f6efdcff8e72dab7b338df1dcc1cfbfd8",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/237d80c7f99242509ef1dd0018c0ca4d/02_pnr_1/01_june_random_layer_redundancy_buffers/routed_dag.json": "7a90ffd0ac9b5fdc800b6ded4eae607a419923ce9e2677418487166d91c837f6",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/237d80c7f99242509ef1dd0018c0ca4d/02_pnr_1/01_june_random_layer_redundancy_buffers/layout.ifcn": "7006f95537e3b87f814824914fbabdb962b13626f491ed017066b391a0967b7f",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/237d80c7f99242509ef1dd0018c0ca4d/02_pnr_1/01_june_random_layer_redundancy_buffers/physical.json": "417fb855b99ddc00e016a378b9f50f216a1a5d1ffddec4d81a18fd6947fa3750",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/237d80c7f99242509ef1dd0018c0ca4d/02_pnr_1/01_june_random_layer_redundancy_buffers/clock.json": "7d17d28f74e7bca6ff98349b3308bb5568364a326cd370572c09f0203272879c",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/237d80c7f99242509ef1dd0018c0ca4d/02_pnr_1/01_june_random_layer_redundancy_buffers/interface_check_energy_input.qca": "ad6a0f38a2189267fa6fa4ccc0ed38251ade27fa65cf09e8f3eab803198a6ecc",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/237d80c7f99242509ef1dd0018c0ca4d/manifest.json": "79301f2bdcc1277f32f5dfe1b569380e1ca6d6cd2a3360db07654ea4b87e659e"
+  },
+  "implementation_hashes": {
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/run_density_study.py": "c5f9dc59c74e14ff9c854db8596d9a2aca7f911b4eb41a96ac8fb3c96f8bd511",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/run_internal_study.py": "92cf885ed1c48b62e9abb31590d232dd108faae5d6b7fee5bb8b885919fd8ab8",
+    "/home/lys/projects/github/FCNPilot/integrations/pi/layout-proposer.mjs": "1a43aa25327cd575931e630ffd6c9167f67479c0a949bba3d9b6f54d9e5b8b71",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/curate_benchmarks.py": "8882cb90b0aec933f78d65f6e7b609f5879269c00a704652197a258539917578",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent.py": "6d5a34a28fa0521b30dbf3ca9a447b1034ecb897b334a70ef9beec19cb71b606",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py": "9bc8b08083b5b5fa1def5b1198eac5e3640656241386f7841a235c8197125eec",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_clock_validation.py": "1e80e25aecb39bc21718f7900aa0966d43ea09c9e9eaf128f21b3e4aa5cab7a4",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_frontend.py": "b7c42d76de5e85939f6b15a23ebd1050fdf076e3a474c2b4e81be81a527830e7",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_layout_validation.py": "2056fbc58c9e9cdbca65160f9b2b062ac372143e6a04d3ae9fdd70dd89c3bced",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_sequential.py": "4f2d55a9c30b7ac1c6535b74d318fc8cf12516aa2a540ca80c66785027382ea3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_algorithm_catalog.py": "a7f22aff961c00f97000a55a4f91d6c4ccb8463788ffb2917c1445a5eda9decc",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_axis_compaction.py": "542ada42f27f3a3b4cdda8eff4e28a228b89136850e11fffa52bcb8b847f3c86",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_combinational_rephase.py": "df9ae479fae578f0a8af9cf21a7e265c0ec73abdcd31acbce1f8102d57c32779",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_density_search.py": "fc56d4e0899afdb3766bb1de4371a35594a6c8b2f6fe5757fb044fa92d052fdc",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_internal_relocation.py": "0719c2d4213aa6dd64c3fa8effd70bfaf40f73351dabb6f295c035c667b69607",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_internal_search.py": "7188fd5664ac45932072f5b4d430e4bf905ca6244141653874a01ab1c76944f3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_joint_menu.py": "091835ccde7eb4804cac1bdfb4284cae23f909c8d70dd24a90d041d25d74a4ce",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_joint_search.py": "40fbd26aa8401963f265940c3c81653564444d57c6b53f01c638484df62221ba",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_layout_optimization.py": "d3a353c615d7a1bc6dfe379ebc72f79212ec27c6f5baf549dd66d5a40f3bb423",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_sequential_validation.py": "c9534d1d9c903311b826dd8e471ae860e9ff90c17bdb5f00099d32bc9ec6d027",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_spatial_density.py": "f368ea9b548ce750a22fe34ad2bb5cd79eaf8f64c59cf8eaafa983adde1d4c98",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_spatial_view.py": "e266050c2cb0a13c38c025f7898421196ccecc9a2d9abad3aa75bff841b63820",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/verify_routed_logic.py": "d07eaf08ec1066aa72ccad6e6e379ef47ccfbe7952462f8cdb8305af2f640ae3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/yosys_json_to_seqir.py": "a32f45ac07f09466db283969e87e662b55da980f4e2078d43669887d858e4fee",
+    "/home/lys/projects/github/FCNPilot/engine/src/app/ifcn_layout_edit.cpp": "6f8ec78e4e3ad669c511161c2c673ec8d26695030d163c663b0b295ef5a39216",
+    "/home/lys/projects/github/FCNPilot/engine/include/autopr/graph/circuitGraph.cpp": "aebd01a767b7c58a360c36cc281cd6bb02d226ed8a2cbba7a9d0cf995636f93f"
+  },
+  "binary_hashes": {
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_layout_edit": "63fdc27f1ee38cc73103ec9971fc0554fce7e08414027d6cf489798bf1ba35ce",
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis": "db33ff5333e4ba7a41eb3197802e04875321d8d63bb4a8ae5c6547debaf9de48",
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics": "21462b9e2b0c179d21ac802af2765613aeca2cac0aa22fc5020fb1c1b74485c9"
+  }
+}

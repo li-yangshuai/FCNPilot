@@ -1,0 +1,1222 @@
+{
+  "round": 2,
+  "status": "no_pareto_gain",
+  "allocated_native_slots": 4,
+  "start_metrics": {
+    "width": 3,
+    "height": 10,
+    "area_tiles": 30,
+    "qca_cells": 134,
+    "edge_steps": 26,
+    "output_arrival_ticks": {
+      "2": [
+        10,
+        10
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 3,
+    "height": 10,
+    "area_tiles": 30,
+    "qca_cells": 134,
+    "edge_steps": 26,
+    "output_arrival_ticks": {
+      "2": [
+        10,
+        10
+      ]
+    }
+  },
+  "start_placement": [
+    [
+      0,
+      20,
+      20
+    ],
+    [
+      1,
+      22,
+      20
+    ],
+    [
+      2,
+      21,
+      29
+    ],
+    [
+      3,
+      22,
+      22
+    ],
+    [
+      4,
+      21,
+      21
+    ],
+    [
+      5,
+      22,
+      25
+    ]
+  ],
+  "candidates": [
+    {
+      "candidate_id": "02f7684aeaca19aad018",
+      "seed_id": "02f7684aeaca19aad018",
+      "origin": "exact_selected_seed",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 3,
+            "to": [
+              22,
+              21
+            ]
+          },
+          {
+            "op": "move",
+            "node": 4,
+            "to": [
+              21,
+              20
+            ]
+          },
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              21,
+              24
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            5,
+            2
+          ],
+          [
+            3,
+            5
+          ]
+        ],
+        "rationale": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+      },
+      "result": {
+        "status": "certified",
+        "proposal": {
+          "schema": "ifcn.layout_search.v2",
+          "operations": [
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                21,
+                20
+              ]
+            },
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                21,
+                24
+              ]
+            }
+          ],
+          "routing_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              3,
+              5
+            ]
+          ],
+          "rationale": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+        },
+        "start_sha256": "62abdcbdce4ef8eff799cdba00e809ff35cf53337fb4ad58625fc8efdfbcdccb",
+        "io_lock": {
+          "passed": true,
+          "fixed_node_ids": [
+            0,
+            1,
+            2
+          ],
+          "scope": "PI/PO node XY coordinates only; clock phases are not pinned"
+        },
+        "moves": [
+          {
+            "node_id": 3,
+            "name": "w1",
+            "from": [
+              22,
+              22
+            ],
+            "to": [
+              22,
+              21
+            ]
+          },
+          {
+            "node_id": 4,
+            "name": "w2",
+            "from": [
+              21,
+              21
+            ],
+            "to": [
+              21,
+              20
+            ]
+          },
+          {
+            "node_id": 5,
+            "name": "~w1",
+            "from": [
+              22,
+              25
+            ],
+            "to": [
+              21,
+              24
+            ]
+          }
+        ],
+        "routing_audit": {
+          "requested_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              3,
+              5
+            ]
+          ],
+          "executed_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              3,
+              5
+            ]
+          ],
+          "route_order_attempts": 1,
+          "fallback_used": false,
+          "explicit_routing_order": true,
+          "io_locked": true
+        },
+        "metrics": {
+          "width": 4,
+          "height": 11,
+          "area_tiles": 44,
+          "qca_cells": 160,
+          "edge_steps": 32,
+          "output_arrival_ticks": {
+            "2": [
+              11,
+              11
+            ]
+          }
+        },
+        "certificates": {
+          "logic": "equivalent",
+          "clock": true,
+          "physical": true,
+          "interface": true
+        },
+        "route_changes": [
+          {
+            "source": 0,
+            "target": 3,
+            "before_steps": 4,
+            "after_steps": 3
+          },
+          {
+            "source": 0,
+            "target": 4,
+            "before_steps": 2,
+            "after_steps": 3
+          },
+          {
+            "source": 1,
+            "target": 3,
+            "before_steps": 2,
+            "after_steps": 1
+          },
+          {
+            "source": 1,
+            "target": 4,
+            "before_steps": 2,
+            "after_steps": 1
+          },
+          {
+            "source": 3,
+            "target": 5,
+            "before_steps": 3,
+            "after_steps": 4
+          },
+          {
+            "source": 4,
+            "target": 2,
+            "before_steps": 8,
+            "after_steps": 15
+          },
+          {
+            "source": 5,
+            "target": 2,
+            "before_steps": 5,
+            "after_steps": 5
+          }
+        ],
+        "elapsed_s": 0.45868866499949945
+      },
+      "evaluation_ordinal": 5,
+      "native_ordinal": 5,
+      "elapsed_s": 0.46011919000011403,
+      "launch_evidence": {
+        "evaluation.log": true,
+        "native.log": true
+      },
+      "best_retained_after_call": {
+        "width": 3,
+        "height": 10,
+        "area_tiles": 30,
+        "qca_cells": 134,
+        "edge_steps": 26,
+        "output_arrival_ticks": {
+          "2": [
+            10,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "candidate_id": "95dd99e203ba0a6879a2",
+      "seed_id": "02f7684aeaca19aad018",
+      "origin": "single_member",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 3,
+            "to": [
+              22,
+              21
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            5,
+            2
+          ],
+          [
+            3,
+            5
+          ]
+        ],
+        "rationale": "Single internal member of the selected spatial seed."
+      },
+      "result": {
+        "status": "certified",
+        "proposal": {
+          "schema": "ifcn.layout_search.v2",
+          "operations": [
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                21
+              ]
+            }
+          ],
+          "routing_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              3,
+              5
+            ]
+          ],
+          "rationale": "Single internal member of the selected spatial seed."
+        },
+        "start_sha256": "62abdcbdce4ef8eff799cdba00e809ff35cf53337fb4ad58625fc8efdfbcdccb",
+        "io_lock": {
+          "passed": true,
+          "fixed_node_ids": [
+            0,
+            1,
+            2
+          ],
+          "scope": "PI/PO node XY coordinates only; clock phases are not pinned"
+        },
+        "moves": [
+          {
+            "node_id": 3,
+            "name": "w1",
+            "from": [
+              22,
+              22
+            ],
+            "to": [
+              22,
+              21
+            ]
+          }
+        ],
+        "routing_audit": {
+          "requested_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              3,
+              5
+            ]
+          ],
+          "executed_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              3,
+              5
+            ]
+          ],
+          "route_order_attempts": 1,
+          "fallback_used": false,
+          "explicit_routing_order": true,
+          "io_locked": true
+        },
+        "metrics": {
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "qca_cells": 154,
+          "edge_steps": 29,
+          "output_arrival_ticks": {
+            "2": [
+              10,
+              10
+            ]
+          }
+        },
+        "certificates": {
+          "logic": "equivalent",
+          "clock": true,
+          "physical": true,
+          "interface": true
+        },
+        "route_changes": [
+          {
+            "source": 0,
+            "target": 3,
+            "before_steps": 4,
+            "after_steps": 5
+          },
+          {
+            "source": 1,
+            "target": 3,
+            "before_steps": 2,
+            "after_steps": 1
+          },
+          {
+            "source": 1,
+            "target": 4,
+            "before_steps": 2,
+            "after_steps": 2
+          },
+          {
+            "source": 3,
+            "target": 5,
+            "before_steps": 3,
+            "after_steps": 6
+          }
+        ],
+        "elapsed_s": 0.8410467649991915
+      },
+      "evaluation_ordinal": 6,
+      "native_ordinal": 6,
+      "elapsed_s": 0.8422714219996124,
+      "launch_evidence": {
+        "evaluation.log": true,
+        "native.log": true
+      },
+      "best_retained_after_call": {
+        "width": 3,
+        "height": 10,
+        "area_tiles": 30,
+        "qca_cells": 134,
+        "edge_steps": 26,
+        "output_arrival_ticks": {
+          "2": [
+            10,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "candidate_id": "b2a9fe3d8f5dac9dcead",
+      "seed_id": "02f7684aeaca19aad018",
+      "origin": "explicit_alternate_order",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 3,
+            "to": [
+              22,
+              21
+            ]
+          },
+          {
+            "op": "move",
+            "node": 4,
+            "to": [
+              21,
+              20
+            ]
+          },
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              21,
+              24
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            5,
+            2
+          ]
+        ],
+        "rationale": "The exact seed geometry with ascending directed-edge priority."
+      },
+      "result": {
+        "status": "certified",
+        "proposal": {
+          "schema": "ifcn.layout_search.v2",
+          "operations": [
+            {
+              "op": "move",
+              "node": 3,
+              "to": [
+                22,
+                21
+              ]
+            },
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                21,
+                20
+              ]
+            },
+            {
+              "op": "move",
+              "node": 5,
+              "to": [
+                21,
+                24
+              ]
+            }
+          ],
+          "routing_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ]
+          ],
+          "rationale": "The exact seed geometry with ascending directed-edge priority."
+        },
+        "start_sha256": "62abdcbdce4ef8eff799cdba00e809ff35cf53337fb4ad58625fc8efdfbcdccb",
+        "io_lock": {
+          "passed": true,
+          "fixed_node_ids": [
+            0,
+            1,
+            2
+          ],
+          "scope": "PI/PO node XY coordinates only; clock phases are not pinned"
+        },
+        "moves": [
+          {
+            "node_id": 3,
+            "name": "w1",
+            "from": [
+              22,
+              22
+            ],
+            "to": [
+              22,
+              21
+            ]
+          },
+          {
+            "node_id": 4,
+            "name": "w2",
+            "from": [
+              21,
+              21
+            ],
+            "to": [
+              21,
+              20
+            ]
+          },
+          {
+            "node_id": 5,
+            "name": "~w1",
+            "from": [
+              22,
+              25
+            ],
+            "to": [
+              21,
+              24
+            ]
+          }
+        ],
+        "routing_audit": {
+          "requested_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ]
+          ],
+          "executed_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ]
+          ],
+          "route_order_attempts": 1,
+          "fallback_used": false,
+          "explicit_routing_order": true,
+          "io_locked": true
+        },
+        "metrics": {
+          "width": 4,
+          "height": 11,
+          "area_tiles": 44,
+          "qca_cells": 160,
+          "edge_steps": 32,
+          "output_arrival_ticks": {
+            "2": [
+              11,
+              11
+            ]
+          }
+        },
+        "certificates": {
+          "logic": "equivalent",
+          "clock": true,
+          "physical": true,
+          "interface": true
+        },
+        "route_changes": [
+          {
+            "source": 0,
+            "target": 3,
+            "before_steps": 4,
+            "after_steps": 3
+          },
+          {
+            "source": 0,
+            "target": 4,
+            "before_steps": 2,
+            "after_steps": 3
+          },
+          {
+            "source": 1,
+            "target": 3,
+            "before_steps": 2,
+            "after_steps": 1
+          },
+          {
+            "source": 1,
+            "target": 4,
+            "before_steps": 2,
+            "after_steps": 1
+          },
+          {
+            "source": 3,
+            "target": 5,
+            "before_steps": 3,
+            "after_steps": 4
+          },
+          {
+            "source": 4,
+            "target": 2,
+            "before_steps": 8,
+            "after_steps": 15
+          },
+          {
+            "source": 5,
+            "target": 2,
+            "before_steps": 5,
+            "after_steps": 5
+          }
+        ],
+        "elapsed_s": 0.4333647080020455
+      },
+      "evaluation_ordinal": 7,
+      "native_ordinal": 7,
+      "elapsed_s": 0.4347865259987884,
+      "launch_evidence": {
+        "evaluation.log": true,
+        "native.log": true
+      },
+      "best_retained_after_call": {
+        "width": 3,
+        "height": 10,
+        "area_tiles": 30,
+        "qca_cells": 134,
+        "edge_steps": 26,
+        "output_arrival_ticks": {
+          "2": [
+            10,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "candidate_id": "33207ba8796998af0b09",
+      "seed_id": "02f7684aeaca19aad018",
+      "origin": "single_member",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 4,
+            "to": [
+              21,
+              20
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            5,
+            2
+          ],
+          [
+            3,
+            5
+          ]
+        ],
+        "rationale": "Single internal member of the selected spatial seed."
+      },
+      "result": {
+        "status": "failed",
+        "proposal": {
+          "schema": "ifcn.layout_search.v2",
+          "operations": [
+            {
+              "op": "move",
+              "node": 4,
+              "to": [
+                21,
+                20
+              ]
+            }
+          ],
+          "routing_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              3,
+              5
+            ]
+          ],
+          "rationale": "Single internal member of the selected spatial seed."
+        },
+        "start_sha256": "62abdcbdce4ef8eff799cdba00e809ff35cf53337fb4ad58625fc8efdfbcdccb",
+        "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 3) has an absent or invalid clock phase at (20, 20); Route (0, 3) has an absent or invalid clock phase at (20, 21); Route (0, 3) has an absent or invalid clock phase at (20, 22); Route (0, 3) has an absent or invalid clock phase at (21, 22)\n",
+        "routing_audit": {
+          "requested_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              3,
+              5
+            ]
+          ],
+          "executed_order": [
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              2
+            ]
+          ],
+          "route_order_attempts": 1,
+          "fallback_used": false,
+          "explicit_routing_order": true,
+          "io_locked": true
+        },
+        "unrouted_edges": [
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            5,
+            2
+          ]
+        ],
+        "elapsed_s": 0.06523164400277892
+      },
+      "evaluation_ordinal": 8,
+      "native_ordinal": 8,
+      "elapsed_s": 0.06663376199867344,
+      "launch_evidence": {
+        "evaluation.log": true,
+        "native.log": true
+      },
+      "best_retained_after_call": {
+        "width": 3,
+        "height": 10,
+        "area_tiles": 30,
+        "qca_cells": 134,
+        "edge_steps": 26,
+        "output_arrival_ticks": {
+          "2": [
+            10,
+            10
+          ]
+        }
+      }
+    }
+  ],
+  "menu_size": 64,
+  "menu_fingerprint": "7e03da75873a95f988ec1dfc31fc6f0994b1b20cebfb00115a44ab563acee4cf",
+  "context_fingerprint": "87561501f0d05dd5c47c956d01bd318cbb9d532db3438914122db906d7e74c85",
+  "selection": {
+    "source": "deterministic_global_proxy",
+    "menu_index": 6,
+    "menu_size": 64,
+    "candidate_id": "02f7684aeaca19aad018",
+    "selection_seed": 16522380408679191399
+  },
+  "seed_id": "02f7684aeaca19aad018",
+  "candidate_count": 4,
+  "retained_metrics": {
+    "width": 3,
+    "height": 10,
+    "area_tiles": 30,
+    "qca_cells": 134,
+    "edge_steps": 26,
+    "output_arrival_ticks": {
+      "2": [
+        10,
+        10
+      ]
+    }
+  },
+  "retained_placement": [
+    [
+      0,
+      20,
+      20
+    ],
+    [
+      1,
+      22,
+      20
+    ],
+    [
+      2,
+      21,
+      29
+    ],
+    [
+      3,
+      22,
+      22
+    ],
+    [
+      4,
+      21,
+      21
+    ],
+    [
+      5,
+      22,
+      25
+    ]
+  ],
+  "elapsed_s": 1.8833912839982077,
+  "candidate_outcomes": {
+    "certified": 3,
+    "failed": 1
+  }
+}

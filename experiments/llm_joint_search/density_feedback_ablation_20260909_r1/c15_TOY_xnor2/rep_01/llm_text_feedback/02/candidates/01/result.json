@@ -1,0 +1,174 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 3,
+        "to": [
+          22,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          20,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          22,
+          24
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        8
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        10,
+        2
+      ]
+    ],
+    "rationale": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+  },
+  "start_sha256": "68ab50575c573782d9e646c878e51636c2648b9918448c170cd5b05c5e6c5c3c",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 7) has an absent or invalid clock phase at (20, 20); Route (0, 7) has an absent or invalid clock phase at (20, 21); Route (0, 7) has an absent or invalid clock phase at (21, 21); Route (0, 7) has an absent or invalid clock phase at (21, 22)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        8
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        10,
+        2
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        8
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        8,
+        9
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": true
+  },
+  "unrouted_edges": [
+    [
+      0,
+      5
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      10,
+      2
+    ]
+  ],
+  "elapsed_s": 0.06540032199700363
+}

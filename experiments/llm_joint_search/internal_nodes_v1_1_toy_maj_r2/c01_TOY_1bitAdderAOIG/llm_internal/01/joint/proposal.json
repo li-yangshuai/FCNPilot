@@ -1,0 +1,128 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        24,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 6,
+      "to": [
+        26,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        26,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        22,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        24,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 12,
+      "to": [
+        24,
+        32
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      9,
+      11
+    ],
+    [
+      10,
+      3
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      3
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      11,
+      4
+    ],
+    [
+      0,
+      10
+    ],
+    [
+      0,
+      11
+    ]
+  ],
+  "rationale": "Reorder to prioritize early fanin convergence (1→5, 2→5 before 1→6, 2→6) and reduce congestion at y=23; move internal nodes 5–12 vertically down to y=21–32 to eliminate long vertical detours (e.g., 6→4 from 15 to 9 steps), opening horizontal routing channels near y=28–29. The new order protects reconvergent paths (5→9 and 7→9 before 9→10/11) and routes high-delay edges (6→4, 11→4) later after critical paths settle."
+}

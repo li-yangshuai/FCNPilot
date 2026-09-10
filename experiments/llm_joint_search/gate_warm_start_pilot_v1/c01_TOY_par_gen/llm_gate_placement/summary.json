@@ -1,0 +1,994 @@
+{
+  "initial": {
+    "width": 9,
+    "height": 14,
+    "area_tiles": 126,
+    "qca_cells": 383,
+    "edge_steps": 85,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "selected": {
+    "width": 9,
+    "height": 14,
+    "area_tiles": 126,
+    "qca_cells": 383,
+    "edge_steps": 85,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "selected_round": null,
+  "selected_artifact_source": "inputs/warm_start",
+  "port_policy": "movable",
+  "round_budget": 2,
+  "rounds_completed": 2,
+  "budget_complete": true,
+  "model_request_attempts": 2,
+  "successful_model_proposals": 2,
+  "backend_evaluation_attempts": 2,
+  "native_execution_reports": 2,
+  "diagnostic_backend_evaluation_attempts": 0,
+  "outcomes": {
+    "retain_best": 2
+  },
+  "model_errors": {},
+  "final_node_changes": [],
+  "selected_hashes": {
+    "device_energy_input.qca": "f269eceb67b6b238c8663e121ab24c334ca9777772eccd0f5d0e5a9f861f53f8",
+    "interface.json": "83b9b1059a66e1183a18cf65fd3860d737029db80dc76054f5e86a27b392d4b0",
+    "logic.json": "8bd88dcbe30db35807b379b68bedc2aa87a3ae39e5dbbd34128d2f9877ead8ca",
+    "layout_candidate.json": "bc35ce8c57417c0caa085395d5e4222cd97e439d0901f4d84eb23c4da917f648",
+    "normalized.v": "74dd4c190b54b0c946f481d3134148de153f5afe27e90626234ee29ed9f48f1b",
+    "layout.ifcn": "b6f723fd3557f8534dad41e04b6115912a0c081ac173969fd080976f1e8471cb",
+    "source.v": "9b345754736a4fff843aee1499631f401cd5fe39214c7e649343a880eb028762",
+    "physical.json": "3191b2f0025e1bf12e6bb0df6bcc813d9d208e977a8cfecaf62ddc0820f1cce8",
+    "clock.json": "9a883a1dcb8637bed0bcc80db7823ce21158798e4afa89df55b5ad6bd65eb39b",
+    "routed_dag.json": "dd8f6b6b75b003dca9ced0a7d0eaf0d9a6dfd29530bb6075845000148cbf5539"
+  },
+  "source_and_DAG_unchanged": true,
+  "rounds": [
+    {
+      "round": 1,
+      "status": "failed",
+      "start_metrics": {
+        "width": 9,
+        "height": 14,
+        "area_tiles": 126,
+        "qca_cells": 383,
+        "edge_steps": 85,
+        "output_arrival_ticks": {
+          "3": [
+            15,
+            15
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 9,
+        "height": 14,
+        "area_tiles": 126,
+        "qca_cells": 383,
+        "edge_steps": 85,
+        "output_arrival_ticks": {
+          "3": [
+            15,
+            15
+          ]
+        }
+      },
+      "start_state": "beae2c41087facc1d2538f218851da64b2851069e7399548446a952f20dc171b",
+      "cumulative_round": 5,
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 15756,
+        "output": 544,
+        "cacheRead": 384,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 16684
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "model_proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 12,
+            "to": [
+              24,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 13,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 15,
+            "to": [
+              22,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 16,
+            "to": [
+              24,
+              29
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              25,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              26,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 4,
+            "to": [
+              25,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              20,
+              22
+            ]
+          }
+        ],
+        "routing_order": null,
+        "rationale": "Compact the core layer (nodes 4,6,8,10,11,12,13,15,16) vertically by aligning fanin to common y-levels: move NOTs (4,6,8) up to y=22, ANDs (10,11) to y=23, OR (12) to y=25, NOT (13) to y=26, ANDs (15,16) to y=26/29. This eliminates vertical detours in edges [12,15] (detour 4→3), [6,11] (detour 2), and [12,13] (detour 2) by reducing Manhattan gaps. The bounding box stays width=9, but height reduces from 14→13 (y=20→32) via top output (3) unchanged and bottom inputs fixed—area_controlling_nodes allow internal contraction without port movement. All moves target neighbor-anchor medians and vacant bands (e.g., x=20–21,y=21–22; x=25–27,y=28–29)."
+      },
+      "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 12,
+            "to": [
+              24,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 13,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 15,
+            "to": [
+              22,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 16,
+            "to": [
+              24,
+              29
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              25,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              26,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 4,
+            "to": [
+              25,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              20,
+              22
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            16
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            16,
+            3
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            12,
+            13
+          ]
+        ],
+        "rationale": "Compact the core layer (nodes 4,6,8,10,11,12,13,15,16) vertically by aligning fanin to common y-levels: move NOTs (4,6,8) up to y=22, ANDs (10,11) to y=23, OR (12) to y=25, NOT (13) to y=26, ANDs (15,16) to y=26/29. This eliminates vertical detours in edges [12,15] (detour 4→3), [6,11] (detour 2), and [12,13] (detour 2) by reducing Manhattan gaps. The bounding box stays width=9, but height reduces from 14→13 (y=20→32) via top output (3) unchanged and bottom inputs fixed—area_controlling_nodes allow internal contraction without port movement. All moves target neighbor-anchor medians and vacant bands (e.g., x=20–21,y=21–22; x=25–27,y=28–29)."
+      },
+      "matches_shared_hint_positions": false,
+      "start_sha256": "bc35ce8c57417c0caa085395d5e4222cd97e439d0901f4d84eb23c4da917f648",
+      "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 16) has an absent or invalid clock phase at (20, 20); Route (0, 16) has an absent or invalid clock phase at (20, 21); Route (0, 16) has an absent or invalid clock phase at (21, 21); Route (0, 16) has an absent or invalid clock phase at (21, 22)\n",
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            16
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            16,
+            3
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            12,
+            13
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            16
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            10,
+            12
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true,
+        "io_locked": false
+      },
+      "unrouted_edges": [
+        [
+          0,
+          8
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          10,
+          12
+        ],
+        [
+          11,
+          12
+        ],
+        [
+          12,
+          13
+        ],
+        [
+          12,
+          15
+        ],
+        [
+          13,
+          16
+        ],
+        [
+          15,
+          3
+        ],
+        [
+          16,
+          3
+        ]
+      ],
+      "elapsed_s": 12.42942041599963,
+      "decision": "retain_best",
+      "retained_metrics": {
+        "width": 9,
+        "height": 14,
+        "area_tiles": 126,
+        "qca_cells": 383,
+        "edge_steps": 85,
+        "output_arrival_ticks": {
+          "3": [
+            15,
+            15
+          ]
+        }
+      },
+      "next_state": "beae2c41087facc1d2538f218851da64b2851069e7399548446a952f20dc171b"
+    },
+    {
+      "round": 2,
+      "status": "failed",
+      "start_metrics": {
+        "width": 9,
+        "height": 14,
+        "area_tiles": 126,
+        "qca_cells": 383,
+        "edge_steps": 85,
+        "output_arrival_ticks": {
+          "3": [
+            15,
+            15
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 9,
+        "height": 14,
+        "area_tiles": 126,
+        "qca_cells": 383,
+        "edge_steps": 85,
+        "output_arrival_ticks": {
+          "3": [
+            15,
+            15
+          ]
+        }
+      },
+      "start_state": "beae2c41087facc1d2538f218851da64b2851069e7399548446a952f20dc171b",
+      "cumulative_round": 6,
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 3115,
+        "output": 499,
+        "cacheRead": 13184,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 16798
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "model_proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 4,
+            "to": [
+              25,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 6,
+            "to": [
+              27,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              20,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              26,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              25,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 12,
+            "to": [
+              24,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 15,
+            "to": [
+              22,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 16,
+            "to": [
+              24,
+              29
+            ]
+          }
+        ],
+        "routing_order": null,
+        "rationale": "Target high-detour edges: [12,15] (detour 4), [6,11] (detour 2), [12,13] (detour 2). Move NOTs (4,6,8) to y=22 aligning with fanin medians; ANDs (10,11) to y=23 near neighbor anchors; OR (12) to y=25 reduces vertical gap to 15/13; 15→y=26 and 16→y=29 exploit vacancy at (25–27,28–29) and avoid congestion near (24,27). All moves stay within empty bands (e.g., x=20–21,y=21–22; x=25–27,y=28–29) and preserve min_x=20, max_x=28. Height contracts from 14→13 (y=20→32) without moving ports, directly reducing routed area. This is a conservative adaptation of prior failed compacting—smaller vertical shift (y+1 for NOTs instead of +2) avoids routing failure while still improving Manhattan gaps."
+      },
+      "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 4,
+            "to": [
+              25,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 6,
+            "to": [
+              27,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              20,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              26,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              25,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 12,
+            "to": [
+              24,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 15,
+            "to": [
+              22,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 16,
+            "to": [
+              24,
+              29
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            0,
+            16
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            16,
+            3
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            12,
+            13
+          ]
+        ],
+        "rationale": "Target high-detour edges: [12,15] (detour 4), [6,11] (detour 2), [12,13] (detour 2). Move NOTs (4,6,8) to y=22 aligning with fanin medians; ANDs (10,11) to y=23 near neighbor anchors; OR (12) to y=25 reduces vertical gap to 15/13; 15→y=26 and 16→y=29 exploit vacancy at (25–27,28–29) and avoid congestion near (24,27). All moves stay within empty bands (e.g., x=20–21,y=21–22; x=25–27,y=28–29) and preserve min_x=20, max_x=28. Height contracts from 14→13 (y=20→32) without moving ports, directly reducing routed area. This is a conservative adaptation of prior failed compacting—smaller vertical shift (y+1 for NOTs instead of +2) avoids routing failure while still improving Manhattan gaps."
+      },
+      "matches_shared_hint_positions": false,
+      "start_sha256": "bc35ce8c57417c0caa085395d5e4222cd97e439d0901f4d84eb23c4da917f648",
+      "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 16) has an absent or invalid clock phase at (20, 20); Route (0, 16) has an absent or invalid clock phase at (20, 21); Route (0, 16) has an absent or invalid clock phase at (21, 21); Route (0, 16) has an absent or invalid clock phase at (21, 22)\n",
+      "routing_audit": {
+        "requested_order": [
+          [
+            0,
+            16
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            12,
+            15
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            13,
+            16
+          ],
+          [
+            16,
+            3
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            12,
+            13
+          ]
+        ],
+        "executed_order": [
+          [
+            0,
+            16
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            8,
+            15
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            11,
+            12
+          ]
+        ],
+        "route_order_attempts": 1,
+        "fallback_used": false,
+        "explicit_routing_order": true,
+        "io_locked": false
+      },
+      "unrouted_edges": [
+        [
+          0,
+          8
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          11,
+          12
+        ],
+        [
+          12,
+          13
+        ],
+        [
+          12,
+          15
+        ],
+        [
+          13,
+          16
+        ],
+        [
+          15,
+          3
+        ],
+        [
+          16,
+          3
+        ]
+      ],
+      "elapsed_s": 13.965490684997349,
+      "decision": "retain_best",
+      "retained_metrics": {
+        "width": 9,
+        "height": 14,
+        "area_tiles": 126,
+        "qca_cells": 383,
+        "edge_steps": 85,
+        "output_arrival_ticks": {
+          "3": [
+            15,
+            15
+          ]
+        }
+      },
+      "next_state": "beae2c41087facc1d2538f218851da64b2851069e7399548446a952f20dc171b"
+    }
+  ],
+  "warm_start": {
+    "study_dir": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4",
+    "case_id": "TOY/par_gen.v",
+    "policy": "deterministic_gate",
+    "port_policy": "movable",
+    "original_initial_metrics": {
+      "width": 9,
+      "height": 18,
+      "area_tiles": 162,
+      "qca_cells": 501,
+      "edge_steps": 105,
+      "output_arrival_ticks": {
+        "3": [
+          18,
+          18
+        ]
+      }
+    },
+    "prefix_selected_metrics": {
+      "width": 9,
+      "height": 14,
+      "area_tiles": 126,
+      "qca_cells": 383,
+      "edge_steps": 85,
+      "output_arrival_ticks": {
+        "3": [
+          15,
+          15
+        ]
+      }
+    },
+    "prefix_round_budget": 4,
+    "prefix_rounds_completed": 4,
+    "prefix_backend_evaluation_attempts": 4,
+    "prefix_selected_round": 2,
+    "seed_state": "beae2c41087facc1d2538f218851da64b2851069e7399548446a952f20dc171b",
+    "selected_hashes": {
+      "device_energy_input.qca": "f269eceb67b6b238c8663e121ab24c334ca9777772eccd0f5d0e5a9f861f53f8",
+      "interface.json": "83b9b1059a66e1183a18cf65fd3860d737029db80dc76054f5e86a27b392d4b0",
+      "logic.json": "8bd88dcbe30db35807b379b68bedc2aa87a3ae39e5dbbd34128d2f9877ead8ca",
+      "layout_candidate.json": "bc35ce8c57417c0caa085395d5e4222cd97e439d0901f4d84eb23c4da917f648",
+      "normalized.v": "74dd4c190b54b0c946f481d3134148de153f5afe27e90626234ee29ed9f48f1b",
+      "layout.ifcn": "b6f723fd3557f8534dad41e04b6115912a0c081ac173969fd080976f1e8471cb",
+      "source.v": "9b345754736a4fff843aee1499631f401cd5fe39214c7e649343a880eb028762",
+      "physical.json": "3191b2f0025e1bf12e6bb0df6bcc813d9d208e977a8cfecaf62ddc0820f1cce8",
+      "clock.json": "9a883a1dcb8637bed0bcc80db7823ce21158798e4afa89df55b5ad6bd65eb39b",
+      "routed_dag.json": "dd8f6b6b75b003dca9ced0a7d0eaf0d9a6dfd29530bb6075845000148cbf5539"
+    },
+    "source_hashes": {
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/audit.json": "086b6239a4be36e9af744fbba086d37bb3fdd26654ecd074e9bb710ecd12dabe",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/protocol.json": "a85fc63a58b69d5882dad85692f13db608c933b91bccd0d4e5a5e5bf5dae58f0",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/summary.json": "3d8c64d105f9b3efb05bc4176beb27420d5f5c09e754e7dd7a1a38eaace20efc",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/summary.json": "0c992b21e0dbcd534323a3e045840de4b9adcc64cb18fbff3be646e8f1527519",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/selected/device_energy_input.qca": "f269eceb67b6b238c8663e121ab24c334ca9777772eccd0f5d0e5a9f861f53f8",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/selected/interface.json": "83b9b1059a66e1183a18cf65fd3860d737029db80dc76054f5e86a27b392d4b0",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/selected/logic.json": "8bd88dcbe30db35807b379b68bedc2aa87a3ae39e5dbbd34128d2f9877ead8ca",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/selected/layout_candidate.json": "bc35ce8c57417c0caa085395d5e4222cd97e439d0901f4d84eb23c4da917f648",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/selected/normalized.v": "74dd4c190b54b0c946f481d3134148de153f5afe27e90626234ee29ed9f48f1b",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/selected/layout.ifcn": "b6f723fd3557f8534dad41e04b6115912a0c081ac173969fd080976f1e8471cb",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/selected/source.v": "9b345754736a4fff843aee1499631f401cd5fe39214c7e649343a880eb028762",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/selected/physical.json": "3191b2f0025e1bf12e6bb0df6bcc813d9d208e977a8cfecaf62ddc0820f1cce8",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/selected/clock.json": "9a883a1dcb8637bed0bcc80db7823ce21158798e4afa89df55b5ad6bd65eb39b",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/selected/routed_dag.json": "dd8f6b6b75b003dca9ced0a7d0eaf0d9a6dfd29530bb6075845000148cbf5539",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/01/result.json": "cbbe42add78e7af6285f7063f0f70e18ac6c2e12f9b3dc5adde0caf9da36d440",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/01/candidate/start.json": "e2184ba7d2736c21bd19a8141c38ce8c7f9b116ea622b0e6655484f1b9035184",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/01/candidate/proposal.json": "f111edb8da9bdf30ef89c503e2ff4eaf513e88c9c1ce008707f41b88422307f9",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/02/result.json": "59da2c621daa74d9df77c0d200432107d5253ee29fd5b0b88dc58f0b32d7930b",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/02/candidate/start.json": "9a9a590c49792de357231c20fdee943621e2efc61a24030096c1baf2f50f6b75",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/02/candidate/proposal.json": "dbb908c85e18ebe6c1fcec3a85caee412511daa53c7eb8ef577212bc66e0a656",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/03/result.json": "79521a4f140f9af1f7b2f846a9950290d74861eb8a58c8f7154cc23abf76a55e",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/03/candidate/start.json": "bc35ce8c57417c0caa085395d5e4222cd97e439d0901f4d84eb23c4da917f648",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/03/candidate/proposal.json": "9128dbce6f45895537a7956013766d79b648297f5d655789fea6cc2cf5a84de8",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/04/result.json": "d47ad02bf06794b25dc246a0b93b6f1e11d635f699c4872c150711fb61ce0519",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/04/candidate/start.json": "bc35ce8c57417c0caa085395d5e4222cd97e439d0901f4d84eb23c4da917f648",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c13_TOY_par_gen/deterministic_gate/04/candidate/proposal.json": "b204f8e05d9b5fa534c27aa29f45476479370e25617dd3936cf48d5af150f3e0"
+    },
+    "verification_scope": "Archived deterministic prefix only; source/DAG and clock rechecked; audited QCA physical certificate and interface rechecked without rerouting, remapping or dynamics simulation."
+  },
+  "original_initial": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "gain_reference": "initial is the deterministic prefix selected result; original_initial is the pre-prefix native layout",
+  "incremental_gain": {
+    "area_reduction_pct": 0.0,
+    "qca_reduction_pct": 0.0
+  },
+  "total_gain": {
+    "area_reduction_pct": 22.22222222222222,
+    "qca_reduction_pct": 23.55289421157685
+  },
+  "cumulative_round_budget": 6,
+  "cumulative_rounds_completed": 6,
+  "cumulative_backend_evaluation_attempts": 6
+}

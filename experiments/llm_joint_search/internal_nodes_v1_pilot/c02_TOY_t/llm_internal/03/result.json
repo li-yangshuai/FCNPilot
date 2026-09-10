@@ -1,0 +1,598 @@
+{
+  "round": 3,
+  "status": "rejected",
+  "start_metrics": {
+    "width": 10,
+    "height": 12,
+    "area_tiles": 120,
+    "qca_cells": 387,
+    "edge_steps": 79,
+    "output_arrival_ticks": {
+      "5": [
+        12,
+        12
+      ],
+      "6": [
+        12,
+        12
+      ]
+    }
+  },
+  "start_placement": [
+    [
+      0,
+      20,
+      20
+    ],
+    [
+      1,
+      24,
+      20
+    ],
+    [
+      2,
+      22,
+      20
+    ],
+    [
+      3,
+      26,
+      20
+    ],
+    [
+      4,
+      29,
+      20
+    ],
+    [
+      5,
+      22,
+      31
+    ],
+    [
+      6,
+      27,
+      31
+    ],
+    [
+      7,
+      26,
+      22
+    ],
+    [
+      8,
+      21,
+      22
+    ],
+    [
+      9,
+      28,
+      22
+    ],
+    [
+      11,
+      29,
+      22
+    ],
+    [
+      13,
+      28,
+      25
+    ],
+    [
+      14,
+      26,
+      25
+    ],
+    [
+      16,
+      23,
+      28
+    ],
+    [
+      18,
+      28,
+      28
+    ]
+  ],
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 938,
+    "output": 250,
+    "cacheRead": 15104,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 16292
+  },
+  "model_latency_s": 8.449502664999955,
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 14,
+        "to": [
+          26,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          24,
+          27
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        9
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        4,
+        11
+      ],
+      [
+        7,
+        14
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        13,
+        18
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        16,
+        5
+      ],
+      [
+        14,
+        6
+      ],
+      [
+        18,
+        6
+      ],
+      [
+        1,
+        16
+      ],
+      [
+        8,
+        5
+      ]
+    ],
+    "rationale": "Prioritize high-congestion edge (1→9, 2 detour steps, multi-source interior) first; route short Manhattan-optimal edges (0→8, 2→8, 3→7, 4→11) early to open channels; handle reconvergent fanout from 14 (→6 and →16) before their sinks; defer longest edge (8→5, 10 steps) until routing space is cleared. The selected order matches the most successful prior attempt that reduced QCA cells despite area unchanged."
+  },
+  "matches_suggested_coordinates": true,
+  "start_sha256": "7366f1f219edaf355c5b3b710d2a0f46199e428981ae1299058974224cf53688",
+  "io_lock": {
+    "passed": true,
+    "fixed_node_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "scope": "PI/PO node XY coordinates only; clock phases are not pinned"
+  },
+  "moves": [
+    {
+      "node_id": 14,
+      "name": "~n9",
+      "from": [
+        26,
+        25
+      ],
+      "to": [
+        26,
+        26
+      ]
+    },
+    {
+      "node_id": 16,
+      "name": "n10",
+      "from": [
+        23,
+        28
+      ],
+      "to": [
+        24,
+        27
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        1,
+        9
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        4,
+        11
+      ],
+      [
+        7,
+        14
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        13,
+        18
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        16,
+        5
+      ],
+      [
+        14,
+        6
+      ],
+      [
+        18,
+        6
+      ],
+      [
+        1,
+        16
+      ],
+      [
+        8,
+        5
+      ]
+    ],
+    "executed_order": [
+      [
+        1,
+        9
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        4,
+        11
+      ],
+      [
+        7,
+        14
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        13,
+        18
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        16,
+        5
+      ],
+      [
+        14,
+        6
+      ],
+      [
+        18,
+        6
+      ],
+      [
+        1,
+        16
+      ],
+      [
+        8,
+        5
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": true
+  },
+  "metrics": {
+    "width": 10,
+    "height": 12,
+    "area_tiles": 120,
+    "qca_cells": 393,
+    "edge_steps": 82,
+    "output_arrival_ticks": {
+      "5": [
+        12,
+        12
+      ],
+      "6": [
+        11,
+        11
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 1,
+      "target": 9,
+      "before_steps": 8,
+      "after_steps": 6
+    },
+    {
+      "source": 1,
+      "target": 16,
+      "before_steps": 9,
+      "after_steps": 13
+    },
+    {
+      "source": 2,
+      "target": 7,
+      "before_steps": 6,
+      "after_steps": 8
+    },
+    {
+      "source": 2,
+      "target": 8,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 7,
+      "target": 14,
+      "before_steps": 3,
+      "after_steps": 4
+    },
+    {
+      "source": 9,
+      "target": 13,
+      "before_steps": 5,
+      "after_steps": 3
+    },
+    {
+      "source": 11,
+      "target": 13,
+      "before_steps": 4,
+      "after_steps": 4
+    },
+    {
+      "source": 14,
+      "target": 6,
+      "before_steps": 7,
+      "after_steps": 8
+    },
+    {
+      "source": 14,
+      "target": 16,
+      "before_steps": 6,
+      "after_steps": 3
+    },
+    {
+      "source": 16,
+      "target": 5,
+      "before_steps": 4,
+      "after_steps": 6
+    }
+  ],
+  "elapsed_s": 0.4357850950000284,
+  "internal_changes": {
+    "fixed_port_count": 7,
+    "all_port_coordinates_unchanged": true,
+    "moved_internal_nodes": [
+      {
+        "id": 14,
+        "type": "not",
+        "from": [
+          26,
+          25
+        ],
+        "to": [
+          26,
+          26
+        ]
+      },
+      {
+        "id": 16,
+        "type": "and",
+        "from": [
+          23,
+          28
+        ],
+        "to": [
+          24,
+          27
+        ]
+      }
+    ],
+    "changed_route_count": 10,
+    "route_changes": [
+      {
+        "edge": [
+          1,
+          9
+        ],
+        "before_steps": 8,
+        "after_steps": 6
+      },
+      {
+        "edge": [
+          1,
+          16
+        ],
+        "before_steps": 9,
+        "after_steps": 13
+      },
+      {
+        "edge": [
+          2,
+          7
+        ],
+        "before_steps": 6,
+        "after_steps": 8
+      },
+      {
+        "edge": [
+          2,
+          8
+        ],
+        "before_steps": 3,
+        "after_steps": 3
+      },
+      {
+        "edge": [
+          7,
+          14
+        ],
+        "before_steps": 3,
+        "after_steps": 4
+      },
+      {
+        "edge": [
+          9,
+          13
+        ],
+        "before_steps": 5,
+        "after_steps": 3
+      },
+      {
+        "edge": [
+          11,
+          13
+        ],
+        "before_steps": 4,
+        "after_steps": 4
+      },
+      {
+        "edge": [
+          14,
+          6
+        ],
+        "before_steps": 7,
+        "after_steps": 8
+      },
+      {
+        "edge": [
+          14,
+          16
+        ],
+        "before_steps": 6,
+        "after_steps": 3
+      },
+      {
+        "edge": [
+          16,
+          5
+        ],
+        "before_steps": 4,
+        "after_steps": 6
+      }
+    ],
+    "placement_proxy_before": {
+      "min_x": 20,
+      "max_x": 29,
+      "min_y": 20,
+      "max_y": 31,
+      "width": 10,
+      "height": 12,
+      "area_tiles": 120,
+      "manhattan_edges": 75
+    },
+    "placement_proxy_after": {
+      "min_x": 20,
+      "max_x": 29,
+      "min_y": 20,
+      "max_y": 31,
+      "width": 10,
+      "height": 12,
+      "area_tiles": 120,
+      "manhattan_edges": 72
+    }
+  },
+  "total_elapsed_s": 8.946949455000095
+}

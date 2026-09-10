@@ -1,0 +1,265 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          26,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          22,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          27,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          28,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 14,
+        "to": [
+          26,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          25,
+          23
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        2,
+        7
+      ],
+      [
+        1,
+        16
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        8,
+        5
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        14,
+        6
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        16,
+        5
+      ],
+      [
+        18,
+        6
+      ],
+      [
+        1,
+        9
+      ],
+      [
+        4,
+        11
+      ],
+      [
+        7,
+        14
+      ],
+      [
+        13,
+        18
+      ]
+    ],
+    "rationale": "Compress fanin layer (y=20→21) for nodes 7,8,9,11 to reduce vertical detours and align with their neighbor-median anchors ([26,20], [23,20], [25,20], [28,20]). Move n14 to [26,24] preserves short [7,14] (now Δy=3→2) and keeps n14/n16 close for shared fanout to po5/po6; move n16 to [25,23] shortens [1,16] and [14,16]. All moves stay within current bounding box (min_x=21, max_x=29, min_y=20, max_y=27), using vacancy at (21–22,21) and (27–28,21). Avoids prior routing/clock failures by limiting displacement to ≤1 tile vertically and preserving x-proximity of critical fanout pairs (n14–n16, n13–n18)."
+  },
+  "start_sha256": "df3aeefdcb121659c6ffbecefa9a209bc9905891b068ef33dd02767f8f80a3b8",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: rerouting violates the baseline algorithm's same-phase clock constraints; Native process exited with 10\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        2,
+        7
+      ],
+      [
+        1,
+        16
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        8,
+        5
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        14,
+        6
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        16,
+        5
+      ],
+      [
+        18,
+        6
+      ],
+      [
+        1,
+        9
+      ],
+      [
+        4,
+        11
+      ],
+      [
+        7,
+        14
+      ],
+      [
+        13,
+        18
+      ]
+    ],
+    "executed_order": [
+      [
+        2,
+        7
+      ],
+      [
+        1,
+        16
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        8,
+        5
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        14,
+        6
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        16,
+        5
+      ],
+      [
+        18,
+        6
+      ],
+      [
+        1,
+        9
+      ],
+      [
+        4,
+        11
+      ],
+      [
+        7,
+        14
+      ],
+      [
+        13,
+        18
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [],
+  "elapsed_s": 0.06519055299941101
+}

@@ -1,0 +1,159 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 23,
+      "to": [
+        29,
+        27
+      ]
+    },
+    {
+      "op": "move",
+      "node": 26,
+      "to": [
+        24,
+        27
+      ]
+    },
+    {
+      "op": "move",
+      "node": 27,
+      "to": [
+        28,
+        30
+      ]
+    },
+    {
+      "op": "move",
+      "node": 28,
+      "to": [
+        28,
+        32
+      ]
+    },
+    {
+      "op": "move",
+      "node": 29,
+      "to": [
+        25,
+        30
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        27,
+        36
+      ]
+    },
+    {
+      "op": "swap",
+      "nodes": [
+        14,
+        17
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      3,
+      28
+    ],
+    [
+      1,
+      20
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      6,
+      9
+    ],
+    [
+      24,
+      26
+    ],
+    [
+      10,
+      14
+    ],
+    [
+      12,
+      17
+    ],
+    [
+      18,
+      20
+    ],
+    [
+      10,
+      17
+    ],
+    [
+      12,
+      14
+    ],
+    [
+      17,
+      27
+    ],
+    [
+      14,
+      23
+    ],
+    [
+      21,
+      23
+    ],
+    [
+      20,
+      26
+    ],
+    [
+      23,
+      27
+    ],
+    [
+      29,
+      8
+    ],
+    [
+      27,
+      28
+    ],
+    [
+      28,
+      8
+    ],
+    [
+      0,
+      24
+    ],
+    [
+      2,
+      18
+    ],
+    [
+      4,
+      10
+    ],
+    [
+      5,
+      12
+    ],
+    [
+      9,
+      21
+    ],
+    [
+      26,
+      29
+    ]
+  ],
+  "rationale": "Resolve prior node collision (14/23 at [29,26]) by moving 23→[29,27] and swapping 14↔17 to place 14 at [28,24] and 17 at [29,24], aligning both with their neighbor medians ([28,23] and [29,26] respectively) without overlap. Compress suffix chain vertically: 26→[24,27] (near anchor [24,26]), 27→[28,30] (near [28,28]), 28→[28,32] (vs prior 34), 29→[25,30] (vs 31), 8→[27,36] (vs 37), reducing max_y from 37 to 36 (height 19→18). Vacancy hotspots in windows 25_31_28_34 and 22_34_25_37 are used; internal-only moves satisfy must_change_internal_node. Edge [24,26] detour (9 steps) and [12,14] (9 steps) expected to shrink due to tighter vertical packing and eliminated congestion at y=28–31."
+}

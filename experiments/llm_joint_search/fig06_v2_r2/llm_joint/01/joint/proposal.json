@@ -1,0 +1,120 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 0,
+      "to": [
+        25,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 1,
+      "to": [
+        20,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 2,
+      "to": [
+        22,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 3,
+      "to": [
+        23,
+        32
+      ]
+    },
+    {
+      "op": "move",
+      "node": 4,
+      "to": [
+        24,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        22,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        23,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        21,
+        23
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      2,
+      5
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      10
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      11,
+      3
+    ],
+    [
+      1,
+      4
+    ]
+  ],
+  "rationale": "Prioritize early fanout edges (2→5, 0→4, 1→10) to reduce congestion at layer 2; route reconvergent paths (5→7,5→10) before their merge (7→8,10→11); defer high-detour edge [1,4] last to avoid blocking compact routes."
+}

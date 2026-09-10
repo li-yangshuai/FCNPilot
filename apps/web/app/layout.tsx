@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { PwaRegistration } from "@/components/PwaRegistration";
 import "./katex-woff2.css";
 import "./globals.css";
+import "../components/IfcnResults.css";
+import "../components/IfcnAlgorithms.css";
+import "../components/IfcnDesignForm.css";
 
 export const metadata: Metadata = {
   title: "FCNPilot 电路设计",

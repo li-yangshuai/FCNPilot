@@ -1,15 +1,17 @@
 "use client";
 
-import { IfcnWelcome, type IfcnWorkspaceInfo } from "./IfcnWorkspace";
+import type { IfcnWorkspaceInfo } from "./IfcnWorkspace";
+import { IfcnDesignForm } from "./IfcnDesignForm";
+import { sendAgentCommand } from "@/lib/agent-client";
+import { reloadIfcnOptimizationSession } from "@/lib/ifcn-optimization-request";
 
 import { registerAbortHandler } from "@/hooks/useKeyboardShortcuts";
-import { Fragment, memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
-import type { AgentMessage, AssistantContentBlock, AssistantMessage, BashExecutionMessage, BlockingExtensionUiRequest, CustomMessage, ExtensionUiRequest, SessionInfo, SessionTreeNode, TextContent, UserMessage } from "@/lib/types";
+import { Fragment, memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import type { AgentMessage, AssistantContentBlock, AssistantMessage, BlockingExtensionUiRequest, CustomMessage, ExtensionUiRequest, SessionInfo, SessionTreeNode, TextContent, UserMessage } from "@/lib/types";
 import { normalizeCustomPanelLines, parseAnsiLine } from "@/lib/ansi";
 import { asBracketedPaste, toTerminalKeyData } from "@/lib/terminal-input";
 import { countToolCallBlocks, getAssistantErrorMessage, getDisplayableAssistantBlocks, splitFinalAssistantBlocks } from "@/lib/message-display";
 import { extractTurnWrittenFiles, type WrittenFile } from "@/lib/turn-written-files";
-import { SyntaxHighlighter, vs, vscDarkPlus } from "./CodeSyntaxHighlighter";
 import { MessageView } from "./MessageView";
 import { ChatInput, type ChatInputHandle } from "./ChatInput";
 import { CHAT_MINIMAP_WIDTH, ChatMinimap, useMessageRefs } from "./ChatMinimap";
@@ -20,17 +22,10 @@ import { useAgentSession, type AgentPhase, type NoticeItem } from "@/hooks/useAg
 import { useAudio } from "@/hooks/useAudio";
 import { useDragDrop } from "@/hooks/useDragDrop";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { useTheme } from "@/hooks/useTheme";
 import type { SessionStatsInfo } from "@/lib/pi-types";
 import { parseDocQaPrompt, type AttachedDocument } from "@/lib/docqa";
 import { FcnPilotIcon } from "./FcnPilotIcon";
-import { extractLatestCodeArtifacts, extractLatestTerminalArtifact, type CodeArtifact, type CodeTerminalArtifact } from "@/lib/code-artifacts";
 import { textForLanguage, type UiLanguage } from "@/lib/i18n";
-import type { MessageFeedback, MessageFeedbackInput } from "@/lib/message-feedback-types";
-import type { TerminalOpenRequest } from "./IntegratedTerminal";
-import { useAppDialog } from "./AppDialogProvider";
-import { encodeFilePathForApi, joinFilePath } from "@/lib/file-paths";
-import type { AppUpdateResponse } from "@/lib/api-types";
 import {
   captureScrollDistance,
   getNextVisibleCount,
@@ -40,12 +35,17 @@ import {
   VISIBLE_PAGE_SIZE,
 } from "@/lib/chat-lazy-load";
 
+export interface IfcnMainAgentHandle { ready: boolean; sendPrompt: (prompt: string) => Promise<void>; }
+
 interface Props extends SoundControls {
+  onMainAgentHandleChange?: (handle: IfcnMainAgentHandle | null) => void;
   session: SessionInfo | null;
   sessionRunning?: boolean;
   newSessionCwd: string | null;
   ifcnWorkspace?: IfcnWorkspaceInfo | null;
-  currentUser?: string | null;
+  circuitSourceSelection?: { path: string; token: number } | null;
+  onChooseCircuitFile?: () => void;
+  onShowAlgorithmReference?: () => void;
   accountUid?: string | null;
   uiLanguage?: UiLanguage;
   newSessionDraftKey?: string | null;
@@ -61,17 +61,7 @@ interface Props extends SoundControls {
   onSessionStatsChange?: (stats: SessionStatsInfo | null) => void;
   onSessionStatsPanelOpen?: () => void;
   onContextUsageChange?: (usage: { percent: number | null; contextWindow: number; tokens: number | null } | null) => void;
-  onCodeFileSaved?: () => void;
-  onCodeArtifactsChange?: (state: CodeArtifactsPanelState | null) => void;
-  onTerminalRequest?: (request?: TerminalOpenRequest) => void;
-}
 
-export interface CodeArtifactsPanelState {
-  artifact: CodeArtifact;
-  artifacts: CodeArtifact[];
-  terminal: CodeTerminalArtifact | null;
-  cwd: string;
-  onSelectArtifact: (artifactId: string) => void;
 }
 
 interface SoundControls {
@@ -103,52 +93,7 @@ function phaseLabel(phase: AgentPhase, t: (key: string, params?: Record<string, 
 
 const CHAT_COLUMN_PADDING = 16;
 const CHAT_INPUT_RIGHT_PADDING = CHAT_COLUMN_PADDING + CHAT_MINIMAP_WIDTH;
-const DEFAULT_CODE_PANE_WIDTH = 620;
-const MIN_CODE_PANE_WIDTH = 360;
-const CODE_PANE_FULL_SNAP_PX = 28;
-const CODE_PANE_WIDTH_STORAGE_KEY = "amedac.codePaneWidth";
-const NEW_SESSION_SUGGESTIONS: Record<UiLanguage, string[]> = {
-  en: [
-    "Analyze this project and explain its architecture",
-    "Find a likely bug in the current code and propose a fix",
-    "Implement a feature from my description",
-    "Review my uncommitted changes for quality and risks",
-  ],
-  zh: [
-    "分析当前工程并讲解整体架构",
-    "查找当前代码中可能存在的问题并给出修复方案",
-    "根据我的描述实现一个新功能",
-    "审查尚未提交的修改并指出质量与风险问题",
-  ],
-};
 const docQaDocumentsCache = new WeakMap<AgentMessage, AttachedDocument[] | undefined>();
-
-function codeArtifactSignal(artifact: CodeArtifact | null): string | null {
-  if (!artifact) return null;
-  let hash = 0;
-  for (let i = 0; i < artifact.code.length; i++) {
-    hash = ((hash << 5) - hash + artifact.code.charCodeAt(i)) | 0;
-  }
-  return [
-    artifact.id,
-    artifact.complete ? "1" : "0",
-    artifact.code.length,
-    hash,
-  ].join("|");
-}
-
-function copyCode(text: string): Promise<void> {
-  if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(text);
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  textarea.style.position = "fixed";
-  textarea.style.opacity = "0";
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand("copy");
-  document.body.removeChild(textarea);
-  return Promise.resolve();
-}
 
 function docQaDocumentsFromUserMessage(message: AgentMessage): AttachedDocument[] | undefined {
   if (message.role !== "user") return undefined;
@@ -165,71 +110,6 @@ function docQaDocumentsFromUserMessage(message: AgentMessage): AttachedDocument[
   const documents = docQa?.documents.length ? docQa.documents : undefined;
   docQaDocumentsCache.set(message, documents);
   return documents;
-}
-
-function NewSessionUpdateLink({
-  label,
-}: {
-  label: (version: string) => string;
-}) {
-  const [update, setUpdate] = useState<AppUpdateResponse | null>(null);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetch("/api/app-update", { signal: controller.signal })
-      .then(async (response) => {
-        if (!response.ok) return null;
-        return response.json() as Promise<AppUpdateResponse>;
-      })
-      .then((result) => {
-        if (result?.updateAvailable && result.latestVersion && result.releaseUrl) {
-          setUpdate(result);
-        }
-      })
-      .catch(() => {
-        // Update checks are best-effort and must not interrupt a new session.
-      });
-    return () => controller.abort();
-  }, []);
-
-  if (!update) return null;
-  const accessibleLabel = label(update.latestVersion);
-
-  return (
-    <a
-      href={update.releaseUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      title={accessibleLabel}
-      aria-label={accessibleLabel}
-      onMouseEnter={(event) => { event.currentTarget.style.background = "var(--bg-hover)"; }}
-      onMouseLeave={(event) => { event.currentTarget.style.background = "transparent"; }}
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        alignSelf: "center",
-        gap: 3,
-        minHeight: 32,
-        minWidth: 0,
-        padding: "0 4px",
-        background: "transparent",
-        borderRadius: 5,
-        color: "var(--accent)",
-        fontSize: 12,
-        fontWeight: 600,
-        lineHeight: 1.2,
-        textDecoration: "none",
-        transition: "background 0.12s",
-        whiteSpace: "nowrap",
-      }}
-    >
-      <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>v{update.latestVersion}</span>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}>
-        <path d="M7 17 17 7" />
-        <path d="M7 7h10v10" />
-      </svg>
-    </a>
-  );
 }
 
 function hasFinalAssistantAnswer(message: AgentMessage): boolean {
@@ -346,7 +226,7 @@ function ProcessDetailsGroup({ messageCount, toolCallCount, defaultExpanded = fa
   );
 }
 
-export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, newSessionCwd, ifcnWorkspace = null, newSessionDraftKey = null, currentUser, accountUid, uiLanguage = "en", onAgentEnd, onAttentionNeeded, onSessionCreated, onSessionForked, modelsRefreshKey, chatInputRef, onBranchDataChange, onSystemPromptChange, onSystemPromptLoaderChange, onSessionStatsChange, onSessionStatsPanelOpen, onContextUsageChange, onCodeFileSaved, onCodeArtifactsChange, onTerminalRequest, onOpenFile, soundEnabled: soundEnabledProp, onSoundToggle: onSoundToggleProp, playDoneSound: playDoneSoundProp, unlockAudio: unlockAudioProp }: Props) {
+export const ChatWindow = memo(function ChatWindow({ onMainAgentHandleChange, session, sessionRunning, newSessionCwd, ifcnWorkspace = null, circuitSourceSelection, onChooseCircuitFile, onShowAlgorithmReference, newSessionDraftKey = null, uiLanguage = "en", onAgentEnd, onAttentionNeeded, onSessionCreated, onSessionForked, modelsRefreshKey, chatInputRef, onBranchDataChange, onSystemPromptChange, onSystemPromptLoaderChange, onSessionStatsChange, onSessionStatsPanelOpen, onContextUsageChange, onOpenFile, soundEnabled: soundEnabledProp, onSoundToggle: onSoundToggleProp, playDoneSound: playDoneSoundProp, unlockAudio: unlockAudioProp }: Props) {
   const { t } = useI18n();
   const localAudio = useAudio();
   const soundEnabled = soundEnabledProp ?? localAudio.soundEnabled;
@@ -379,30 +259,44 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
 
   const {
     loading, error, messages, entryIds, streamState,
-    agentRunning, bashRunning, pendingBash, modelNames, modelList, modelError, modelScopeWarnings, modelThinkingLevels, modelThinkingLevelMaps, toolPreset, thinkingLevel,
-    mcpServers, mcpServersLoading, mcpServersUpdating, mcpServersError, mcpSelectionLocked,
-    customAgents, selectedAgentId, subagents, selectedSubagentIds, subagentExtensionAvailable, agentVersions, selectedAgentVersionId,
+    agentRunning, modelNames, modelList, modelError, modelScopeWarnings, modelThinkingLevels, modelThinkingLevelMaps, thinkingLevel,
+
+    selectedAgentId,
     agentPhase,
     retryInfo, contextUsage, forkingEntryId,
     isCompacting, compactError, compactResult, displayModel: displayModelValue, modelSwitching, sessionStats,
-    slashCommands, slashCommandsLoading, queuedMessages,
+    queuedMessages,
     notices, extensionDialog, extensionCustomUi, extensionStatuses, extensionWidgets, respondToExtensionUi, sendExtensionCustomInput,
-    cliConnected, liveToolResults, liveToolExecutions,
+    cliConnected, liveToolResults,
     isAutoModelSelection,
-    agentSelectionLocked, agentVersionSelectionLocked,
+
     isNew,
     sessionIdRef, messagesEndRef, scrollContainerRef,
     lastUserMsgRef, promptAnchorActive,
-    handleSend, handleAbort, handleFork, handleNavigate, handleModelChange, handleAgentChange, handleAgentVersionChange, handleSubagentToggle,
+    handleSend, handleAbort, handleFork, handleNavigate, handleModelChange,
     handleCompact, handleSteer, handleFollowUp, handlePromptWithStreamingBehavior, handleAbortCompaction,
     handleRecallQueue,
     handleBuiltinSlashCommand,
-    handleToolPresetChange, handleThinkingLevelChange, handleMcpServerToggle, loadSlashCommands, scrollUserMsgToTop,
+    handleThinkingLevelChange, scrollUserMsgToTop,
   } = useAgentSession({
     session, sessionRunning, newSessionCwd, newSessionDraftKey, onAgentEnd: wrappedOnAgentEnd, onAttentionNeeded, onSessionCreated, onSessionForked,
     modelsRefreshKey, chatInputRef, onBranchDataChange, onSystemPromptChange, onSystemPromptLoaderChange, onSessionStatsPanelOpen,
   });
-  const sessionBusy = agentRunning || bashRunning;
+  const sessionBusy = agentRunning;
+  const [designFormOpen, setDesignFormOpen] = useState(false);
+  useEffect(() => { if (circuitSourceSelection) setDesignFormOpen(true); }, [circuitSourceSelection]);
+  const mainAgentReady = !loading && !agentRunning && !isCompacting && !modelSwitching && selectedAgentId === "project:ifcn" && ifcnWorkspace?.available === true && ifcnWorkspace.trusted !== false;
+  useEffect(() => {
+    if (!onMainAgentHandleChange) return;
+    onMainAgentHandleChange({ ready: mainAgentReady, sendPrompt: async (prompt) => {
+      if (!mainAgentReady) throw new Error("主智能体正在运行或尚未就绪，请稍后重试。");
+      await reloadIfcnOptimizationSession(sessionIdRef.current, (id) => sendAgentCommand(id, { type: "get_state" }), () => handleBuiltinSlashCommand("/reload"));
+      setDesignFormOpen(false);
+      await handleSend(prompt);
+    } });
+    return () => onMainAgentHandleChange(null);
+  }, [onMainAgentHandleChange, mainAgentReady, handleSend, handleBuiltinSlashCommand, sessionIdRef]);
+
 
   useEffect(() => {
     if (!extensionDialog || soundedExtensionDialogIdRef.current === extensionDialog.id) return;
@@ -501,82 +395,6 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
 
   const visibleMessages = useMemo(() => messages.filter((m) => m.role === "user" || m.role === "assistant"), [messages]);
   const messageRefs = useMessageRefs(visibleMessages.length);
-  const artifactGenerationSeenRef = useRef(false);
-  const [codePanelArtifacts, setCodePanelArtifacts] = useState<CodeArtifact[]>([]);
-  const [selectedCodeArtifactId, setSelectedCodeArtifactId] = useState<string | null>(null);
-  const codeArtifactSelectionTouchedRef = useRef(false);
-  const codeArtifactsTurnRef = useRef<number | null>(null);
-  const codePanelArtifact = useMemo(
-    () => codePanelArtifacts.find((artifact) => artifact.id === selectedCodeArtifactId)
-      ?? codePanelArtifacts.at(-1)
-      ?? null,
-    [codePanelArtifacts, selectedCodeArtifactId],
-  );
-  const [codePanelOpen, setCodePanelOpen] = useState(true);
-  const [codePaneWidth, setCodePaneWidth] = useState(DEFAULT_CODE_PANE_WIDTH);
-  const [codePaneFullWidth, setCodePaneFullWidth] = useState(false);
-  const [codePaneResizing, setCodePaneResizing] = useState(false);
-  const chatWindowRef = useRef<HTMLDivElement | null>(null);
-  const codePaneLayoutRef = useRef<HTMLDivElement | null>(null);
-  const codePaneWidthRef = useRef(codePaneWidth);
-  const lastCodePaneWidthRef = useRef(codePaneWidth);
-  const codePaneResizeRef = useRef<{
-    startX: number;
-    startWidth: number;
-    currentWidth: number;
-  } | null>(null);
-  const codePaneResizeFrameRef = useRef<number | null>(null);
-  const pendingCodePaneResizeXRef = useRef<number | null>(null);
-  if (!codePaneResizeRef.current && !codePaneFullWidth) codePaneWidthRef.current = codePaneWidth;
-  const [feedbackByEntryId, setFeedbackByEntryId] = useState<Record<string, MessageFeedback>>({});
-  const conversationKey = session?.id ?? (newSessionCwd ? `new:${newSessionCwd}` : "new");
-
-  useEffect(() => {
-    setFeedbackByEntryId({});
-    if (!session?.id) return;
-    const controller = new AbortController();
-    fetch(`/api/feedback?sessionId=${encodeURIComponent(session.id)}`, {
-      signal: controller.signal,
-      credentials: "same-origin",
-      cache: "no-store",
-    })
-      .then(async (response) => {
-        if (!response.ok) throw new Error(`Feedback load failed (${response.status})`);
-        return response.json() as Promise<{ feedback?: MessageFeedback[] }>;
-      })
-      .then(({ feedback = [] }) => {
-        setFeedbackByEntryId(Object.fromEntries(feedback.map((item) => [item.entryId, item])));
-      })
-      .catch((loadError) => {
-        if ((loadError as Error).name !== "AbortError") console.warn(loadError);
-      });
-    return () => controller.abort();
-  }, [session?.id]);
-
-  const updateMessageFeedback = useCallback(async (
-    entryId: string,
-    feedback: MessageFeedbackInput | null,
-  ): Promise<MessageFeedback | null> => {
-    if (!session?.id) throw new Error("Feedback requires a saved session");
-    const response = await fetch("/api/feedback", {
-      method: "PUT",
-      credentials: "same-origin",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId: session.id, entryId, feedback }),
-    });
-    const result = await response.json() as { feedback?: MessageFeedback | null; error?: string };
-    if (!response.ok) throw new Error(result.error || `Feedback save failed (${response.status})`);
-    const saved = result.feedback ?? null;
-    setFeedbackByEntryId((current) => {
-      const next = { ...current };
-      if (saved) next[entryId] = saved;
-      else delete next[entryId];
-      return next;
-    });
-    return saved;
-  }, [session]);
-  const liveToolResultList = useMemo(() => [...liveToolResults.values()], [liveToolResults]);
-  const liveToolExecutionList = useMemo(() => [...liveToolExecutions.values()], [liveToolExecutions]);
   const toolResultsMap = useMemo(() => {
     const results = new Map<string, import("@/lib/types").ToolResultMessage>(liveToolResults);
     for (const message of messages) {
@@ -587,299 +405,6 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
     }
     return results;
   }, [liveToolResults, messages]);
-  const latestCodeArtifacts = useMemo(() => extractLatestCodeArtifacts(
-    messages,
-    streamState.streamingMessage,
-    conversationKey,
-    {
-      allowSmall: codePanelArtifacts.length > 0,
-      baseArtifact: codePanelArtifact,
-      toolResults: liveToolResultList,
-      includeAll: true,
-    },
-  ), [codePanelArtifact, codePanelArtifacts.length, conversationKey, liveToolResultList, messages, streamState.streamingMessage]);
-  const latestTerminalArtifact = useMemo(() => codePanelArtifact
-    ? extractLatestTerminalArtifact(messages, streamState.streamingMessage, conversationKey, {
-        baseArtifact: codePanelArtifact,
-        toolResults: liveToolResultList,
-        toolExecutions: liveToolExecutionList,
-      })
-    : null, [codePanelArtifact, conversationKey, liveToolExecutionList, liveToolResultList, messages, streamState.streamingMessage]);
-  const latestCodeArtifactsRef = useRef<CodeArtifact[]>(latestCodeArtifacts);
-  latestCodeArtifactsRef.current = latestCodeArtifacts;
-  const latestCodeArtifactsSignal = useMemo(
-    () => latestCodeArtifacts.map((artifact) => codeArtifactSignal(artifact)).join("||"),
-    [latestCodeArtifacts],
-  );
-  const pendingCodeArtifactsRef = useRef<CodeArtifact[] | null>(null);
-  const codeArtifactFrameRef = useRef<number | null>(null);
-  useEffect(() => {
-    if (codeArtifactFrameRef.current !== null) cancelAnimationFrame(codeArtifactFrameRef.current);
-    codeArtifactFrameRef.current = null;
-    pendingCodeArtifactsRef.current = null;
-    artifactGenerationSeenRef.current = false;
-    codeArtifactSelectionTouchedRef.current = false;
-    codeArtifactsTurnRef.current = null;
-    setCodePanelArtifacts([]);
-    setSelectedCodeArtifactId(null);
-    setCodePanelOpen(true);
-  }, [conversationKey]);
-  useEffect(() => () => {
-    if (codeArtifactFrameRef.current !== null) cancelAnimationFrame(codeArtifactFrameRef.current);
-  }, []);
-  useEffect(() => {
-    if (streamState.isStreaming || agentRunning) {
-      artifactGenerationSeenRef.current = true;
-    }
-  }, [agentRunning, streamState.isStreaming]);
-  useEffect(() => {
-    const artifacts = latestCodeArtifactsRef.current;
-    if (artifacts.length === 0) return;
-    const belongsToCurrentGeneration = streamState.isStreaming || agentRunning || artifactGenerationSeenRef.current;
-    if (!belongsToCurrentGeneration) return;
-    const applyArtifacts = (next: CodeArtifact[]) => {
-      const nextTurn = next.at(-1)?.sourceTurn ?? null;
-      if (codeArtifactsTurnRef.current !== nextTurn) {
-        codeArtifactsTurnRef.current = nextTurn;
-        codeArtifactSelectionTouchedRef.current = false;
-      }
-      setCodePanelArtifacts(next);
-      setSelectedCodeArtifactId((current) => {
-        const currentStillExists = current && next.some((artifact) => artifact.id === current);
-        if (codeArtifactSelectionTouchedRef.current && currentStillExists) return current;
-        return next.at(-1)?.id ?? null;
-      });
-      setCodePanelOpen(true);
-    };
-    const allComplete = artifacts.every((artifact) => artifact.complete);
-    if (allComplete) {
-      if (codeArtifactFrameRef.current !== null) cancelAnimationFrame(codeArtifactFrameRef.current);
-      codeArtifactFrameRef.current = null;
-      pendingCodeArtifactsRef.current = null;
-      applyArtifacts(artifacts);
-    } else {
-      pendingCodeArtifactsRef.current = artifacts;
-      if (codeArtifactFrameRef.current === null) {
-        codeArtifactFrameRef.current = requestAnimationFrame(() => {
-          codeArtifactFrameRef.current = null;
-          const pending = pendingCodeArtifactsRef.current;
-          pendingCodeArtifactsRef.current = null;
-          if (pending) applyArtifacts(pending);
-        });
-      }
-    }
-    if (allComplete && !streamState.isStreaming && !agentRunning) {
-      artifactGenerationSeenRef.current = false;
-    }
-  }, [agentRunning, latestCodeArtifactsSignal, streamState.isStreaming]);
-  const selectCodeArtifact = useCallback((artifactId: string) => {
-    codeArtifactSelectionTouchedRef.current = true;
-    setSelectedCodeArtifactId(artifactId);
-  }, []);
-  const showCodePanel = !onCodeArtifactsChange && !isMobile && codePanelOpen && codePanelArtifact !== null;
-
-  useEffect(() => {
-    if (!onCodeArtifactsChange) return;
-    if (!codePanelOpen || !codePanelArtifact) {
-      onCodeArtifactsChange(null);
-      return;
-    }
-    onCodeArtifactsChange({
-      artifact: codePanelArtifact,
-      artifacts: codePanelArtifacts,
-      terminal: latestTerminalArtifact,
-      cwd: session?.cwd ?? newSessionCwd ?? ".",
-      onSelectArtifact: selectCodeArtifact,
-    });
-  }, [
-    codePanelArtifact,
-    codePanelArtifacts,
-    codePanelOpen,
-    latestTerminalArtifact,
-    newSessionCwd,
-    onCodeArtifactsChange,
-    selectCodeArtifact,
-    session?.cwd,
-  ]);
-
-  const syncCodePaneFullWidthClass = useCallback((fullWidth: boolean) => {
-    chatWindowRef.current?.classList.toggle("is-code-pane-full", fullWidth);
-    codePaneLayoutRef.current?.classList.toggle("is-code-pane-full", fullWidth);
-  }, []);
-
-  const applyCodePaneWidth = useCallback((requestedWidth: number) => {
-    const availableWidth = Math.max(1, codePaneLayoutRef.current?.clientWidth ?? window.innerWidth);
-    const minimumWidth = Math.min(MIN_CODE_PANE_WIDTH, availableWidth);
-    const nextWidth = Math.round(Math.max(minimumWidth, Math.min(availableWidth, requestedWidth)));
-    codePaneWidthRef.current = nextWidth;
-    if (codePaneResizeRef.current) codePaneResizeRef.current.currentWidth = nextWidth;
-    chatWindowRef.current?.style.setProperty("--code-pane-width", `${nextWidth}px`);
-    return { width: nextWidth, availableWidth };
-  }, []);
-
-  useEffect(() => {
-    const storedWidth = Number(window.localStorage.getItem(CODE_PANE_WIDTH_STORAGE_KEY));
-    if (!Number.isFinite(storedWidth) || storedWidth < MIN_CODE_PANE_WIDTH) return;
-    lastCodePaneWidthRef.current = storedWidth;
-    const applied = applyCodePaneWidth(storedWidth);
-    setCodePaneWidth(applied.width);
-  }, [applyCodePaneWidth]);
-
-  useEffect(() => {
-    if (!showCodePanel) return;
-    const layout = codePaneLayoutRef.current;
-    if (!layout) return;
-    const fitToLayout = () => {
-      const availableWidth = Math.max(1, layout.clientWidth);
-      if (codePaneFullWidth) {
-        codePaneWidthRef.current = availableWidth;
-        chatWindowRef.current?.style.setProperty("--code-pane-width", `${availableWidth}px`);
-        return;
-      }
-      if (codePaneWidthRef.current <= availableWidth) return;
-      const applied = applyCodePaneWidth(availableWidth);
-      setCodePaneWidth(applied.width);
-    };
-    fitToLayout();
-    const observer = new ResizeObserver(fitToLayout);
-    observer.observe(layout);
-    return () => observer.disconnect();
-  }, [applyCodePaneWidth, codePaneFullWidth, showCodePanel]);
-
-  const startCodePaneResize = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
-    const layout = codePaneLayoutRef.current;
-    if (!layout) return;
-    event.preventDefault();
-    event.stopPropagation();
-    event.currentTarget.setPointerCapture?.(event.pointerId);
-    const pane = layout.querySelector<HTMLElement>(".code-generation-pane");
-    const startWidth = Math.min(layout.clientWidth, pane?.getBoundingClientRect().width ?? codePaneWidthRef.current);
-    if (!codePaneFullWidth) lastCodePaneWidthRef.current = startWidth;
-    codePaneResizeRef.current = {
-      startX: event.clientX,
-      startWidth,
-      currentWidth: startWidth,
-    };
-    chatWindowRef.current?.classList.add("is-code-pane-resizing");
-    setCodePaneResizing(true);
-    document.body.style.cursor = "col-resize";
-    document.body.style.userSelect = "none";
-  }, [codePaneFullWidth]);
-
-  useEffect(() => {
-    const chatWindow = chatWindowRef.current;
-    const applyResizeAt = (clientX: number) => {
-      const resize = codePaneResizeRef.current;
-      if (!resize) return;
-      const requestedWidth = resize.startWidth + resize.startX - clientX;
-      const applied = applyCodePaneWidth(requestedWidth);
-      // When dragging away from a previously full-width pane, reveal the
-      // conversation immediately without waiting for pointerup.
-      syncCodePaneFullWidthClass(applied.availableWidth - applied.width < 1);
-    };
-
-    const stopResize = (clientX?: number) => {
-      const resize = codePaneResizeRef.current;
-      if (codePaneResizeFrameRef.current !== null) cancelAnimationFrame(codePaneResizeFrameRef.current);
-      codePaneResizeFrameRef.current = null;
-      const finalClientX = clientX ?? pendingCodePaneResizeXRef.current;
-      pendingCodePaneResizeXRef.current = null;
-      if (resize && finalClientX !== null && finalClientX !== undefined) applyResizeAt(finalClientX);
-
-      if (resize) {
-        const layoutWidth = Math.max(1, codePaneLayoutRef.current?.clientWidth ?? resize.currentWidth);
-        const shouldFill = layoutWidth - resize.currentWidth <= CODE_PANE_FULL_SNAP_PX;
-        const finalWidth = shouldFill ? layoutWidth : resize.currentWidth;
-        const applied = applyCodePaneWidth(finalWidth);
-        syncCodePaneFullWidthClass(shouldFill);
-        setCodePaneWidth(applied.width);
-        setCodePaneFullWidth(shouldFill);
-        if (!shouldFill) {
-          lastCodePaneWidthRef.current = applied.width;
-          window.localStorage.setItem(CODE_PANE_WIDTH_STORAGE_KEY, String(applied.width));
-        }
-      }
-
-      codePaneResizeRef.current = null;
-      setCodePaneResizing(false);
-      chatWindowRef.current?.classList.remove("is-code-pane-resizing");
-      document.body.style.cursor = "";
-      document.body.style.userSelect = "";
-    };
-
-    const handleMove = (event: globalThis.PointerEvent) => {
-      if (!codePaneResizeRef.current) return;
-      if (event.buttons === 0) {
-        stopResize(event.clientX);
-        return;
-      }
-      pendingCodePaneResizeXRef.current = event.clientX;
-      if (codePaneResizeFrameRef.current !== null) return;
-      codePaneResizeFrameRef.current = requestAnimationFrame(() => {
-        codePaneResizeFrameRef.current = null;
-        const clientX = pendingCodePaneResizeXRef.current;
-        pendingCodePaneResizeXRef.current = null;
-        if (clientX !== null) applyResizeAt(clientX);
-      });
-    };
-    const handlePointerEnd = (event: globalThis.PointerEvent) => stopResize(event.clientX);
-    const handlePointerCancel = () => stopResize();
-    const handleBlur = () => stopResize();
-    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
-      if (event.key === "Escape") stopResize();
-    };
-
-    window.addEventListener("pointermove", handleMove);
-    window.addEventListener("pointerup", handlePointerEnd);
-    window.addEventListener("pointercancel", handlePointerCancel);
-    window.addEventListener("blur", handleBlur);
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      if (codePaneResizeFrameRef.current !== null) cancelAnimationFrame(codePaneResizeFrameRef.current);
-      codePaneResizeFrameRef.current = null;
-      pendingCodePaneResizeXRef.current = null;
-      window.removeEventListener("pointermove", handleMove);
-      window.removeEventListener("pointerup", handlePointerEnd);
-      window.removeEventListener("pointercancel", handlePointerCancel);
-      window.removeEventListener("blur", handleBlur);
-      window.removeEventListener("keydown", handleKeyDown);
-      chatWindow?.classList.remove("is-code-pane-resizing");
-      document.body.style.cursor = "";
-      document.body.style.userSelect = "";
-    };
-  }, [applyCodePaneWidth, syncCodePaneFullWidthClass]);
-
-  const toggleCodePaneFullWidth = useCallback(() => {
-    const availableWidth = Math.max(1, codePaneLayoutRef.current?.clientWidth ?? window.innerWidth);
-    if (codePaneFullWidth) {
-      const restoredWidth = Math.min(
-        Math.max(MIN_CODE_PANE_WIDTH, lastCodePaneWidthRef.current),
-        availableWidth,
-      );
-      const applied = applyCodePaneWidth(restoredWidth);
-      syncCodePaneFullWidthClass(false);
-      setCodePaneWidth(applied.width);
-      setCodePaneFullWidth(false);
-      return;
-    }
-    lastCodePaneWidthRef.current = Math.min(codePaneWidthRef.current, availableWidth);
-    window.localStorage.setItem(CODE_PANE_WIDTH_STORAGE_KEY, String(lastCodePaneWidthRef.current));
-    const applied = applyCodePaneWidth(availableWidth);
-    syncCodePaneFullWidthClass(true);
-    setCodePaneWidth(applied.width);
-    setCodePaneFullWidth(true);
-  }, [applyCodePaneWidth, codePaneFullWidth, syncCodePaneFullWidthClass]);
-
-  const closeCodePane = useCallback(() => {
-    syncCodePaneFullWidthClass(false);
-    setCodePaneFullWidth(false);
-    setCodePanelOpen(false);
-  }, [syncCodePaneFullWidthClass]);
-
-  const askFromCodePane = useCallback((prompt: string) => {
-    if (codePaneFullWidth) toggleCodePaneFullWidth();
-    chatInputRef?.current?.insertText(prompt);
-  }, [chatInputRef, codePaneFullWidth, toggleCodePaneFullWidth]);
   const inputHistory = useMemo(() => {
     const seen = new Set<string>();
     const history: string[] = [];
@@ -1030,32 +555,14 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
       modelError={modelError}
       modelScopeWarnings={modelScopeWarnings}
       onModelChange={handleModelChange}
-      customAgents={customAgents}
-      selectedAgentId={selectedAgentId}
-      onAgentChange={handleAgentChange}
-      agentSelectionLocked={agentSelectionLocked}
-      subagents={subagents}
-      selectedSubagentIds={selectedSubagentIds}
-      onSubagentToggle={handleSubagentToggle}
-      subagentExtensionAvailable={subagentExtensionAvailable}
-      agentVersions={agentVersions}
-      selectedAgentVersionId={selectedAgentVersionId}
-      onAgentVersionChange={handleAgentVersionChange}
-      agentVersionSelectionLocked={agentVersionSelectionLocked}
+
       modelSwitching={modelSwitching}
       onCompact={session || isNew ? handleCompact : undefined}
       onAbortCompaction={handleAbortCompaction}
       isCompacting={isCompacting}
       compactError={compactError}
       compactResult={compactResult}
-      toolPreset={toolPreset}
-      onToolPresetChange={session || isNew ? handleToolPresetChange : undefined}
-      mcpServers={mcpServers}
-      mcpServersLoading={mcpServersLoading}
-      mcpServersUpdating={mcpServersUpdating}
-      mcpServersError={mcpServersError}
-      mcpSelectionLocked={mcpSelectionLocked}
-      onMcpServerToggle={handleMcpServerToggle}
+
       thinkingLevel={thinkingLevel}
       onThinkingLevelChange={session || isNew ? handleThinkingLevelChange : undefined}
       availableThinkingLevels={availableThinkingLevels}
@@ -1064,9 +571,7 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
       queuedMessages={queuedMessages}
       inputHistory={inputHistory}
       onRecallQueue={handleRecallQueue}
-      slashCommands={slashCommands}
-      slashCommandsLoading={slashCommandsLoading}
-      onLoadSlashCommands={loadSlashCommands}
+
       onBuiltinCommand={handleBuiltinSlashCommand}
       soundEnabled={soundEnabled}
       onSoundToggle={onSoundToggle}
@@ -1097,10 +602,9 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
 
   return (
     <div
-      ref={chatWindowRef}
-      className={`amedac-chat-window relative flex h-full min-w-0 flex-col overflow-hidden${showCodePanel && codePaneFullWidth ? " is-code-pane-full" : ""}`}
+
+      className="fcn-chat-window relative flex h-full min-w-0 flex-col overflow-hidden"
       style={{
-        "--code-pane-width": `${codePaneResizeRef.current?.currentWidth ?? codePaneWidthRef.current}px`,
         paddingBottom: "env(safe-area-inset-bottom)",
       } as CSSProperties}
       onDragEnter={handleDragEnter}
@@ -1173,54 +677,32 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
         <NoticeShelf notices={notices} floating />
       </div>
 
-      {isEmptyNew ? (
-        <div className="flex flex-1 flex-col items-center justify-start overflow-y-auto px-4 py-6">
-          <div
-            className="w-full max-w-[820px]"
-            style={{ marginTop: "auto", marginBottom: "auto", flexShrink: 0 }}
-          >
-            {customAgents.some((agent) => agent.id === "project:ifcn") ? (
-              <IfcnWelcome
-                workspace={ifcnWorkspace}
-                cwd={newSessionCwd}
-                selected={selectedAgentId === "project:ifcn"}
-                onSelect={() => handleAgentChange("project:ifcn")}
-                onPrepare={(prompt) => chatInputRef?.current?.insertText(prompt)}
-              />
-            ) : <NewSessionWelcome
-              username={currentUser ?? "test"}
-              accountUid={accountUid}
-              uiLanguage={uiLanguage}
-              isMobile={isMobile}
-              onAsk={(prompt) => void handleSend(prompt)}
-            />}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                gap: 10,
-                margin: "6px 16px 4px",
-                fontFamily: "var(--font-mono)",
-              }}
-            >
-              <NewSessionUpdateLink label={(version) => t("appUpdate.releaseNotes", { version })} />
-              <span style={{ fontSize: 10, color: "var(--text-muted)" }}>
-                web <span style={{ color: "var(--text)" }}>v{process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0"}</span>
-                {" · "}pi <span style={{ color: "var(--text)" }}>v{process.env.NEXT_PUBLIC_PI_VERSION ?? "0.0.0"}</span>
-              </span>
+      {!isEmptyNew && <div className="ifcn-design-session-tools"><button type="button" disabled={sessionBusy} onClick={() => setDesignFormOpen((open) => !open)}>{designFormOpen ? "返回设计对话" : "＋ 输入新电路"}</button>{onShowAlgorithmReference && <button type="button" onClick={onShowAlgorithmReference}>算法参考</button>}</div>}
+      {isEmptyNew || designFormOpen ? (
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          <div className="flex min-h-0 flex-1 flex-col items-center overflow-y-auto px-4 py-3">
+            <div className="w-full max-w-[820px]" style={{ marginTop: "auto", marginBottom: "auto", flexShrink: 0 }}>
+              {newSessionCwd && <IfcnDesignForm
+                workspace={ifcnWorkspace} cwd={newSessionCwd} busy={sessionBusy || selectedAgentId !== "project:ifcn"}
+                draftKey={session?.id || newSessionDraftKey || newSessionCwd} selection={circuitSourceSelection}
+                onChooseFile={onChooseCircuitFile} onReference={onShowAlgorithmReference}
+                onCancel={!isEmptyNew ? () => setDesignFormOpen(false) : undefined}
+                onSubmit={async (prompt) => { await handleSend(prompt); setDesignFormOpen(false); }}
+              />}
             </div>
+          </div>
+          <div className="w-full max-w-[820px]" style={{ alignSelf: "center", flexShrink: 0 }}>
             {chatInputElement}
             <ExtensionStatusBar statuses={extensionStatuses} widgets={extensionWidgets} />
           </div>
         </div>
       ) : (
       <div
-        ref={codePaneLayoutRef}
-        className={`code-pane-layout${showCodePanel && codePaneFullWidth ? " is-code-pane-full" : ""}`}
+
+        className="fcn-chat-layout"
         style={{
           display: "grid",
-          gridTemplateColumns: showCodePanel ? "minmax(0, 1fr) var(--code-pane-width)" : "minmax(0, 1fr)",
+          gridTemplateColumns: "minmax(0, 1fr)",
           gridTemplateRows: "minmax(0, 1fr) auto",
           flex: 1,
           minWidth: 0,
@@ -1228,7 +710,7 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
           overflow: "hidden",
         }}
       >
-      <div className="code-pane-chat-column relative flex min-h-0 min-w-0 overflow-hidden" style={{ gridColumn: 1, gridRow: 1 }}>
+      <div className="fcn-chat-column relative flex min-h-0 min-w-0 overflow-hidden" style={{ gridColumn: 1, gridRow: 1 }}>
         <div className="relative flex min-w-0 flex-1 overflow-hidden">
           <div ref={scrollContainerRef} className="min-w-0 flex-1 overflow-x-hidden overflow-y-auto pt-4 [scrollbar-width:none]">
             <div style={{ minWidth: 0, padding: `0 ${CHAT_COLUMN_PADDING}px` }}>
@@ -1308,8 +790,6 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
                     showTimestamp={showTimestamp}
                     prevTimestamp={idx > 0 ? (messages[idx - 1] as AgentMessage & { timestamp?: number }).timestamp : undefined}
                     docQaDocuments={msg.role === "assistant" ? docQaDocumentsByMessageIndex[idx] : undefined}
-                    feedback={msg.role === "assistant" ? feedbackByEntryId[entryIds[idx]] : undefined}
-                    onFeedbackChange={msg.role === "assistant" && session?.id ? updateMessageFeedback : undefined}
                     uiLanguage={uiLanguage}
                     sessionId={session?.id ?? sessionIdRef.current ?? undefined}
                     writtenFiles={options.writtenFiles}
@@ -1458,24 +938,6 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
               </div>
             )}
 
-            {bashRunning && !pendingBash && (
-              <div className="py-2 text-[13px] text-text-muted">
-                <span className="animate-[pulse_1.5s_infinite]">{t("chat.runningCommand")}</span>
-              </div>
-            )}
-
-            {pendingBash && (
-              <MessageView
-                message={{
-                  role: "bashExecution",
-                  command: pendingBash.command,
-                  output: "",
-                  excludeFromContext: pendingBash.excludeFromContext,
-                } as BashExecutionMessage}
-                sessionId={session?.id ?? sessionIdRef.current ?? undefined}
-              />
-            )}
-
             <div ref={promptAnchorSpacerRef} aria-hidden="true" />
 
             <div ref={messagesEndRef} />
@@ -1493,26 +955,8 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
           )}
         </div>
       </div>
-        {showCodePanel && codePanelArtifact && (
-          <CodeGenerationPane
-            artifact={codePanelArtifact}
-            artifacts={codePanelArtifacts}
-            onSelectArtifact={selectCodeArtifact}
-            terminal={latestTerminalArtifact}
-            cwd={session?.cwd ?? newSessionCwd ?? "."}
-            onClose={closeCodePane}
-            onAsk={askFromCodePane}
-            onResizeStart={startCodePaneResize}
-            resizing={codePaneResizing}
-            fullWidth={codePaneFullWidth}
-            onToggleFullWidth={toggleCodePaneFullWidth}
-            onFileSaved={onCodeFileSaved}
-            onTerminalRequest={onTerminalRequest}
-            uiLanguage={uiLanguage}
-          />
-        )}
 
-      <div className="code-pane-input-region relative min-w-0 overflow-hidden" style={{ gridColumn: 1, gridRow: 2 }}>
+      <div className="fcn-input-region relative min-w-0 overflow-hidden" style={{ gridColumn: 1, gridRow: 2 }}>
         <div
           style={{
             padding: `0 ${CHAT_COLUMN_PADDING}px`,
@@ -1527,1002 +971,10 @@ export const ChatWindow = memo(function ChatWindow({ session, sessionRunning, ne
       </div>
       </div>
       )}
-      {codePaneResizing && <div className="code-pane-resize-overlay" aria-hidden="true" />}
+
     </div>
   );
 });
-
-function NewSessionWelcome({
-  username,
-  accountUid,
-  uiLanguage,
-  isMobile,
-  onAsk,
-}: {
-  username: string;
-  accountUid?: string | null;
-  uiLanguage: UiLanguage;
-  isMobile: boolean;
-  onAsk: (prompt: string) => void;
-}) {
-  const cleanUsername = username.trim() || "test";
-  const uiText = textForLanguage(uiLanguage);
-  const defaultSuggestions = NEW_SESSION_SUGGESTIONS[uiLanguage];
-  const [suggestions, setSuggestions] = useState<string[]>(() => [...defaultSuggestions]);
-  const [editingSuggestions, setEditingSuggestions] = useState(false);
-  const [suggestionDrafts, setSuggestionDrafts] = useState<string[]>(() => [...defaultSuggestions]);
-  const [suggestionsSaving, setSuggestionsSaving] = useState(false);
-  const [suggestionsError, setSuggestionsError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setSuggestions(defaultSuggestions);
-    setSuggestionDrafts(defaultSuggestions);
-    setEditingSuggestions(false);
-    setSuggestionsError(null);
-    if (!accountUid) return;
-    const controller = new AbortController();
-    fetch("/api/accounts/preferences", { signal: controller.signal, cache: "no-store" })
-      .then(async (response) => {
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json() as Promise<{ preferences?: { welcomeSuggestions?: string[] } }>;
-      })
-      .then((result) => {
-        const stored = result.preferences?.welcomeSuggestions
-          ?.map((suggestion) => suggestion.trim())
-          .filter(Boolean)
-          .slice(0, 6);
-        if (!stored?.length) return;
-        setSuggestions(stored);
-        setSuggestionDrafts(stored);
-      })
-      .catch((loadError) => {
-        if ((loadError as Error).name !== "AbortError") console.warn("Failed to load welcome suggestions:", loadError);
-      });
-    return () => controller.abort();
-  }, [accountUid, defaultSuggestions]);
-
-  const saveSuggestions = useCallback(async (next: string[] | null) => {
-    if (suggestionsSaving) return;
-    const normalized = next
-      ?.map((suggestion) => suggestion.trim())
-      .filter(Boolean)
-      .slice(0, 6) ?? null;
-    if (next && !normalized?.length) {
-      setSuggestionsError(uiText.welcome.requireSuggestion);
-      return;
-    }
-    setSuggestionsSaving(true);
-    setSuggestionsError(null);
-    try {
-      const response = await fetch("/api/accounts/preferences", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ welcomeSuggestions: normalized }),
-      });
-      const result = await response.json().catch(() => ({})) as {
-        preferences?: { welcomeSuggestions?: string[] };
-        error?: string;
-      };
-      if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
-      const saved = result.preferences?.welcomeSuggestions?.length
-        ? result.preferences.welcomeSuggestions
-        : defaultSuggestions;
-      setSuggestions(saved);
-      setSuggestionDrafts(saved);
-      setEditingSuggestions(false);
-    } catch (saveError) {
-      setSuggestionsError(`${uiText.welcome.saveSuggestionsFailed}: ${saveError instanceof Error ? saveError.message : String(saveError)}`);
-    } finally {
-      setSuggestionsSaving(false);
-    }
-  }, [defaultSuggestions, suggestionsSaving, uiText.welcome]);
-
-  return (
-    <section
-      aria-label={uiText.welcome.ariaLabel}
-      style={{
-        position: "relative",
-        boxSizing: "border-box",
-        margin: `0 ${isMobile ? 16 : 52}px 4px 16px`,
-        transform: "translateY(-10px)",
-        padding: "16px 18px 14px",
-        borderRadius: 20,
-        overflow: "hidden",
-        border: "1px solid color-mix(in srgb, var(--accent) 18%, var(--border))",
-        background: [
-          "radial-gradient(circle at 14% 18%, color-mix(in srgb, var(--accent) 18%, transparent) 0, transparent 30%)",
-          "radial-gradient(circle at 86% 10%, rgba(168,85,247,0.16) 0, transparent 28%)",
-          "linear-gradient(135deg, var(--welcome-card-surface) 0%, var(--bg) 100%)",
-        ].join(", "),
-        boxShadow: "0 12px 34px rgba(15,23,42,0.07)",
-        transition: "background 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease",
-      }}
-    >
-      <style>
-        {`
-          @keyframes amedac-cloud-float {
-            0%, 100% { transform: translateY(0) rotate(var(--cloud-rotate, 0deg)); }
-            50% { transform: translateY(-4px) rotate(var(--cloud-rotate, 0deg)); }
-          }
-          @keyframes amedac-welcome-orb {
-            0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: .72; }
-            50% { transform: translate3d(10px, -8px, 0) scale(1.06); opacity: .95; }
-          }
-        `}
-      </style>
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          width: 136,
-          height: 136,
-          borderRadius: 999,
-          right: -36,
-          top: -42,
-          background: "color-mix(in srgb, var(--accent) 18%, transparent)",
-          filter: "blur(2px)",
-          animation: "amedac-welcome-orb 5.8s ease-in-out infinite",
-        }}
-      />
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          width: 92,
-          height: 92,
-          borderRadius: 999,
-          left: -26,
-          bottom: -34,
-          background: "rgba(34,197,94,0.12)",
-          animation: "amedac-welcome-orb 6.4s ease-in-out infinite reverse",
-        }}
-      />
-
-      <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-        <div
-          style={{
-            width: 38,
-            height: 38,
-            borderRadius: 13,
-            display: "grid",
-            placeItems: "center",
-            background: "color-mix(in srgb, var(--accent) 10%, var(--bg-panel))",
-            border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)",
-            boxShadow: "0 9px 22px color-mix(in srgb, var(--accent) 10%, transparent)",
-            flexShrink: 0,
-          }}
-        >
-          <FcnPilotIcon size={26} animated />
-        </div>
-        <div style={{ minWidth: 0, flex: 1 }}>
-          <div
-            style={{
-              color: "var(--text)",
-              fontSize: "clamp(19px, 2.7vw, 27px)",
-              fontWeight: 760,
-              letterSpacing: "-0.035em",
-              lineHeight: 1.06,
-            }}
-          >
-            {uiLanguage === "zh"
-              ? `${uiText.welcome.greeting}，${cleanUsername}，${uiText.welcome.welcomeTo}`
-              : `${uiText.welcome.greeting}, ${cleanUsername}. ${uiText.welcome.welcomeTo}`}
-          </div>
-          <div style={{ marginTop: 4, color: "var(--text-muted)", fontSize: 12, lineHeight: 1.4 }}>
-            {uiText.welcome.subtitle}
-          </div>
-        </div>
-      </div>
-
-      <div style={{ position: "relative", marginTop: 6 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 8 }}>
-          <div style={{ color: "var(--text-muted)", fontSize: 10, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-            {uiText.welcome.tryAsking}
-          </div>
-          <button
-            type="button"
-            aria-expanded={editingSuggestions}
-            title={uiText.welcome.editSuggestions}
-            onClick={() => {
-              setSuggestionDrafts(suggestions);
-              setSuggestionsError(null);
-              setEditingSuggestions((editing) => !editing);
-            }}
-            style={{
-              height: 24,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 5,
-              padding: "0 8px",
-              border: "1px solid var(--welcome-label-border)",
-              borderRadius: 7,
-              background: editingSuggestions ? "color-mix(in srgb, var(--accent) 10%, var(--bg))" : "var(--bg)",
-              color: editingSuggestions ? "var(--accent)" : "var(--text-dim)",
-              cursor: "pointer",
-              fontSize: 10,
-              fontWeight: 700,
-            }}
-          >
-            <svg aria-hidden="true" width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m10.8 2.2 3 3-8.2 8.2-3.6.6.6-3.6z" />
-              <path d="m9.5 3.5 3 3" />
-            </svg>
-            {uiText.welcome.edit}
-          </button>
-        </div>
-        {editingSuggestions && (
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              void saveSuggestions(suggestionDrafts);
-            }}
-            style={{
-              marginBottom: 10,
-              padding: 10,
-              border: "1px solid color-mix(in srgb, var(--accent) 18%, var(--border))",
-              borderRadius: 11,
-              background: "color-mix(in srgb, var(--bg-panel) 94%, var(--accent) 2%)",
-              boxShadow: "0 8px 22px rgba(15,23,42,0.05)",
-            }}
-          >
-            <div style={{ display: "grid", gap: 6 }}>
-              {suggestionDrafts.map((suggestion, index) => (
-                <div key={index} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ width: 16, flexShrink: 0, color: "var(--text-dim)", fontSize: 10, textAlign: "right" }}>
-                    {index + 1}
-                  </span>
-                  <input
-                    value={suggestion}
-                    maxLength={240}
-                    aria-label={`${uiText.welcome.suggestion} ${index + 1}`}
-                    placeholder={uiText.welcome.suggestionPlaceholder}
-                    onChange={(event) => {
-                      const value = event.target.value;
-                      setSuggestionDrafts((current) => current.map((item, itemIndex) => itemIndex === index ? value : item));
-                    }}
-                    style={{
-                      minWidth: 0,
-                      flex: 1,
-                      height: 32,
-                      padding: "0 9px",
-                      border: "1px solid var(--border)",
-                      borderRadius: 7,
-                      outline: "none",
-                      background: "var(--bg)",
-                      color: "var(--text)",
-                      fontSize: 11,
-                    }}
-                  />
-                  <button
-                    type="button"
-                    disabled={suggestionDrafts.length <= 1}
-                    title={uiText.welcome.removeSuggestion}
-                    aria-label={`${uiText.welcome.removeSuggestion} ${index + 1}`}
-                    onClick={() => setSuggestionDrafts((current) => current.filter((_, itemIndex) => itemIndex !== index))}
-                    style={{
-                      width: 28,
-                      height: 28,
-                      display: "grid",
-                      placeItems: "center",
-                      flexShrink: 0,
-                      border: "1px solid var(--border)",
-                      borderRadius: 7,
-                      background: "var(--bg)",
-                      color: "var(--text-dim)",
-                      cursor: suggestionDrafts.length <= 1 ? "not-allowed" : "pointer",
-                      opacity: suggestionDrafts.length <= 1 ? 0.4 : 1,
-                    }}
-                  >
-                    <svg aria-hidden="true" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-                      <path d="M3 4h10M6 4V2.8h4V4M5 6.2v6.3M8 6.2v6.3M11 6.2v6.3M4 4l.7 10h6.6L12 4" />
-                    </svg>
-                  </button>
-                </div>
-              ))}
-            </div>
-            {suggestionsError && (
-              <div role="alert" style={{ marginTop: 7, color: "#ef4444", fontSize: 10.5 }}>
-                {suggestionsError}
-              </div>
-            )}
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 9 }}>
-              <button
-                type="button"
-                disabled={suggestionDrafts.length >= 6 || suggestionsSaving}
-                onClick={() => setSuggestionDrafts((current) => [...current, ""])}
-                style={{
-                  height: 28,
-                  padding: "0 9px",
-                  border: "1px dashed var(--border)",
-                  borderRadius: 7,
-                  background: "transparent",
-                  color: "var(--text-muted)",
-                  cursor: suggestionDrafts.length >= 6 || suggestionsSaving ? "not-allowed" : "pointer",
-                  opacity: suggestionDrafts.length >= 6 ? 0.45 : 1,
-                  fontSize: 10.5,
-                }}
-              >
-                + {uiText.welcome.addSuggestion}
-              </button>
-              <button
-                type="button"
-                disabled={suggestionsSaving}
-                onClick={() => void saveSuggestions(null)}
-                style={{
-                  height: 28,
-                  padding: "0 9px",
-                  border: "none",
-                  borderRadius: 7,
-                  background: "transparent",
-                  color: "var(--text-dim)",
-                  cursor: suggestionsSaving ? "wait" : "pointer",
-                  fontSize: 10.5,
-                }}
-              >
-                {uiText.welcome.restoreDefaults}
-              </button>
-              <span style={{ flex: 1 }} />
-              <button
-                type="button"
-                disabled={suggestionsSaving}
-                onClick={() => {
-                  setSuggestionDrafts(suggestions);
-                  setSuggestionsError(null);
-                  setEditingSuggestions(false);
-                }}
-                style={{
-                  height: 28,
-                  padding: "0 10px",
-                  border: "1px solid var(--border)",
-                  borderRadius: 7,
-                  background: "var(--bg)",
-                  color: "var(--text-muted)",
-                  cursor: suggestionsSaving ? "not-allowed" : "pointer",
-                  fontSize: 10.5,
-                }}
-              >
-                {uiText.common.cancel}
-              </button>
-              <button
-                type="submit"
-                disabled={suggestionsSaving}
-                style={{
-                  height: 28,
-                  padding: "0 11px",
-                  border: "none",
-                  borderRadius: 7,
-                  background: "var(--accent)",
-                  color: "#fff",
-                  cursor: suggestionsSaving ? "wait" : "pointer",
-                  opacity: suggestionsSaving ? 0.65 : 1,
-                  fontSize: 10.5,
-                  fontWeight: 750,
-                }}
-              >
-                {suggestionsSaving ? uiText.welcome.saving : uiText.welcome.save}
-              </button>
-            </div>
-          </form>
-        )}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 10px", alignItems: "center" }}>
-          {suggestions.map((suggestion, index) => (
-            <button
-              key={`${index}:${suggestion}`}
-              type="button"
-              onClick={() => onAsk(suggestion)}
-              style={{
-                "--cloud-rotate": index === 1 ? "1.2deg" : index === 2 ? "-1.5deg" : "-0.5deg",
-                position: "relative",
-                minHeight: 40,
-                maxWidth: index === 2 ? 300 : 255,
-                padding: "9px 14px",
-                border: "1px solid var(--welcome-label-border)",
-                borderRadius: "999px 999px 999px 22px",
-                background: "linear-gradient(180deg, var(--welcome-label-top), var(--welcome-label-bottom))",
-                color: "var(--text)",
-                boxShadow: "var(--welcome-label-shadow)",
-                cursor: "pointer",
-                fontSize: 11,
-                fontWeight: 650,
-                lineHeight: 1.35,
-                textAlign: "left",
-                letterSpacing: "0.005em",
-                animation: `amedac-cloud-float ${4.6 + index * 0.45}s ease-in-out infinite`,
-                animationDelay: `${index * 0.18}s`,
-                transition: "transform 0.16s ease, background 0.24s ease, box-shadow 0.16s ease, border-color 0.16s ease, color 0.16s ease",
-              } as CSSProperties}
-              onMouseEnter={(event) => {
-                event.currentTarget.style.transform = "translateY(-3px) scale(1.012)";
-                event.currentTarget.style.borderColor = "color-mix(in srgb, var(--accent) 40%, var(--border))";
-                event.currentTarget.style.boxShadow = "var(--welcome-label-hover-shadow)";
-                event.currentTarget.style.color = "var(--accent)";
-              }}
-              onMouseLeave={(event) => {
-                event.currentTarget.style.transform = "";
-                event.currentTarget.style.borderColor = "var(--welcome-label-border)";
-                event.currentTarget.style.boxShadow = "var(--welcome-label-shadow)";
-                event.currentTarget.style.color = "var(--text)";
-              }}
-            >
-              <span
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  width: 24,
-                  height: 24,
-                  borderRadius: 999,
-                  top: -8,
-                  left: 18,
-                  background: "inherit",
-                  borderTop: "inherit",
-                  borderLeft: "inherit",
-                  pointerEvents: "none",
-                }}
-              />
-              <span
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  width: 32,
-                  height: 32,
-                  borderRadius: 999,
-                  top: -12,
-                  left: 41,
-                  background: "inherit",
-                  borderTop: "inherit",
-                  pointerEvents: "none",
-                }}
-              />
-              <span style={{ position: "relative", zIndex: 1 }}>{suggestion}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function CodeGenerationPane({
-  artifact,
-  artifacts,
-  onSelectArtifact,
-  terminal,
-  cwd,
-  onClose,
-  onAsk,
-  onResizeStart,
-  resizing,
-  fullWidth,
-  onToggleFullWidth,
-  onFileSaved,
-  onTerminalRequest,
-  uiLanguage,
-  tabMode = false,
-}: {
-  artifact: CodeArtifact;
-  artifacts: CodeArtifact[];
-  onSelectArtifact: (artifactId: string) => void;
-  terminal?: CodeTerminalArtifact | null;
-  cwd: string;
-  onClose: () => void;
-  onAsk?: (prompt: string) => void;
-  onResizeStart?: (event: ReactPointerEvent<HTMLDivElement>) => void;
-  resizing: boolean;
-  fullWidth: boolean;
-  onToggleFullWidth?: () => void;
-  onFileSaved?: () => void;
-  onTerminalRequest?: (request?: TerminalOpenRequest) => void;
-  uiLanguage: UiLanguage;
-  tabMode?: boolean;
-}) {
-  const { isDark } = useTheme();
-  const dialog = useAppDialog();
-  const uiText = textForLanguage(uiLanguage);
-  const [copied, setCopied] = useState(false);
-  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
-  // In tab mode the generated code is a standalone workspace tab. Terminal
-  // commands must not automatically create a second panel underneath it.
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const saveResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lineCount = artifact.code ? artifact.code.split(/\r?\n/).length : 0;
-  const displayCode = artifact.complete
-    ? artifact.code
-    : `${artifact.code}${artifact.code.endsWith("\n") || artifact.code.length === 0 ? "" : "\n"}▌`;
-  const statusText = artifact.complete
-    ? `${uiText.codePane.title} · ${artifact.operation === "edit" ? uiText.codePane.modified : uiText.codePane.updated}`
-    : `${uiText.codePane.title} · ${artifact.operation === "edit" ? uiText.codePane.editing : uiText.codePane.writing}`;
-
-  useEffect(() => {
-    if (artifact.complete) return;
-    const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [artifact.code, artifact.complete]);
-
-  useEffect(() => {
-    setSaveState("idle");
-    if (scrollRef.current) scrollRef.current.scrollTop = 0;
-    if (saveResetTimerRef.current) {
-      clearTimeout(saveResetTimerRef.current);
-      saveResetTimerRef.current = null;
-    }
-  }, [artifact.id]);
-
-  useEffect(() => () => {
-    if (saveResetTimerRef.current) clearTimeout(saveResetTimerRef.current);
-  }, []);
-
-  const handleCopy = useCallback(() => {
-    void copyCode(artifact.code).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1400);
-    });
-  }, [artifact.code]);
-
-  const askForModification = useCallback(() => {
-    onAsk?.(uiText.codePane.continuePrompt);
-  }, [onAsk, uiText.codePane.continuePrompt]);
-
-  const handleSaveFile = useCallback(async () => {
-    if (!artifact.complete || saveState === "saving") return;
-    const requested = await dialog.prompt({
-      title: uiText.codePane.saveFile,
-      message: uiText.codePane.saveFileMessage,
-      defaultValue: artifact.suggestedFileName,
-      placeholder: artifact.suggestedFileName,
-      confirmLabel: uiText.codePane.saveFile,
-    });
-    const relativePath = requested?.trim().replace(/\\/g, "/");
-    if (!relativePath) return;
-
-    setSaveState("saving");
-    try {
-      const createResponse = await fetch(`/api/files/${encodeFilePathForApi(cwd)}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind: "file", name: relativePath, content: artifact.code }),
-      });
-      const createResult = await createResponse.json().catch(() => ({})) as { path?: string; error?: string };
-      let savedPath = createResult.path;
-
-      if (createResponse.status === 409) {
-        const overwrite = await dialog.confirm({
-          title: uiText.codePane.overwriteFile,
-          message: uiText.codePane.overwriteFileMessage,
-          confirmLabel: uiText.codePane.overwrite,
-          danger: true,
-        });
-        if (!overwrite) {
-          setSaveState("idle");
-          return;
-        }
-        savedPath = joinFilePath(cwd, relativePath);
-        const overwriteResponse = await fetch(`/api/files/${encodeFilePathForApi(savedPath)}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: artifact.code }),
-        });
-        const overwriteResult = await overwriteResponse.json().catch(() => ({})) as { error?: string };
-        if (!overwriteResponse.ok) {
-          throw new Error(overwriteResult.error || `Save failed (HTTP ${overwriteResponse.status})`);
-        }
-      } else if (!createResponse.ok || !savedPath) {
-        throw new Error(createResult.error || `Save failed (HTTP ${createResponse.status})`);
-      }
-
-      setSaveState("saved");
-      onFileSaved?.();
-      saveResetTimerRef.current = setTimeout(() => {
-        setSaveState("idle");
-        saveResetTimerRef.current = null;
-      }, 1800);
-    } catch (saveError) {
-      setSaveState("error");
-      await dialog.alert({
-        title: uiText.codePane.saveFailed,
-        message: saveError instanceof Error ? saveError.message : String(saveError),
-      });
-    }
-  }, [
-    artifact.code,
-    artifact.complete,
-    artifact.suggestedFileName,
-    cwd,
-    dialog,
-    onFileSaved,
-    saveState,
-    uiText.codePane,
-  ]);
-
-  return (
-    <aside
-      className="code-generation-pane"
-      style={{
-        gridColumn: 2,
-        gridRow: "1 / -1",
-        position: "relative",
-        width: "100%",
-        height: "100%",
-        minWidth: 0,
-        minHeight: 0,
-        maxWidth: "100%",
-        display: "flex",
-        flexDirection: "column",
-        overflow: "hidden",
-        boxSizing: "border-box",
-        borderLeft: "1px solid var(--border)",
-        background: "var(--bg)",
-        boxShadow: "-16px 0 36px rgba(15,23,42,0.06)",
-        flexShrink: 0,
-      }}
-    >
-      {!tabMode && onResizeStart && <div
-        className={`code-generation-pane-resizer${resizing ? " is-resizing" : ""}`}
-        role="separator"
-        aria-orientation="vertical"
-        aria-label={uiLanguage === "zh" ? "调整代码栏宽度" : "Resize code pane"}
-        title={uiLanguage === "zh" ? "拖动调整宽度，双击铺满" : "Drag to resize, double-click to fill"}
-        onPointerDown={onResizeStart}
-        onDoubleClick={onToggleFullWidth}
-      />}
-      <style>{`
-        @keyframes amedac-code-dot {
-          0%, 100% { opacity: 0.35; transform: scale(0.86); }
-          50% { opacity: 1; transform: scale(1.1); }
-        }
-        @keyframes amedac-code-save-spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-          minHeight: 42,
-          padding: "8px 10px",
-          borderBottom: "1px solid var(--border)",
-          background: "var(--bg-panel)",
-        }}
-      >
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 24,
-            height: 24,
-            borderRadius: 8,
-            background: "color-mix(in srgb, var(--accent) 12%, transparent)",
-            color: "var(--accent)",
-            fontSize: 12,
-            fontWeight: 900,
-            flexShrink: 0,
-          }}
-        >
-          {"</>"}
-        </div>
-        <div style={{ minWidth: 0, flex: 1 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 7, minWidth: 0 }}>
-            {!artifact.complete && (
-              <span
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: 999,
-                  background: "var(--accent)",
-                  animation: "amedac-code-dot 1.05s ease-in-out infinite",
-                  flexShrink: 0,
-                }}
-              />
-            )}
-            <span style={{ color: "var(--text)", fontWeight: 800, fontSize: 12, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {statusText}
-            </span>
-          </div>
-          <div style={{ color: "var(--text-dim)", fontSize: 11, marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {artifact.suggestedFileName} · {artifact.language || "code"} · {lineCount} {uiText.codePane.lines}
-          </div>
-        </div>
-        {onTerminalRequest && <button
-          type="button"
-          onClick={() => onTerminalRequest({
-            command: terminal?.command,
-            key: terminal?.id,
-            contextLabel: artifact.suggestedFileName,
-          })}
-          title={uiText.codePane.openTerminal}
-          style={{
-            height: 28,
-            padding: "0 9px",
-            borderRadius: 7,
-            border: "1px solid var(--border)",
-            background: "var(--bg)",
-            color: "var(--text-muted)",
-            cursor: "pointer",
-            fontSize: 12,
-            fontFamily: "var(--font-mono)",
-          }}
-        >
-          &gt;_
-        </button>}
-        <button
-          type="button"
-          onClick={handleCopy}
-          style={{
-            height: 28,
-            padding: "0 9px",
-            borderRadius: 7,
-            border: "1px solid var(--border)",
-            background: "var(--bg)",
-            color: copied ? "var(--accent)" : "var(--text-muted)",
-            cursor: "pointer",
-            fontSize: 12,
-          }}
-        >
-          {copied ? uiText.common.copied : uiText.common.copy}
-        </button>
-        <button
-          type="button"
-          onClick={() => void handleSaveFile()}
-          disabled={!artifact.complete || saveState === "saving"}
-          aria-label={saveState === "saved" ? uiText.codePane.savedFile : uiText.codePane.saveFile}
-          title={!artifact.complete
-            ? uiText.codePane.saveAfterGeneration
-            : saveState === "saved"
-              ? uiText.codePane.savedFile
-              : uiText.codePane.saveFile}
-          style={{
-            width: 28,
-            height: 28,
-            display: "grid",
-            placeItems: "center",
-            padding: 0,
-            borderRadius: 7,
-            border: `1px solid ${saveState === "error" ? "rgba(239,68,68,0.35)" : "var(--border)"}`,
-            background: saveState === "saved"
-              ? "color-mix(in srgb, #22c55e 11%, var(--bg))"
-              : "var(--bg)",
-            color: saveState === "saved"
-              ? "#22c55e"
-              : saveState === "error"
-                ? "#ef4444"
-                : "var(--text-muted)",
-            cursor: !artifact.complete || saveState === "saving" ? "not-allowed" : "pointer",
-            opacity: !artifact.complete ? 0.45 : 1,
-          }}
-        >
-          {saveState === "saving" ? (
-            <span
-              aria-hidden="true"
-              style={{
-                width: 11,
-                height: 11,
-                border: "1.5px solid currentColor",
-                borderRightColor: "transparent",
-                borderRadius: "50%",
-                animation: "amedac-code-save-spin 0.75s linear infinite",
-              }}
-            />
-          ) : saveState === "saved" ? (
-            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m3 8.2 3 3L13 4.5" />
-            </svg>
-          ) : (
-            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.45" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M2.5 2.5h9l2 2v9h-11z" />
-              <path d="M5 2.5v4h5v-4M5 13.5v-4h6v4" />
-            </svg>
-          )}
-        </button>
-        <button
-          type="button"
-          onClick={askForModification}
-          style={{
-            height: 28,
-            padding: "0 9px",
-            borderRadius: 7,
-            border: "1px solid rgba(59,130,246,0.28)",
-            background: "rgba(59,130,246,0.08)",
-            color: "var(--accent)",
-            cursor: "pointer",
-            fontSize: 12,
-            fontWeight: 700,
-          }}
-        >
-          {uiText.codePane.continueEditing}
-        </button>
-        <button
-          type="button"
-          aria-label={fullWidth
-            ? (uiLanguage === "zh" ? "恢复代码栏宽度" : "Restore code pane")
-            : (uiLanguage === "zh" ? "铺满代码栏" : "Fill code pane")}
-          title={fullWidth
-            ? (uiLanguage === "zh" ? "恢复对话与代码分栏" : "Restore chat and code split")
-            : (uiLanguage === "zh" ? "代码栏铺满当前工作区" : "Fill the current workspace with code")}
-          onClick={onToggleFullWidth}
-          style={{
-            width: 28,
-            height: 28,
-            display: "grid",
-            placeItems: "center",
-            borderRadius: 7,
-            border: "1px solid var(--border)",
-            background: fullWidth ? "var(--bg-selected)" : "var(--bg)",
-            color: fullWidth ? "var(--accent)" : "var(--text-muted)",
-            cursor: "pointer",
-            padding: 0,
-          }}
-        >
-          {fullWidth ? (
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M6 2v4H2M10 2v4h4M6 14v-4H2M10 14v-4h4" />
-            </svg>
-          ) : (
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M6 6H2V2M10 6h4V2M6 10H2v4M10 10h4v4" />
-            </svg>
-          )}
-        </button>
-        <button
-          type="button"
-          aria-label={uiText.codePane.close}
-          onClick={onClose}
-          style={{
-            width: 28,
-            height: 28,
-            borderRadius: 7,
-            border: "1px solid var(--border)",
-            background: "var(--bg)",
-            color: "var(--text-muted)",
-            cursor: "pointer",
-            fontSize: 16,
-            lineHeight: 1,
-          }}
-        >
-          ×
-        </button>
-      </div>
-      {artifacts.length > 0 && (
-        <div
-          role="tablist"
-          aria-label={uiText.codePane.chooseCodeGroup}
-          style={{
-            maxHeight: 154,
-            display: "flex",
-            flexDirection: "column",
-            gap: 6,
-            padding: "7px 8px 8px",
-            overflowY: "auto",
-            borderBottom: "1px solid var(--border)",
-            background: "color-mix(in srgb, var(--bg-panel) 90%, var(--accent) 2%)",
-            scrollbarWidth: "thin",
-          }}
-        >
-          <div
-            style={{
-              minHeight: 18,
-              padding: "0 3px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 8,
-              color: "var(--text-dim)",
-              fontSize: 10,
-              fontWeight: 800,
-              letterSpacing: "0.04em",
-              textTransform: "uppercase",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <span>{uiText.codePane.codeGroups}</span>
-            <span style={{ color: "var(--text-muted)", fontVariantNumeric: "tabular-nums" }}>{artifacts.length}</span>
-          </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(180px, 100%), 1fr))",
-              gap: 5,
-            }}
-          >
-            {artifacts.map((candidate, index) => {
-              const selected = candidate.id === artifact.id;
-              const candidateLineCount = candidate.code ? candidate.code.split(/\r?\n/).length : 0;
-              return (
-                <button
-                  key={candidate.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={selected}
-                  title={`${index + 1}/${artifacts.length} · ${candidate.suggestedFileName}`}
-                  onClick={() => onSelectArtifact(candidate.id)}
-                  style={{
-                    minWidth: 0,
-                    height: 32,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 7,
-                    padding: "0 8px",
-                    border: `1px solid ${selected ? "color-mix(in srgb, var(--accent) 42%, var(--border))" : "var(--border)"}`,
-                    borderRadius: 6,
-                    background: selected
-                      ? "color-mix(in srgb, var(--accent) 10%, var(--bg))"
-                      : "var(--bg)",
-                    color: selected ? "var(--accent)" : "var(--text-muted)",
-                    cursor: "pointer",
-                    fontSize: 10.5,
-                    fontWeight: selected ? 750 : 600,
-                    textAlign: "left",
-                  }}
-                >
-                  <span style={{ color: selected ? "var(--accent)" : "var(--text-dim)", fontVariantNumeric: "tabular-nums", flexShrink: 0 }}>
-                    {index + 1}
-                  </span>
-                  <span style={{ minWidth: 0, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {candidate.suggestedFileName}
-                  </span>
-                  <span style={{ color: "var(--text-dim)", fontSize: 9.5, fontWeight: 500, whiteSpace: "nowrap", flexShrink: 0 }}>
-                    {candidateLineCount} {uiText.codePane.lines}
-                  </span>
-                  {!candidate.complete && (
-                    <span
-                      aria-label={uiText.codePane.writing}
-                      style={{
-                        width: 5,
-                        height: 5,
-                        borderRadius: "50%",
-                        background: "var(--accent)",
-                        flexShrink: 0,
-                      }}
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-      <div style={{ flex: 1, minHeight: 0, minWidth: 0, display: "flex", overflow: "hidden" }}>
-        <div
-          ref={scrollRef}
-          style={{
-            flex: 1,
-            minWidth: 0,
-            minHeight: 0,
-            overflow: "auto",
-            background: "var(--bg-panel)",
-            borderTop: "1px solid color-mix(in srgb, var(--accent) 7%, transparent)",
-          }}
-        >
-        <SyntaxHighlighter
-          language={artifact.language || "text"}
-          style={isDark ? vscDarkPlus : vs}
-          showLineNumbers
-          lineNumberStyle={{ color: "var(--text-dim)", fontStyle: "normal", minWidth: "2.75em" }}
-          customStyle={{
-            margin: 0,
-            minHeight: "100%",
-            padding: "14px 16px 28px",
-            color: "var(--text)",
-            fontSize: 13,
-            lineHeight: 1.58,
-            tabSize: 2,
-            borderRadius: 0,
-            background: "var(--bg-panel)",
-          }}
-          codeTagProps={{
-            style: {
-              fontFamily: "var(--font-mono)",
-              whiteSpace: "pre",
-            },
-          }}
-        >
-          {displayCode}
-        </SyntaxHighlighter>
-        </div>
-      </div>
-    </aside>
-  );
-}
 
 function NoticeShelf({ notices, floating = false }: { notices: NoticeItem[]; floating?: boolean }) {
   if (notices.length === 0) return null;

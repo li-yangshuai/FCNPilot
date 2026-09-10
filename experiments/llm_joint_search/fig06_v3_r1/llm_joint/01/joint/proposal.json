@@ -1,0 +1,80 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 0,
+      "to": [
+        25,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 1,
+      "to": [
+        20,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 2,
+      "to": [
+        22,
+        22
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      10
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      11,
+      3
+    ]
+  ],
+  "rationale": "This candidate translates the three input nodes (0,1,2) up by 2 tiles (y=20→22), reducing bounding height from 15 to 13 tiles (area proxy 90→78) while preserving x-extent; its sink-pressure/layer/long-edge routing order prioritizes critical long-path edges early, and the unchanged non-input nodes maintain existing relative geometry—offering maximal height reduction with minimal moves and a routing policy known to mitigate congestion in layered FCNs."
+}

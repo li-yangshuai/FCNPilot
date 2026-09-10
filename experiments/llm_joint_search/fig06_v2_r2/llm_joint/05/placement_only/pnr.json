@@ -1,0 +1,206 @@
+{
+  "schema": "ifcn.pnr.v1",
+  "algorithm": "june_random",
+  "phase_count": 4,
+  "seed": 1,
+  "layout_legal": true,
+  "clock_legal": true,
+  "failed_edge_count": 0,
+  "validation": {
+    "passed": true,
+    "checks": [
+      "dag_acyclic",
+      "exact_edge_coverage",
+      "exact_node_coverage",
+      "unique_node_positions",
+      "route_endpoints",
+      "simple_four_connected_paths",
+      "no_route_through_gate",
+      "distinct_fanin_ports",
+      "port_sharing_geometry",
+      "clock_range_and_forward_steps",
+      "source_aware_crossings",
+      "native_node_and_crossover_mapping",
+      "cycle_zero_absolute_arrival_alignment",
+      "exported_ifcn_device_mapping"
+    ],
+    "errors": [],
+    "max_same_phase_run": 3,
+    "topological_order": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      7,
+      10,
+      8,
+      11,
+      3
+    ],
+    "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+  },
+  "algorithm_parameters": {
+    "initial_placement": "exact_recorded_proposal",
+    "route_order_retries": 24,
+    "search_cost": 40,
+    "padding": 2,
+    "topology": "fixed_baseline_dag",
+    "max_same_phase": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "automatic_node_placement": false,
+    "node_expansion_or_compression": false,
+    "phase_count": 4,
+    "timeout_s": 18,
+    "seed_control": "not_exposed_by_native_algorithm"
+  },
+  "clock_scheme": "irregular",
+  "clock_template_ok": null,
+  "clock_template_conflicts": null,
+  "clock_validation_kind": "route_phase_contract",
+  "run_time_s": 0.003002384,
+  "resolved_verilog": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/fig06_v2_r2/inputs/normalized.v",
+  "boolean_canonicalization": false,
+  "expansion": {
+    "inserted_rows": 0,
+    "inserted_columns": 0,
+    "accepted_rounds": 0,
+    "evaluated_cut_candidates": 0,
+    "reused_routed_candidates": 0
+  },
+  "width": 6,
+  "height": 15,
+  "area_tiles": 90,
+  "ifcn": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/fig06_v2_r2/llm_joint/05/placement_only/layout.ifcn",
+  "clock_arrival": {
+    "schema": "ifcn.clock_arrival.v1",
+    "passed": true,
+    "launch_policy": "cycle_zero_at_template_phase",
+    "ifcn_sha256": "a481a9cf1273f9d2046300171975cb9db91872a168ec917fc3e27d188812d861",
+    "routed_dag_sha256": "f1db9a763c6a6d8ef70dbe310a739aa58faa11f429ff67cce77c65cd2bc6f658",
+    "phase_count": 4,
+    "relative_schedule_consistent": true,
+    "required_input_cycle_offsets": {
+      "x0": 0,
+      "x1": 0,
+      "x2": 0
+    },
+    "input_schedule_applied": false,
+    "mismatches": [],
+    "relative_schedule_conflicts": [],
+    "nodes_checked": 10,
+    "routes_checked": 12,
+    "arrival_tick_ranges": {
+      "0": [
+        2,
+        2
+      ],
+      "1": [
+        3,
+        3
+      ],
+      "2": [
+        3,
+        3
+      ],
+      "4": [
+        7,
+        7
+      ],
+      "5": [
+        6,
+        6
+      ],
+      "7": [
+        9,
+        9
+      ],
+      "10": [
+        8,
+        8
+      ],
+      "8": [
+        12,
+        12
+      ],
+      "11": [
+        15,
+        15
+      ],
+      "3": [
+        18,
+        18
+      ]
+    },
+    "route_delays": [
+      {
+        "source": 0,
+        "target": 4,
+        "ticks": 5
+      },
+      {
+        "source": 0,
+        "target": 7,
+        "ticks": 7
+      },
+      {
+        "source": 1,
+        "target": 4,
+        "ticks": 4
+      },
+      {
+        "source": 1,
+        "target": 10,
+        "ticks": 5
+      },
+      {
+        "source": 2,
+        "target": 5,
+        "ticks": 3
+      },
+      {
+        "source": 4,
+        "target": 8,
+        "ticks": 5
+      },
+      {
+        "source": 5,
+        "target": 7,
+        "ticks": 3
+      },
+      {
+        "source": 5,
+        "target": 10,
+        "ticks": 2
+      },
+      {
+        "source": 7,
+        "target": 8,
+        "ticks": 3
+      },
+      {
+        "source": 8,
+        "target": 11,
+        "ticks": 3
+      },
+      {
+        "source": 10,
+        "target": 11,
+        "ticks": 7
+      },
+      {
+        "source": 11,
+        "target": 3,
+        "ticks": 3
+      }
+    ],
+    "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+  },
+  "mapping_validation": {
+    "passed": true,
+    "cell_count": 283,
+    "cross_count": 4,
+    "io_contraction": false
+  },
+  "total_backend_time_s": 0.0135442430000694
+}

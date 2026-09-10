@@ -1,0 +1,845 @@
+{
+  "initial": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "selected": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "selected_round": null,
+  "selected_artifact_source": "inputs",
+  "port_policy": "movable",
+  "round_budget": 4,
+  "rounds_completed": 4,
+  "budget_complete": true,
+  "model_request_attempts": 4,
+  "successful_model_proposals": 4,
+  "backend_evaluation_attempts": 0,
+  "native_execution_reports": 0,
+  "diagnostic_backend_evaluation_attempts": 0,
+  "outcomes": {
+    "failed": 4
+  },
+  "model_errors": {},
+  "final_node_changes": [],
+  "selected_hashes": {
+    "device_energy_input.qca": "595fb3ca0d2515b28c627ebacb977caf27e34a506e4b9aacb82eb6caa0d1b3e0",
+    "interface.json": "3b9107be1b2d62cbc1dc7a502f79224eb6031f51f008f4f25609e43c99ed9515",
+    "logic.json": "849118c3944fc9f9a93ac01d8d335ff9e6f34ad81c77628463b4127df307ab7f",
+    "layout_candidate.json": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+    "normalized.v": "36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525",
+    "layout.ifcn": "f0392cbdb1e901442dc0ca7b4690b7d1ace6c290485c2f984e42597f35107b53",
+    "source.v": "8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17",
+    "physical.json": "1c8d4f546ea26fcae2f9a4e3153598fdafc75a05b54f23ab45eef8b66d3f38fa",
+    "clock.json": "6bbb6dd975556eb5a342e38103fa71fc5c0b502cd79ef2f71e3bea5758696965",
+    "routed_dag.json": "f1db9a763c6a6d8ef70dbe310a739aa58faa11f429ff67cce77c65cd2bc6f658"
+  },
+  "source_and_DAG_unchanged": true,
+  "rounds": [
+    {
+      "round": 1,
+      "status": "failed",
+      "start_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 11329,
+        "output": 471,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 11800
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "model_proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 4,
+            "to": [
+              24,
+              21
+            ]
+          },
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              24,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              29
+            ]
+          }
+        ],
+        "routing_order": null,
+        "rationale": "Contract internal gates toward neighbor-median coordinates (e.g., node 4→[24,21] from [24,23]; node 5→[22,24] from [22,23]; node 10→[22,24] co-locates with 5 to share fanin routing; node 7→[24,23] aligns with 4/5 vertical stack; node 8→[24,26] shortens 4→8 and 7→8 paths; node 11→[23,29] reduces vertical span from y=31 to y=29, tightening top-bound while preserving output arrival. All moves stay within sparse vacancy hotspots (e.g., [18–21,23–26], [25–27,29–31]) and avoid collisions. This coordinated shift reduces max_y from 34 to 29 (height 15→10) and min_x unchanged, targeting area ≤100 tiles; edge manhattan sums drop by ≥10, enabling reroute with fewer steps and lower QCA cells."
+      },
+      "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 4,
+            "to": [
+              24,
+              21
+            ]
+          },
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              24,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 11,
+            "to": [
+              23,
+              29
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            1,
+            10
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "Contract internal gates toward neighbor-median coordinates (e.g., node 4→[24,21] from [24,23]; node 5→[22,24] from [22,23]; node 10→[22,24] co-locates with 5 to share fanin routing; node 7→[24,23] aligns with 4/5 vertical stack; node 8→[24,26] shortens 4→8 and 7→8 paths; node 11→[23,29] reduces vertical span from y=31 to y=29, tightening top-bound while preserving output arrival. All moves stay within sparse vacancy hotspots (e.g., [18–21,23–26], [25–27,29–31]) and avoid collisions. This coordinated shift reduces max_y from 34 to 29 (height 15→10) and min_x unchanged, targeting area ≤100 tiles; edge manhattan sums drop by ≥10, enabling reroute with fewer steps and lower QCA cells."
+      },
+      "error": "Node collision",
+      "model_error": null,
+      "retained_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "next_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "elapsed_s": 21.502459454000928
+    },
+    {
+      "round": 2,
+      "status": "failed",
+      "start_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 11806,
+        "output": 443,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 12249
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "model_proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              24,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "swap",
+            "nodes": [
+              5,
+              11
+            ]
+          }
+        ],
+        "routing_order": null,
+        "rationale": "Move node 7 to [24,23] aligns it with fanin nodes 0/1 and fanout 8, eliminating the long detour in edge [5,7] (currently 9 steps, LB 7). Move node 10 to [22,24] co-locates it vertically with node 5’s original y=23 and reduces edge [5,10] to 1 step. Move node 8 to [24,26] shortens both [4,8] and [7,8] to Manhattan-optimal (5→5, 6→6) and avoids congestion near y=28. Swap nodes 5 and 11: node 5 (NOT) moves to y=31 (original 11), freeing its dense y=23 row; node 11 (OR) moves to y=23, placing it directly above fanins 8 and 10—reducing vertical span of the critical path and enabling tighter routing of [8,11] and [10,11]. All target coordinates lie in verified vacancy hotspots (e.g., [24,23], [22,24], [24,26], [22,31]) with no collisions. This coordinated contraction targets area reduction via internal realignment, not just port shifting."
+      },
+      "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              24,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "swap",
+            "nodes": [
+              5,
+              11
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "Move node 7 to [24,23] aligns it with fanin nodes 0/1 and fanout 8, eliminating the long detour in edge [5,7] (currently 9 steps, LB 7). Move node 10 to [22,24] co-locates it vertically with node 5’s original y=23 and reduces edge [5,10] to 1 step. Move node 8 to [24,26] shortens both [4,8] and [7,8] to Manhattan-optimal (5→5, 6→6) and avoids congestion near y=28. Swap nodes 5 and 11: node 5 (NOT) moves to y=31 (original 11), freeing its dense y=23 row; node 11 (OR) moves to y=23, placing it directly above fanins 8 and 10—reducing vertical span of the critical path and enabling tighter routing of [8,11] and [10,11]. All target coordinates lie in verified vacancy hotspots (e.g., [24,23], [22,24], [24,26], [22,31]) with no collisions. This coordinated contraction targets area reduction via internal realignment, not just port shifting."
+      },
+      "error": "Node collision",
+      "model_error": null,
+      "retained_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "next_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "elapsed_s": 14.880194077999477
+    },
+    {
+      "round": 3,
+      "status": "failed",
+      "start_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 1276,
+        "output": 437,
+        "cacheRead": 11008,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 12721
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "model_proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              24,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              22,
+              22
+            ]
+          }
+        ],
+        "routing_order": null,
+        "rationale": "Target four internal nodes for coordinated contraction into sparse vacancy zones: node 7→[24,23] aligns vertically with fanins 0/1 and reduces edge [5,7] detour (current 9→LB 7); node 10→[22,24] places it directly above node 5’s new position, collapsing edge [5,10] to Manhattan-optimal 2 steps; node 8→[24,26] shortens both [4,8] and [7,8] to exact Manhattan (5 and 6 steps) while avoiding congested y=28; node 5→[22,22] frees the dense y=23 row and positions it closer to inputs 0/1/2 (y=20), reducing fanin routing overhead. All target coordinates lie in verified vacancy hotspots ([22,22], [24,23], [22,24], [24,26]) with no collisions. This realignment tightens the core without moving ports, targeting area reduction via internal density optimization—critical since right boundary is controlled by internal node 7 (currently x=27), and its leftward move to x=24 enables width reduction from 8 to 6 tiles if rerouting succeeds."
+      },
+      "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              24,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              22,
+              22
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "Target four internal nodes for coordinated contraction into sparse vacancy zones: node 7→[24,23] aligns vertically with fanins 0/1 and reduces edge [5,7] detour (current 9→LB 7); node 10→[22,24] places it directly above node 5’s new position, collapsing edge [5,10] to Manhattan-optimal 2 steps; node 8→[24,26] shortens both [4,8] and [7,8] to exact Manhattan (5 and 6 steps) while avoiding congested y=28; node 5→[22,22] frees the dense y=23 row and positions it closer to inputs 0/1/2 (y=20), reducing fanin routing overhead. All target coordinates lie in verified vacancy hotspots ([22,22], [24,23], [22,24], [24,26]) with no collisions. This realignment tightens the core without moving ports, targeting area reduction via internal density optimization—critical since right boundary is controlled by internal node 7 (currently x=27), and its leftward move to x=24 enables width reduction from 8 to 6 tiles if rerouting succeeds."
+      },
+      "error": "Node collision",
+      "model_error": null,
+      "retained_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "next_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "elapsed_s": 9.575506564000534
+    },
+    {
+      "round": 4,
+      "status": "failed",
+      "start_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 849,
+        "output": 425,
+        "cacheRead": 11904,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 13178
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "model_proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              24,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              22,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          }
+        ],
+        "routing_order": null,
+        "rationale": "Four internal gates moved into verified vacancy hotspots: node 7→[24,23] aligns vertically with inputs (x=20–25, y=20) and eliminates detour in edge [5,7] (9→7 steps); node 10→[22,24] stacks directly above node 5’s new position [22,22], collapsing edge [5,10] to Manhattan-optimal 2 steps; node 5→[22,22] frees congested y=23 row and shortens fanin from x2; node 8→[24,26] shortens [4,8] and [7,8] to exact Manhattan (5 and 6 steps) while avoiding y=28 congestion. All targets lie in sparse zones ([22,22], [24,23], [22,24], [24,26]) with no collisions. Right boundary controlled by node 7 shifts left from x=27→24, enabling width reduction from 8→6 tiles if rerouting succeeds. Internal contraction precedes port coordination, satisfying 'must change internal node' and avoiding prior collision failures via smaller, non-overlapping displacements."
+      },
+      "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              24,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 5,
+            "to": [
+              22,
+              22
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "Four internal gates moved into verified vacancy hotspots: node 7→[24,23] aligns vertically with inputs (x=20–25, y=20) and eliminates detour in edge [5,7] (9→7 steps); node 10→[22,24] stacks directly above node 5’s new position [22,22], collapsing edge [5,10] to Manhattan-optimal 2 steps; node 5→[22,22] frees congested y=23 row and shortens fanin from x2; node 8→[24,26] shortens [4,8] and [7,8] to exact Manhattan (5 and 6 steps) while avoiding y=28 congestion. All targets lie in sparse zones ([22,22], [24,23], [22,24], [24,26]) with no collisions. Right boundary controlled by node 7 shifts left from x=27→24, enabling width reduction from 8→6 tiles if rerouting succeeds. Internal contraction precedes port coordination, satisfying 'must change internal node' and avoiding prior collision failures via smaller, non-overlapping displacements."
+      },
+      "error": "Node collision",
+      "model_error": null,
+      "retained_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "next_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "elapsed_s": 16.61428017000071
+    }
+  ]
+}

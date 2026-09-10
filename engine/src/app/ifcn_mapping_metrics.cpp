@@ -294,18 +294,28 @@ int main(int argc, char **argv)
         }
     }
 
-    std::vector<position> countedRouteCells;
-    countedRouteCells.reserve(routeCells.size());
-    std::unordered_set<position, MappingPositionHash> seenRouteCells;
-    for (const position &cell : routeCells) {
-        if (crossCellSet.find(cell) != crossCellSet.end()) {
-            countedRouteCells.push_back(cell);
-        } else if (seenRouteCells.insert(cell).second) {
-            countedRouteCells.push_back(cell);
+    std::size_t cellCount = 0;
+    {
+        // Match the actual QCA exporter for every mapping mode. This also
+        // rejects disconnected paths and different nets owning one XYZ site.
+        auto physicalSites = mapping.physicalCellSites(routePaths);
+        if (contractIoPorts) {
+            // Contraction updates node/route cell sets after ordered routes
+            // were constructed. Preserve all layers only at retained XY sites,
+            // matching mapIfcnToCells' contraction rule.
+            std::set<position> retainedXy(nodeCells.begin(), nodeCells.end());
+            retainedXy.insert(routeCells.begin(), routeCells.end());
+            retainedXy.insert(crossCellSet.begin(), crossCellSet.end());
+            for (auto site = physicalSites.begin(); site != physicalSites.end();) {
+                if (retainedXy.count(site->xy) == 0) {
+                    site = physicalSites.erase(site);
+                } else {
+                    ++site;
+                }
+            }
         }
+        cellCount = physicalSites.size();
     }
-
-    const std::size_t cellCount = countedRouteCells.size() + nodeCells.size();
     std::cout << cellCount << ' ' << crossCount;
     if (printTiming) {
         std::cout << ' ' << std::fixed << std::setprecision(9) << ioContractionSeconds;

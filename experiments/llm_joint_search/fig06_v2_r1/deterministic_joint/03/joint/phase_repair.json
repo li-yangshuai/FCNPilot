@@ -1,0 +1,59 @@
+{
+  "schema": "ifcn.combinational.rephase.v1",
+  "status": "sat",
+  "algorithm": "june_random",
+  "solver": "scipy_highs_milp_in_bounded_process",
+  "launch_policy": "all_pi_cycle0_at_own_phase",
+  "pi_phases_preserved": false,
+  "geometry_preserved": true,
+  "pi_phase_policy": "free_within_cycle_zero",
+  "phase_count": 4,
+  "gate_internal_extra_ticks": 0,
+  "requires_fresh_export_mapping": true,
+  "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+  "max_same_phase_tiles": 10,
+  "max_same_phase_step_fraction": 0.3,
+  "problem_size": {
+    "nodes": 10,
+    "routes": 12,
+    "occurrences": 52,
+    "steps": 40
+  },
+  "geometry_sha256": "784b3caa2f9e35e80c21302c4135659e671065d3523201b3855f5495f4cceb75",
+  "baseline_native_mapping_valid": true,
+  "changed_tiles": 28,
+  "actual_max_same_phase_tiles": 6,
+  "same_phase_steps": 12,
+  "node_arrival_ticks": {
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 9,
+    "4": 3,
+    "5": 2,
+    "7": 5,
+    "8": 6,
+    "10": 5,
+    "11": 7
+  },
+  "pi_launch_ticks": {
+    "x0": 1,
+    "x1": 1,
+    "x2": 1
+  },
+  "validation_passed": true,
+  "elapsed_s": 0.7926224729999376,
+  "attempts": [
+    {
+      "pi_phase_policy": "fixed_original",
+      "status": "unsat",
+      "reason": "infeasible_clock_constraints",
+      "elapsed_s": 0.38871393800218357
+    },
+    {
+      "pi_phase_policy": "free_within_cycle_zero",
+      "status": "sat",
+      "elapsed_s": 0.40386661299999105
+    }
+  ]
+}

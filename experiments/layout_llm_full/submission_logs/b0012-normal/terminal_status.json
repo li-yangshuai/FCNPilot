@@ -1,0 +1,218 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "e87d39aec4574bd5bb07cd433bea410c",
+  "created_at": "2026-09-08T04:20:32.785117+00:00",
+  "updated_at": "2026-09-08T04:20:32.926873+00:00",
+  "status": "failed",
+  "current_stage": "pnr",
+  "source": "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/inputs/TOY/par_check.v",
+  "design_type": "combinational",
+  "configuration": {
+    "root": "/home/lys/projects/github/FCNPilot/engine",
+    "build_dir": "/home/lys/projects/github/FCNPilot/engine/build",
+    "python": "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+    "backend": "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_combinational_pnr",
+    "sequential_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_sequential_cyclic_pnr",
+    "regular_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_regular_clock_pnr",
+    "yosys_binary": "/home/lys/projects/github/FCNPilot/engine/build/tools/yosys-local/usr/bin/yosys"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "a",
+      "b",
+      "c",
+      "p"
+    ],
+    "warnings": [],
+    "outputs": [
+      "parity_check"
+    ],
+    "assignment_count": 15,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 45,
+    "model": "bistable",
+    "algorithm": "normal_2ddwave",
+    "clock_scheme": "2DDWave",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-08T04:20:32.832572+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "45"
+        ]
+      ],
+      "completed_at": "2026-09-08T04:20:32.990237+00:00"
+    },
+    "pnr": {
+      "status": "failed",
+      "started_at": "2026-09-08T04:20:32.990999+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/01_normal_2ddwave_original",
+          "--algorithm",
+          "normal_2ddwave",
+          "--seed",
+          "1",
+          "--budget",
+          "42",
+          "--clock",
+          "2DDWave",
+          "--initial-placement",
+          "original"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/02_normal_2ddwave_source_order_transposed",
+          "--algorithm",
+          "normal_2ddwave",
+          "--seed",
+          "1",
+          "--budget",
+          "41",
+          "--clock",
+          "2DDWave",
+          "--initial-placement",
+          "transposed"
+        ]
+      ],
+      "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log."
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 478,
+      "sha256": "7d7e761c65310c266ccaa41806fdb781e68d9ed6e962cd92c35efd0a05aa252c"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 450,
+      "sha256": "59bf727c733ab28e05305f03ee76fde479270f878f66bfc5b726f18cd4fb90cf"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 3426,
+      "sha256": "3d80b8bf09fe8c7c98436d6fed8840d5eb6d603eed4f2f551914ddd17826147c"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 783,
+      "sha256": "f85a4f45f19980dfd176977fecbabcc20ad57fb29ed8f2c2a153a862955cb7c9"
+    },
+    "pnr_attempts/01_normal_2ddwave_original_pnr.json": {
+      "path": "02_pnr_1/01_normal_2ddwave_original/pnr.json",
+      "bytes": 2164,
+      "sha256": "32016c180e56cfbc2ef766174cde021ca013945d554d0dd0a33ebb66d49bacc6"
+    },
+    "pnr_attempts/01_normal_2ddwave_original_clock.json": {
+      "path": "02_pnr_1/01_normal_2ddwave_original/clock.json",
+      "bytes": 4839,
+      "sha256": "0f031276be49042488814a769d6844a38f2b203ce3e194ae64b141a3beb2cb05"
+    },
+    "pnr_attempts/02_normal_2ddwave_source_order_transposed_input.v": {
+      "path": "02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input.v",
+      "bytes": 450,
+      "sha256": "25f4a3f1b9788fa32facf6fd25f257e9d636e27a150596abcca4969e6c6b3df0"
+    },
+    "pnr_attempts/02_normal_2ddwave_source_order_transposed_pnr.json": {
+      "path": "02_pnr_1/02_normal_2ddwave_source_order_transposed/pnr.json",
+      "bytes": 2381,
+      "sha256": "6979b9125676dd4e09bfadfc8479661cb3025b3be3ba6fedd7fa2030fbeb3eb1"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 3702,
+      "sha256": "41c06a4a71734e98e7d9f20f1fb961f87263cbec1de0490fe773fe974b2e2238"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 8806,
+      "sha256": "a52a22e77072099ca62d2131a4419ac61574d72ae5eaca532cb1b520f4bf275c"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 4,
+      "output_count": 1
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "normal_2ddwave",
+      "requested_clock": "2DDWave",
+      "selected_algorithm": null,
+      "selected_variant": null,
+      "policy": "First validated backend; bounded variants replace the valid baseline only when area and actual QCA cell count do not increase and at least one decreases; no global optimality claim",
+      "attempts": [
+        {
+          "algorithm": "normal_2ddwave",
+          "variant": "original",
+          "status": "failed",
+          "budget_s": 45.0,
+          "started_at": "2026-09-08T04:20:32.992470+00:00",
+          "directory": "02_pnr_1/01_normal_2ddwave_original",
+          "error": "pnr command exited with 1. k=False\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/01_normal_2ddwave_original/normalized_raw.svg\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/01_normal_2ddwave_original/normalized.svg\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/01_normal_2ddwave_original/normalized_physical.svg\n[✅] Latex file generated: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/01_normal_2ddwave_original/normalized.v.tex\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 282, in main\n    arrival = clock_arrival_report(summary['ifcn'],out/'routed_dag.json',out/'clock.json')\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_clock_validation.py\", line 151, in clock_arrival_report\n    raise ValueError(\"Clock arrival alignment failed under cycle-zero PI launch; see clock.json.\")\nValueError: Clock arrival alignment failed under cycle-zero PI launch; see clock.json.\n",
+          "elapsed_s": 1.556
+        },
+        {
+          "algorithm": "normal_2ddwave",
+          "variant": "source_order_transposed",
+          "status": "failed",
+          "budget_s": 43.442,
+          "started_at": "2026-09-08T04:20:32.302794+00:00",
+          "directory": "02_pnr_1/02_normal_2ddwave_source_order_transposed",
+          "error": "pnr command exited with 1. -------------------Orginal circuit info-------------------\ncircuit name : /home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input.v\nnode number: 24\nedges number: 29\n-------------------After optimize-------------------\nparse mode: requested=compact, resolved=compact\nnodes number: 18\nedges number: 23\ntotal layers: 7\ndiffer-layer route pairs: 6\n-------------------Graphviz + exact-gain sifting-------------------\n[Graphviz+sifting] crossings=0 (removed 0 after dot), dot=0.007s, sift=0.000s, evaluations=36, fallback=False\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 104, in run_normal\n    raise RuntimeError('P&R did not produce a fully routed, clock-legal, port-valid layout.')\nRuntimeError: P&R did not produce a fully routed, clock-legal, port-valid layout.\n",
+          "elapsed_s": 0.623
+        }
+      ]
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "not_performed",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff"
+  },
+  "requested_until": "map",
+  "error": "No algorithm produced a validated layout; inspect pnr_attempts.json and stage log.",
+  "worker_pid": 80362,
+  "active": false,
+  "log_tail": "mber: 29\n-------------------After optimize-------------------\nparse mode: requested=compact, resolved=compact\nnodes number: 18\nedges number: 23\ntotal layers: 7\ndiffer-layer route pairs: 6\n-------------------Graphviz + exact-gain sifting-------------------\n[Graphviz+sifting] crossings=0 (removed 0 after dot), dot=0.008s, sift=0.000s, evaluations=36, fallback=False\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/01_normal_2ddwave_original/normalized_raw.svg\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/01_normal_2ddwave_original/normalized.svg\n图已保存: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/01_normal_2ddwave_original/normalized_physical.svg\n[✅] Latex file generated: /home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/01_normal_2ddwave_original/normalized.v.tex\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 282, in main\n    arrival = clock_arrival_report(summary['ifcn'],out/'routed_dag.json',out/'clock.json')\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_clock_validation.py\", line 151, in clock_arrival_report\n    raise ValueError(\"Clock arrival alignment failed under cycle-zero PI launch; see clock.json.\")\nValueError: Clock arrival alignment failed under cycle-zero PI launch; see clock.json.\n-------------------Orginal circuit info-------------------\ncircuit name : /home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c/02_pnr_1/02_normal_2ddwave_source_order_transposed/placement_input.v\nnode number: 24\nedges number: 29\n-------------------After optimize-------------------\nparse mode: requested=compact, resolved=compact\nnodes number: 18\nedges number: 23\ntotal layers: 7\ndiffer-layer route pairs: 6\n-------------------Graphviz + exact-gain sifting-------------------\n[Graphviz+sifting] crossings=0 (removed 0 after dot), dot=0.007s, sift=0.000s, evaluations=36, fallback=False\nTraceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 104, in run_normal\n    raise RuntimeError('P&R did not produce a fully routed, clock-legal, port-valid layout.')\nRuntimeError: P&R did not produce a fully routed, clock-legal, port-valid layout.\n",
+  "run_directory": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/e87d39aec4574bd5bb07cd433bea410c"
+}

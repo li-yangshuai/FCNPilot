@@ -1,0 +1,240 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          23,
+          25
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          12,
+          15
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        4,
+        10
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        0,
+        16
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        16,
+        3
+      ]
+    ],
+    "rationale": "Prioritize high-detour edges [4,10] and [6,11] first to exploit newly created vacancy at (22,25)/(23,25) and reduce congestion in dense mid-layer; route reconvergent inputs (10→12, 11→12) immediately after their sources are placed; swap 12↔15 aligns n1 and w8 vertically to shorten 12→15 and 15→3 while freeing y=28 for cleaner vertical routing; preserve early fanout (0→8,0→16) after critical path edges to avoid blocking."
+  },
+  "start_sha256": "e2184ba7d2736c21bd19a8141c38ce8c7f9b116ea622b0e6655484f1b9035184",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: rerouting violates the baseline algorithm's same-phase clock constraints; Native process exited with 10\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        4,
+        10
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        0,
+        16
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        16,
+        3
+      ]
+    ],
+    "executed_order": [
+      [
+        4,
+        10
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        0,
+        16
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        16,
+        3
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [],
+  "elapsed_s": 0.11765475700121897
+}

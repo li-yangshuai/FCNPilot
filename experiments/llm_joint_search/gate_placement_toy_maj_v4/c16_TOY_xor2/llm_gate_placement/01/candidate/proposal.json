@@ -1,0 +1,60 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 3,
+      "to": [
+        22,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 4,
+      "to": [
+        20,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        22,
+        24
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      5,
+      2
+    ],
+    [
+      3,
+      5
+    ]
+  ],
+  "rationale": "Internal nodes 3, 4, and 5 are clustered at y=23–26 with vertical fanout to output 2 at y=29. Edge [1,4] has detour_steps=2 due to绕行 around node 3; moving 4 left/down to (20,21) aligns it with input ports (0,1) at y=20 and reduces horizontal congestion near x=20–22. Moving 3 to (22,21) colocates it with 4’s x-symmetry and shortens [0,3]/[1,3] paths—both currently use 5 steps despite Manhattan=5 and 3 respectively. Node 5 moves to (22,24) to sit between 3 (y=21) and 2 (y=29), cutting the [5,2] path from 4 to 3 steps and enabling direct vertical routing without bend at (21,26). These three coordinated moves shrink the routed y-extent from 20–29 to 20–28 (height 9→9 still, but top edge now controlled by 2 at y=28 instead of 29) and eliminate multi-source interior sites on [1,4] and [0,3], while preserving all dependencies and port identities. The new layout fits within x=20–22, y=20–28 (area 3×9=27 < 40), and uses vacancy hotspots at (17–18,20–21) and (23–24,20–21) only as geometric margin—not occupied."
+}

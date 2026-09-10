@@ -1,0 +1,136 @@
+{
+  "schema": "ifcn.routed_logic_audit.v1",
+  "scope": "Exhaustive Boolean equivalence of source assignments and exported routed DAG; excludes device behavior, clock timing/alignment, and power.",
+  "source_sha256": "65580cb4a769d403f1955b0e20dd0992cbabe70951d7e5b3c2965cfc34bde2f9",
+  "routed_dag_sha256": "79e353239486c2a88dc48382160093f1462348ac69c327eef6dd64cfda42080c",
+  "status": "equivalent",
+  "equivalent": true,
+  "max_inputs": 11,
+  "vectors_checked": 32,
+  "mismatch_count": 0,
+  "counterexamples": [],
+  "port_diagnostics": {
+    "source_input_ports": [
+      "pi0",
+      "pi1",
+      "pi2",
+      "pi3",
+      "pi4"
+    ],
+    "source_output_ports": [
+      "po0",
+      "po1"
+    ],
+    "dag_declared_input_count": 5,
+    "dag_declared_output_count": 2,
+    "dag_flagged_inputs": [
+      {
+        "id": 0,
+        "name": "pi0",
+        "type": "input"
+      },
+      {
+        "id": 1,
+        "name": "pi1",
+        "type": "input"
+      },
+      {
+        "id": 2,
+        "name": "pi2",
+        "type": "input"
+      },
+      {
+        "id": 3,
+        "name": "pi3",
+        "type": "input"
+      },
+      {
+        "id": 4,
+        "name": "pi4",
+        "type": "input"
+      }
+    ],
+    "dag_flagged_outputs": [
+      {
+        "id": 5,
+        "name": "po0",
+        "type": "or"
+      },
+      {
+        "id": 6,
+        "name": "po1",
+        "type": "and"
+      }
+    ]
+  },
+  "input_ports": [
+    "pi0",
+    "pi1",
+    "pi2",
+    "pi3",
+    "pi4"
+  ],
+  "output_ports": [
+    "po0",
+    "po1"
+  ],
+  "source_header_matches_declarations": true,
+  "input_mapping": [
+    {
+      "source_port": "pi0",
+      "dag_node_id": 0,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "pi1",
+      "dag_node_id": 1,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "pi2",
+      "dag_node_id": 2,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "pi3",
+      "dag_node_id": 3,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "pi4",
+      "dag_node_id": 4,
+      "basis": "exact_name"
+    }
+  ],
+  "output_mapping": [
+    {
+      "source_port": "po0",
+      "dag_node_id": 5,
+      "dag_node_name": "po0",
+      "basis": "exact_name",
+      "alias_chain": [
+        "po0"
+      ]
+    },
+    {
+      "source_port": "po1",
+      "dag_node_id": 6,
+      "dag_node_name": "po1",
+      "basis": "exact_name",
+      "alias_chain": [
+        "po1"
+      ]
+    }
+  ],
+  "gate_semantics": {
+    "and": "AND of exactly two fanins",
+    "input": "primary input; no fanins",
+    "not": "complement of exactly one fanin",
+    "or": "OR of exactly two fanins"
+  },
+  "expected_vector_count": 32,
+  "source_truth_sha256": "3f532da2538e33d11c6428ab28dbc53c9e8ff67ac44b9d3ad9dfe35df1be82c1",
+  "dag_truth_sha256": "3f532da2538e33d11c6428ab28dbc53c9e8ff67ac44b9d3ad9dfe35df1be82c1",
+  "source_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_warm_start_pilot_v1/c02_TOY_t/inputs/source.v",
+  "routed_dag_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_warm_start_pilot_v1/c02_TOY_t/inputs/routed_dag.json"
+}

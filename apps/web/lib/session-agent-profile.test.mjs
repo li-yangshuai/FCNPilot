@@ -19,6 +19,7 @@ test("Agent identity survives reload and forks, while current trust and policy r
   fs.mkdirSync(agentDir, { recursive: true });
   fs.mkdirSync(profileDir, { recursive: true });
   const env = {
+    IFCN_ROOT: cwd,
     PI_CODING_AGENT_DIR: agentDir,
     PI_WEB_CONFIG_DIR: path.join(root, "web-config"),
     PI_WEB_SHARED_ROOTS: path.join(root, "workspaces"),
@@ -31,8 +32,12 @@ test("Agent identity survives reload and forks, while current trust and policy r
       else process.env[key] = value;
     }
   });
+  fs.mkdirSync(path.join(cwd, "scripts"));
+  fs.writeFileSync(path.join(cwd, "scripts", "ifcn_agent.py"), "# must not run when reading profile\n");
+  fs.mkdirSync(path.join(cwd, ".pi", "extensions", "ifcn"), { recursive: true });
+  fs.writeFileSync(path.join(cwd, ".pi", "extensions", "ifcn", "index.ts"), "export default function () {}\n");
   const profilePath = path.join(profileDir, "ifcn.md");
-  function writeProfile(prompt, tools = "read, ifcn_run") {
+  function writeProfile(prompt, tools = "read, write, edit, ifcn_capabilities, ifcn_run, ifcn_status, ifcn_artifact") {
     fs.writeFileSync(profilePath, `---\nname: ifcn\ndescription: Circuit design\ntools: "${tools}"\nskills: ""\n---\n\n${prompt}\n`);
   }
   writeProfile("Original circuit policy");
@@ -50,7 +55,7 @@ test("Agent identity survives reload and forks, while current trust and policy r
   const fresh = SessionManager.create(cwd, sessionDir);
   const selected = await initializeSessionAgentProfile(fresh, UID, "project:ifcn");
   assert.equal(selected.systemPrompt, "Original circuit policy");
-  assert.deepEqual(selected.tools, ["read", "ifcn_run"]);
+  assert.deepEqual(selected.tools, ["read", "write", "edit", "ifcn_capabilities", "ifcn_run", "ifcn_status", "ifcn_artifact"]);
   assert.deepEqual(selected.skills, []);
   persistUnflushedSession(fresh);
   const file = fresh.getSessionFile();
@@ -66,10 +71,10 @@ test("Agent identity survives reload and forks, while current trust and policy r
   // Restart before any model response must retain the same session id/profile.
   const reopened = SessionManager.open(file, sessionDir);
   assert.equal(reopened.getSessionId(), fresh.getSessionId());
-  writeProfile("Updated circuit policy", "read, ifcn_status");
+  writeProfile("Updated circuit policy");
   const restored = await initializeSessionAgentProfile(reopened, UID);
   assert.equal(restored.systemPrompt, "Updated circuit policy");
-  assert.deepEqual(restored.tools, ["read", "ifcn_status"]);
+  assert.deepEqual(restored.tools, ["read", "write", "edit", "ifcn_capabilities", "ifcn_run", "ifcn_status", "ifcn_artifact"]);
   assert.equal(reopened.getEntries().length, 1);
   await assert.rejects(initializeSessionAgentProfile(reopened, UID, "global:other"), /cannot be changed/);
 
@@ -92,17 +97,17 @@ test("Agent identity survives reload and forks, while current trust and policy r
   await assert.rejects(initializeSessionAgentProfile(SessionManager.open(file, sessionDir), UID), /must be trusted/);
   trust.set(cwd, true);
   fs.unlinkSync(profilePath);
-  await assert.rejects(initializeSessionAgentProfile(SessionManager.open(file, sessionDir), UID), /definition not found/);
+  await assert.rejects(initializeSessionAgentProfile(SessionManager.open(file, sessionDir), UID), { status: 409 });
   writeProfile("Restored policy");
 
   const legacy = SessionManager.create(cwd, sessionDir);
   const legacyFirst = legacy.appendMessage(userMessage("ordinary session"));
   persistUnflushedSession(legacy);
   const legacyReload = SessionManager.open(legacy.getSessionFile(), sessionDir);
-  assert.equal(await initializeSessionAgentProfile(legacyReload, UID), undefined);
-  assert.equal(readSessionAgentProfileId(legacy.getSessionFile()), undefined);
-  assert.equal(getSessionAgentProfileId(forkSessionBeforeEntry(legacyReload, legacyFirst)), undefined);
-  assert.equal(legacyReload.getEntries().length, 1);
+  assert.equal((await initializeSessionAgentProfile(legacyReload, UID)).id, "project:ifcn");
+  assert.equal(readSessionAgentProfileId(legacy.getSessionFile()), "project:ifcn");
+  assert.equal(getSessionAgentProfileId(forkSessionBeforeEntry(legacyReload, legacyFirst)), "project:ifcn");
+  assert.equal(legacyReload.getEntries().length, 2);
 
   const corrupt = SessionManager.create(cwd, sessionDir);
   corrupt.appendCustomEntry("pi-web-agent-profile", { version: 1, agentId: "project:../../escape" });

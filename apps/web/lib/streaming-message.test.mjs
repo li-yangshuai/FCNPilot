@@ -7,7 +7,6 @@ const {
   INITIAL_STREAMING_STATE,
   streamReducer,
 } = await jiti.import("./streaming-message.ts");
-const { extractLatestCodeArtifacts } = await jiti.import("./code-artifacts.ts");
 
 function assistant(content = []) {
   return {
@@ -132,72 +131,25 @@ test("shows and streams a tool call after thinking, then accepts the authoritati
   assert.equal(Object.hasOwn(state.streamingMessage.content[1], "rawInput"), false);
 });
 
-test("streams write content into the generated-code artifact before the tool call ends", () => {
-  const cpp = [
-    "#include <condition_variable>",
-    "#include <functional>",
-    "#include <future>",
-    "#include <mutex>",
-    "#include <queue>",
-    "#include <thread>",
-    "#include <vector>",
-    "class ThreadPool {",
-    "public:",
-    "  explicit ThreadPool(size_t count) {",
-    "    for (size_t i = 0; i < count; ++i) {",
-    "      workers.emplace_back([this] {",
-    "        while (true) {",
-    "          std::function<void()> task;",
-    "          {",
-    "            std::unique_lock<std::mutex> lock(mutex);",
-    "            ready.wait(lock, [this] { return stopping || !tasks.empty(); });",
-    "            if (stopping && tasks.empty()) return;",
-    "            task = std::move(tasks.front());",
-    "            tasks.pop();",
-    "          }",
-    "          task();",
-    "        }",
-    "      });",
-    "    }",
-    "  }",
-    "private:",
-    "  std::vector<std::thread> workers;",
-    "  std::queue<std::function<void()>> tasks;",
-    "  std::mutex mutex;",
-    "  std::condition_variable ready;",
-    "  bool stopping = false;",
-    "};",
-  ].join("\n");
-  const rawInput = JSON.stringify({ path: "thread_pool_example.cpp", content: cpp });
+test("preserves in-progress Verilog content from partial tool input before the authoritative end", () => {
+  const verilog = "module xor2(input a, input b, output y);\n  assign y = a ^ b;\nendmodule\n";
+  const rawInput = JSON.stringify({ path: "xor2.v", content: verilog });
   const streamedInput = rawInput.slice(0, -2);
-
   let state = snapshot(INITIAL_STREAMING_STATE, assistant());
-  state = delta(state, {
-    type: "toolcall_start",
-    contentIndex: 0,
-    id: "call-cpp",
-    toolName: "write",
-  });
-  for (let offset = 0; offset < streamedInput.length; offset += 47) {
-    state = delta(state, {
-      type: "toolcall_delta",
-      contentIndex: 0,
-      delta: streamedInput.slice(offset, offset + 47),
-    });
+  state = delta(state, { type: "toolcall_start", contentIndex: 0, id: "call-verilog", toolName: "write" });
+  for (let offset = 0; offset < streamedInput.length; offset += 17) {
+    state = delta(state, { type: "toolcall_delta", contentIndex: 0, delta: streamedInput.slice(offset, offset + 17) });
   }
-
-  const [artifact] = extractLatestCodeArtifacts(
-    [],
-    state.streamingMessage,
-    "streaming-cpp",
-    { includeAll: true },
-  );
-  assert.ok(artifact, "the generated-code pane should receive the in-progress write");
-  assert.equal(artifact.suggestedFileName, "thread_pool_example.cpp");
-  assert.equal(artifact.language, "cpp");
-  assert.equal(artifact.code, cpp);
-  assert.equal(artifact.complete, false);
-  assert.equal(state.streamingMessage.content[0].rawInput, streamedInput);
+  const partial = state.streamingMessage.content[0];
+  assert.equal(partial.toolName, "write");
+  assert.equal(partial.input.path, "xor2.v");
+  assert.equal(partial.input.content, verilog);
+  assert.equal(partial.rawInput, streamedInput);
+  assert.equal(state.isStreaming, true);
+  state = delta(state, { type: "toolcall_end", contentIndex: 0,
+    toolCall: { type: "toolCall", id: "call-verilog", name: "write", arguments: { path: "xor2.v", content: verilog } } });
+  assert.deepEqual(state.streamingMessage.content[0].input, { path: "xor2.v", content: verilog });
+  assert.equal(Object.hasOwn(state.streamingMessage.content[0], "rawInput"), false);
 });
 
 test("restores the raw tool input from a reconnect snapshot", () => {
@@ -236,14 +188,14 @@ test("normalizes tool calls in snapshots and clears on end", () => {
   const state = snapshot(INITIAL_STREAMING_STATE, assistant([{
     type: "toolCall",
     id: "call-2",
-    name: "bash",
-    arguments: { command: "pwd" },
+    name: "ifcn_status",
+    arguments: { run_id: "circuit-run" },
   }]));
   assert.deepEqual(state.streamingMessage.content, [{
     type: "toolCall",
     toolCallId: "call-2",
-    toolName: "bash",
-    input: { command: "pwd" },
+    toolName: "ifcn_status",
+    input: { run_id: "circuit-run" },
   }]);
   assert.strictEqual(streamReducer(state, { type: "end" }), INITIAL_STREAMING_STATE);
 });

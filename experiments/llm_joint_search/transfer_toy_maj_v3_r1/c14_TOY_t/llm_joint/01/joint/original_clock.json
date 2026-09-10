@@ -1,0 +1,286 @@
+{
+  "schema": "ifcn.clock_arrival.v1",
+  "passed": false,
+  "launch_policy": "cycle_zero_at_template_phase",
+  "phase_count": 4,
+  "relative_schedule_consistent": false,
+  "required_input_cycle_offsets": null,
+  "input_schedule_applied": false,
+  "mismatches": [
+    {
+      "node": 7,
+      "name": "n9",
+      "incoming_ticks": [
+        {
+          "source": 2,
+          "min": 6,
+          "max": 6
+        },
+        {
+          "source": 3,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "node": 14,
+      "name": "~n9",
+      "incoming_ticks": [
+        {
+          "source": 7,
+          "min": 5,
+          "max": 9
+        }
+      ]
+    },
+    {
+      "node": 13,
+      "name": "n13",
+      "incoming_ticks": [
+        {
+          "source": 9,
+          "min": 13,
+          "max": 13
+        },
+        {
+          "source": 11,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "node": 16,
+      "name": "n10",
+      "incoming_ticks": [
+        {
+          "source": 1,
+          "min": 7,
+          "max": 7
+        },
+        {
+          "source": 14,
+          "min": 7,
+          "max": 11
+        }
+      ]
+    },
+    {
+      "node": 18,
+      "name": "~n13",
+      "incoming_ticks": [
+        {
+          "source": 13,
+          "min": 6,
+          "max": 14
+        }
+      ]
+    },
+    {
+      "node": 5,
+      "name": "po0",
+      "incoming_ticks": [
+        {
+          "source": 8,
+          "min": 11,
+          "max": 11
+        },
+        {
+          "source": 16,
+          "min": 11,
+          "max": 15
+        }
+      ]
+    },
+    {
+      "node": 6,
+      "name": "po1",
+      "incoming_ticks": [
+        {
+          "source": 14,
+          "min": 10,
+          "max": 14
+        },
+        {
+          "source": 18,
+          "min": 10,
+          "max": 18
+        }
+      ]
+    }
+  ],
+  "relative_schedule_conflicts": [
+    {
+      "from": 16,
+      "to": 14,
+      "expected": 5,
+      "actual": 9
+    },
+    {
+      "from": 14,
+      "to": 16,
+      "expected": 11,
+      "actual": 7
+    },
+    {
+      "from": 18,
+      "to": 13,
+      "expected": 9,
+      "actual": 13
+    },
+    {
+      "from": 13,
+      "to": 18,
+      "expected": 14,
+      "actual": 10
+    }
+  ],
+  "nodes_checked": 15,
+  "routes_checked": 16,
+  "arrival_tick_ranges": {
+    "0": [
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0
+    ],
+    "3": [
+      0,
+      0
+    ],
+    "4": [
+      0,
+      0
+    ],
+    "9": [
+      8,
+      8
+    ],
+    "8": [
+      3,
+      3
+    ],
+    "7": [
+      2,
+      6
+    ],
+    "11": [
+      2,
+      2
+    ],
+    "14": [
+      5,
+      9
+    ],
+    "13": [
+      5,
+      13
+    ],
+    "16": [
+      7,
+      11
+    ],
+    "18": [
+      6,
+      14
+    ],
+    "5": [
+      11,
+      15
+    ],
+    "6": [
+      10,
+      18
+    ]
+  },
+  "route_delays": [
+    {
+      "source": 0,
+      "target": 8,
+      "ticks": 3
+    },
+    {
+      "source": 1,
+      "target": 9,
+      "ticks": 8
+    },
+    {
+      "source": 1,
+      "target": 16,
+      "ticks": 7
+    },
+    {
+      "source": 2,
+      "target": 7,
+      "ticks": 6
+    },
+    {
+      "source": 2,
+      "target": 8,
+      "ticks": 3
+    },
+    {
+      "source": 3,
+      "target": 7,
+      "ticks": 2
+    },
+    {
+      "source": 4,
+      "target": 11,
+      "ticks": 2
+    },
+    {
+      "source": 7,
+      "target": 14,
+      "ticks": 3
+    },
+    {
+      "source": 8,
+      "target": 5,
+      "ticks": 8
+    },
+    {
+      "source": 9,
+      "target": 13,
+      "ticks": 5
+    },
+    {
+      "source": 11,
+      "target": 13,
+      "ticks": 3
+    },
+    {
+      "source": 13,
+      "target": 18,
+      "ticks": 1
+    },
+    {
+      "source": 14,
+      "target": 6,
+      "ticks": 5
+    },
+    {
+      "source": 14,
+      "target": 16,
+      "ticks": 2
+    },
+    {
+      "source": 16,
+      "target": 5,
+      "ticks": 4
+    },
+    {
+      "source": 18,
+      "target": 6,
+      "ticks": 4
+    }
+  ],
+  "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+}

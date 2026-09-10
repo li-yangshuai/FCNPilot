@@ -1,0 +1,88 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 14,
+      "to": [
+        26,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        23,
+        27
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      1,
+      9
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      4,
+      11
+    ],
+    [
+      7,
+      14
+    ],
+    [
+      9,
+      13
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      13,
+      18
+    ],
+    [
+      14,
+      16
+    ],
+    [
+      16,
+      5
+    ],
+    [
+      14,
+      6
+    ],
+    [
+      18,
+      6
+    ],
+    [
+      1,
+      16
+    ],
+    [
+      8,
+      5
+    ]
+  ],
+  "rationale": "Prioritize high-congestion edges (1→9 with 2 detour steps and multi-source interior) and reconvergent paths (14→6 and 14→16 share node 14) early; route short Manhattan-optimal edges (0→8, 2→8, 3→7, 4→11) before longer ones to open channels; place critical fanout edges (8→5, 16→5) after their sources are settled; defer longest edge (8→5, 10 steps) until routing space is cleared."
+}

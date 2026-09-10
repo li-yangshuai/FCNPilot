@@ -13,7 +13,6 @@ const {
   projectTrustReloadOptions,
   trustProject,
 } = await jiti.import("./project-trust.ts");
-const { loadMcpServers } = await jiti.import("./mcp-config.ts");
 
 async function createProjectFixture(t) {
   const root = await mkdtemp(join(tmpdir(), "pi-web-project-trust-"));
@@ -66,40 +65,6 @@ test("project extensions execute only after the project is trusted", async (t) =
   assert.equal(trustedLoader.getExtensions().extensions.length, 1);
 });
 
-test("project MCP definitions and custom agents require trust", async (t) => {
-  const { root, cwd, agentDir } = await createProjectFixture(t);
-  const mcpDir = join(cwd, ".pi", "MCP");
-  await mkdir(mcpDir, { recursive: true });
-  await mkdir(join(cwd, ".pi", "agents"), { recursive: true });
-  await writeFile(join(mcpDir, "probe.json"), JSON.stringify({
-    name: "probe",
-    url: "https://mcp.example.invalid/",
-  }));
-
-  const previousConfigDir = process.env.PI_WEB_CONFIG_DIR;
-  const previousAgentDir = process.env.PI_CODING_AGENT_DIR;
-  process.env.PI_WEB_CONFIG_DIR = join(root, "web-config");
-  process.env.PI_CODING_AGENT_DIR = agentDir;
-  t.after(() => {
-    if (previousConfigDir === undefined) delete process.env.PI_WEB_CONFIG_DIR;
-    else process.env.PI_WEB_CONFIG_DIR = previousConfigDir;
-    if (previousAgentDir === undefined) delete process.env.PI_CODING_AGENT_DIR;
-    else process.env.PI_CODING_AGENT_DIR = previousAgentDir;
-  });
-
-  assert.deepEqual(getProjectTrustStatus(cwd, agentDir), {
-    requiresTrust: true,
-    trusted: false,
-  });
-  assert.deepEqual(loadMcpServers(cwd, agentDir, "shared"), []);
-
-  trustProject(cwd, agentDir);
-  assert.deepEqual(
-    loadMcpServers(cwd, agentDir, "shared").map((server) => server.name),
-    ["probe"],
-  );
-});
-
 test("the reload resolver reads the latest persisted trust decision", async (t) => {
   const { cwd, agentDir } = await createProjectFixture(t);
   await mkdir(join(cwd, ".pi", "extensions"), { recursive: true });
@@ -138,9 +103,6 @@ test("untrusted project settings never enter the runtime settings snapshot", asy
 test("all project resource loaders and reloads enforce project trust", async () => {
   const rpcSource = await readFile(new URL("./rpc-manager.ts", import.meta.url), "utf8");
   const modelsSource = await readFile(new URL("../app/api/models/route.ts", import.meta.url), "utf8");
-  const skillsSource = await readFile(new URL("./skills-service.ts", import.meta.url), "utf8");
-  const skillsInstallSource = await readFile(new URL("../app/api/skills/install/route.ts", import.meta.url), "utf8");
-  const pluginsSource = await readFile(new URL("../app/api/plugins/route.ts", import.meta.url), "utf8");
 
   assert.match(rpcSource, /const sessionCwd = sessionManager\.getCwd\(\)/);
   assert.match(rpcSource, /projectTrustReloadOptions\(sessionCwd, sharedAgentDir\)/);
@@ -156,17 +118,7 @@ test("all project resource loaders and reloads enforce project trust", async () 
 
   assert.match(modelsSource, /projectTrustReloadOptions\(cwd, sharedAgentDir\)/);
   assert.match(modelsSource, /resourceLoaderReloadOptions: trustReloadOptions/);
-  assert.match(skillsSource, /loader\.reload\(projectTrustReloadOptions\(cwd, agentDir\)\)/);
-  assert.match(pluginsSource, /projectTrusted: projectTrust\.trusted/);
-  assert.match(
-    skillsInstallSource,
-    /getProjectTrustStatus\(cwd, getAgentDir\(\)\)\.trusted/,
-  );
-  assert.equal(
-    Array.from(pluginsSource.matchAll(/projectTrusted: projectTrust\.trusted/g)).length,
-    2,
-  );
-  assert.match(pluginsSource, /scope === "project" && !projectTrust\.trusted/);
+
 });
 
 test("the trust API invalidates cached models and restricted runtimes", async () => {

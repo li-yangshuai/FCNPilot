@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { parseSessionEntries, SessionManager } from "@earendil-works/pi-coding-agent";
-import { CustomAgentFileError, resolveCustomAgentRuntimeConfig } from "./custom-agent-files";
+import { CustomAgentFileError } from "./custom-agent-files";
+import { resolveNewSessionAgentConfig } from "./new-session-agent";
 import type { AgentRuntimeConfig } from "./custom-agents";
 
 const PROFILE_ENTRY_TYPE = "pi-web-agent-profile";
@@ -33,16 +34,14 @@ export async function initializeSessionAgentProfile(
   manager: SessionManager,
   accountUid: string,
   requestedAgentId?: string,
-): Promise<AgentRuntimeConfig | undefined> {
+): Promise<AgentRuntimeConfig> {
   const savedAgentId = getSessionAgentProfileId(manager);
   if (savedAgentId && requestedAgentId && savedAgentId !== requestedAgentId) {
     throw new CustomAgentFileError("An existing session's Agent cannot be changed", 409);
   }
   const agentId = savedAgentId ?? requestedAgentId;
-  // Older unbound sessions retain their existing generic behavior.
-  if (!agentId) return undefined;
-  const config = await resolveCustomAgentRuntimeConfig(manager.getCwd(), accountUid, agentId);
-  if (!savedAgentId) manager.appendCustomEntry(PROFILE_ENTRY_TYPE, { version: 1, agentId });
+  const config = await resolveNewSessionAgentConfig(manager.getCwd(), accountUid, agentId ? { id: agentId } : undefined);
+  if (!savedAgentId) manager.appendCustomEntry(PROFILE_ENTRY_TYPE, { version: 1, agentId: config.id });
   return config;
 }
 

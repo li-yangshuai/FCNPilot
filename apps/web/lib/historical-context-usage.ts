@@ -8,7 +8,6 @@ import {
   type SessionManager,
 } from "@earendil-works/pi-coding-agent";
 import { join } from "node:path";
-import { getActiveAgentDir } from "./agent-suite";
 import type { ContextUsage } from "./pi-types";
 import { projectTrustReloadOptions } from "./project-trust";
 import { SHARED_ACCOUNT_UID } from "./shared-workspace";
@@ -60,6 +59,7 @@ export async function getHistoricalContextUsage(
   leafId?: string | null,
   accountUid: string = SHARED_ACCOUNT_UID,
 ): Promise<ContextUsage | null> {
+  if (!accountUid) return null;
   try {
     const entries = sessionManager.getEntries();
     const context = buildSessionContext(entries, leafId);
@@ -68,7 +68,7 @@ export async function getHistoricalContextUsage(
 
     const cwd = sessionManager.getCwd();
     const sharedAgentDir = getAgentDir();
-    const agentDir = getActiveAgentDir(accountUid);
+    const agentDir = getAgentDir();
     const modelRuntime = await ModelRuntime.create({
       authPath: join(sharedAgentDir, "auth.json"),
       modelsPath: join(sharedAgentDir, "models.json"),
@@ -78,6 +78,7 @@ export async function getHistoricalContextUsage(
       cwd,
       agentDir,
       modelRuntime,
+      resourceLoaderOptions: { noExtensions: true, noSkills: true, noPromptTemplates: true, noThemes: true, noContextFiles: true },
       ...(trustReloadOptions ? { resourceLoaderReloadOptions: trustReloadOptions } : {}),
     });
     const directModel = services.modelRuntime.getModel(selection.provider, selection.modelId);

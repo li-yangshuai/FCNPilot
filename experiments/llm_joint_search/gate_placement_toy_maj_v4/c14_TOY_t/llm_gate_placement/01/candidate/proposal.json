@@ -1,0 +1,120 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 13,
+      "to": [
+        28,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 14,
+      "to": [
+        26,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        23,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 18,
+      "to": [
+        28,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        22,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 6,
+      "to": [
+        27,
+        29
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      1,
+      16
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      8,
+      5
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      9,
+      13
+    ],
+    [
+      14,
+      6
+    ],
+    [
+      14,
+      16
+    ],
+    [
+      16,
+      5
+    ],
+    [
+      18,
+      6
+    ],
+    [
+      1,
+      9
+    ],
+    [
+      4,
+      11
+    ],
+    [
+      7,
+      14
+    ],
+    [
+      13,
+      18
+    ]
+  ],
+  "rationale": "Contract vertical span by shifting the suffix (layers 3–5) down 2 tiles: nodes 13,14,16,18 move from y=25/28→23/26; outputs 5,6 from y=31→29. This reduces height from 12 to 10 while preserving fanin order and avoiding collisions. Vacancy hotspots at (28,23–26) and (22–27,26–29) accommodate moves. Edge detours (e.g., [1,9] with 2 extra steps) suggest local congestion near y=22–25; lowering the middle layer alleviates routing pressure without altering PI/PO envelope width. All moved nodes are internal; port coordinates remain valid within bounds."
+}

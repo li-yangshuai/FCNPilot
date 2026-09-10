@@ -1,0 +1,203 @@
+{
+  "schema": "fcn.internal_relocation_study.v1",
+  "created_at": "2026-09-09T02:38:45.797197+00:00",
+  "case_entries": [
+    {
+      "ordinal": 1,
+      "case_id": "TOY/paper_2ddwave_crossing_demo.v",
+      "source_sha256": "d471dfe2cfa54e7db65277d0e1a4f0b5f0a5f9e4d0db19ae1a81f431fc669e18",
+      "status": "eligible",
+      "eligible": true,
+      "reasons": [],
+      "folder": "c01_TOY_paper_2ddwave_crossing_demo",
+      "run_id": "12209edf0dce4c049a74d2cdc215182d",
+      "initial": {
+        "width": 7,
+        "height": 10,
+        "area_tiles": 70,
+        "qca_cells": 267,
+        "edge_steps": 59,
+        "output_arrival_ticks": {
+          "3": [
+            12,
+            12
+          ]
+        }
+      },
+      "fixed_port_count": 4,
+      "internal_node_count": 5
+    },
+    {
+      "ordinal": 2,
+      "case_id": "TOY/t.v",
+      "source_sha256": "65580cb4a769d403f1955b0e20dd0992cbabe70951d7e5b3c2965cfc34bde2f9",
+      "status": "eligible",
+      "eligible": true,
+      "reasons": [],
+      "folder": "c02_TOY_t",
+      "run_id": "24f7852e65374bceb4e3ca23c1f54400",
+      "initial": {
+        "width": 10,
+        "height": 12,
+        "area_tiles": 120,
+        "qca_cells": 387,
+        "edge_steps": 79,
+        "output_arrival_ticks": {
+          "5": [
+            12,
+            12
+          ],
+          "6": [
+            12,
+            12
+          ]
+        }
+      },
+      "fixed_port_count": 7,
+      "internal_node_count": 8
+    },
+    {
+      "ordinal": 3,
+      "case_id": "MAJ/1bitAdderMaj.v",
+      "source_sha256": "8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17",
+      "status": "eligible",
+      "eligible": true,
+      "reasons": [],
+      "folder": "c03_MAJ_1bitAdderMaj",
+      "run_id": "95b000c93bd743ec8a07fabf5d6e9c7a",
+      "initial": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "fixed_port_count": 4,
+      "internal_node_count": 6
+    },
+    {
+      "ordinal": 4,
+      "case_id": "MAJ/par_gen.v",
+      "source_sha256": "c89d153622f389fe370e43f7a0bc68ade61cb2ad7d5b4faa5925d1931e71ac01",
+      "status": "eligible",
+      "eligible": true,
+      "reasons": [],
+      "folder": "c04_MAJ_par_gen",
+      "run_id": "84e933871a534feaa6787e209597a810",
+      "initial": {
+        "width": 15,
+        "height": 37,
+        "area_tiles": 555,
+        "qca_cells": 1361,
+        "edge_steps": 304,
+        "output_arrival_ticks": {
+          "3": [
+            38,
+            38
+          ]
+        }
+      },
+      "fixed_port_count": 4,
+      "internal_node_count": 24
+    }
+  ],
+  "rounds_per_policy": 3,
+  "workers": 2,
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "candidate_timeout_s": 20,
+  "model_timeout_s": 60,
+  "action_space": "Direct v2 <=8 moves/swaps; only internal nodes; all source-derived PI/PO XY locked in the native editor. Phases are not pinned.",
+  "control": "Deterministic selects the first unseen internal geometric suggestion with control_order. LLM sees the same unevaluated suggestions and full state but may synthesize other legal internal placements and complete edge orders.",
+  "acceptance": "Same original algorithm and irregular-clock rules, fixed graph/source/port identity, exhaustive Boolean equivalence, absolute arrivals, QCA physical routes and ports; actual area/cells both nonincreasing, one strictly lower.",
+  "budgets": "Equal live proposal slots and 20s native-candidate limit; each explicit route order runs once, no fallback. Invalid/repeated/model-failed slots consume a round; no retry.",
+  "diagnostics": "Only accepted LLM proposals get a routing-only replay from the same incumbent. Shadow scores are excluded from live feedback and aggregate optimization metrics.",
+  "scope": "Bounded fixed-port internal optimization study; not convergence or an assertion of LLM superiority. Unavailable and failed cases retained. Grouped moves preserve all logical nodes.",
+  "original_artifact_hashes": {
+    "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/protocol.json": "7d448ec9d07c33eef1453063e551c2fb13c7b27c4221390901972695dc45014e",
+    "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/index.json": "afaa55b456f5d695530d74df8a601490d5ee952ccd4bd4a4777ab3637daa48d2",
+    "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/audit.json": "0ac476598561b2a5e9d2b3c37925b650bf89bc262834e7575a854f2e5a060694",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/transfer_toy_maj_v3_r1/protocol.json": "85889badf658f5dc124381c18a9849777f4e46b4f64b61b835172808d68292f1",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/transfer_toy_maj_v3_r1/summary.json": "06caeb24aec31c8a8b19fc0fa5b8f6a9b150ad0e2e79b96a539ae1b11101a73c",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/transfer_toy_maj_v3_r1/audit.json": "843f62e657ad719be72de54a7eaeb92f5caa6d32f31ec3214e5291e644d1c4dd",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/12209edf0dce4c049a74d2cdc215182d/source.v": "d471dfe2cfa54e7db65277d0e1a4f0b5f0a5f9e4d0db19ae1a81f431fc669e18",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/12209edf0dce4c049a74d2cdc215182d/normalized.v": "89b9e44838622eb688a0193fb57c8b67ddbb1535f17601bcfa6dbbb5f0a9dd79",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/12209edf0dce4c049a74d2cdc215182d/02_pnr_1/01_june_random_layer_redundancy_buffers/layout_candidate.json": "7ba44759d1743239554a3db4ff6a24f176487f2e3486b0506d63910834002225",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/12209edf0dce4c049a74d2cdc215182d/02_pnr_1/01_june_random_layer_redundancy_buffers/routed_dag.json": "f5b3569df141611b294b9dfa34511f75b9a6071e15d21a4240431d3f5d2c76d1",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/12209edf0dce4c049a74d2cdc215182d/02_pnr_1/01_june_random_layer_redundancy_buffers/layout.ifcn": "b75b29adaa27014eca77b1518d5deb5aac0a075ae34775be5aaeaade9a7457dc",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/12209edf0dce4c049a74d2cdc215182d/02_pnr_1/01_june_random_layer_redundancy_buffers/physical.json": "3180f77fd64d8308e67f72bf1b12cc03b30b6f8da10faa40168751dc226df0b5",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/12209edf0dce4c049a74d2cdc215182d/02_pnr_1/01_june_random_layer_redundancy_buffers/clock.json": "b0585300fff03255651194c61c1607644d0e116d07dd51f63b86d6b0596d89c3",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/12209edf0dce4c049a74d2cdc215182d/02_pnr_1/01_june_random_layer_redundancy_buffers/interface_check_energy_input.qca": "2191ea615717f62924bdb3ad787507c99348fa1748ab0f28662df9db45faf1a9",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/12209edf0dce4c049a74d2cdc215182d/manifest.json": "8715f88647a5c42508c489dba109ecd4f84b818092dcc6514cc8f9339a1115bb",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/24f7852e65374bceb4e3ca23c1f54400/source.v": "65580cb4a769d403f1955b0e20dd0992cbabe70951d7e5b3c2965cfc34bde2f9",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/24f7852e65374bceb4e3ca23c1f54400/normalized.v": "d766fed60e25d069286d7a7c1591aa9741294c8edfdf2a1b9de26c5e70067fed",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/24f7852e65374bceb4e3ca23c1f54400/02_pnr_1/02_june_random_optimized_buffers/layout_candidate.json": "7366f1f219edaf355c5b3b710d2a0f46199e428981ae1299058974224cf53688",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/24f7852e65374bceb4e3ca23c1f54400/02_pnr_1/02_june_random_optimized_buffers/routed_dag.json": "79e353239486c2a88dc48382160093f1462348ac69c327eef6dd64cfda42080c",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/24f7852e65374bceb4e3ca23c1f54400/02_pnr_1/02_june_random_optimized_buffers/layout.ifcn": "448620db2db7e4b79e0e95390454b25078725551fd0419776efbf65b11421757",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/24f7852e65374bceb4e3ca23c1f54400/02_pnr_1/02_june_random_optimized_buffers/physical.json": "33036adcc8f458bbb115f1038cd8169ef595094de82d42145db9f2765d5575bc",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/24f7852e65374bceb4e3ca23c1f54400/02_pnr_1/02_june_random_optimized_buffers/clock.json": "cc4730e6b4b1a83adf8cd5ba653c996b43fd3e417b26c51afe74dde297862b87",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/24f7852e65374bceb4e3ca23c1f54400/02_pnr_1/02_june_random_optimized_buffers/interface_check_energy_input.qca": "9e08400e050ca91a70f4601adcd77332b28dfaf1d00d8e4298a3c7e8e823d6d8",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/24f7852e65374bceb4e3ca23c1f54400/manifest.json": "e7c040c07de37625455d9acfac1b4aefee9950aaee37e58b7f81ff640f883925",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/95b000c93bd743ec8a07fabf5d6e9c7a/source.v": "8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/95b000c93bd743ec8a07fabf5d6e9c7a/normalized.v": "36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/95b000c93bd743ec8a07fabf5d6e9c7a/02_pnr_1/02_june_random_optimized_buffers/layout_candidate.json": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/95b000c93bd743ec8a07fabf5d6e9c7a/02_pnr_1/02_june_random_optimized_buffers/routed_dag.json": "f1db9a763c6a6d8ef70dbe310a739aa58faa11f429ff67cce77c65cd2bc6f658",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/95b000c93bd743ec8a07fabf5d6e9c7a/02_pnr_1/02_june_random_optimized_buffers/layout.ifcn": "f0392cbdb1e901442dc0ca7b4690b7d1ace6c290485c2f984e42597f35107b53",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/95b000c93bd743ec8a07fabf5d6e9c7a/02_pnr_1/02_june_random_optimized_buffers/physical.json": "1c8d4f546ea26fcae2f9a4e3153598fdafc75a05b54f23ab45eef8b66d3f38fa",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/95b000c93bd743ec8a07fabf5d6e9c7a/02_pnr_1/02_june_random_optimized_buffers/clock.json": "6bbb6dd975556eb5a342e38103fa71fc5c0b502cd79ef2f71e3bea5758696965",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/95b000c93bd743ec8a07fabf5d6e9c7a/02_pnr_1/02_june_random_optimized_buffers/interface_check_energy_input.qca": "595fb3ca0d2515b28c627ebacb977caf27e34a506e4b9aacb82eb6caa0d1b3e0",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/95b000c93bd743ec8a07fabf5d6e9c7a/manifest.json": "8e72397ba818a849ab21b74a095b8b982717b83412d8204bce57f376317bffa7",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/source.v": "c89d153622f389fe370e43f7a0bc68ade61cb2ad7d5b4faa5925d1931e71ac01",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/normalized.v": "4e6616ac9ff7ced8bd1a3a8439a32e13deb81ed7bf192b3d67848f4e22e3419a",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/layout_candidate.json": "42a0576bf3ff8458f1bed017caed77da3a884de547c514923bb8e785a0e28fa3",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/routed_dag.json": "02e8e8be8fea4d94c7700d2abb0332638b3857793cc46fa62a3656b82b314123",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/layout.ifcn": "e188dfa276c832a0cecf1b7cf76066a9e989f38ece9ad77edf1812736eaf5f92",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/physical.json": "0c44c779df2df0025f761bdd7b593345c6ffb50d4ee04dc01c6e32f4725f1100",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/clock.json": "6682b396065d3e93734dba0defcc059115fbede169377c52cbcd8b733a19442a",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/02_pnr_1/02_june_random_optimized_buffers/interface_check_energy_input.qca": "54328b3d023e23ee39d0835b942ae0ef80b1060a888881430bd233e9a99f313f",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/84e933871a534feaa6787e209597a810/manifest.json": "bb6d59613668053d80be49fd214db864d3526f3a4c12a6c67214394194abcdd1"
+  },
+  "implementation_hashes": {
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/run_internal_study.py": "a7259757d79a4949fb68bfa1d6ab3581207bbf77b643f02bf304b0c13150a5a1",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/run_study.py": "754a9a1edcd4c61d403c19369bb5a642792c02b41b2bc0f66d0e618a3af4bb34",
+    "/home/lys/projects/github/FCNPilot/integrations/pi/layout-proposer.mjs": "e1d0a6a35c498f1b320776637706dedbac282c9d0a7edc1fe8e61266d4f97ab7",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/curate_benchmarks.py": "8882cb90b0aec933f78d65f6e7b609f5879269c00a704652197a258539917578",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent.py": "6d5a34a28fa0521b30dbf3ca9a447b1034ecb897b334a70ef9beec19cb71b606",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py": "9bc8b08083b5b5fa1def5b1198eac5e3640656241386f7841a235c8197125eec",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_clock_validation.py": "1e80e25aecb39bc21718f7900aa0966d43ea09c9e9eaf128f21b3e4aa5cab7a4",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_frontend.py": "b7c42d76de5e85939f6b15a23ebd1050fdf076e3a474c2b4e81be81a527830e7",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_layout_validation.py": "2056fbc58c9e9cdbca65160f9b2b062ac372143e6a04d3ae9fdd70dd89c3bced",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_sequential.py": "4f2d55a9c30b7ac1c6535b74d318fc8cf12516aa2a540ca80c66785027382ea3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_algorithm_catalog.py": "a7f22aff961c00f97000a55a4f91d6c4ccb8463788ffb2917c1445a5eda9decc",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_axis_compaction.py": "542ada42f27f3a3b4cdda8eff4e28a228b89136850e11fffa52bcb8b847f3c86",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_combinational_rephase.py": "df9ae479fae578f0a8af9cf21a7e265c0ec73abdcd31acbce1f8102d57c32779",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_internal_relocation.py": "0719c2d4213aa6dd64c3fa8effd70bfaf40f73351dabb6f295c035c667b69607",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_internal_search.py": "dc223f71ef11a0e9a450890a18d33ea78faffec10f5e666ee5bd2166dec582f1",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_joint_menu.py": "091835ccde7eb4804cac1bdfb4284cae23f909c8d70dd24a90d041d25d74a4ce",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_joint_search.py": "40fbd26aa8401963f265940c3c81653564444d57c6b53f01c638484df62221ba",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_layout_optimization.py": "d3a353c615d7a1bc6dfe379ebc72f79212ec27c6f5baf549dd66d5a40f3bb423",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_sequential_validation.py": "c9534d1d9c903311b826dd8e471ae860e9ff90c17bdb5f00099d32bc9ec6d027",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/verify_routed_logic.py": "d07eaf08ec1066aa72ccad6e6e379ef47ccfbe7952462f8cdb8305af2f640ae3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/yosys_json_to_seqir.py": "a32f45ac07f09466db283969e87e662b55da980f4e2078d43669887d858e4fee",
+    "/home/lys/projects/github/FCNPilot/engine/src/app/ifcn_layout_edit.cpp": "6f8ec78e4e3ad669c511161c2c673ec8d26695030d163c663b0b295ef5a39216",
+    "/home/lys/projects/github/FCNPilot/engine/include/autopr/graph/circuitGraph.cpp": "aebd01a767b7c58a360c36cc281cd6bb02d226ed8a2cbba7a9d0cf995636f93f"
+  },
+  "binary_hashes": {
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_layout_edit": "63fdc27f1ee38cc73103ec9971fc0554fce7e08414027d6cf489798bf1ba35ce",
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis": "db33ff5333e4ba7a41eb3197802e04875321d8d63bb4a8ae5c6547debaf9de48",
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics": "21462b9e2b0c179d21ac802af2765613aeca2cac0aa22fc5020fb1c1b74485c9"
+  },
+  "execution_environment": {
+    "IFCN_BUILD_DIR": "/home/lys/projects/github/FCNPilot/engine/build",
+    "IFCN_LAYOUT_EDIT": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_layout_edit",
+    "IFCN_MAPPING_METRICS_EXE": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics"
+  }
+}

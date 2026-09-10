@@ -1,0 +1,92 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 4,
+      "to": [
+        24,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        25,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 6,
+      "to": [
+        24,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        24,
+        29
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      9
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      3
+    ],
+    [
+      5,
+      3
+    ]
+  ],
+  "rationale": "Relocate the connected group {4,5,6,8,9} vertically down to y=21–29 to eliminate the long vertical detour on edge [0,9] and reduce congestion near y=23–25; move 4 and 5 to shared y=21 to enable direct horizontal fanin from inputs, and align 8 and 9 on x=24 to shorten vertical routing. Routing order prioritizes reconvergent fanin (4 and 5 before 8), then critical path edges ([0,9] first) and avoids late routing of high-congestion edges like [5,3]."
+}

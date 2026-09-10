@@ -2,6 +2,7 @@
 """Durable, JSON-only process adapter for Pi. No GUI or LLM dependency."""
 import argparse
 import csv
+from contextlib import ExitStack
 from datetime import datetime, timezone
 import fcntl
 import hashlib
@@ -19,11 +20,16 @@ import time
 import uuid
 
 from ifcn_agent_frontend import normalize_verilog
+from ifcn_agent_clock_validation import clock_arrival_report
+import ifcn_agent_sequential as sequential
+from ifcn_algorithm_catalog import algorithm_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
 from verify_routed_logic import audit_case
 STAGES = ("parse", "pnr", "map", "simulate", "energy")
-ALGORITHMS = ("normal_2ddwave", "compact", "june_random")
+ALGORITHMS = ("normal_2ddwave", "compact", "june_random", "regular_clock_ga")
+DEFAULT_AUTO_ALGORITHMS = ("normal_2ddwave", "compact", "june_random")
+CLOCK_SCHEMES = ("2DDWave", "USE", "RES", "irregular")
 SCHEMA = "ifcn.pi.run.v1"
 STOP = False
 
@@ -51,11 +57,15 @@ def configuration():
             "energy_binary": str(build / "ifcn_energy_analysis"),
             "simulation_binary": str(build / "ifcn_physical_benchmark"),
             "mapping_binary": str(build / "ifcn_mapping_metrics"),
-            "native_pnr_binary": os.environ.get("IFCN_NATIVE_PNR", str(build / "ifcn_combinational_pnr"))}
+            "native_pnr_binary": os.environ.get("IFCN_NATIVE_PNR", str(build / "ifcn_combinational_pnr")),
+            "sequential_pnr_binary": str(build / "ifcn_sequential_cyclic_pnr"),
+            "regular_pnr_binary": str(build / "ifcn_regular_clock_pnr"),
+            "yosys_binary": sequential.find_yosys(ROOT)}
 
 
 def algorithm_capabilities(config):
     native = Path(config.get("native_pnr_binary", ""))
+    regular = Path(config.get("regular_pnr_binary", ""))
     python = Path(config["python"])
     python_ready = python.is_file() and os.access(python, os.X_OK)
     native_ready = python_ready and native.is_file() and os.access(native, os.X_OK)
@@ -68,23 +78,44 @@ def algorithm_capabilities(config):
          "description": "Native Compact Graph with bounded adaptive expansion and compaction"},
         {"id": "june_random", "available": native_ready,
          "clock_scheme": "irregular", "seed_control": "not_exposed_by_native_algorithm",
-         "description": "Native Graphviz placement, four-direction routing and post-route phase assignment"}]
+         "description": "Native Graphviz placement, four-direction routing and post-route phase assignment"},
+        {"id":"regular_clock_ga", "available":python_ready and regular.is_file() and os.access(regular, os.X_OK),
+         "clock_scheme":"configurable", "clock_schemes":["2DDWave","USE","RES"], "seed_control":"exposed",
+         "description":"Small-circuit placement search under a fixed supported regular clock template; hard route, clock and mapping validation"}]
 
 
 def doctor(deep=False):
     config = configuration()
+    algorithms = algorithm_capabilities(config)
+    seq = sequential.capabilities(config)
+    algorithms.append({"id":"sequential_cyclic", "available":seq["available"],
+        "clock_scheme":"irregular", "design_type":"sequential", "seed_control":"not_exposed_by_native_algorithm",
+        "description":"State-preserving cyclic routing with global phase/epoch constraints; uncharacterized state device"})
     checks = {key: Path(config[key]).is_file() and os.access(config[key], os.X_OK)
               for key in ("python", "energy_binary", "simulation_binary", "mapping_binary")}
     report = {"schema": "ifcn.pi.capabilities.v1", "configuration": config, "checks": checks,
               "stages": list(STAGES), "phase_count": 4,
-              "algorithms": algorithm_capabilities(config), "default_algorithm": "normal_2ddwave",
-              "auto_policy": {"order": list(ALGORITHMS), "stop": "first validated layout",
+              "algorithms": algorithms, "algorithm_catalog": algorithm_catalog(algorithms, sequential_available=seq["available"]),
+              "default_algorithm": "normal_2ddwave",
+              "auto_policy": {"order": list(DEFAULT_AUTO_ALGORITHMS), "respects_clock_scheme":True, "stop": "first validated layout",
                               "budget": "shared P&R timeout, divided among remaining available attempts",
-                              "optimizes_area": False},
-              "experimental_backends": {"genetic": "not_integrated", "gcn_ppo": "not_integrated", "memory_policy": "not_integrated"},
+                              "optimizes_area": "bounded_within_backend_nonregressing_area_and_qca_cells"},
+              "experimental_backends": {"genetic": "regular_clock_ga", "gcn_ppo": "not_integrated", "memory_policy": "not_integrated"},
               "combinational": {"supported": True, "input": "Single-module scalar assign netlist; ~ & | ^ and parentheses; ANSI/non-ANSI scalar ports"},
-              "sequential": {"supported": False, "status": "reserved", "extension_point": "include/autopr/sequential", "reason": "Physical sequential validation is not part of the supported combinational flow"},
+              "sequential": seq,
+              "scale_policy": {"metric":"dag_gate_nodes", "small_max":50, "medium_max":500,
+                  "note":"Workspace bins count non-input logic DAG nodes, not a capacity guarantee. Sequential size uses the state-cut DAG; state bits are reported separately."},
               "functional_signoff": "not_provided", "deep_probe": "not_requested"}
+    report["layout_optimization"] = {
+        "available":(Path(config["build_dir"])/"ifcn_layout_edit").is_file(),
+        "action":"ifcn_run optimize", "policies":["llm","noop","random","heuristic"],
+        "design_type":"combinational", "algorithms":["compact","june_random"], "clock_scheme":"irregular",
+        "requires":"Current cycle-zero clock, actual QCA physical-route and exhaustive source/DAG certificates",
+        "limits":{"nodes":50,"routes":100,"rounds":8,"operations_per_round":3},
+        "model":"Current Pi session model proposes node moves/swaps; deterministic routing and phase solving execute them",
+        "acceptance":"Both gate-grid area and actual QCA cells non-increasing; at least one strict improvement after all checks",
+        "artifacts":["campaign.json","environment.json","rounds/<n>/request.json","rounds/<n>/response.json"],
+        "fixed_clock_and_sequential":"not_supported_by_this_experiment", "device_waveform_signoff":False}
     report["logic_validation"] = {"method": "exhaustive scalar source vs routed DAG", "max_inputs": 11,
                                   "unverifiable_small_input": "reject candidate", "larger_input": "explicitly not performed"}
     report["device_interface_validation"] = "Require declared input/output terminal counts before accepting a P&R candidate; not a waveform correctness proof"
@@ -151,11 +182,11 @@ def backend_environment(path):
     return env
 
 
-def tail(path, limit=3000):
+def tail(path, limit=3000, start_offset=0):
     if not path.is_file():
         return ""
     with path.open("rb") as stream:
-        stream.seek(max(0, path.stat().st_size - limit))
+        stream.seek(max(start_offset, 0, path.stat().st_size - limit))
         return stream.read(limit).decode("utf-8", errors="replace")
 
 
@@ -183,6 +214,7 @@ def start_worker(path, until):
     fd = lock_run(path)
     try:
         manifest = load_run(path)
+        until = until or manifest.get("requested_until") or ("map" if manifest.get("design_type") == "sequential" else "energy")
         verify_artifacts(path, manifest)
         manifest.update(status="queued", requested_until=until, error=None, updated_at=now())
         write_json(path / "manifest.json", manifest)
@@ -198,6 +230,34 @@ def start_worker(path, until):
     return status(path)
 
 
+
+def resolve_design_selection(design_type, algorithm=None, clock=None):
+    if clock is not None and clock not in CLOCK_SCHEMES:
+        raise ValueError("Unsupported clock scheme; select 2DDWave, USE, RES or irregular.")
+    if design_type == "sequential":
+        if algorithm not in (None, "sequential_cyclic") or clock not in (None, "irregular"):
+            raise ValueError("Sequential design requires state-aware sequential_cyclic routing and post-layout clock assignment.")
+        return "sequential_cyclic", "irregular"
+    if algorithm == "sequential_cyclic":
+        raise ValueError("Use sequential_cyclic only for sequential design.")
+    algorithm = algorithm or ("regular_clock_ga" if clock in ("USE", "RES") else "compact" if clock == "irregular" else "normal_2ddwave")
+    if algorithm == "auto":
+        return algorithm, clock
+    allowed = {"normal_2ddwave":("2DDWave",), "compact":("irregular",), "june_random":("irregular",),
+               "regular_clock_ga":("2DDWave","USE","RES")}
+    if algorithm not in allowed or clock is not None and clock not in allowed[algorithm]:
+        raise ValueError("Selected algorithm does not support the requested clock scheme; no silent clock fallback is allowed.")
+    return algorithm, clock or allowed[algorithm][0]
+
+
+def pnr_candidates(algorithm, clock=None):
+    if algorithm != "auto":
+        return [algorithm]
+    if clock is None:
+        return list(DEFAULT_AUTO_ALGORITHMS)
+    return {"2DDWave":["normal_2ddwave","regular_clock_ga"], "USE":["regular_clock_ga"],
+            "RES":["regular_clock_ga"], "irregular":["compact","june_random"]}[clock]
+
 def create_run(args, base):
     source = Path(args.input).resolve()
     if not source.is_file():
@@ -205,25 +265,35 @@ def create_run(args, base):
     if source.stat().st_size > 2_000_000:
         raise ValueError("Input exceeds the first-version 2 MB limit.")
     original = source.read_bytes()
-    normalized, frontend = normalize_verilog(original.decode("utf-8-sig"))
+    design_type = getattr(args, "design_type", "combinational")
+    args.until = args.until or ("map" if design_type == "sequential" else "energy")
+    args.algorithm, selected_clock = resolve_design_selection(design_type, args.algorithm, getattr(args, "clock", None))
+    if design_type == "sequential":
+        if re.search(r"`\s*(include|define)", original.decode("utf-8-sig")):
+            raise ValueError("Sequential input must be self-contained RTL without include/define dependencies.")
+        normalized, frontend = None, {"design_type":"sequential", "frontend":"pending_yosys_seqir"}
+    else:
+        normalized, frontend = normalize_verilog(original.decode("utf-8-sig"))
     config = configuration()
     base.mkdir(parents=True, exist_ok=True)
     run_id = uuid.uuid4().hex
     path = run_path(base, run_id)
     path.mkdir(mode=0o700)
     (path / "source.v").write_bytes(original)
-    (path / "normalized.v").write_text(normalized)
+    if normalized is not None:
+        (path / "normalized.v").write_text(normalized)
     manifest = {"schema": SCHEMA, "run_id": run_id, "created_at": now(), "updated_at": now(),
-                "status": "created", "current_stage": None, "source": str(source),
+                "status": "created", "current_stage": None, "source": str(source), "design_type": design_type,
                 "configuration": config, "frontend": frontend,
                 "parameters": {"seed": args.seed, "timeout_s": args.timeout, "model": args.model,
-                               "algorithm": args.algorithm,
-                               "samples": args.samples, "energy_profile": args.energy_profile},
+                               "algorithm": args.algorithm, "clock_scheme":selected_clock,
+                               "samples": args.samples, "energy_profile": args.energy_profile,
+                               **({"ii_candidates":getattr(args, "ii_candidates", "4,8,12,16,24,32,48,64")} if design_type == "sequential" else {})},
                 "stages": {}, "artifacts": {}, "metrics": {},
                 "validation": {"rtl_equivalence": "not_performed", "physical_function": "not_verified",
                                "simulation_comparison": "baseline_vs_accelerated_only",
                                "energy": "model_estimate; not a power signoff"}}
-    for name in ("source.v", "normalized.v"):
+    for name in (("source.v", "normalized.v") if normalized is not None else ("source.v",)):
         register_artifact(path, manifest, name, path / name)
     if args.vectors:
         vector_source = Path(args.vectors).resolve()
@@ -243,21 +313,30 @@ def register_artifact(path, manifest, name, target):
                                    "bytes": target.stat().st_size, "sha256": digest(target)}
 
 
-def execute(command, path, step, manifest, timeout_s=None):
+def execute(command, path, step, manifest, timeout_s=None, env_extra=None, input_path=None, output_path=None):
     entry = manifest["stages"][step]
     entry.setdefault("commands", []).append([str(arg) for arg in command])
     write_json(path / "manifest.json", manifest)
     log_path = path / entry["log"]
-    with log_path.open("ab") as log:
+    with ExitStack() as streams, log_path.open("ab") as log:
+        # Only this process may supply a retry diagnostic. Earlier commands
+        # remain in the stage log but cannot turn a silent failure into UNSAT.
+        command_log_offset = log.tell()
         env = backend_environment(path)
+        if env_extra:
+            env.update(env_extra)
         if manifest["configuration"].get("build_dir"):
             env["IFCN_BUILD_DIR"] = manifest["configuration"]["build_dir"]
         if manifest["configuration"].get("mapping_binary"):
             env["IFCN_MAPPING_METRICS_EXE"] = manifest["configuration"]["mapping_binary"]
         if manifest["configuration"].get("native_pnr_binary"):
             env["IFCN_NATIVE_PNR"] = manifest["configuration"]["native_pnr_binary"]
+        if manifest["configuration"].get("regular_pnr_binary"):
+            env["IFCN_REGULAR_PNR"] = manifest["configuration"]["regular_pnr_binary"]
+        input_stream = streams.enter_context(Path(input_path).open("rb")) if input_path else subprocess.DEVNULL
+        output_stream = streams.enter_context(Path(output_path).open("wb")) if output_path else log
         child = subprocess.Popen([str(arg) for arg in command], cwd=path, env=env,
-                                 stdin=subprocess.DEVNULL, stdout=log, stderr=log, start_new_session=True)
+                                 stdin=input_stream, stdout=output_stream, stderr=log, start_new_session=True)
         begin = time.monotonic()
         try:
             while child.poll() is None:
@@ -288,7 +367,7 @@ def execute(command, path, step, manifest, timeout_s=None):
             except ProcessLookupError:
                 pass
         if child.returncode:
-            raise RuntimeError(f"{step} command exited with {child.returncode}. {tail(log_path, 1400)}")
+            raise RuntimeError(f"{step} command exited with {child.returncode}. {tail(log_path, 1400, start_offset=command_log_offset)}")
 
 
 def check_pnr(summary):
@@ -323,6 +402,33 @@ def qca_interface_report(qca, frontend, output):
     return report
 
 
+
+def physical_route_report(certificate, qca, interface, output, ifcn):
+    report = {"schema":"ifcn.qca.physical_routes.v1", "passed":False, "qca_sha256":digest(qca)}
+    required = {"ordered_route_continuity", "source_site_isolation", "layer_transition_columns", "route_site_coverage", "gate_connection_ports"}
+    try:
+        native = json.loads(Path(certificate).read_text())
+        if native.get("schema") != report["schema"] or native.get("passed") is not True:
+            raise ValueError("Strict physical route certificate is missing or failed")
+        if not required.issubset(native.get("checks", [])):
+            raise ValueError("Physical route certificate does not cover the required checks")
+        if native.get("cell_count") != interface["cell_count"]:
+            raise ValueError("Physical route certificate count disagrees with the actual QCA file")
+        if any(not isinstance(native.get(key), int) or isinstance(native.get(key), bool) or native[key] <= 0
+               for key in ("net_count", "route_count", "cell_count")):
+            raise ValueError("Physical route certificate has an empty or malformed routed network")
+        report.update(native)
+        report["qca_sha256"] = digest(qca)
+        report["ifcn_sha256"] = digest(ifcn)
+    except (ValueError, TypeError, OSError) as exc:
+        report["error"] = str(exc)
+        report["passed"] = False
+    write_json(output, report)
+    if not report["passed"]:
+        raise ValueError("Exported QCA failed strict physical route certification; see physical.json")
+    return report
+
+
 def record_logic(manifest, report):
     manifest["metrics"]["logic"] = {key: report[key] for key in
                                    ("status", "max_inputs", "vectors_checked", "expected_vector_count") if key in report}
@@ -330,91 +436,134 @@ def record_logic(manifest, report):
                                                   else "not_performed_input_limit_exceeded")
 
 
+def layout_variants(algorithm):
+    if algorithm == "normal_2ddwave":
+        return [("original", ["--initial-placement", "original"]), ("source_order_transposed", ["--initial-placement", "transposed"])]
+    if algorithm == "june_random":
+        return [("layer_redundancy_buffers", ["--topology", "layer_redundancy_buffers"]),
+                ("optimized_buffers", ["--topology", "optimized_buffers"])]
+    return [("default", [])]
+
+
 def run_pnr(directory, path, manifest):
     config, params = manifest["configuration"], manifest["parameters"]
     requested = params.get("algorithm", "normal_2ddwave")
     available = {item["id"]: item["available"] for item in algorithm_capabilities(config)}
-    candidates = list(ALGORITHMS) if requested == "auto" else [requested]
+    candidates = pnr_candidates(requested, params.get("clock_scheme"))
     attempts = []
     eligible = [name for name in candidates if available.get(name)]
     for name in candidates:
         if name not in eligible:
             attempts.append({"algorithm": name, "status": "unavailable", "reason": "Required backend executable is unavailable"})
     deadline = time.monotonic() + params["timeout_s"]
-    selected = None
+    selected, selected_variant, incumbent = None, None, None
     try:
         for index, algorithm in enumerate(eligible):
-            if STOP or (path / "cancel.request").exists():
-                raise InterruptedError("Cancellation requested.")
             remaining = deadline - time.monotonic()
-            if remaining < 1:
-                attempts.append({"algorithm": algorithm, "status": "budget_exhausted"})
-                continue
-            budget = max(1, int(remaining / (len(eligible) - index)))
-            target = directory / f"{index + 1:02d}_{algorithm}"
-            target.mkdir()
-            attempt = {"algorithm": algorithm, "status": "running", "budget_s": budget,
-                       "started_at": now(), "directory": str(target.relative_to(path))}
-            attempts.append(attempt)
-            begin = time.monotonic()
-            try:
-                execute([config["python"], config["backend"], "pnr", "--input",
-                         artifact_path(path, manifest["artifacts"]["normalized.v"]), "--output", target,
-                         "--algorithm", algorithm, "--seed", params["seed"], "--budget", min(240, max(1, budget - 2))],
-                        path, "pnr", manifest, timeout_s=budget)
-                summary = json.loads((target / "pnr.json").read_text())
-                check_pnr(summary)
-                if summary.get("algorithm", algorithm) != algorithm:
-                    raise ValueError("P&R reported a different algorithm than requested.")
-                logic = logic_report(artifact_path(path, manifest["artifacts"]["source.v"]),
-                                     target / "routed_dag.json", target / "logic.json")
-                # Detect lost physical terminals before selecting an auto
-                # candidate. Graph equivalence alone does not check its QCA I/O.
-                left = budget - (time.monotonic() - begin)
-                if left <= 0:
-                    raise TimeoutError("P&R candidate exhausted its budget before interface validation.")
-                execute([config["energy_binary"], summary["ifcn"], target / "interface_check", "--qca-only"],
-                        path, "pnr", manifest, timeout_s=left)
-                validated_qca = target / "interface_check_energy_input.qca"
-                interface = qca_interface_report(validated_qca, manifest["frontend"], target / "interface.json")
-                record_logic(manifest, logic)
-                manifest["validation"]["device_terminal_counts"] = "match_source_declarations"
-                for name, file in (("layout.ifcn", Path(summary["ifcn"])),
-                                   ("pnr.json", target / "pnr.json"), ("routed_dag.json", target / "routed_dag.json"),
-                                   ("logic.json", target / "logic.json"), ("interface.json", target / "interface.json"),
-                                   ("validated_device.qca", validated_qca)):
-                    register_artifact(path, manifest, name, file)
-                for file in sorted(target.iterdir()):
-                    if file.is_file() and file.suffix in {".svg", ".tex"}:
-                        register_artifact(path, manifest, f"pnr/{file.name}", file)
-                manifest["metrics"]["pnr"] = summary
-                manifest["metrics"]["device_interface"] = interface
-                attempt["status"] = "completed"
-                selected = algorithm
-                break
-            except InterruptedError:
-                attempt["status"] = "cancelled"
-                raise
-            except Exception as exc:
-                attempt.update(status="failed", error=str(exc))
-                if requested != "auto":
+            budget = max(0, remaining / (len(eligible) - index))
+            algorithm_deadline = time.monotonic() + budget
+            for variant, flags in layout_variants(algorithm):
+                if STOP or (path / "cancel.request").exists():
+                    raise InterruptedError("Cancellation requested.")
+                left = algorithm_deadline - time.monotonic()
+                if left < 1:
+                    attempts.append({"algorithm":algorithm,"variant":variant,"status":"budget_exhausted"})
+                    break
+                number = len(attempts) + 1
+                target = directory / f"{number:02d}_{algorithm}_{variant}"
+                target.mkdir()
+                attempt = {"algorithm":algorithm,"variant":variant,"status":"running","budget_s":round(left,3),
+                           "started_at":now(),"directory":str(target.relative_to(path))}
+                attempts.append(attempt)
+                begin = time.monotonic()
+                try:
+                    candidate_input = artifact_path(path, manifest["artifacts"]["normalized.v"])
+                    if variant == "source_order_transposed":
+                        normalized, _ = normalize_verilog(artifact_path(path, manifest["artifacts"]["source.v"]).read_text(), source_order=True)
+                        candidate_input = target / "placement_input.v"
+                        candidate_input.write_text(normalized)
+                        register_artifact(path, manifest, f"pnr_attempts/{number:02d}_{algorithm}_{variant}_input.v", candidate_input)
+                    execute([config["python"], config["backend"], "pnr", "--input",
+                             candidate_input, "--output", target,
+                             "--algorithm", algorithm, "--seed", params["seed"], "--budget", min(240,max(1,int(left)-2)),
+                             *(["--clock",params["clock_scheme"]] if params.get("clock_scheme") else []), *flags],
+                            path, "pnr", manifest, timeout_s=left)
+                    summary = json.loads((target / "pnr.json").read_text())
+                    check_pnr(summary)
+                    if summary.get("algorithm", algorithm) != algorithm:
+                        raise ValueError("P&R reported a different algorithm than requested.")
+                    if params.get("clock_scheme") and summary.get("clock_scheme") != params["clock_scheme"]:
+                        raise ValueError("P&R reported a different clock scheme than requested.")
+                    logic = logic_report(artifact_path(path, manifest["artifacts"]["source.v"]),
+                                         target / "routed_dag.json", target / "logic.json")
+                    clock = clock_arrival_report(summary["ifcn"], target / "routed_dag.json", target / "clock.json")
+                    left = algorithm_deadline - time.monotonic()
+                    if left <= 0:
+                        raise TimeoutError("P&R candidate exhausted its budget before interface validation.")
+                    execute([config["energy_binary"], summary["ifcn"], target / "interface_check", "--qca-only"],
+                            path, "pnr", manifest, timeout_s=left)
+                    validated_qca = target / "interface_check_energy_input.qca"
+                    interface = qca_interface_report(validated_qca, manifest["frontend"], target / "interface.json")
+                    physical = physical_route_report(target / "interface_check_physical_validation.json", validated_qca, interface, target / "physical.json", Path(summary["ifcn"]))
+                    area, cells = summary["area_tiles"], interface["cell_count"]
+                    attempt.update(status="completed", area_tiles=area, qca_cells=cells)
+                    # Preserve a fully checked incumbent. A smaller grid alone
+                    # must never win at the cost of more actual device cells.
+                    dominates = (incumbent is None or
+                                 area <= incumbent["area"] and cells <= incumbent["cells"] and
+                                 (area < incumbent["area"] or cells < incumbent["cells"]))
+                    if dominates:
+                        incumbent = {"area":area,"cells":cells,"summary":summary,"logic":logic,"interface":interface,
+                                     "target":target,"qca":validated_qca,"attempt":attempt,"clock":clock,"physical":physical}
+                        selected, selected_variant = algorithm, variant
+                    else:
+                        attempt["selection_reason"] = "Does not improve area and actual device count without regression"
+                except InterruptedError:
+                    attempt["status"] = "cancelled"
                     raise
-            finally:
-                attempt["elapsed_s"] = round(time.monotonic() - begin, 3)
-                summary_file = target / "pnr.json"
-                if summary_file.is_file() and summary_file.stat().st_size:
-                    register_artifact(path, manifest, f"pnr_attempts/{index + 1:02d}_{algorithm}.json", summary_file)
-                for report_name in ("logic", "interface"):
-                    file = target / f"{report_name}.json"
-                    if file.is_file():
-                        register_artifact(path, manifest, f"pnr_attempts/{index + 1:02d}_{algorithm}_{report_name}.json", file)
-        if selected is None:
+                except Exception as exc:
+                    attempt.update(status="failed", error=str(exc))
+                finally:
+                    attempt["elapsed_s"] = round(time.monotonic()-begin,3)
+                    for report_name in ("pnr", "logic", "clock", "physical", "interface"):
+                        file = target / f"{report_name}.json"
+                        if file.is_file() and file.stat().st_size:
+                            register_artifact(path, manifest, f"pnr_attempts/{number:02d}_{algorithm}_{variant}_{report_name}.json", file)
+            if incumbent is not None:
+                break
+        if incumbent is None:
             raise RuntimeError("No algorithm produced a validated layout; inspect pnr_attempts.json and stage log.")
+        if STOP or (path / "cancel.request").exists():
+            raise InterruptedError("Cancellation requested.")
+        summary, target = incumbent["summary"], incumbent["target"]
+        incumbent["attempt"]["selected"] = True
+        record_logic(manifest, incumbent["logic"])
+        manifest["validation"]["physical_routes"] = "source_isolation_and_ordered_paths_passed"
+        manifest["metrics"]["physical_routes"] = incumbent["physical"]
+        manifest["validation"]["clock_arrival"] = "cycle_zero_at_template_phase_passed"
+        manifest["metrics"]["clock_arrival"] = incumbent["clock"]
+        manifest["validation"]["device_terminal_counts"] = "match_source_declarations"
+        for name, file in (("layout.ifcn",Path(summary["ifcn"])),("pnr.json",target/"pnr.json"),
+                           ("routed_dag.json",target/"routed_dag.json"),("logic.json",target/"logic.json"),
+                           ("interface.json",target/"interface.json"),("clock.json",target/"clock.json"),("physical.json",target/"physical.json"),("validated_device.qca",incumbent["qca"])):
+            register_artifact(path,manifest,name,file)
+        if (target/"layout_candidate.json").is_file():
+            register_artifact(path,manifest,"layout_candidate.json",target/"layout_candidate.json")
+        for file in sorted(target.iterdir()):
+            if file.is_file() and file.suffix in {".svg",".tex"}:
+                register_artifact(path,manifest,f"pnr/{file.name}",file)
+        manifest["metrics"]["pnr"] = summary
+        manifest["metrics"]["device_interface"] = incumbent["interface"]
+    except InterruptedError:
+        selected, selected_variant = None, None
+        raise
     finally:
-        report = {"requested_algorithm": requested, "selected_algorithm": selected,
-                  "policy": "first validated result; no area-optimality claim", "attempts": attempts}
-        write_json(directory / "pnr_attempts.json", report)
-        register_artifact(path, manifest, "pnr_attempts.json", directory / "pnr_attempts.json")
+        report = {"requested_algorithm":requested,"requested_clock":params.get("clock_scheme"),
+                  "selected_algorithm":selected,"selected_variant":selected_variant,
+                  "policy":"First validated backend; bounded variants replace the valid baseline only when area and actual QCA cell count do not increase and at least one decreases; no global optimality claim",
+                  "attempts":attempts}
+        write_json(directory/"pnr_attempts.json",report)
+        register_artifact(path,manifest,"pnr_attempts.json",directory/"pnr_attempts.json")
         manifest["metrics"]["algorithm_selection"] = report
 
 
@@ -452,6 +601,13 @@ def energy_summary(report, period):
 
 
 def run_stage(step, directory, path, manifest):
+    if manifest.get("design_type") == "sequential" and step in {"parse", "pnr", "map"}:
+        return sequential.run_stage(sys.modules[__name__], step, directory, path, manifest)
+    if manifest.get("design_type") != "sequential" and step in {"map", "simulate", "energy"}:
+        validation = manifest.get("validation", {})
+        if (validation.get("clock_arrival") != "cycle_zero_at_template_phase_passed" or
+                validation.get("physical_routes") != "source_isolation_and_ordered_paths_passed"):
+            raise ValueError("This run lacks current clock-arrival and physical-route certification; start a new design run before continuing downstream.")
     config, params = manifest["configuration"], manifest["parameters"]
     artifacts = manifest["artifacts"]
     get = lambda name: artifact_path(path, artifacts[name])
@@ -523,14 +679,17 @@ def result_report(path, manifest):
                for name, artifact in manifest["artifacts"].items() if name != "result.json"}
     report = {"schema": "ifcn.pi.result.v1", "run_id": manifest["run_id"],
               "status": manifest["status"], "requested_until": manifest.get("requested_until"),
+              "design_type": manifest.get("design_type", "combinational"),
               "error": manifest.get("error"), "parameters": manifest["parameters"],
               "completed_stages": [name for name, item in manifest["stages"].items() if item["status"] == "completed"],
               "metrics": manifest["metrics"], "validation": manifest["validation"],
               "warnings": manifest.get("warnings", []), "sources": sources,
               "metric_sources": {"dag": "dag.json", "pnr": "pnr.json", "algorithm_selection": "pnr_attempts.json",
                                  "logic": "logic.json", "device_interface": "interface.json",
+                                  "clock_arrival": "clock.json", "physical_routes": "physical.json",
                                  "mapping.cell_count": "device.qca (counted by backend)",
-                                 "simulation": "simulation.json", "energy": "energy.json"},
+                                 "simulation": "simulation.json", "energy": "energy.json",
+                                  "sequential":"sequential_pnr.json", "state_transition":"sequential_validation.json"},
               "units": {"pnr.width": "gate-level tiles", "pnr.height": "gate-level tiles", "pnr.area_tiles": "gate-level tile positions",
                         "mapping.cell_count": "QCA device cells"},
               "reporting_rule": "Attribute metrics to the backend and the listed source. A listed file is not evidence that the LLM read it. Source/DAG Boolean equivalence and terminal counts do not prove device waveforms. Numerical engine agreement is not converged power."}
@@ -546,18 +705,30 @@ def worker(path, fd):
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGINT, stop)
     manifest = load_run(path)
+    if manifest.get("optimization") and manifest["optimization"].get("status") != "completed":
+        from ifcn_layout_optimization import run_worker as optimize_worker
+        return optimize_worker(sys.modules[__name__],path,fd)
     manifest.update(status="running", worker_pid=os.getpid(), updated_at=now())
     write_json(path / "manifest.json", manifest)
     try:
         verify_artifacts(path, manifest)
         # Legacy runs can resume, but their completed P&R/mapping stages do not
         # automatically satisfy the newly added correctness gates.
-        if (STAGES.index(manifest["requested_until"]) >= STAGES.index("pnr")
+        if (manifest.get("design_type") != "sequential"
+                and STAGES.index(manifest["requested_until"]) >= STAGES.index("pnr")
                 and manifest["stages"].get("pnr", {}).get("status") == "completed"):
             get = lambda name: artifact_path(path, manifest["artifacts"][name])
             report = logic_report(get("source.v"), get("routed_dag.json"), path / "resumed_logic.json")
             register_artifact(path, manifest, "logic.json", path / "resumed_logic.json")
             record_logic(manifest, report)
+            required_checks = {"clock_arrival":"cycle_zero_at_template_phase_passed",
+                               "physical_routes":"source_isolation_and_ordered_paths_passed"}
+            if (any(manifest.get("validation",{}).get(k) != v for k,v in required_checks.items()) or
+                    not {"clock.json","physical.json"}.issubset(manifest["artifacts"])):
+                raise ValueError("This historical run lacks current clock-arrival/physical-route certificates; start a new run for current design-rule validation.")
+            clock = clock_arrival_report(get("layout.ifcn"),get("routed_dag.json"),path/"resumed_clock.json")
+            register_artifact(path,manifest,"clock.json",path/"resumed_clock.json")
+            manifest["metrics"]["clock_arrival"] = clock
             qca_name = ("device.qca" if manifest["stages"].get("map", {}).get("status") == "completed"
                         else "validated_device.qca" if "validated_device.qca" in manifest["artifacts"] else None)
             if qca_name:
@@ -565,6 +736,13 @@ def worker(path, fd):
                 register_artifact(path, manifest, "interface.json", path / "resumed_interface.json")
                 manifest["metrics"]["device_interface"] = report
                 manifest["validation"]["device_terminal_counts"] = "match_source_declarations"
+                physical = json.loads(get("physical.json").read_text())
+                if (physical.get("qca_sha256") != digest(get(qca_name)) or
+                        physical.get("ifcn_sha256") != digest(get("layout.ifcn"))):
+                    raise ValueError("Physical-route certificate is not bound to the current IFCN/QCA files")
+                physical = physical_route_report(get("physical.json"),get(qca_name),report,path/"resumed_physical.json",get("layout.ifcn"))
+                register_artifact(path,manifest,"physical.json",path/"resumed_physical.json")
+                manifest["metrics"]["physical_routes"] = physical
             elif manifest["requested_until"] == "pnr":
                 raise ValueError("Legacy P&R has no device-interface evidence; resume through map to validate it, or start a new run.")
         for step in STAGES[:STAGES.index(manifest["requested_until"]) + 1]:
@@ -586,7 +764,10 @@ def worker(path, fd):
             write_json(path / "manifest.json", manifest)
         warning = (manifest["metrics"].get("energy", {}).get("numerical_status") == "invalid_negative_bath_energy"
                    or bool(manifest.get("warnings")))
-        manifest.update(status="completed_with_warnings" if warning else "completed", error=None)
+        result_status = "completed_with_warnings" if warning else "completed"
+        if manifest.get("design_type") == "sequential" and manifest["requested_until"] in {"pnr", "map"}:
+            result_status = "layout_candidate"
+        manifest.update(status=result_status, error=None)
     except Exception as exc:
         manifest["status"] = "cancelled" if isinstance(exc, InterruptedError) else "failed"
         manifest["error"] = str(exc)
@@ -606,6 +787,16 @@ def positive(value):
     return number
 
 
+def ii_candidates(value):
+    try:
+        numbers = [int(item) for item in value.split(",")]
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("II candidates must be comma-separated integers") from exc
+    if not numbers or len(numbers) > 16 or any(n < 1 or n > 4096 for n in numbers):
+        raise argparse.ArgumentTypeError("Provide 1..16 II candidates, each in 1..4096")
+    return ",".join(str(n) for n in dict.fromkeys(numbers))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--runs-dir", default=os.environ.get("IFCN_RUNS_DIR", str(ROOT / "output/pi-runs")))
@@ -614,19 +805,32 @@ def main():
     probe.add_argument("--deep", action="store_true")
     start = commands.add_parser("start")
     start.add_argument("input")
-    start.add_argument("--until", choices=STAGES, default="energy")
+    start.add_argument("--until", choices=STAGES)
+    start.add_argument("--design-type", choices=["combinational", "sequential"], default="combinational")
+    start.add_argument("--ii-candidates", type=ii_candidates, default="4,8,12,16,24,32,48,64")
     start.add_argument("--seed", type=int, default=1)
-    start.add_argument("--algorithm", choices=(*ALGORITHMS, "auto"), default="normal_2ddwave")
+    start.add_argument("--algorithm", choices=(*ALGORITHMS, "sequential_cyclic", "auto"))
+    start.add_argument("--clock", choices=CLOCK_SCHEMES)
     start.add_argument("--timeout", type=positive, default=600)
     start.add_argument("--samples", type=positive, default=512)
     start.add_argument("--model", choices=["bistable", "coherence", "both"], default="bistable")
     start.add_argument("--energy-profile", choices=["preview", "standard"], default="standard")
     start.add_argument("--vectors")
+    optimize = commands.add_parser("optimize")
+    optimize.add_argument("run_id")
+    optimize.add_argument("--policy", choices=("llm","random","noop","heuristic"), default="llm")
+    optimize.add_argument("--rounds", type=int, default=3)
+    optimize.add_argument("--seed", type=int, default=1)
+    optimize.add_argument("--candidate-timeout", type=int, default=20)
+    optimize.add_argument("--model-timeout", type=int, default=60)
+    optimize.add_argument("--provider")
+    optimize.add_argument("--model-id")
+    optimize.add_argument("--until", choices=("map",), default="map")
     for name in ("status", "cancel", "resume", "read", "worker"):
         cmd = commands.add_parser(name)
         cmd.add_argument("run_id")
         if name == "resume":
-            cmd.add_argument("--until", choices=STAGES, default="energy")
+            cmd.add_argument("--until", choices=STAGES)
         elif name == "read":
             cmd.add_argument("artifact")
         elif name == "worker":
@@ -638,6 +842,9 @@ def main():
             result = doctor(args.deep)
         elif args.command == "start":
             result = create_run(args, base)
+        elif args.command == "optimize":
+            from ifcn_layout_optimization import create_run as create_optimization
+            result = create_optimization(sys.modules[__name__],args,base)
         else:
             path = run_path(base, args.run_id)
             if args.command == "worker":

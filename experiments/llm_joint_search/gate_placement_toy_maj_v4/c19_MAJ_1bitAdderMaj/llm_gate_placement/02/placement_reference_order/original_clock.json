@@ -1,0 +1,223 @@
+{
+  "schema": "ifcn.clock_arrival.v1",
+  "passed": false,
+  "launch_policy": "cycle_zero_at_template_phase",
+  "phase_count": 4,
+  "relative_schedule_consistent": false,
+  "required_input_cycle_offsets": null,
+  "input_schedule_applied": false,
+  "mismatches": [
+    {
+      "node": 4,
+      "name": "ifcn_tmp_0",
+      "incoming_ticks": [
+        {
+          "source": 0,
+          "min": 4,
+          "max": 4
+        },
+        {
+          "source": 1,
+          "min": 8,
+          "max": 8
+        }
+      ]
+    },
+    {
+      "node": 7,
+      "name": "ifcn_tmp_2",
+      "incoming_ticks": [
+        {
+          "source": 0,
+          "min": 5,
+          "max": 5
+        },
+        {
+          "source": 5,
+          "min": 13,
+          "max": 13
+        }
+      ]
+    },
+    {
+      "node": 10,
+      "name": "ifcn_tmp_5",
+      "incoming_ticks": [
+        {
+          "source": 1,
+          "min": 5,
+          "max": 5
+        },
+        {
+          "source": 5,
+          "min": 13,
+          "max": 13
+        }
+      ]
+    },
+    {
+      "node": 8,
+      "name": "ifcn_tmp_3",
+      "incoming_ticks": [
+        {
+          "source": 4,
+          "min": 7,
+          "max": 11
+        },
+        {
+          "source": 7,
+          "min": 7,
+          "max": 15
+        }
+      ]
+    },
+    {
+      "node": 11,
+      "name": "n4",
+      "incoming_ticks": [
+        {
+          "source": 8,
+          "min": 10,
+          "max": 18
+        },
+        {
+          "source": 10,
+          "min": 14,
+          "max": 22
+        }
+      ]
+    },
+    {
+      "node": 3,
+      "name": "y0",
+      "incoming_ticks": [
+        {
+          "source": 11,
+          "min": 14,
+          "max": 26
+        }
+      ]
+    }
+  ],
+  "relative_schedule_conflicts": [
+    {
+      "from": 5,
+      "to": 10,
+      "expected": 3,
+      "actual": -1
+    },
+    {
+      "from": 10,
+      "to": 5,
+      "expected": -3,
+      "actual": 1
+    }
+  ],
+  "nodes_checked": 10,
+  "routes_checked": 12,
+  "arrival_tick_ranges": {
+    "0": [
+      2,
+      2
+    ],
+    "1": [
+      1,
+      1
+    ],
+    "2": [
+      3,
+      3
+    ],
+    "4": [
+      4,
+      8
+    ],
+    "5": [
+      11,
+      11
+    ],
+    "7": [
+      5,
+      13
+    ],
+    "10": [
+      5,
+      13
+    ],
+    "8": [
+      7,
+      15
+    ],
+    "11": [
+      10,
+      22
+    ],
+    "3": [
+      14,
+      26
+    ]
+  },
+  "route_delays": [
+    {
+      "source": 0,
+      "target": 4,
+      "ticks": 2
+    },
+    {
+      "source": 0,
+      "target": 7,
+      "ticks": 3
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "ticks": 7
+    },
+    {
+      "source": 1,
+      "target": 10,
+      "ticks": 4
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "ticks": 8
+    },
+    {
+      "source": 4,
+      "target": 8,
+      "ticks": 3
+    },
+    {
+      "source": 5,
+      "target": 7,
+      "ticks": 2
+    },
+    {
+      "source": 5,
+      "target": 10,
+      "ticks": 2
+    },
+    {
+      "source": 7,
+      "target": 8,
+      "ticks": 2
+    },
+    {
+      "source": 8,
+      "target": 11,
+      "ticks": 3
+    },
+    {
+      "source": 10,
+      "target": 11,
+      "ticks": 9
+    },
+    {
+      "source": 11,
+      "target": 3,
+      "ticks": 4
+    }
+  ],
+  "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+}

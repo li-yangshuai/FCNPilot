@@ -1,0 +1,524 @@
+{
+  "initial": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "selected": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "selected_round": null,
+  "selected_artifact_source": "inputs/warm_start",
+  "port_policy": "movable",
+  "round_budget": 2,
+  "rounds_completed": 2,
+  "budget_complete": true,
+  "model_request_attempts": 2,
+  "successful_model_proposals": 2,
+  "backend_evaluation_attempts": 0,
+  "native_execution_reports": 0,
+  "diagnostic_backend_evaluation_attempts": 0,
+  "outcomes": {
+    "failed": 2
+  },
+  "model_errors": {},
+  "final_node_changes": [],
+  "selected_hashes": {
+    "device_energy_input.qca": "595fb3ca0d2515b28c627ebacb977caf27e34a506e4b9aacb82eb6caa0d1b3e0",
+    "interface.json": "3b9107be1b2d62cbc1dc7a502f79224eb6031f51f008f4f25609e43c99ed9515",
+    "logic.json": "ee6672dbc0d3b0a47d5ba761ad445ca707b87dd89df9570add80c30a4f7747a3",
+    "layout_candidate.json": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+    "normalized.v": "36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525",
+    "layout.ifcn": "f0392cbdb1e901442dc0ca7b4690b7d1ace6c290485c2f984e42597f35107b53",
+    "source.v": "8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17",
+    "physical.json": "1c8d4f546ea26fcae2f9a4e3153598fdafc75a05b54f23ab45eef8b66d3f38fa",
+    "clock.json": "6bbb6dd975556eb5a342e38103fa71fc5c0b502cd79ef2f71e3bea5758696965",
+    "routed_dag.json": "f1db9a763c6a6d8ef70dbe310a739aa58faa11f429ff67cce77c65cd2bc6f658"
+  },
+  "source_and_DAG_unchanged": true,
+  "rounds": [
+    {
+      "round": 1,
+      "status": "failed",
+      "start_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "cumulative_round": 5,
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 13857,
+        "output": 422,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 14279
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "model_proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              23,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              23
+            ]
+          }
+        ],
+        "routing_order": null,
+        "rationale": "Node 7 is currently at (27,25), creating a rightward protrusion; moving it left to (23,24) aligns it with the median neighbor xy [24,23] and reduces x-extent. Node 8 at (24,28) is vertically isolated; shifting to (24,26) shortens its fanin from 4 and 7 and places it closer to node 11’s y=31 while staying in a sparse band (y=26–27, x=24–25). Node 10 moves from (22,25) to (22,23) to co-locate with node 5’s y=23 and reduce detour on edge (5,10) and (10,11); this also frees y=25 for vertical routing. All three moves are within vacancy hotspots (e.g., window_18_29_22_34: [18,21]×[26,29]), avoid collisions, and contract internal density without altering port envelope—leftmost port remains id=1 at x=20, rightmost internal node now id=8 at x=24 (vs prior id=7 at x=27), enabling width reduction potential. No port moved; only internal gates relocated per requirement."
+      },
+      "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              23,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              23
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            1,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "Node 7 is currently at (27,25), creating a rightward protrusion; moving it left to (23,24) aligns it with the median neighbor xy [24,23] and reduces x-extent. Node 8 at (24,28) is vertically isolated; shifting to (24,26) shortens its fanin from 4 and 7 and places it closer to node 11’s y=31 while staying in a sparse band (y=26–27, x=24–25). Node 10 moves from (22,25) to (22,23) to co-locate with node 5’s y=23 and reduce detour on edge (5,10) and (10,11); this also frees y=25 for vertical routing. All three moves are within vacancy hotspots (e.g., window_18_29_22_34: [18,21]×[26,29]), avoid collisions, and contract internal density without altering port envelope—leftmost port remains id=1 at x=20, rightmost internal node now id=8 at x=24 (vs prior id=7 at x=27), enabling width reduction potential. No port moved; only internal gates relocated per requirement."
+      },
+      "error": "Node collision: [{\"xy\": [22, 23], \"node_ids\": [5, 10]}]; assign distinct final coordinates to these nodes",
+      "model_error": null,
+      "retained_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "next_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "elapsed_s": 10.587838378000015
+    },
+    {
+      "round": 2,
+      "status": "failed",
+      "start_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "best_metrics_before": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "cumulative_round": 6,
+      "model": {
+        "provider": "new-provider",
+        "modelId": "qwen3-vl-plus"
+      },
+      "usage": {
+        "input": 13642,
+        "output": 444,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 14086
+      },
+      "proposal_origin": "direct_llm_gate_action",
+      "model_proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              24,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "swap",
+            "nodes": [
+              5,
+              11
+            ]
+          }
+        ],
+        "routing_order": null,
+        "rationale": "Contract internal core: node 7 moves left from x=27 to x=24 (aligning with neighbor median [24,23] and eliminating right protrusion), node 10 shifts down to y=24 to avoid collision with node 5 at (22,23) and reduce detour on (5,10) and (10,11); node 8 moves down to y=26 to shorten fanin paths and sit in sparse band (window_21_27_25_31 vacancy hotspot). Swap nodes 5 and 11: 5 (currently at y=23) moves to 11’s (23,31) position—this relocates the NOT gate higher, freeing y=23–25 for vertical routing and placing it closer to its fanouts (7,10); 11 moves to (22,23), co-locating with 10’s new x and reducing horizontal span. All final positions are collision-free, within bounds, and target vacancy hotspots (e.g., [22,24]×[24,25], [24,26]×[24,26]). This coordinated move reduces max_x from 27→24 and may shrink width while preserving port envelope; internal density improves without altering PI/PO identities."
+      },
+      "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+      "proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 7,
+            "to": [
+              24,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              24,
+              26
+            ]
+          },
+          {
+            "op": "swap",
+            "nodes": [
+              5,
+              11
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            10
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            4,
+            8
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "rationale": "Contract internal core: node 7 moves left from x=27 to x=24 (aligning with neighbor median [24,23] and eliminating right protrusion), node 10 shifts down to y=24 to avoid collision with node 5 at (22,23) and reduce detour on (5,10) and (10,11); node 8 moves down to y=26 to shorten fanin paths and sit in sparse band (window_21_27_25_31 vacancy hotspot). Swap nodes 5 and 11: 5 (currently at y=23) moves to 11’s (23,31) position—this relocates the NOT gate higher, freeing y=23–25 for vertical routing and placing it closer to its fanouts (7,10); 11 moves to (22,23), co-locating with 10’s new x and reducing horizontal span. All final positions are collision-free, within bounds, and target vacancy hotspots (e.g., [22,24]×[24,25], [24,26]×[24,26]). This coordinated move reduces max_x from 27→24 and may shrink width while preserving port envelope; internal density improves without altering PI/PO identities."
+      },
+      "error": "Node collision: [{\"xy\": [24, 23], \"node_ids\": [4, 7]}]; assign distinct final coordinates to these nodes",
+      "model_error": null,
+      "retained_metrics": {
+        "width": 8,
+        "height": 15,
+        "area_tiles": 120,
+        "qca_cells": 308,
+        "edge_steps": 64,
+        "output_arrival_ticks": {
+          "3": [
+            14,
+            14
+          ]
+        }
+      },
+      "next_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+      "elapsed_s": 14.873697145001643
+    }
+  ],
+  "warm_start": {
+    "study_dir": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4",
+    "case_id": "MAJ/1bitAdderMaj.v",
+    "policy": "deterministic_gate",
+    "port_policy": "movable",
+    "original_initial_metrics": {
+      "width": 8,
+      "height": 15,
+      "area_tiles": 120,
+      "qca_cells": 308,
+      "edge_steps": 64,
+      "output_arrival_ticks": {
+        "3": [
+          14,
+          14
+        ]
+      }
+    },
+    "prefix_selected_metrics": {
+      "width": 8,
+      "height": 15,
+      "area_tiles": 120,
+      "qca_cells": 308,
+      "edge_steps": 64,
+      "output_arrival_ticks": {
+        "3": [
+          14,
+          14
+        ]
+      }
+    },
+    "prefix_round_budget": 4,
+    "prefix_rounds_completed": 4,
+    "prefix_backend_evaluation_attempts": 4,
+    "prefix_selected_round": null,
+    "seed_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+    "selected_hashes": {
+      "device_energy_input.qca": "595fb3ca0d2515b28c627ebacb977caf27e34a506e4b9aacb82eb6caa0d1b3e0",
+      "interface.json": "3b9107be1b2d62cbc1dc7a502f79224eb6031f51f008f4f25609e43c99ed9515",
+      "logic.json": "ee6672dbc0d3b0a47d5ba761ad445ca707b87dd89df9570add80c30a4f7747a3",
+      "layout_candidate.json": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+      "normalized.v": "36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525",
+      "layout.ifcn": "f0392cbdb1e901442dc0ca7b4690b7d1ace6c290485c2f984e42597f35107b53",
+      "source.v": "8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17",
+      "physical.json": "1c8d4f546ea26fcae2f9a4e3153598fdafc75a05b54f23ab45eef8b66d3f38fa",
+      "clock.json": "6bbb6dd975556eb5a342e38103fa71fc5c0b502cd79ef2f71e3bea5758696965",
+      "routed_dag.json": "f1db9a763c6a6d8ef70dbe310a739aa58faa11f429ff67cce77c65cd2bc6f658"
+    },
+    "source_hashes": {
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/audit.json": "086b6239a4be36e9af744fbba086d37bb3fdd26654ecd074e9bb710ecd12dabe",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/protocol.json": "a85fc63a58b69d5882dad85692f13db608c933b91bccd0d4e5a5e5bf5dae58f0",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/summary.json": "3d8c64d105f9b3efb05bc4176beb27420d5f5c09e754e7dd7a1a38eaace20efc",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/summary.json": "beb60dbc5d40d8426f631407f79bbb5ffa76f026758086af829f13b797294dbb",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/selected/device_energy_input.qca": "595fb3ca0d2515b28c627ebacb977caf27e34a506e4b9aacb82eb6caa0d1b3e0",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/selected/interface.json": "3b9107be1b2d62cbc1dc7a502f79224eb6031f51f008f4f25609e43c99ed9515",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/selected/logic.json": "ee6672dbc0d3b0a47d5ba761ad445ca707b87dd89df9570add80c30a4f7747a3",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/selected/layout_candidate.json": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/selected/normalized.v": "36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/selected/layout.ifcn": "f0392cbdb1e901442dc0ca7b4690b7d1ace6c290485c2f984e42597f35107b53",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/selected/source.v": "8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/selected/physical.json": "1c8d4f546ea26fcae2f9a4e3153598fdafc75a05b54f23ab45eef8b66d3f38fa",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/selected/clock.json": "6bbb6dd975556eb5a342e38103fa71fc5c0b502cd79ef2f71e3bea5758696965",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/selected/routed_dag.json": "f1db9a763c6a6d8ef70dbe310a739aa58faa11f429ff67cce77c65cd2bc6f658",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/01/result.json": "46617fd78dabbfa4fe71355db5a2750aa369368bc4d2099b018879b53268daae",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/01/candidate/start.json": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/01/candidate/proposal.json": "be0c221d87105490d089ff0049ce4f319d195d22b45fec9e0f746913bbae20fd",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/02/result.json": "fa119c72845ff3d98e2af72d6d0e64cc6fbb0abeb6acc6573053fdaceb7deb83",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/02/candidate/start.json": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/02/candidate/proposal.json": "94eac6c348e9bb974880aa28a65a1d0e409b1609d6e3ec8f859b92582fed6bbc",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/03/result.json": "e8d36b390cfb541708a48da68e14add552e69d923904cda56d4d4efd41b99b62",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/03/candidate/start.json": "0fb7589391195723531a89bc87a4d1e50e93b8d24e29004bcbe5baf78d1e4c01",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/03/candidate/proposal.json": "57620c7d9f8159bd2405f517e16b2e8ae0af69e3639838ddec5ecc5c67267603",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/04/result.json": "3ae8042e0223caca5d361656d7f4b0f3fe7e460fa3f4a995ab925ac64c60f28d",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/04/candidate/start.json": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+      "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c19_MAJ_1bitAdderMaj/deterministic_gate/04/candidate/proposal.json": "3f9e1ce41549fd9c9e4c7c805cd81cd5eb483c642563fdd804f88e6b4c20d0ed"
+    },
+    "verification_scope": "Archived deterministic prefix only; source/DAG and clock rechecked; audited QCA physical certificate and interface rechecked without rerouting, remapping or dynamics simulation."
+  },
+  "original_initial": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "gain_reference": "initial is the deterministic prefix selected result; original_initial is the pre-prefix native layout",
+  "incremental_gain": {
+    "area_reduction_pct": 0.0,
+    "qca_reduction_pct": 0.0
+  },
+  "total_gain": {
+    "area_reduction_pct": 0.0,
+    "qca_reduction_pct": 0.0
+  },
+  "cumulative_round_budget": 6,
+  "cumulative_rounds_completed": 6,
+  "cumulative_backend_evaluation_attempts": 4
+}

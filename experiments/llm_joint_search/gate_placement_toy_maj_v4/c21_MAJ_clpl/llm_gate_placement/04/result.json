@@ -1,0 +1,512 @@
+{
+  "round": 4,
+  "status": "failed",
+  "start_metrics": {
+    "width": 29,
+    "height": 42,
+    "area_tiles": 1218,
+    "qca_cells": 2564,
+    "edge_steps": 546,
+    "output_arrival_ticks": {
+      "11": [
+        31,
+        31
+      ],
+      "12": [
+        18,
+        18
+      ],
+      "13": [
+        30,
+        30
+      ],
+      "14": [
+        45,
+        45
+      ],
+      "15": [
+        41,
+        41
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 29,
+    "height": 42,
+    "area_tiles": 1218,
+    "qca_cells": 2564,
+    "edge_steps": 546,
+    "output_arrival_ticks": {
+      "11": [
+        31,
+        31
+      ],
+      "12": [
+        18,
+        18
+      ],
+      "13": [
+        30,
+        30
+      ],
+      "14": [
+        45,
+        45
+      ],
+      "15": [
+        41,
+        41
+      ]
+    }
+  },
+  "start_state": "972b9d7b67d3b182616e216b362cb2d9a155731b0586ef07f5a18b1758e8a8a4",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 4440,
+    "output": 621,
+    "cacheRead": 27008,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 32069
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 34,
+        "to": [
+          28,
+          44
+        ]
+      },
+      {
+        "op": "move",
+        "node": 35,
+        "to": [
+          27,
+          44
+        ]
+      },
+      {
+        "op": "move",
+        "node": 36,
+        "to": [
+          27,
+          47
+        ]
+      },
+      {
+        "op": "move",
+        "node": 39,
+        "to": [
+          23,
+          52
+        ]
+      },
+      {
+        "op": "move",
+        "node": 40,
+        "to": [
+          25,
+          52
+        ]
+      },
+      {
+        "op": "move",
+        "node": 41,
+        "to": [
+          24,
+          55
+        ]
+      },
+      {
+        "op": "move",
+        "node": 49,
+        "to": [
+          27,
+          55
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          31,
+          32
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Target high-detour edges ([33,34] steps=22, [37,39] steps=32, [43,38] steps=31) by compacting the y=44–58 suffix using verified vacancy hotspots: window_24_36_41_53 (x=28–31,y=49–53 empty band) and window_18_36_40_63 (x=18–23,y=56–63). Move 34/35 to y=44 aligns with neighbor median [29,42] and avoids collisions; 36→[27,47] reduces vertical slack to 49. Lower 39/40/41 to y=52/55 to fit vacancy at x=23–25,y=52–55 and match output y=61−6. Node 49 stays at y=55 to preserve fanout geometry for [49,15] and [49,40]. Swap 31↔32 repositions the critical-path junction into denser vacancy (window_27_33_44_50: x=29–30,y=48–50) improving local fanout symmetry without altering bounding box. All moves stay within bounds, avoid collisions, use only internal nodes, and coordinate contraction to reduce max_y from 61 to 55 while preserving min_y=20—targeting area reduction without port movement."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 34,
+        "to": [
+          28,
+          44
+        ]
+      },
+      {
+        "op": "move",
+        "node": 35,
+        "to": [
+          27,
+          44
+        ]
+      },
+      {
+        "op": "move",
+        "node": 36,
+        "to": [
+          27,
+          47
+        ]
+      },
+      {
+        "op": "move",
+        "node": 39,
+        "to": [
+          23,
+          52
+        ]
+      },
+      {
+        "op": "move",
+        "node": 40,
+        "to": [
+          25,
+          52
+        ]
+      },
+      {
+        "op": "move",
+        "node": 41,
+        "to": [
+          24,
+          55
+        ]
+      },
+      {
+        "op": "move",
+        "node": 49,
+        "to": [
+          27,
+          55
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          31,
+          32
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        3,
+        21
+      ],
+      [
+        1,
+        16
+      ],
+      [
+        2,
+        19
+      ],
+      [
+        4,
+        18
+      ],
+      [
+        5,
+        17
+      ],
+      [
+        8,
+        20
+      ],
+      [
+        0,
+        17
+      ],
+      [
+        6,
+        18
+      ],
+      [
+        7,
+        16
+      ],
+      [
+        9,
+        20
+      ],
+      [
+        10,
+        19
+      ],
+      [
+        19,
+        40
+      ],
+      [
+        43,
+        38
+      ],
+      [
+        45,
+        32
+      ],
+      [
+        20,
+        35
+      ],
+      [
+        16,
+        30
+      ],
+      [
+        42,
+        28
+      ],
+      [
+        18,
+        25
+      ],
+      [
+        44,
+        22
+      ],
+      [
+        16,
+        27
+      ],
+      [
+        17,
+        21
+      ],
+      [
+        18,
+        23
+      ],
+      [
+        19,
+        37
+      ],
+      [
+        20,
+        33
+      ],
+      [
+        42,
+        27
+      ],
+      [
+        43,
+        37
+      ],
+      [
+        44,
+        23
+      ],
+      [
+        45,
+        33
+      ],
+      [
+        37,
+        39
+      ],
+      [
+        33,
+        34
+      ],
+      [
+        27,
+        29
+      ],
+      [
+        23,
+        24
+      ],
+      [
+        21,
+        22
+      ],
+      [
+        22,
+        24
+      ],
+      [
+        46,
+        25
+      ],
+      [
+        25,
+        26
+      ],
+      [
+        24,
+        26
+      ],
+      [
+        26,
+        28
+      ],
+      [
+        28,
+        29
+      ],
+      [
+        47,
+        30
+      ],
+      [
+        30,
+        31
+      ],
+      [
+        29,
+        31
+      ],
+      [
+        31,
+        32
+      ],
+      [
+        32,
+        34
+      ],
+      [
+        48,
+        35
+      ],
+      [
+        34,
+        36
+      ],
+      [
+        35,
+        36
+      ],
+      [
+        36,
+        38
+      ],
+      [
+        49,
+        40
+      ],
+      [
+        38,
+        39
+      ],
+      [
+        39,
+        41
+      ],
+      [
+        40,
+        41
+      ],
+      [
+        1,
+        42
+      ],
+      [
+        2,
+        43
+      ],
+      [
+        4,
+        44
+      ],
+      [
+        8,
+        45
+      ],
+      [
+        21,
+        46
+      ],
+      [
+        46,
+        13
+      ],
+      [
+        26,
+        47
+      ],
+      [
+        47,
+        12
+      ],
+      [
+        31,
+        48
+      ],
+      [
+        48,
+        11
+      ],
+      [
+        36,
+        49
+      ],
+      [
+        49,
+        15
+      ],
+      [
+        41,
+        14
+      ]
+    ],
+    "rationale": "Target high-detour edges ([33,34] steps=22, [37,39] steps=32, [43,38] steps=31) by compacting the y=44–58 suffix using verified vacancy hotspots: window_24_36_41_53 (x=28–31,y=49–53 empty band) and window_18_36_40_63 (x=18–23,y=56–63). Move 34/35 to y=44 aligns with neighbor median [29,42] and avoids collisions; 36→[27,47] reduces vertical slack to 49. Lower 39/40/41 to y=52/55 to fit vacancy at x=23–25,y=52–55 and match output y=61−6. Node 49 stays at y=55 to preserve fanout geometry for [49,15] and [49,40]. Swap 31↔32 repositions the critical-path junction into denser vacancy (window_27_33_44_50: x=29–30,y=48–50) improving local fanout symmetry without altering bounding box. All moves stay within bounds, avoid collisions, use only internal nodes, and coordinate contraction to reduce max_y from 61 to 55 while preserving min_y=20—targeting area reduction without port movement."
+  },
+  "matches_shared_hint_positions": false,
+  "error": "Repeated exact gate-state/action pair; slot consumed without another native call",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 29,
+    "height": 42,
+    "area_tiles": 1218,
+    "qca_cells": 2564,
+    "edge_steps": 546,
+    "output_arrival_ticks": {
+      "11": [
+        31,
+        31
+      ],
+      "12": [
+        18,
+        18
+      ],
+      "13": [
+        30,
+        30
+      ],
+      "14": [
+        45,
+        45
+      ],
+      "15": [
+        41,
+        41
+      ]
+    }
+  },
+  "next_state": "972b9d7b67d3b182616e216b362cb2d9a155731b0586ef07f5a18b1758e8a8a4",
+  "elapsed_s": 21.234012311000697
+}

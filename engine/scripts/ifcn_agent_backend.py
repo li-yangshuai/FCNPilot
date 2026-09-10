@@ -10,10 +10,11 @@ import time
 from types import SimpleNamespace
 
 from ifcn_agent_layout_validation import dag_from_candidate, export_native_ifcn, validate_candidate
+from ifcn_agent_clock_validation import validate_clock_arrivals, clock_arrival_report
 
 ROOT = Path(__file__).resolve().parents[1]
 ALGORITHM = ROOT / 'python/placement'
-ALGORITHMS = ('normal_2ddwave', 'compact', 'june_random')
+ALGORITHMS = ('normal_2ddwave', 'compact', 'june_random', 'regular_clock_ga')
 sys.path[:0] = [str(ALGORITHM), str(ALGORITHM / 'main')]
 os.environ.setdefault('MPLBACKEND', 'Agg')
 os.environ.setdefault('IFCN_GCN_RL_PARSE_MODE', 'compact')
@@ -46,7 +47,9 @@ def write_dag(parsed, output):
     output.with_suffix('.dot').write_text('\n'.join(dot + ['}', '']))
 
 
-def native_binary():
+def native_binary(algorithm=None):
+    if algorithm == "regular_clock_ga":
+        return Path(os.environ.get("IFCN_REGULAR_PNR", str(Path(os.environ.get("IFCN_BUILD_DIR", str(ROOT / "build"))) / "ifcn_regular_clock_pnr")))
     return Path(os.environ.get('IFCN_NATIVE_PNR', str(Path(os.environ.get('IFCN_BUILD_DIR', str(ROOT / 'build'))) / 'ifcn_combinational_pnr')))
 
 
@@ -78,7 +81,7 @@ def run_normal(args, out, summary):
                               max_expansion_rounds=96, route_expansion_timeout_sec=args.budget,
                               template_expansion_rounds=24, verbose=False, route_repair_iters=3,
                               phase_repair_iters=2, global_place_iters=5, compact_iters=64)
-    summary['algorithm_parameters'] = vars(options) | {'seed':args.seed, 'phase_count':4}
+    summary['algorithm_parameters'] = vars(options) | {'seed':args.seed, 'phase_count':4, 'initial_placement':args.initial_placement or 'environment_default'}
     trial = run_layout_trial(options, args.input, str(out), '', args.seed, 0)
     draw = trial['draw']
     candidate = normal_candidate(draw)
@@ -109,7 +112,9 @@ def run_normal(args, out, summary):
 
 
 def run_native(args, out, summary):
-    executable = native_binary()
+    native_started = time.monotonic()
+    executable = (Path(os.environ.get("IFCN_LAYOUT_EDIT", str(Path(os.environ.get("IFCN_BUILD_DIR", str(ROOT/"build")))/"ifcn_layout_edit")))
+                  if getattr(args,"edit_baseline",None) else native_binary(args.algorithm))
     if not executable.is_file() or not os.access(executable,os.X_OK):
         raise RuntimeError(f'Native P&R executable is unavailable: {executable}; build target ifcn_combinational_pnr.')
     summary['algorithm_parameters'] = (
@@ -117,19 +122,41 @@ def run_native(args, out, summary):
          'route_order_retries':12, 'max_expansion_rounds':8, 'search_cost':240, 'max_same_phase':4,
          'topology':'optimized_buffers'} if args.algorithm=='compact' else
         {'graphviz_grid_size':40, 'route_order_retries':24, 'search_cost':40,
-         'max_same_phase':None, 'topology':'layer_redundancy_buffers'})
-    summary['algorithm_parameters'].update(phase_count=4, timeout_s=args.budget, seed_control='not_exposed_by_native_algorithm')
+         'max_same_phase':None, 'topology':args.topology or 'layer_redundancy_buffers'})
+    if args.algorithm == 'regular_clock_ga':
+        summary['algorithm_parameters'] = {'clock_scheme':args.clock, 'seed':args.seed, 'objective':'area_and_device_cells_after_hard_drc'}
+    if getattr(args,'edit_baseline',None):
+        summary['algorithm_parameters'] = {'io_coordinates_locked':bool(getattr(args,'lock_io',False)), 'initial_placement':'exact_recorded_proposal',
+            'route_order_retries':24,'search_cost':40,'padding':2,'topology':'fixed_baseline_dag',
+            'max_same_phase':4 if args.algorithm=='compact' else 10,
+            'max_same_phase_step_fraction':None if args.algorithm=='compact' else 0.3,
+            'automatic_node_placement':False,'node_expansion_or_compression':False}
+    summary['algorithm_parameters'].update(phase_count=4, timeout_s=args.budget,
+                                           seed_control='exposed' if args.algorithm=='regular_clock_ga' else 'not_exposed_by_native_algorithm')
     candidate_path = out/'layout_candidate.json'
     with (out/'native.log').open('w') as log:
         try:
-            result = subprocess.run([str(executable),args.algorithm,args.input,str(candidate_path)],
+            command = ([str(executable), args.input, args.edit_baseline, args.edit_proposal, str(candidate_path),
+                        *(['--lock-io'] if getattr(args,'lock_io',False) else [])]
+                       if getattr(args,'edit_baseline',None) else
+                       [str(executable), args.input, str(candidate_path), '--clock', args.clock, '--seed', str(args.seed), '--budget', str(args.budget)]
+                       if args.algorithm=='regular_clock_ga' else [str(executable),args.algorithm,args.input,str(candidate_path), *(['--topology',args.topology] if args.topology else [])])
+            result = subprocess.run(command,
                                     cwd=out,stdout=log,stderr=subprocess.STDOUT,timeout=args.budget,check=False)
         except subprocess.TimeoutExpired as exc:
             raise RuntimeError(f'{args.algorithm} exceeded its {args.budget}s native routing budget; see native.log.') from exc
     if not candidate_path.is_file():
         raise RuntimeError(f'{args.algorithm} exited {result.returncode} without a candidate; see native.log.')
     candidate = json.loads(candidate_path.read_text())
-    validation = validate_candidate(candidate,source_crossings=args.algorithm=='june_random')
+    if candidate.get('algorithm') != args.algorithm:
+        raise ValueError('Edited candidate changed the requested algorithm/clock family')
+    validation = validate_candidate(candidate,source_crossings=args.algorithm in ('june_random','regular_clock_ga'))
+    if args.algorithm == 'regular_clock_ga':
+        validation['checks'].append('regular_clock_template_and_arrival_alignment')
+        if candidate.get('clock_scheme') != args.clock or candidate.get('regular_clock_valid') is not True:
+            validation['errors'].append('Native regular clock validation is missing or disagrees with the selected template')
+        if candidate.get('synchronization_valid') is not True:
+            validation['errors'].append('Native regular-clock arrival alignment validation is missing or failed')
     validation['checks'].append('native_node_and_crossover_mapping')
     if candidate.get('native_mapping_valid') is not True:
         validation['errors'].append(candidate.get('native_validation_error') or 'Native mapping validation failed')
@@ -139,17 +166,44 @@ def run_native(args, out, summary):
     legal = candidate.get('routed') is True and validation['passed']
     expected = {tuple(e) for e in candidate['edges']}
     actual = {(r['source'],r['target']) for r in candidate['routes']}
-    summary.update(layout_legal=legal, failed_edge_count=len(expected-actual), clock_scheme='irregular',
+    summary.update(layout_legal=legal, failed_edge_count=len(expected-actual), clock_scheme=args.clock,
                    clock_template_ok=None, clock_template_conflicts=None, clock_legal=legal,
-                   clock_validation_kind='route_phase_contract', validation=validation,
+                   clock_validation_kind='regular_template_and_arrival' if args.algorithm=='regular_clock_ga' else 'route_phase_contract', validation=validation,
                    run_time_s=candidate['run_time_s'], resolved_verilog=args.input,
-                   boolean_canonicalization=False, expansion=candidate['expansion'])
+                   boolean_canonicalization=False, expansion=candidate.get('expansion'))
     write_json(out/'pnr.json',summary)
     if not legal:
         raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))
     width,height = export_native_ifcn(candidate,out/'layout.ifcn',args.algorithm)
     summary.update(width=width,height=height,area_tiles=width*height,ifcn=str((out/'layout.ifcn').resolve()))
-    write_json(out/'routed_dag.json',dag_from_candidate(candidate,validation))
+    dag = dag_from_candidate(candidate,validation)
+    write_json(out/'routed_dag.json',dag)
+    if args.algorithm in ('compact','june_random'):
+        original_clock = validate_clock_arrivals((out/'layout.ifcn').read_text(), dag)
+        if not original_clock['passed']:
+            # Keep the original geometry and phases as failure evidence. Free
+            # clock assignment may repair epochs; fixed templates never change.
+            from ifcn_combinational_rephase import rephase_candidate
+            write_json(out/'original_layout_candidate.json',candidate)
+            write_json(out/'original_clock.json',original_clock)
+            (out/'original_layout.ifcn').write_text((out/'layout.ifcn').read_text())
+            remaining = args.budget - (time.monotonic()-native_started) - 0.5
+            if remaining <= 0:
+                raise TimeoutError('No budget remains for clock arrival repair')
+            repaired, repair_report = rephase_candidate(candidate,args.algorithm,remaining)
+            write_json(out/'phase_repair.json',repair_report)
+            summary['phase_repair'] = repair_report
+            if repaired is None:
+                raise RuntimeError('Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json')
+            repaired_geometry = validate_candidate(repaired,source_crossings=args.algorithm=='june_random')
+            if not repaired_geometry['passed']:
+                raise RuntimeError('Rephased candidate failed geometric validation')
+            candidate = repaired
+            write_json(out/'layout_candidate.json',candidate)
+            export_native_ifcn(candidate,out/'layout.ifcn',args.algorithm)
+            validation['checks'].remove('native_node_and_crossover_mapping')
+            validation['checks'].extend(['original_native_geometry_mapping','rephased_geometry_and_clock_contract'])
+            summary['clock_validation_kind'] = 'free_phase_with_absolute_arrival_alignment'
 
 
 def check_export_mapping(args,out,summary):
@@ -177,7 +231,35 @@ def main():
     parser.add_argument('--seed',type=int,default=1)
     parser.add_argument('--budget',type=int,default=240)
     parser.add_argument('--algorithm',choices=ALGORITHMS,default='normal_2ddwave')
+    parser.add_argument('--clock',choices=('2DDWave','USE','RES','irregular'))
+    parser.add_argument('--initial-placement',choices=('original','transposed'))
+    parser.add_argument('--topology',choices=('optimized_buffers','layer_redundancy_buffers'))
+    parser.add_argument('--edit-baseline')
+    parser.add_argument('--edit-proposal')
+    parser.add_argument('--lock-io', action='store_true',
+                        help='Lock source PI/PO node XY coordinates during native placement edits; phases remain assignable')
+    parser.add_argument('--preserve-output-boundaries', action='store_true',
+                        help='Preserve named output vertices when parsing a sequential cut DAG')
     args=parser.parse_args()
+    if bool(args.edit_baseline) != bool(args.edit_proposal):
+        parser.error('Placement edits require both baseline candidate and proposal')
+    if args.lock_io and not (args.stage == 'pnr' and args.edit_baseline and args.edit_proposal):
+        parser.error('--lock-io requires a native P&R edit baseline and proposal')
+    if args.edit_baseline and (args.stage != 'pnr' or args.algorithm not in ('compact','june_random')):
+        parser.error('Placement edits only support native irregular combinational layouts')
+    supported_clocks = {'normal_2ddwave':('2DDWave',), 'compact':('irregular',), 'june_random':('irregular',),
+                        'regular_clock_ga':('2DDWave','USE','RES')}
+    if args.initial_placement:
+        if args.algorithm != 'normal_2ddwave':
+            parser.error('Initial-placement variant only applies to fixed 2DDWave graph compression')
+        os.environ['IFCN_TRANSPOSE_INITIAL_PLACEMENT'] = '1' if args.initial_placement == 'transposed' else '0'
+    if args.topology and args.algorithm not in ('compact','june_random'):
+        parser.error('Topology variant only applies to native graph drawing')
+    args.clock = args.clock or supported_clocks[args.algorithm][0]
+    if args.clock not in supported_clocks[args.algorithm]:
+        parser.error('The chosen algorithm does not support this clock scheme')
+    if args.preserve_output_boundaries and args.stage != 'parse':
+        parser.error('--preserve-output-boundaries is supported only by the parse stage')
     if args.budget<1:
         parser.error('--budget must be positive')
     out=Path(args.output).resolve();out.mkdir(parents=True,exist_ok=True)
@@ -185,10 +267,10 @@ def main():
         from src.circuit_parse import CircuitParser
         if args.stage=='probe':
             from src.normalGraphDraw import NormalGraphDraw  # noqa: F401
-            if args.algorithm!='normal_2ddwave' and not native_binary().is_file():
+            if args.algorithm!='normal_2ddwave' and not native_binary(args.algorithm).is_file():
                 raise RuntimeError('Native P&R executable is unavailable')
             print('IFCN_BACKEND_READY');return
-        write_dag(CircuitParser(args.input),out/'dag.json');return
+        write_dag(CircuitParser(args.input, preserve_output_boundaries=args.preserve_output_boundaries),out/'dag.json');return
     if not args.input or not Path(args.input).is_file():
         parser.error('--input must identify an existing Verilog file')
     args.input=str(Path(args.input).resolve())
@@ -202,6 +284,9 @@ def main():
     start=time.monotonic()
     try:
         (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)
+        arrival = clock_arrival_report(summary['ifcn'],out/'routed_dag.json',out/'clock.json')
+        summary['clock_arrival'] = arrival
+        summary['validation']['checks'].append('cycle_zero_absolute_arrival_alignment')
         check_export_mapping(args,out,summary)
         summary['total_backend_time_s']=time.monotonic()-start
         write_json(out/'pnr.json',summary)

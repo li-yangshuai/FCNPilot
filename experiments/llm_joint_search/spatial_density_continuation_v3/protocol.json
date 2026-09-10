@@ -1,0 +1,123 @@
+{
+  "schema": "fcn.spatial_density_study.v1",
+  "created_at": "2026-09-09T03:23:41.987608+00:00",
+  "case_entries": [
+    {
+      "ordinal": 1,
+      "case_id": "MAJ/newtag.v",
+      "status": "eligible",
+      "eligible": true,
+      "reasons": [],
+      "folder": "c01_MAJ_newtag",
+      "run_id": "78e8a9929ebf45ef9fce130bb7d19714",
+      "starting_state": "c03_MAJ_newtag/llm_text_density/02/candidates/04",
+      "initial": {
+        "width": 21,
+        "height": 37,
+        "area_tiles": 777,
+        "qca_cells": 1130,
+        "edge_steps": 232,
+        "output_arrival_ticks": {
+          "8": [
+            36,
+            36
+          ]
+        }
+      }
+    },
+    {
+      "ordinal": 2,
+      "case_id": "MAJ/xnor2.v",
+      "status": "eligible",
+      "eligible": true,
+      "reasons": [],
+      "folder": "c02_MAJ_xnor2",
+      "run_id": "8d20da3754c44c71acb287e7bef21ea7",
+      "starting_state": "c04_MAJ_xnor2/deterministic_density/02/candidates/01",
+      "initial": {
+        "width": 11,
+        "height": 31,
+        "area_tiles": 341,
+        "qca_cells": 625,
+        "edge_steps": 128,
+        "output_arrival_ticks": {
+          "2": [
+            29,
+            29
+          ]
+        }
+      }
+    }
+  ],
+  "rounds_per_policy": 2,
+  "batch_size": 4,
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "policies": {
+    "deterministic_density": "first spatial seed",
+    "llm_text_density": "JSON density context",
+    "llm_vision_density": "same context plus verified native-coordinate PNG"
+  },
+  "image_contract": "Image shows native XY nodes, routes, phase-colored sites and local gate/old-wire occupancy; sparsity is a search hint, never a DRC certificate.",
+  "search_contract": "Model selects one spatial seed ID. Seed, single-member, reduced-displacement and alternate-order neighbors are separate native calls with explicit origin and no hidden retry.",
+  "acceptance": "PI/PO XY fixed; source/DAG equivalence, original irregular-clock constraints, exact one-pass route order, physical QCA paths/ports and actual Pareto area/cell checks remain mandatory.",
+  "prior_state_policy": "The best previously certified internal state is used when available, otherwise the registered baseline; source and normalized Verilog remain the frozen corpus inputs.",
+  "original_artifact_hashes": {
+    "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/protocol.json": "7d448ec9d07c33eef1453063e551c2fb13c7b27c4221390901972695dc45014e",
+    "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/index.json": "afaa55b456f5d695530d74df8a601490d5ee952ccd4bd4a4777ab3637daa48d2",
+    "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/audit.json": "0ac476598561b2a5e9d2b3c37925b650bf89bc262834e7575a854f2e5a060694",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/78e8a9929ebf45ef9fce130bb7d19714/source.v": "613a90023cfe8bb4e1f0e25170a12def7f3e5ec9bd1cae4035d085e9ad37ddea",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/78e8a9929ebf45ef9fce130bb7d19714/normalized.v": "50b331698a1dc9aec5afa53b555425e8e13800497e26700ef1d15b143f033392",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/78e8a9929ebf45ef9fce130bb7d19714/02_pnr_1/02_june_random_optimized_buffers/layout_candidate.json": "d6f40eafd47a35f9dcabae921ea4c801242aa3e9af3edd9806e7a985c0fb3196",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/78e8a9929ebf45ef9fce130bb7d19714/02_pnr_1/02_june_random_optimized_buffers/routed_dag.json": "6206aad3af40d631c00c5c2551ffd38051093cd0cc6d4da8c979fafc6597982e",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/78e8a9929ebf45ef9fce130bb7d19714/02_pnr_1/02_june_random_optimized_buffers/layout.ifcn": "33f3c049f7c727b9c82dad0cc445a9ec37c249c520452bb7d44cba34be71f23a",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/78e8a9929ebf45ef9fce130bb7d19714/02_pnr_1/02_june_random_optimized_buffers/physical.json": "3643614a4c3c88a0f065da51ad86e3f3312aeb4d365bb03e0f655d9d063ca33f",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/78e8a9929ebf45ef9fce130bb7d19714/02_pnr_1/02_june_random_optimized_buffers/clock.json": "674955f7e4ae17827b626b4187615c2067869710b245db3a312ce3fbdb11b491",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/78e8a9929ebf45ef9fce130bb7d19714/02_pnr_1/02_june_random_optimized_buffers/interface_check_energy_input.qca": "eae393b265050ea6fcdc30dea0ad69325ccd4c8e2f0327a4850ee35790eb6abd",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/78e8a9929ebf45ef9fce130bb7d19714/manifest.json": "af2763eecbf78332ea9dff631b34e72531970fe065fe751d0edea032e4bbaf59",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8d20da3754c44c71acb287e7bef21ea7/source.v": "a9fd924a6073e23a803fe64c98e77618ec36250e9101d4185f8d632e25307ecb",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8d20da3754c44c71acb287e7bef21ea7/normalized.v": "79c45df8b4411bb822d60a72f16aa1acc68965ce9b5e04176536c9dbca6aef0a",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8d20da3754c44c71acb287e7bef21ea7/02_pnr_1/01_june_random_layer_redundancy_buffers/layout_candidate.json": "f799ea042ecdccac84d98fd7a2b1de36a01fb9f03bdbdb921904d31c3d753783",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8d20da3754c44c71acb287e7bef21ea7/02_pnr_1/01_june_random_layer_redundancy_buffers/routed_dag.json": "a60bfdd248163bdf857893789b9f5cbe678f8a9814cf58dbf4a8dd0fcf39c775",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8d20da3754c44c71acb287e7bef21ea7/02_pnr_1/01_june_random_layer_redundancy_buffers/layout.ifcn": "12371a06b9d2d230d95a9846977b27fc91d41324164795c100dda3040f4fe44d",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8d20da3754c44c71acb287e7bef21ea7/02_pnr_1/01_june_random_layer_redundancy_buffers/physical.json": "2ccb46ac2de19ca3d3c1b63bb687682a84163e22f7dfc0f629d071d9f3b214a2",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8d20da3754c44c71acb287e7bef21ea7/02_pnr_1/01_june_random_layer_redundancy_buffers/clock.json": "d5a33a432049292eb3d8ed72e55151d9fb31f6e37cbfdc9ff14eeec9b123028d",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8d20da3754c44c71acb287e7bef21ea7/02_pnr_1/01_june_random_layer_redundancy_buffers/interface_check_energy_input.qca": "f5ee34342c452719c05c724336f595696b882cd87d77b287222e8c958b9f53e1",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/8d20da3754c44c71acb287e7bef21ea7/manifest.json": "cca8cac28d90df25a70ee011e9ac6c847d63804788c223a5318850926115aa5e"
+  },
+  "implementation_hashes": {
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/run_density_study.py": "c5f9dc59c74e14ff9c854db8596d9a2aca7f911b4eb41a96ac8fb3c96f8bd511",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/run_internal_study.py": "92cf885ed1c48b62e9abb31590d232dd108faae5d6b7fee5bb8b885919fd8ab8",
+    "/home/lys/projects/github/FCNPilot/integrations/pi/layout-proposer.mjs": "1a43aa25327cd575931e630ffd6c9167f67479c0a949bba3d9b6f54d9e5b8b71",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/curate_benchmarks.py": "8882cb90b0aec933f78d65f6e7b609f5879269c00a704652197a258539917578",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent.py": "6d5a34a28fa0521b30dbf3ca9a447b1034ecb897b334a70ef9beec19cb71b606",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py": "9bc8b08083b5b5fa1def5b1198eac5e3640656241386f7841a235c8197125eec",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_clock_validation.py": "1e80e25aecb39bc21718f7900aa0966d43ea09c9e9eaf128f21b3e4aa5cab7a4",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_frontend.py": "b7c42d76de5e85939f6b15a23ebd1050fdf076e3a474c2b4e81be81a527830e7",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_layout_validation.py": "2056fbc58c9e9cdbca65160f9b2b062ac372143e6a04d3ae9fdd70dd89c3bced",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_sequential.py": "4f2d55a9c30b7ac1c6535b74d318fc8cf12516aa2a540ca80c66785027382ea3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_algorithm_catalog.py": "a7f22aff961c00f97000a55a4f91d6c4ccb8463788ffb2917c1445a5eda9decc",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_axis_compaction.py": "542ada42f27f3a3b4cdda8eff4e28a228b89136850e11fffa52bcb8b847f3c86",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_combinational_rephase.py": "df9ae479fae578f0a8af9cf21a7e265c0ec73abdcd31acbce1f8102d57c32779",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_density_search.py": "fc56d4e0899afdb3766bb1de4371a35594a6c8b2f6fe5757fb044fa92d052fdc",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_internal_relocation.py": "0719c2d4213aa6dd64c3fa8effd70bfaf40f73351dabb6f295c035c667b69607",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_internal_search.py": "7188fd5664ac45932072f5b4d430e4bf905ca6244141653874a01ab1c76944f3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_joint_menu.py": "091835ccde7eb4804cac1bdfb4284cae23f909c8d70dd24a90d041d25d74a4ce",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_joint_search.py": "40fbd26aa8401963f265940c3c81653564444d57c6b53f01c638484df62221ba",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_layout_optimization.py": "d3a353c615d7a1bc6dfe379ebc72f79212ec27c6f5baf549dd66d5a40f3bb423",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_sequential_validation.py": "c9534d1d9c903311b826dd8e471ae860e9ff90c17bdb5f00099d32bc9ec6d027",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_spatial_density.py": "f368ea9b548ce750a22fe34ad2bb5cd79eaf8f64c59cf8eaafa983adde1d4c98",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_spatial_view.py": "e266050c2cb0a13c38c025f7898421196ccecc9a2d9abad3aa75bff841b63820",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/verify_routed_logic.py": "d07eaf08ec1066aa72ccad6e6e379ef47ccfbe7952462f8cdb8305af2f640ae3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/yosys_json_to_seqir.py": "a32f45ac07f09466db283969e87e662b55da980f4e2078d43669887d858e4fee",
+    "/home/lys/projects/github/FCNPilot/engine/src/app/ifcn_layout_edit.cpp": "6f8ec78e4e3ad669c511161c2c673ec8d26695030d163c663b0b295ef5a39216",
+    "/home/lys/projects/github/FCNPilot/engine/include/autopr/graph/circuitGraph.cpp": "aebd01a767b7c58a360c36cc281cd6bb02d226ed8a2cbba7a9d0cf995636f93f"
+  },
+  "binary_hashes": {
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_layout_edit": "63fdc27f1ee38cc73103ec9971fc0554fce7e08414027d6cf489798bf1ba35ce",
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis": "db33ff5333e4ba7a41eb3197802e04875321d8d63bb4a8ae5c6547debaf9de48",
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics": "21462b9e2b0c179d21ac802af2765613aeca2cac0aa22fc5020fb1c1b74485c9"
+  }
+}

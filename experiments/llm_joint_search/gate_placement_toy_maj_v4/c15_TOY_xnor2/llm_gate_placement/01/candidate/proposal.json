@@ -1,0 +1,80 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        21,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        23,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        22,
+        27
+      ]
+    },
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        22,
+        30
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      8
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      5,
+      8
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      0,
+      5
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      10,
+      2
+    ]
+  ],
+  "rationale": "Compress vertical span by shifting the suffix (nodes 7–10) down by 1 tile: y=25→24 for ANDs, y=28→27 for OR, y=31→30 for NOT. This reduces max_y from 34 to 30 while preserving fanin geometry—edges [7,9] and [8,9] become Manhattan (Δy=3), eliminating detour in [5,8] (now Δx=2, Δy=1 → 3 steps vs 8). Vacant band at y=26–27 (window_18_24_22_28) absorbs the shift; no node collisions; ports remain fixed but internal contraction tightens bounding box to width=6, height=11 (area ≤66 < 90)."
+}

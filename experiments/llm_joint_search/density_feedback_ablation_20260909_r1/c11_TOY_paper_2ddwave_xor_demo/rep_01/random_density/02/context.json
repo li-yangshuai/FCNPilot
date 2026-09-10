@@ -1,0 +1,5395 @@
+{
+  "dag": {
+    "nodes": [
+      {
+        "id": 0,
+        "name": "a",
+        "type": "input",
+        "is_input": true,
+        "is_output": false
+      },
+      {
+        "id": 1,
+        "name": "b",
+        "type": "input",
+        "is_input": true,
+        "is_output": false
+      },
+      {
+        "id": 2,
+        "name": "out",
+        "type": "and",
+        "is_input": false,
+        "is_output": true
+      },
+      {
+        "id": 3,
+        "name": "and_ab",
+        "type": "and",
+        "is_input": false,
+        "is_output": false
+      },
+      {
+        "id": 4,
+        "name": "or_ab",
+        "type": "or",
+        "is_input": false,
+        "is_output": false
+      },
+      {
+        "id": 5,
+        "name": "~and_ab",
+        "type": "not",
+        "is_input": false,
+        "is_output": false
+      }
+    ],
+    "edges": [
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "layers": [
+      [
+        0,
+        1
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        5
+      ],
+      [
+        2
+      ]
+    ]
+  },
+  "placement": {
+    "nodes": [
+      {
+        "id": 0,
+        "x": 20,
+        "y": 20
+      },
+      {
+        "id": 1,
+        "x": 22,
+        "y": 20
+      },
+      {
+        "id": 2,
+        "x": 21,
+        "y": 29
+      },
+      {
+        "id": 3,
+        "x": 22,
+        "y": 24
+      },
+      {
+        "id": 4,
+        "x": 21,
+        "y": 22
+      },
+      {
+        "id": 5,
+        "x": 22,
+        "y": 25
+      }
+    ]
+  },
+  "routes": [
+    {
+      "source": 0,
+      "target": 3,
+      "path": [
+        [
+          20,
+          20
+        ],
+        [
+          20,
+          24
+        ],
+        [
+          22,
+          24
+        ]
+      ]
+    },
+    {
+      "source": 0,
+      "target": 4,
+      "path": [
+        [
+          20,
+          20
+        ],
+        [
+          20,
+          22
+        ],
+        [
+          21,
+          22
+        ]
+      ]
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "path": [
+        [
+          22,
+          20
+        ],
+        [
+          22,
+          24
+        ]
+      ]
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "path": [
+        [
+          22,
+          20
+        ],
+        [
+          22,
+          22
+        ],
+        [
+          21,
+          22
+        ]
+      ]
+    },
+    {
+      "source": 3,
+      "target": 5,
+      "path": [
+        [
+          22,
+          24
+        ],
+        [
+          22,
+          25
+        ]
+      ]
+    },
+    {
+      "source": 4,
+      "target": 2,
+      "path": [
+        [
+          21,
+          22
+        ],
+        [
+          21,
+          29
+        ]
+      ]
+    },
+    {
+      "source": 5,
+      "target": 2,
+      "path": [
+        [
+          22,
+          25
+        ],
+        [
+          22,
+          29
+        ],
+        [
+          21,
+          29
+        ]
+      ]
+    }
+  ],
+  "metrics": {
+    "width": 3,
+    "height": 10,
+    "area_tiles": 30,
+    "qca_cells": 139,
+    "edge_steps": 29,
+    "output_arrival_ticks": {
+      "2": [
+        10,
+        10
+      ]
+    }
+  },
+  "state_features": {
+    "routed_extent": {
+      "min_x": 20,
+      "max_x": 22,
+      "min_y": 20,
+      "max_y": 29,
+      "width": 3,
+      "height": 10,
+      "area_tiles": 30,
+      "route_bbox": {
+        "min_x": 20,
+        "max_x": 22,
+        "min_y": 20,
+        "max_y": 29,
+        "width": 3,
+        "height": 10,
+        "area_tiles": 30
+      }
+    },
+    "route_costs": [
+      {
+        "edge": [
+          0,
+          3
+        ],
+        "steps": 6,
+        "manhattan_lower_bound": 6,
+        "detour_steps": 0,
+        "multi_source_interior_sites": 1
+      },
+      {
+        "edge": [
+          0,
+          4
+        ],
+        "steps": 3,
+        "manhattan_lower_bound": 3,
+        "detour_steps": 0,
+        "multi_source_interior_sites": 0
+      },
+      {
+        "edge": [
+          1,
+          3
+        ],
+        "steps": 4,
+        "manhattan_lower_bound": 4,
+        "detour_steps": 0,
+        "multi_source_interior_sites": 0
+      },
+      {
+        "edge": [
+          1,
+          4
+        ],
+        "steps": 3,
+        "manhattan_lower_bound": 3,
+        "detour_steps": 0,
+        "multi_source_interior_sites": 0
+      },
+      {
+        "edge": [
+          3,
+          5
+        ],
+        "steps": 1,
+        "manhattan_lower_bound": 1,
+        "detour_steps": 0,
+        "multi_source_interior_sites": 0
+      },
+      {
+        "edge": [
+          4,
+          2
+        ],
+        "steps": 7,
+        "manhattan_lower_bound": 7,
+        "detour_steps": 0,
+        "multi_source_interior_sites": 1
+      },
+      {
+        "edge": [
+          5,
+          2
+        ],
+        "steps": 5,
+        "manhattan_lower_bound": 5,
+        "detour_steps": 0,
+        "multi_source_interior_sites": 0
+      }
+    ],
+    "absolute_arrival_ticks": {
+      "0": [
+        1,
+        1
+      ],
+      "1": [
+        1,
+        1
+      ],
+      "3": [
+        5,
+        5
+      ],
+      "4": [
+        4,
+        4
+      ],
+      "5": [
+        5,
+        5
+      ],
+      "2": [
+        10,
+        10
+      ]
+    },
+    "route_delay_ticks": [
+      {
+        "source": 0,
+        "target": 3,
+        "ticks": 4
+      },
+      {
+        "source": 0,
+        "target": 4,
+        "ticks": 3
+      },
+      {
+        "source": 1,
+        "target": 3,
+        "ticks": 4
+      },
+      {
+        "source": 1,
+        "target": 4,
+        "ticks": 3
+      },
+      {
+        "source": 3,
+        "target": 5,
+        "ticks": 0
+      },
+      {
+        "source": 4,
+        "target": 2,
+        "ticks": 6
+      },
+      {
+        "source": 5,
+        "target": 2,
+        "ticks": 5
+      }
+    ],
+    "suggestion_scope": "Model selects a spatial seed. Independent bounded neighboring candidates may move different subsets of nodes; no logical layer is translated as a requirement.",
+    "phase_tiles_xy_phase": [
+      [
+        22,
+        28,
+        1
+      ],
+      [
+        22,
+        29,
+        2
+      ],
+      [
+        21,
+        28,
+        2
+      ],
+      [
+        22,
+        26,
+        3
+      ],
+      [
+        22,
+        27,
+        4
+      ],
+      [
+        21,
+        26,
+        4
+      ],
+      [
+        21,
+        25,
+        3
+      ],
+      [
+        20,
+        22,
+        4
+      ],
+      [
+        22,
+        23,
+        1
+      ],
+      [
+        21,
+        23,
+        1
+      ],
+      [
+        21,
+        22,
+        1
+      ],
+      [
+        22,
+        24,
+        2
+      ],
+      [
+        20,
+        21,
+        3
+      ],
+      [
+        22,
+        20,
+        2
+      ],
+      [
+        22,
+        25,
+        2
+      ],
+      [
+        20,
+        24,
+        1
+      ],
+      [
+        21,
+        29,
+        3
+      ],
+      [
+        20,
+        20,
+        2
+      ],
+      [
+        22,
+        21,
+        3
+      ],
+      [
+        20,
+        23,
+        4
+      ],
+      [
+        22,
+        22,
+        4
+      ],
+      [
+        21,
+        27,
+        1
+      ],
+      [
+        21,
+        24,
+        2
+      ]
+    ],
+    "spatial_regions": [
+      {
+        "id": "window_18_24_19_25",
+        "image_label": "R1",
+        "bounds": {
+          "min_x": 18,
+          "max_x": 24,
+          "min_y": 19,
+          "max_y": 25
+        },
+        "gate_density": 0.10204081632653061,
+        "old_wire_density": 0.20408163265306123,
+        "empty_fraction": 0.6938775510204082,
+        "movable_internal_ids": [
+          3,
+          4,
+          5
+        ],
+        "empty_bands": {
+          "gate_only": [
+            {
+              "axis": "x",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "y",
+              "start": 19,
+              "end": 19,
+              "width": 1,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            }
+          ],
+          "gate_and_old_wire": [
+            {
+              "axis": "x",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "y",
+              "start": 19,
+              "end": 19,
+              "width": 1,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "window_19_24_21_27",
+        "image_label": "R2",
+        "bounds": {
+          "min_x": 19,
+          "max_x": 24,
+          "min_y": 21,
+          "max_y": 27
+        },
+        "gate_density": 0.07142857142857142,
+        "old_wire_density": 0.3333333333333333,
+        "empty_fraction": 0.5952380952380952,
+        "movable_internal_ids": [
+          3,
+          4,
+          5
+        ],
+        "empty_bands": {
+          "gate_only": [
+            {
+              "axis": "x",
+              "start": 19,
+              "end": 20,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "y",
+              "start": 26,
+              "end": 27,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            }
+          ],
+          "gate_and_old_wire": [
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 19,
+              "end": 19,
+              "width": 1,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "window_19_24_22_28",
+        "image_label": "R3",
+        "bounds": {
+          "min_x": 19,
+          "max_x": 24,
+          "min_y": 22,
+          "max_y": 28
+        },
+        "gate_density": 0.07142857142857142,
+        "old_wire_density": 0.3333333333333333,
+        "empty_fraction": 0.5952380952380952,
+        "movable_internal_ids": [
+          3,
+          4,
+          5
+        ],
+        "empty_bands": {
+          "gate_only": [
+            {
+              "axis": "y",
+              "start": 26,
+              "end": 28,
+              "width": 3,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 19,
+              "end": 20,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            }
+          ],
+          "gate_and_old_wire": [
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 19,
+              "end": 19,
+              "width": 1,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "window_18_24_18_28",
+        "image_label": "R4",
+        "bounds": {
+          "min_x": 18,
+          "max_x": 24,
+          "min_y": 18,
+          "max_y": 28
+        },
+        "gate_density": 0.06493506493506493,
+        "old_wire_density": 0.2077922077922078,
+        "empty_fraction": 0.7272727272727273,
+        "movable_internal_ids": [
+          3,
+          4,
+          5
+        ],
+        "empty_bands": {
+          "gate_only": [
+            {
+              "axis": "y",
+              "start": 26,
+              "end": 28,
+              "width": 3,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            }
+          ],
+          "gate_and_old_wire": [
+            {
+              "axis": "x",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "y",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "window_18_24_18_30",
+        "image_label": "R5",
+        "bounds": {
+          "min_x": 18,
+          "max_x": 24,
+          "min_y": 18,
+          "max_y": 30
+        },
+        "gate_density": 0.06593406593406594,
+        "old_wire_density": 0.18681318681318682,
+        "empty_fraction": 0.7472527472527473,
+        "movable_internal_ids": [
+          3,
+          4,
+          5
+        ],
+        "empty_bands": {
+          "gate_only": [
+            {
+              "axis": "y",
+              "start": 26,
+              "end": 28,
+              "width": 3,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": true
+            },
+            {
+              "axis": "x",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            }
+          ],
+          "gate_and_old_wire": [
+            {
+              "axis": "x",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "y",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "window_18_24_19_31",
+        "image_label": "R6",
+        "bounds": {
+          "min_x": 18,
+          "max_x": 24,
+          "min_y": 19,
+          "max_y": 31
+        },
+        "gate_density": 0.06593406593406594,
+        "old_wire_density": 0.18681318681318682,
+        "empty_fraction": 0.7472527472527473,
+        "movable_internal_ids": [
+          3,
+          4,
+          5
+        ],
+        "empty_bands": {
+          "gate_only": [
+            {
+              "axis": "y",
+              "start": 26,
+              "end": 28,
+              "width": 3,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": true
+            },
+            {
+              "axis": "x",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            }
+          ],
+          "gate_and_old_wire": [
+            {
+              "axis": "x",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "y",
+              "start": 30,
+              "end": 31,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "window_18_24_18_31",
+        "image_label": "R7",
+        "bounds": {
+          "min_x": 18,
+          "max_x": 24,
+          "min_y": 18,
+          "max_y": 31
+        },
+        "gate_density": 0.061224489795918366,
+        "old_wire_density": 0.17346938775510204,
+        "empty_fraction": 0.7653061224489796,
+        "movable_internal_ids": [
+          3,
+          4,
+          5
+        ],
+        "empty_bands": {
+          "gate_only": [
+            {
+              "axis": "y",
+              "start": 26,
+              "end": 28,
+              "width": 3,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": true
+            },
+            {
+              "axis": "x",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_sites",
+              "between_occupied_levels": false
+            }
+          ],
+          "gate_and_old_wire": [
+            {
+              "axis": "x",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "x",
+              "start": 23,
+              "end": 24,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            },
+            {
+              "axis": "y",
+              "start": 18,
+              "end": 19,
+              "width": 2,
+              "occupancy_basis": "gate_and_old_wire_sites",
+              "between_occupied_levels": false
+            }
+          ]
+        }
+      }
+    ],
+    "layout_scope": "Gate-level tiles and prior routes; low density does not certify a legal move.",
+    "best_retained_metrics": {
+      "width": 3,
+      "height": 10,
+      "area_tiles": 30,
+      "qca_cells": 139,
+      "edge_steps": 29,
+      "output_arrival_ticks": {
+        "2": [
+          10,
+          10
+        ]
+      }
+    },
+    "route_path_encoding": "Exact rectilinear polyline bend points, not a unit-step list."
+  },
+  "rules": {
+    "clock_scheme": "irregular",
+    "phase_count": 4,
+    "input_launch": "cycle_zero_at_own_phase",
+    "dag_and_port_identities_fixed": true,
+    "port_coordinates_movable": false,
+    "port_coordinate_scope": "PI/PO node XY are fixed; this does not pin phases or detailed terminal orientation.",
+    "four_connected_routes": true,
+    "max_consecutive_same_phase_tiles": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "physical_net_isolation_and_gate_ports_required": true,
+    "objective": "Reduce actual routed bounding area and exported QCA cells; both non-increasing, one strictly improved. Distinguish node-box proxy from actual routed area.",
+    "routing_execution": "The supplied complete routing_order is executed once by A*, with no order fallback. A failed candidate consumes the evaluation and returns diagnostics.",
+    "require_explicit_routing_order": true,
+    "local_search_guidance": true,
+    "local_search_batch_size": 4,
+    "search_contract": "Select a seed whose internal region has room for local node relocation or detour removal. The selected exact seed is tried first, followed by up to batch_size-1 explicitly logged deterministic neighboring placements/orders. Each native call runs its exact order once. All original hard rules apply. A failed candidate is not an exhausted region. Only certified strict Pareto improvements replace the current and retained layout: actual routed area and exported QCA cells must both be non-increasing and at least one strictly lower. Failed or non-improving trials retain the same incumbent; no regressing exploration state is used. Feedback contains only completed earlier rounds (at most four rounds and six candidates per round). Metric deltas are candidate minus that round's start; negative means reduction. A candidate's measured reduction is not acceptance unless its accepted flag is true."
+  },
+  "feedback": [
+    {
+      "round": 1,
+      "status": "improved_retained",
+      "start_metrics": {
+        "width": 3,
+        "height": 10,
+        "area_tiles": 30,
+        "qca_cells": 140,
+        "edge_steps": 31
+      },
+      "retained_metrics": {
+        "width": 3,
+        "height": 10,
+        "area_tiles": 30,
+        "qca_cells": 139,
+        "edge_steps": 29
+      },
+      "retained_delta_from_start": {
+        "width": 0,
+        "height": 0,
+        "area_tiles": 0,
+        "qca_cells": -1,
+        "edge_steps": -2
+      },
+      "candidates": [
+        {
+          "candidate_id": "c7c3e27450beffa48534",
+          "status": "certified",
+          "accepted": false,
+          "proposal": {
+            "operations": [
+              {
+                "op": "move",
+                "node": 4,
+                "to": [
+                  21,
+                  21
+                ]
+              }
+            ],
+            "routing_order": {
+              "edge_count": 7,
+              "first_edges": [
+                [
+                  0,
+                  3
+                ],
+                [
+                  1,
+                  3
+                ],
+                [
+                  0,
+                  4
+                ],
+                [
+                  1,
+                  4
+                ],
+                [
+                  4,
+                  2
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  3,
+                  5
+                ]
+              ],
+              "sha256": "7425ddcfb9f6c0b00baae7581264100a912af1a38c6d075765d4296f0b1548e8"
+            },
+            "rationale": "Relocate one internal node toward its neighbor anchors. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+          },
+          "metrics": {
+            "width": 3,
+            "height": 10,
+            "area_tiles": 30,
+            "qca_cells": 144,
+            "edge_steps": 28
+          },
+          "metric_delta_from_start": {
+            "width": 0,
+            "height": 0,
+            "area_tiles": 0,
+            "qca_cells": 4,
+            "edge_steps": -3
+          },
+          "seed_id": "c7c3e27450beffa48534",
+          "origin": "exact_selected_seed",
+          "certificates": {
+            "logic": "equivalent",
+            "clock": true,
+            "physical": true,
+            "interface": true
+          },
+          "routing_audit": {
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true,
+            "io_locked": true
+          }
+        },
+        {
+          "candidate_id": "b5cbd655f3b25d930267",
+          "status": "certified",
+          "accepted": true,
+          "proposal": {
+            "operations": [
+              {
+                "op": "move",
+                "node": 4,
+                "to": [
+                  21,
+                  22
+                ]
+              }
+            ],
+            "routing_order": {
+              "edge_count": 7,
+              "first_edges": [
+                [
+                  0,
+                  3
+                ],
+                [
+                  1,
+                  3
+                ],
+                [
+                  0,
+                  4
+                ],
+                [
+                  1,
+                  4
+                ],
+                [
+                  4,
+                  2
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  3,
+                  5
+                ]
+              ],
+              "sha256": "7425ddcfb9f6c0b00baae7581264100a912af1a38c6d075765d4296f0b1548e8"
+            },
+            "rationale": "Reduced displacement inside the selected spatial seed."
+          },
+          "metrics": {
+            "width": 3,
+            "height": 10,
+            "area_tiles": 30,
+            "qca_cells": 139,
+            "edge_steps": 29
+          },
+          "metric_delta_from_start": {
+            "width": 0,
+            "height": 0,
+            "area_tiles": 0,
+            "qca_cells": -1,
+            "edge_steps": -2
+          },
+          "seed_id": "c7c3e27450beffa48534",
+          "origin": "reduced_displacement",
+          "certificates": {
+            "logic": "equivalent",
+            "clock": true,
+            "physical": true,
+            "interface": true
+          },
+          "routing_audit": {
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true,
+            "io_locked": true
+          }
+        },
+        {
+          "candidate_id": "fc92880f5aeafe0620be",
+          "status": "certified",
+          "accepted": false,
+          "proposal": {
+            "operations": [
+              {
+                "op": "move",
+                "node": 4,
+                "to": [
+                  21,
+                  21
+                ]
+              }
+            ],
+            "routing_order": {
+              "edge_count": 7,
+              "first_edges": [
+                [
+                  0,
+                  3
+                ],
+                [
+                  0,
+                  4
+                ],
+                [
+                  1,
+                  3
+                ],
+                [
+                  1,
+                  4
+                ],
+                [
+                  3,
+                  5
+                ],
+                [
+                  4,
+                  2
+                ],
+                [
+                  5,
+                  2
+                ]
+              ],
+              "sha256": "f02ba593ea2d8d38ca4963fda5553b68b5ad3da05ea8d42958f38af950ddd43e"
+            },
+            "rationale": "The exact seed geometry with ascending directed-edge priority."
+          },
+          "metrics": {
+            "width": 3,
+            "height": 10,
+            "area_tiles": 30,
+            "qca_cells": 144,
+            "edge_steps": 28
+          },
+          "metric_delta_from_start": {
+            "width": 0,
+            "height": 0,
+            "area_tiles": 0,
+            "qca_cells": 4,
+            "edge_steps": -3
+          },
+          "seed_id": "c7c3e27450beffa48534",
+          "origin": "explicit_alternate_order",
+          "certificates": {
+            "logic": "equivalent",
+            "clock": true,
+            "physical": true,
+            "interface": true
+          },
+          "routing_audit": {
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true,
+            "io_locked": true
+          }
+        },
+        {
+          "candidate_id": "6a7449e0ed681564bdae",
+          "status": "certified",
+          "accepted": false,
+          "proposal": {
+            "operations": [
+              {
+                "op": "move",
+                "node": 3,
+                "to": [
+                  22,
+                  23
+                ]
+              },
+              {
+                "op": "move",
+                "node": 4,
+                "to": [
+                  21,
+                  22
+                ]
+              },
+              {
+                "op": "move",
+                "node": 5,
+                "to": [
+                  21,
+                  24
+                ]
+              }
+            ],
+            "routing_order": {
+              "edge_count": 7,
+              "first_edges": [
+                [
+                  0,
+                  3
+                ],
+                [
+                  0,
+                  4
+                ],
+                [
+                  1,
+                  3
+                ],
+                [
+                  1,
+                  4
+                ],
+                [
+                  4,
+                  2
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  3,
+                  5
+                ]
+              ],
+              "sha256": "7fc1133cf715d9277a50e300e60fab7a6cf55e7d9a71eb37d9ffce0997672b93"
+            },
+            "rationale": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting"
+          },
+          "metrics": {
+            "width": 4,
+            "height": 10,
+            "area_tiles": 40,
+            "qca_cells": 160,
+            "edge_steps": 34
+          },
+          "metric_delta_from_start": {
+            "width": 1,
+            "height": 0,
+            "area_tiles": 10,
+            "qca_cells": 20,
+            "edge_steps": 3
+          },
+          "seed_id": "c7c3e27450beffa48534",
+          "origin": "spatial_neighbor",
+          "certificates": {
+            "logic": "equivalent",
+            "clock": true,
+            "physical": true,
+            "interface": true
+          },
+          "routing_audit": {
+            "route_order_attempts": 1,
+            "fallback_used": false,
+            "explicit_routing_order": true,
+            "io_locked": true
+          }
+        }
+      ],
+      "seed_id": "c7c3e27450beffa48534",
+      "accepted_candidate_id": "b5cbd655f3b25d930267",
+      "accepted_origin": "reduced_displacement",
+      "selection": {
+        "source": "random_density",
+        "candidate_id": "c7c3e27450beffa48534"
+      }
+    }
+  ],
+  "action_space": {
+    "proposal_schema": "ifcn.layout_search.v2",
+    "movable_node_ids": [
+      3,
+      4,
+      5
+    ],
+    "coordinate_bounds": {
+      "min_x": 18,
+      "max_x": 24,
+      "min_y": 18,
+      "max_y": 31
+    },
+    "max_operations": 8,
+    "selection_mode": "candidate_menu"
+  },
+  "candidate_menu": [
+    {
+      "id": "1231acdc8c6deba64aca",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            22,
+            21
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_21_27",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "215a783dda35277aacab",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            23,
+            22
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_21_27",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 23,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 33
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "513c977249183f97ad71",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            21,
+            26
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_28",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "3a8822eb3548e0458c6f",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            21
+          ]
+        },
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            21,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_21_27",
+        "operator_family": "spatial_anchor_relaxation",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 28
+        },
+        "changed_nodes": 2,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "8137e728b8004da199f4",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            19,
+            20
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_30",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 19,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "4922c0106194c23a5ba9",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            20,
+            27
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_31",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "5d835e497a66e64f4760",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            20
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_28",
+        "operator_family": "single_anchor",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 27
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Relocate one internal node toward its neighbor anchors. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "dc86d56f2e1c01b276cb",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            22,
+            22
+          ]
+        },
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            22,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_30",
+        "operator_family": "spatial_anchor_relaxation",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 27
+        },
+        "changed_nodes": 2,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "1c0ae86888bcca6470e4",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            22,
+            26
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_28",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "bd0057406e0b4809f239",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            22,
+            27
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_22_28",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "3bbe5d3a6d8cb732c65d",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            19,
+            21
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_25",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 19,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 32
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "a0601dfe20d9dcee7ae0",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            22,
+            29
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_31",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "fec9f534d6842c588529",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            22,
+            28
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_31",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "de4c0afcb8001236e690",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            22,
+            23
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_22_28",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "82644a31722eba3d3126",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            22,
+            22
+          ]
+        },
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            21,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_31",
+        "operator_family": "spatial_anchor_relaxation",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 27
+        },
+        "changed_nodes": 2,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "fbf04a82a249ef242cf8",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            23,
+            22
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_22_28",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 23,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 30
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "c52af66398e317305ba3",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            21,
+            22
+          ]
+        },
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            22,
+            25
+          ]
+        },
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            22,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_25",
+        "operator_family": "spatial_site_permutation",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 32
+        },
+        "changed_nodes": 3,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Reassign existing sites within a spatial subset; graph identities and edges are unchanged. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "2b6f38d2bbe23bdb2425",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            21,
+            23
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_30",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "406a71cb3c354eb1d3fe",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            18
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_30",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 18,
+          "max_y": 29,
+          "width": 3,
+          "height": 12,
+          "area_tiles": 36,
+          "manhattan_edges": 33
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "07bf1cc704f5a6f48ce3",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            23,
+            21
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_21_27",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 23,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "1bdaf5e943446b396d2a",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            19,
+            23
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_30",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 19,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 34
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "d79c8c508ed85ec7e8ac",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            21,
+            25
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_22_28",
+        "operator_family": "single_anchor",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Relocate one internal node toward its neighbor anchors. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "46ae95c5c009eac0434a",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            20,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_21_27",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "2aed821e12abdb281c47",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            21,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_31",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "5a739e7a945e2477efe5",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            19
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_30",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 19,
+          "max_y": 29,
+          "width": 3,
+          "height": 11,
+          "area_tiles": 33,
+          "manhattan_edges": 30
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "0552e980a43ba642ceff",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            23,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_21_27",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 23,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "fa3e8ae20a221659a253",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            22,
+            23
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_31",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 28
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "0ff32e7f583f149c2408",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            22,
+            22
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_22_28",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 30
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "c4fa6278b3001a55b15b",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            20,
+            23
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_30",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 30
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "b38050568c704026f346",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            22,
+            25
+          ]
+        },
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            22,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_21_27",
+        "operator_family": "spatial_site_permutation",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 32
+        },
+        "changed_nodes": 2,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Reassign existing sites within a spatial subset; graph identities and edges are unchanged. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "b9ed88e84887eca02044",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            20,
+            23
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_25",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "4050ec3e0b3b0b4004ce",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            26
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_28",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 33
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "f2d41027d2f7cf470f39",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_28",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "af85e2c2e6d736bcdb9e",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            24,
+            25
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_28",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 24,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 5,
+          "height": 10,
+          "area_tiles": 50,
+          "manhattan_edges": 33
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "709b5842ae1a18142ad9",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            20,
+            22
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_28",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 30
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "d25e35695a57c0990683",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            22,
+            21
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_31",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 26
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "96e796119ff2ce60a6f8",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            19,
+            22
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_25",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 19,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 33
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "92e6eaa4c5a7fa5f28a9",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            20
+          ]
+        },
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            21,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_25",
+        "operator_family": "spatial_anchor_relaxation",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 27
+        },
+        "changed_nodes": 2,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "60f8c773c68efefce307",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            21,
+            22
+          ]
+        },
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            22,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_22_28",
+        "operator_family": "spatial_site_permutation",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 2,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Reassign existing sites within a spatial subset; graph identities and edges are unchanged. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "c759964fc5a3c44e48b0",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            20,
+            26
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_28",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "faed8ca5b168c0a2dc43",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            20,
+            26
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_31",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 35
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "f7cc4fcd6c933d068a70",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            22,
+            22
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_22_28",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 33
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "1c6a2c9f10f9c3d4cd74",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            22,
+            22
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_30",
+        "operator_family": "single_anchor",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 27
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Relocate one internal node toward its neighbor anchors. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "1fe69834de724c09a4ca",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            25
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_31",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 32
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "e723650db6c55a80c9ad",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            22,
+            23
+          ]
+        },
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            21
+          ]
+        },
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            21,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_28",
+        "operator_family": "spatial_anchor_relaxation",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 27
+        },
+        "changed_nodes": 3,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "62bb80e637bd1320be7d",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            23,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_30",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 23,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 32
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "6281ccba40cb33a409b3",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            20,
+            21
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_31",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "a9bde05e96ca2d7f8185",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            22,
+            22
+          ]
+        },
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            20
+          ]
+        },
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            22,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_31",
+        "operator_family": "spatial_anchor_relaxation",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 25
+        },
+        "changed_nodes": 3,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "b8177dea6c0dbb96215a",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            23,
+            25
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_31",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 23,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "71526a17b4ef087728e5",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            22,
+            22
+          ]
+        },
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            20
+          ]
+        },
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            21,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_25",
+        "operator_family": "spatial_anchor_relaxation",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 25
+        },
+        "changed_nodes": 3,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Move a spatially selected subset toward node-specific neighbor anchors using different local displacements. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "971fe72da44a8b21a2e4",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            18,
+            20
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_31",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 18,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 5,
+          "height": 10,
+          "area_tiles": 50,
+          "manhattan_edges": 33
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "f4fe3344426bdd25c252",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            22,
+            23
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_22_28",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "3917fe98c67c4fe84201",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            22,
+            26
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_31",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 33
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "4fb0ab5509dfed8d513b",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            23,
+            21
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_21_27",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 23,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 32
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "4c91b21cd7de150119dc",
+      "operations": [
+        {
+          "op": "move",
+          "node": 4,
+          "to": [
+            21,
+            23
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_21_27",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 30
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "8f00599cecbfd44c94b9",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            21,
+            25
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_31",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "14b3b0d67edaac249373",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            23,
+            23
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_19_24_22_28",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 23,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "213fafbc4f68bcafc06e",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            19,
+            25
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_31",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 19,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 4,
+          "height": 10,
+          "area_tiles": 40,
+          "manhattan_edges": 33
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "60d268b98ae8467a5a6f",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            20,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_31",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "e05bcb6d2c1ef5af0d3f",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            20,
+            23
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_18_31",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 33
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "31221b50dd2f56c33f07",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            18,
+            21
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_25",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 18,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 5,
+          "height": 10,
+          "area_tiles": 50,
+          "manhattan_edges": 34
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "ae2ce7b607019fada1d5",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            21,
+            24
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_25",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 30
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "3d02697247b320c584ca",
+      "operations": [
+        {
+          "op": "move",
+          "node": 3,
+          "to": [
+            20,
+            22
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_25",
+        "operator_family": "single_sparse_hotspot",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 29
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore a nearby sparse incumbent-occupancy patch; old wires will be rerouted. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    },
+    {
+      "id": "cd7a253703b2cfd55fbd",
+      "operations": [
+        {
+          "op": "move",
+          "node": 5,
+          "to": [
+            20,
+            25
+          ]
+        }
+      ],
+      "routing_order": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "features": {
+        "region_id": "window_18_24_19_25",
+        "operator_family": "single_vacancy",
+        "placement_proxy": {
+          "min_x": 20,
+          "max_x": 22,
+          "min_y": 20,
+          "max_y": 29,
+          "width": 3,
+          "height": 10,
+          "area_tiles": 30,
+          "manhattan_edges": 31
+        },
+        "changed_nodes": 1,
+        "scope": "Unevaluated node box/Manhattan proxy, not QCA gain"
+      },
+      "description": "Explore an unoccupied local gate site without requiring immediate proxy improvement. Only selected internal nodes move; PI/PO and all exterior nodes stay fixed. Occupancy/length proxies are not certificates; rerouting and clock/physical/logic checks remain required."
+    }
+  ]
+}

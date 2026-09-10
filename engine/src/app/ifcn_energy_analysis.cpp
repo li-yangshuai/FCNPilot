@@ -69,6 +69,12 @@ struct Cell {
     double fixedPolarization = 0.0;
 };
 
+struct PhysicalRouteValidation {
+    std::size_t netCount = 0;
+    std::size_t routeCount = 0;
+    std::size_t routeSiteCount = 0;
+};
+
 struct ShiftedPosition {
     position pos{0, 0};
     bool valid = false;
@@ -627,8 +633,9 @@ void addCell(std::vector<Cell> &cells,
 }
 
 std::vector<Cell> mapIfcnToCells(const LayoutData &data,
-                                 bool contractIoPorts,
-                                 const std::vector<std::string> &probeNodeNames)
+                                  bool contractIoPorts,
+                                  const std::vector<std::string> &probeNodeNames,
+                                  PhysicalRouteValidation &validation)
 {
     Mapping mapping;
     std::vector<std::vector<position>> routePaths;
@@ -643,7 +650,9 @@ std::vector<Cell> mapIfcnToCells(const LayoutData &data,
     std::map<position, std::string> nodeNameByPos;
     std::map<std::pair<position, std::string>, std::pair<std::vector<position>, std::vector<position>>> nodeLinks;
     for (const auto &node : data.nodes) {
-        nodeNameByPos[node.second.pos] = node.second.name;
+        if (!nodeNameByPos.emplace(node.second.pos, node.second.name).second) {
+            throw std::runtime_error("multiple nodes occupy one physical tile");
+        }
         nodeLinks.try_emplace({node.second.pos, node.second.type},
                               std::make_pair(std::vector<position>{}, std::vector<position>{}));
     }
@@ -652,11 +661,19 @@ std::vector<Cell> mapIfcnToCells(const LayoutData &data,
         const auto &key = route.first;
         const auto &path = route.second;
         if (path.size() < 2 || !data.nodes.count(key.first) || !data.nodes.count(key.second)) {
-            continue;
+            throw std::runtime_error("physical route has missing source/sink nodes or path");
         }
 
         const NodeInfo &source = data.nodes.at(key.first);
         const NodeInfo &sink = data.nodes.at(key.second);
+        if (path.front() != source.pos || path.back() != sink.pos) {
+            throw std::runtime_error("physical route endpoints disagree with source/sink nodes");
+        }
+        for (std::size_t index = 1; index + 1 < path.size(); ++index) {
+            if (nodeNameByPos.count(path[index]) != 0) {
+                throw std::runtime_error("physical route passes through another node tile");
+            }
+        }
         nodeLinks[{source.pos, source.type}].second.push_back(path[1]);
         auto &sinkInputs = nodeLinks[{sink.pos, sink.type}].first;
         const position sinkPort = path[path.size() - 2];
@@ -684,6 +701,17 @@ std::vector<Cell> mapIfcnToCells(const LayoutData &data,
     std::string crossoverError;
     if (!mapping.validate_crossovers(&crossoverError)) {
         throw std::runtime_error("invalid crossover mapping: " + crossoverError);
+    }
+    const auto orderedRoutes = mapping.orderedLayerAwarePhysicalRoutes(routePaths);
+    std::set<position> templateCells;
+    for (const auto &bucket : mapping.nodecell_list) {
+        templateCells.insert(bucket.second.begin(), bucket.second.end());
+    }
+    for (const auto &path : orderedRoutes) {
+        if (templateCells.count(path.front().xy) == 0 ||
+            templateCells.count(path.back().xy) == 0) {
+            throw std::runtime_error("physical route endpoint is missing from its node template");
+        }
     }
     if (contractIoPorts) {
         mapping.contract_io_ports(nodeLinks, routeCellsByPath);
@@ -757,13 +785,20 @@ std::vector<Cell> mapIfcnToCells(const LayoutData &data,
         }
     }
 
-    if (data.mappingMode == MappingMode::Sequential) {
-        // Mapping owns the sequential topology contract.  Its ordered physical
-        // routes split crossover ownership per route, put a full L0/L1/L2
-        // pillar at both ends of every maximal lifted run, and reject an exact
-        // layer site shared by routes with different sources.
-        std::set<PhysicalCellSite> physicalSites =
-            mapping.physicalCellSites(routePaths);
+    {
+        // Every exported circuit uses the same physical net contract. Ordered
+        // routes own their lifted corridors, include complete L0/L1/L2 pillars,
+        // and reject disconnected paths or exact sites owned by distinct nets.
+        // A valid coarse crossing shape alone does not establish this contract.
+        std::set<PhysicalCellSite> physicalSites;
+        for (const auto &bucket : nodeCellsByType) {
+            for (const position &cell : bucket.second) {
+                physicalSites.emplace(cell, 0);
+            }
+        }
+        for (const auto &path : orderedRoutes) {
+            physicalSites.insert(path.begin(), path.end());
+        }
 
         // I/O contraction edits the public node/route cell sets after the
         // ordered routes have been constructed.  Retain only XY coordinates
@@ -793,6 +828,26 @@ std::vector<Cell> mapIfcnToCells(const LayoutData &data,
             }
         }
 
+        // Optional I/O contraction may trim a route prefix/suffix, but cannot
+        // erase an interior cell and leave a disconnected physical net.
+        std::set<PhysicalCellSite> retainedRouteSites;
+        for (const auto &path : orderedRoutes) {
+            const auto first = std::find_if(path.begin(), path.end(),
+                [&](const auto &site) { return physicalSites.count(site) != 0; });
+            const auto last = std::find_if(path.rbegin(), path.rend(),
+                [&](const auto &site) { return physicalSites.count(site) != 0; });
+            if (first == path.end()) {
+                throw std::runtime_error("physical export removed a complete source-to-sink route");
+            }
+            for (auto site = first; site != last.base(); ++site) {
+                if (physicalSites.count(*site) == 0) {
+                    throw std::runtime_error("physical export removed an interior route cell");
+                }
+                retainedRouteSites.insert(*site);
+            }
+        }
+        validation.routeSiteCount = retainedRouteSites.size();
+
         std::map<position, std::set<int>> layersByXy;
         for (const PhysicalCellSite &site : physicalSites) {
             layersByXy[site.xy].insert(site.layer);
@@ -801,7 +856,7 @@ std::vector<Cell> mapIfcnToCells(const LayoutData &data,
             const std::set<int> &layers = entry.second;
             if (layers.count(1) != 0 && layers != std::set<int>{0, 1, 2}) {
                 throw std::runtime_error(
-                    "invalid sequential vertical stack at (" +
+                        "invalid physical vertical stack at (" +
                     std::to_string(entry.first.first) + "," +
                     std::to_string(entry.first.second) + ")");
             }
@@ -816,76 +871,12 @@ std::vector<Cell> mapIfcnToCells(const LayoutData &data,
             addCell(cells, data, site.xy, site.layer,
                     CellFunction::Normal, mode);
         }
-    } else {
-        // Preserve the historical combinational exporter, including its
-        // global-neighbour endpoint treatment.
-        std::unordered_set<position, MappingPositionHash> crossCellSet;
-        std::unordered_set<position, MappingPositionHash> verticalCellSet;
-        std::map<std::pair<position, position>,
-                 std::unordered_set<position, MappingPositionHash>>
-            crossCellsByRoute;
-        auto addVerticalStack = [&](const position &cell) {
-            addCell(cells, data, cell, 0, CellFunction::Normal, CellMode::Vertical);
-            addCell(cells, data, cell, 1, CellFunction::Normal, CellMode::Vertical);
-            addCell(cells, data, cell, 2, CellFunction::Normal, CellMode::Vertical);
-            verticalCellSet.insert(cell);
-        };
-        for (const auto &crossLine : crossCellsByPath) {
-            for (const auto &cross : crossLine.second) {
-                crossCellSet.insert(cross.begin(), cross.end());
-                crossCellsByRoute[crossLine.first].insert(cross.begin(), cross.end());
-            }
-        }
-
-        for (const auto &crossLine : crossCellsByPath) {
-            for (const auto &cross : crossLine.second) {
-                for (auto unit = cross.begin(); unit != cross.end(); ++unit) {
-                    if (unit == cross.begin() || std::next(unit) == cross.end()) {
-                        int count = 0;
-                        const position base = *unit;
-                        const auto dir1 = shiftedPosition(base, 0, 1);
-                        const auto dir2 = shiftedPosition(base, 0, -1);
-                        const auto dir3 = shiftedPosition(base, -1, 0);
-                        const auto dir4 = shiftedPosition(base, 1, 0);
-                        count += containsPosition(crossCellSet, dir1) ? 1 : 0;
-                        count += containsPosition(crossCellSet, dir2) ? 1 : 0;
-                        count += containsPosition(crossCellSet, dir3) ? 1 : 0;
-                        count += containsPosition(crossCellSet, dir4) ? 1 : 0;
-
-                        if (count >= 2) {
-                            addCell(cells, data, *unit, 2,
-                                    CellFunction::Normal, CellMode::Crossover);
-                        } else {
-                            addVerticalStack(*unit);
-                        }
-                    } else {
-                        addCell(cells, data, *unit, 2,
-                                CellFunction::Normal, CellMode::Crossover);
-                    }
-                }
-            }
-        }
-
-        for (const auto &line : routeCellsByPath) {
-            const auto routeCrossIt = crossCellsByRoute.find(line.first);
-            for (const auto &segment : line.second) {
-                for (const position &pos : segment) {
-                    if (verticalCellSet.find(pos) != verticalCellSet.end()) {
-                        continue;
-                    }
-
-                    const bool routeOwnsCrossCell =
-                        routeCrossIt != crossCellsByRoute.end()
-                        && routeCrossIt->second.find(pos) != routeCrossIt->second.end();
-                    if (routeOwnsCrossCell) {
-                        continue;
-                    }
-
-                    addCell(cells, data, pos, 0, CellFunction::Normal);
-                }
-            }
-        }
     }
+
+    std::set<int> sources;
+    for (const auto &route : data.routes) sources.insert(route.first.first);
+    validation.netCount = sources.size();
+    validation.routeCount = orderedRoutes.size();
 
     // Node templates and routed wires may both emit the same physical site.
     // Keeping both creates a zero-distance pair and an infinite kink energy in
@@ -1175,6 +1166,38 @@ void writeQcaFile(const std::string &filename, const std::vector<Cell> &cells)
         out << "[#TYPE:QCADLayer]\n";
     }
     out << "[#TYPE:DESIGN]\n";
+    out.close();
+    if (!out) throw std::runtime_error("cannot finish writing " + filename);
+}
+
+void writePhysicalValidation(const std::string &filename,
+                             const PhysicalRouteValidation *validation,
+                             std::size_t cellCount,
+                             bool contractIoPorts)
+{
+    std::ofstream out(filename);
+    if (!out) throw std::runtime_error("cannot write " + filename);
+    out << "{\n  \"schema\": \"ifcn.qca.physical_routes.v1\",\n"
+        << "  \"passed\": " << (validation ? "true" : "false");
+    if (validation) {
+        out << ",\n  \"checks\": [\"ordered_route_continuity\", "
+               "\"source_site_isolation\", \"layer_transition_columns\", "
+               "\"route_site_coverage\", \"gate_connection_ports\"],\n"
+            << "  \"cell_count\": " << cellCount << ",\n"
+            << "  \"emitted_cell_count\": " << cellCount << ",\n"
+            << "  \"route_count\": " << validation->routeCount << ",\n"
+            << "  \"net_count\": " << validation->netCount << ",\n"
+            << "  \"route_site_count\": " << validation->routeSiteCount << ",\n"
+            << "  \"io_contraction\": " << (contractIoPorts ? "true" : "false") << ",\n"
+            << "  \"scope\": \"Ordered source-to-sink template ports, route-owned "
+               "exact XYZ sites, complete L0/L1/L2 transition columns, and "
+               "retained route continuity after optional terminal trimming. "
+               "Does not certify electrostatic interference, clock timing, or "
+               "device-level functional simulation.\"";
+    }
+    out << "\n}\n";
+    out.close();
+    if (!out) throw std::runtime_error("cannot finish writing " + filename);
 }
 
 std::string replaceSuffix(const std::string &path, const std::string &suffix)
@@ -1312,11 +1335,19 @@ int main(int argc, char **argv)
         const std::string waveformPath = outputPrefix + "_energy.rst";
 
         if (!sourceIsQca) {
+            const std::string validationPath = outputPrefix + "_physical_validation.json";
+            // Invalidate a certificate from an earlier invocation before any
+            // parsing/mapping can fail with the same output prefix.
+            writePhysicalValidation(validationPath, nullptr, 0, runOptions.contractIoPorts);
             const LayoutData layout = parseIfcn(ifcnPath);
+            PhysicalRouteValidation validation;
             const std::vector<Cell> cells = mapIfcnToCells(layout,
-                                                           runOptions.contractIoPorts,
-                                                           runOptions.probeNodeNames);
+                                                            runOptions.contractIoPorts,
+                                                            runOptions.probeNodeNames,
+                                                            validation);
             writeQcaFile(qcaPath, cells);
+            writePhysicalValidation(validationPath, &validation, cells.size(),
+                                    runOptions.contractIoPorts);
         } else if (runOptions.contractIoPorts || !runOptions.probeNodeNames.empty()) {
             throw std::runtime_error(
                 "--io-contraction and --probe-node apply only to IFCN input");

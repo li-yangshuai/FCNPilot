@@ -1,0 +1,416 @@
+{
+  "round": 2,
+  "status": "failed",
+  "start_metrics": {
+    "width": 9,
+    "height": 14,
+    "area_tiles": 126,
+    "qca_cells": 383,
+    "edge_steps": 85,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 9,
+    "height": 14,
+    "area_tiles": 126,
+    "qca_cells": 383,
+    "edge_steps": 85,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "start_state": "beae2c41087facc1d2538f218851da64b2851069e7399548446a952f20dc171b",
+  "cumulative_round": 6,
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 3115,
+    "output": 499,
+    "cacheRead": 13184,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 16798
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 4,
+        "to": [
+          25,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          27,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          20,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          26,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          25,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          24,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          22,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          24,
+          29
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Target high-detour edges: [12,15] (detour 4), [6,11] (detour 2), [12,13] (detour 2). Move NOTs (4,6,8) to y=22 aligning with fanin medians; ANDs (10,11) to y=23 near neighbor anchors; OR (12) to y=25 reduces vertical gap to 15/13; 15→y=26 and 16→y=29 exploit vacancy at (25–27,28–29) and avoid congestion near (24,27). All moves stay within empty bands (e.g., x=20–21,y=21–22; x=25–27,y=28–29) and preserve min_x=20, max_x=28. Height contracts from 14→13 (y=20→32) without moving ports, directly reducing routed area. This is a conservative adaptation of prior failed compacting—smaller vertical shift (y+1 for NOTs instead of +2) avoids routing failure while still improving Manhattan gaps."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 4,
+        "to": [
+          25,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          27,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          20,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          26,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          25,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          24,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          22,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          24,
+          29
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "rationale": "Target high-detour edges: [12,15] (detour 4), [6,11] (detour 2), [12,13] (detour 2). Move NOTs (4,6,8) to y=22 aligning with fanin medians; ANDs (10,11) to y=23 near neighbor anchors; OR (12) to y=25 reduces vertical gap to 15/13; 15→y=26 and 16→y=29 exploit vacancy at (25–27,28–29) and avoid congestion near (24,27). All moves stay within empty bands (e.g., x=20–21,y=21–22; x=25–27,y=28–29) and preserve min_x=20, max_x=28. Height contracts from 14→13 (y=20→32) without moving ports, directly reducing routed area. This is a conservative adaptation of prior failed compacting—smaller vertical shift (y+1 for NOTs instead of +2) avoids routing failure while still improving Manhattan gaps."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "bc35ce8c57417c0caa085395d5e4222cd97e439d0901f4d84eb23c4da917f648",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 16) has an absent or invalid clock phase at (20, 20); Route (0, 16) has an absent or invalid clock phase at (20, 21); Route (0, 16) has an absent or invalid clock phase at (21, 21); Route (0, 16) has an absent or invalid clock phase at (21, 22)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      13,
+      16
+    ],
+    [
+      15,
+      3
+    ],
+    [
+      16,
+      3
+    ]
+  ],
+  "elapsed_s": 13.965490684997349,
+  "decision": "retain_best",
+  "retained_metrics": {
+    "width": 9,
+    "height": 14,
+    "area_tiles": 126,
+    "qca_cells": 383,
+    "edge_steps": 85,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "next_state": "beae2c41087facc1d2538f218851da64b2851069e7399548446a952f20dc171b"
+}

@@ -1,0 +1,382 @@
+{
+  "status": "certified",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 4,
+        "to": [
+          24,
+          20
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          23,
+          29
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "rationale": "Contract internal gates toward neighbor-anchor medians (e.g., node 4→[24,20], 5→[22,25], 7→[24,23], 10→[22,23]) to reduce horizontal spread; shift 8 and 11 vertically into sparse y=26–29 band (vacancy hotspot in window_21_27_25_31) to shrink top extent. This aligns with unevaluated hint #5 but adjusts 8 and 11 upward to avoid congestion at y=28 and exploit empty tiles above 8’s current position. All moves stay within coordinate bounds, preserve DAG edges, and target area-controlling nodes: left (id=1), right (id=7 now at x=24), bottom (PIs fixed), top (id=3 at y=34 remains but 11 moves to y=29, enabling tighter routing). No port moved, but internal contraction reduces routed bbox width from 8→6 and height potentially from 15→14 if routing succeeds."
+  },
+  "start_sha256": "e280e088a8472470371302c5be928ce7343e27dd4efd8115d9e1ada4d9bd90bd",
+  "moves": [
+    {
+      "node_id": 4,
+      "name": "ifcn_tmp_0",
+      "from": [
+        24,
+        23
+      ],
+      "to": [
+        24,
+        20
+      ]
+    },
+    {
+      "node_id": 5,
+      "name": "~x2",
+      "from": [
+        22,
+        23
+      ],
+      "to": [
+        22,
+        25
+      ]
+    },
+    {
+      "node_id": 7,
+      "name": "ifcn_tmp_2",
+      "from": [
+        27,
+        25
+      ],
+      "to": [
+        24,
+        23
+      ]
+    },
+    {
+      "node_id": 8,
+      "name": "ifcn_tmp_3",
+      "from": [
+        24,
+        28
+      ],
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "node_id": 10,
+      "name": "ifcn_tmp_5",
+      "from": [
+        22,
+        25
+      ],
+      "to": [
+        22,
+        23
+      ]
+    },
+    {
+      "node_id": 11,
+      "name": "n4",
+      "from": [
+        23,
+        31
+      ],
+      "to": [
+        23,
+        29
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "executed_order": [
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "metrics": {
+    "width": 8,
+    "height": 16,
+    "area_tiles": 128,
+    "qca_cells": 379,
+    "edge_steps": 76,
+    "output_arrival_ticks": {
+      "3": [
+        19,
+        19
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 0,
+      "target": 4,
+      "before_steps": 4,
+      "after_steps": 3
+    },
+    {
+      "source": 0,
+      "target": 7,
+      "before_steps": 7,
+      "after_steps": 4
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "before_steps": 7,
+      "after_steps": 6
+    },
+    {
+      "source": 1,
+      "target": 10,
+      "before_steps": 7,
+      "after_steps": 5
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "before_steps": 3,
+      "after_steps": 13
+    },
+    {
+      "source": 4,
+      "target": 8,
+      "before_steps": 5,
+      "after_steps": 12
+    },
+    {
+      "source": 5,
+      "target": 7,
+      "before_steps": 9,
+      "after_steps": 4
+    },
+    {
+      "source": 5,
+      "target": 10,
+      "before_steps": 2,
+      "after_steps": 2
+    },
+    {
+      "source": 7,
+      "target": 8,
+      "before_steps": 6,
+      "after_steps": 7
+    },
+    {
+      "source": 8,
+      "target": 11,
+      "before_steps": 4,
+      "after_steps": 4
+    },
+    {
+      "source": 10,
+      "target": 11,
+      "before_steps": 7,
+      "after_steps": 11
+    },
+    {
+      "source": 11,
+      "target": 3,
+      "before_steps": 3,
+      "after_steps": 5
+    }
+  ],
+  "elapsed_s": 0.4982255860013538
+}

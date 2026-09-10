@@ -11,7 +11,6 @@ import { dirname, join } from "path";
 import { randomUUID } from "crypto";
 import { getAgentDir } from "@earendil-works/pi-coding-agent";
 import { getPiWebUserDir, migrateLegacyFile } from "./pi-web-paths";
-import { normalizeAiCodeSettings, type AiCodeSettings } from "./ai-code-settings";
 
 const UID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const TOOL_PRESETS = new Set(["none", "read-only", "default", "full"]);
@@ -42,8 +41,6 @@ export interface AccountPreferences {
   enabledMcpServers?: string[];
   /** Built-in subagent shortcuts hidden above the chat input; all are hidden when undefined. */
   hiddenBuiltinSubagentIds?: AccountBuiltinSubagentId[];
-  /** Account-scoped inline completion and code review tuning. */
-  aiCode?: AiCodeSettings;
   /** Account-scoped starter prompts shown on the new-session welcome card. */
   welcomeSuggestions?: string[];
   /** Account-scoped shortcuts pinned to the left activity rail. */
@@ -59,7 +56,6 @@ export type AccountPreferencesPatch = {
   agentSuitePath?: string | null;
   enabledMcpServers?: string[] | null;
   hiddenBuiltinSubagentIds?: AccountBuiltinSubagentId[] | null;
-  aiCode?: AiCodeSettings | null;
   welcomeSuggestions?: string[] | null;
   pinnedActivityItems?: AccountPinnedActivityItem[] | null;
 };
@@ -118,9 +114,6 @@ function normalizePreferences(value: unknown): AccountPreferences {
     const ids = raw.hiddenBuiltinSubagentIds
       .filter((id): id is AccountBuiltinSubagentId => typeof id === "string" && BUILTIN_SUBAGENT_IDS.has(id));
     preferences.hiddenBuiltinSubagentIds = [...new Set(ids)];
-  }
-  if (raw.aiCode && typeof raw.aiCode === "object" && !Array.isArray(raw.aiCode)) {
-    preferences.aiCode = normalizeAiCodeSettings(raw.aiCode);
   }
   if (Array.isArray(raw.welcomeSuggestions)) {
     const suggestions = raw.welcomeSuggestions
@@ -225,14 +218,6 @@ export function updateAccountPreferences(uid: string, patch: AccountPreferencesP
       throw new Error("Invalid hidden built-in subagent preference");
     } else {
       next.hiddenBuiltinSubagentIds = [...new Set(patch.hiddenBuiltinSubagentIds)];
-    }
-  }
-  if ("aiCode" in patch) {
-    if (patch.aiCode === null) delete next.aiCode;
-    else if (!patch.aiCode || typeof patch.aiCode !== "object" || Array.isArray(patch.aiCode)) {
-      throw new Error("Invalid AI code settings preference");
-    } else {
-      next.aiCode = normalizeAiCodeSettings(patch.aiCode);
     }
   }
   if ("welcomeSuggestions" in patch) {

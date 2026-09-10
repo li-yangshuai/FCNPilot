@@ -1,0 +1,153 @@
+{
+  "schema": "ifcn.routed_logic_audit.v1",
+  "scope": "Exhaustive Boolean equivalence of source assignments and exported routed DAG; excludes device behavior, clock timing/alignment, and power.",
+  "source_sha256": "6bb7bb0f8df4d153052a87050e75049a3fbfb80ee2fa4bb27e3c0e06dae7dc51",
+  "routed_dag_sha256": "41868ed2e6e0c4d5a644441d8f256d92661652552ca4403ae881ef485a947488",
+  "status": "equivalent",
+  "equivalent": true,
+  "max_inputs": 11,
+  "vectors_checked": 32,
+  "mismatch_count": 0,
+  "counterexamples": [],
+  "port_diagnostics": {
+    "source_input_ports": [
+      "a0",
+      "a1",
+      "b0",
+      "b1",
+      "cin"
+    ],
+    "source_output_ports": [
+      "sum0",
+      "sum1",
+      "cout"
+    ],
+    "dag_declared_input_count": 5,
+    "dag_declared_output_count": 3,
+    "dag_flagged_inputs": [
+      {
+        "id": 0,
+        "name": "a0",
+        "type": "input"
+      },
+      {
+        "id": 1,
+        "name": "a1",
+        "type": "input"
+      },
+      {
+        "id": 2,
+        "name": "b0",
+        "type": "input"
+      },
+      {
+        "id": 3,
+        "name": "b1",
+        "type": "input"
+      },
+      {
+        "id": 4,
+        "name": "cin",
+        "type": "input"
+      }
+    ],
+    "dag_flagged_outputs": [
+      {
+        "id": 5,
+        "name": "cout",
+        "type": "or"
+      },
+      {
+        "id": 6,
+        "name": "sum0",
+        "type": "and"
+      },
+      {
+        "id": 7,
+        "name": "sum1",
+        "type": "and"
+      }
+    ]
+  },
+  "input_ports": [
+    "a0",
+    "a1",
+    "b0",
+    "b1",
+    "cin"
+  ],
+  "output_ports": [
+    "sum0",
+    "sum1",
+    "cout"
+  ],
+  "source_header_matches_declarations": true,
+  "input_mapping": [
+    {
+      "source_port": "a0",
+      "dag_node_id": 0,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "a1",
+      "dag_node_id": 1,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "b0",
+      "dag_node_id": 2,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "b1",
+      "dag_node_id": 3,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "cin",
+      "dag_node_id": 4,
+      "basis": "exact_name"
+    }
+  ],
+  "output_mapping": [
+    {
+      "source_port": "sum0",
+      "dag_node_id": 6,
+      "dag_node_name": "sum0",
+      "basis": "exact_name",
+      "alias_chain": [
+        "sum0"
+      ]
+    },
+    {
+      "source_port": "sum1",
+      "dag_node_id": 7,
+      "dag_node_name": "sum1",
+      "basis": "exact_name",
+      "alias_chain": [
+        "sum1"
+      ]
+    },
+    {
+      "source_port": "cout",
+      "dag_node_id": 5,
+      "dag_node_name": "cout",
+      "basis": "exact_name",
+      "alias_chain": [
+        "cout"
+      ]
+    }
+  ],
+  "gate_semantics": {
+    "and": "AND of exactly two fanins",
+    "fanout": "identity of exactly one fanin",
+    "input": "primary input; no fanins",
+    "not": "complement of exactly one fanin",
+    "or": "OR of exactly two fanins"
+  },
+  "expected_vector_count": 32,
+  "source_truth_sha256": "452994f347664560944787f7a3b1a4099991f3fe422061880cb12e700a265383",
+  "dag_truth_sha256": "452994f347664560944787f7a3b1a4099991f3fe422061880cb12e700a265383",
+  "source_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/density_feedback_ablation_20260909_r1/c03_TOY_RCA2/inputs/source.v",
+  "routed_dag_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/density_feedback_ablation_20260909_r1/c03_TOY_RCA2/rep_01/deterministic_global_proxy/02/candidates/02/routed_dag.json"
+}

@@ -53,28 +53,25 @@ test("a bound main Agent keeps its exact tools through binding, both reload path
   assert.deepEqual(inner.getActiveToolNames(), IFCN_TOOLS);
 });
 
-test("generic sessions retain extension tools with coding presets and can disable all tools", async (t) => {
+test("a wrapper without a profile cannot activate generic coding, delegation, or MCP presets", async (t) => {
   const inner = makeInner();
   const wrapper = new AgentSessionWrapper(inner);
   t.after(() => wrapper.destroy());
-  await wrapper.send({ type: "set_tools", toolNames: ["read"] });
-  assert.ok(inner.getActiveToolNames().includes("Agent"));
-  assert.ok(inner.getActiveToolNames().includes("mcp_external"));
-  assert.ok(inner.getActiveToolNames().includes("ifcn_run"));
-  assert.ok(!inner.getActiveToolNames().includes("bash"));
-  await wrapper.send({ type: "set_tools", toolNames: [] });
-  assert.deepEqual(inner.getActiveToolNames(), []);
-  assert.equal(inner.agent.state.systemPrompt, "");
+  const original = inner.getActiveToolNames();
+  for (const toolNames of [["read"], [], ["bash"], ["Agent"], ["mcp_external"], [...IFCN_TOOLS, "Agent"]]) {
+    await assert.rejects(wrapper.send({ type: "set_tools", toolNames }), { status: 409 });
+    assert.deepEqual(inner.getActiveToolNames(), original, "rejected requests cannot mutate runtime state");
+  }
 });
 
-test("an explicitly empty main profile stays empty after extension binding and reload", async (t) => {
+test("rejecting an empty tool selection preserves the main policy across binding and reload", async (t) => {
   const inner = makeInner();
-  const wrapper = new AgentSessionWrapper(inner, []);
+  const wrapper = new AgentSessionWrapper(inner, IFCN_TOOLS);
   t.after(() => wrapper.destroy());
-  wrapper.setForceEmptySystemPrompt(true);
+  await assert.rejects(wrapper.send({ type: "set_tools", toolNames: [] }), { status: 409 });
   wrapper.beginExtensionBinding();
   await wrapper.waitUntilReady();
   await wrapper.send({ type: "reload" });
-  assert.deepEqual(inner.getActiveToolNames(), []);
-  assert.equal(inner.agent.state.systemPrompt, "");
+  assert.deepEqual(inner.getActiveToolNames(), IFCN_TOOLS);
+  assert.equal(inner.agent.state.systemPrompt, "Main agent policy");
 });

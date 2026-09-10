@@ -1,0 +1,205 @@
+{
+  "round": 3,
+  "status": "failed",
+  "start_metrics": {
+    "width": 5,
+    "height": 12,
+    "area_tiles": 60,
+    "qca_cells": 186,
+    "edge_steps": 36,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 5,
+    "height": 12,
+    "area_tiles": 60,
+    "qca_cells": 186,
+    "edge_steps": 36,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "start_state": "360fae38dc1e06cab84ae4e2a7d6a2de8a2a923501b7d2ef09a09f23d04229ad",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 12203,
+    "output": 452,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 12655
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          21,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          21,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          23,
+          25
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Contract the left-side vertical chain (8→9→7) and central stack (5→7→11) by relocating nodes toward neighbor medians without collision: move 8 from (20,22)→(21,22), 9 from (20,23)→(21,23) to clear x=20 for potential future port shift; move 5 from (22,23)→(22,22) aligning with 4 and 6’s y-level; move 7 from (22,26)→(22,25) and 11 from (24,26)→(23,25) compressing the right fanout column. This eliminates the 5-step edge [9,7] (now Manhattan=4, but routing will shorten via shared x=21→22 vertical), reduces vertical span by coalescing y=22–25, and preserves all fanin/fanout adjacency. No node collisions; internal-only moves satisfy requirement. The new bounding box remains width 5, height 12 (area 60) but with lower wire density and improved routing locality—critical for subsequent certified area reduction."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          21,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          21,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          23,
+          25
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        2,
+        6
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        6,
+        10
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        10,
+        11
+      ]
+    ],
+    "rationale": "Contract the left-side vertical chain (8→9→7) and central stack (5→7→11) by relocating nodes toward neighbor medians without collision: move 8 from (20,22)→(21,22), 9 from (20,23)→(21,23) to clear x=20 for potential future port shift; move 5 from (22,23)→(22,22) aligning with 4 and 6’s y-level; move 7 from (22,26)→(22,25) and 11 from (24,26)→(23,25) compressing the right fanout column. This eliminates the 5-step edge [9,7] (now Manhattan=4, but routing will shorten via shared x=21→22 vertical), reduces vertical span by coalescing y=22–25, and preserves all fanin/fanout adjacency. No node collisions; internal-only moves satisfy requirement. The new bounding box remains width 5, height 12 (area 60) but with lower wire density and improved routing locality—critical for subsequent certified area reduction."
+  },
+  "error": "Node collision: [{\"xy\": [22, 22], \"node_ids\": [4, 5]}]; assign distinct final coordinates to these nodes",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 5,
+    "height": 12,
+    "area_tiles": 60,
+    "qca_cells": 186,
+    "edge_steps": 36,
+    "output_arrival_ticks": {
+      "3": [
+        12,
+        12
+      ]
+    }
+  },
+  "next_state": "360fae38dc1e06cab84ae4e2a7d6a2de8a2a923501b7d2ef09a09f23d04229ad",
+  "elapsed_s": 18.758029447999434
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "ifcn.combinational.rephase.v1",
+  "status": "sat",
+  "algorithm": "june_random",
+  "solver": "scipy_highs_milp_in_bounded_process",
+  "launch_policy": "all_pi_cycle0_at_own_phase",
+  "pi_phases_preserved": false,
+  "geometry_preserved": true,
+  "pi_phase_policy": "free_within_cycle_zero",
+  "phase_count": 4,
+  "gate_internal_extra_ticks": 0,
+  "requires_fresh_export_mapping": true,
+  "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+  "max_same_phase_tiles": 10,
+  "max_same_phase_step_fraction": 0.3,
+  "problem_size": {
+    "nodes": 15,
+    "routes": 16,
+    "occurrences": 100,
+    "steps": 84
+  },
+  "geometry_sha256": "1d2bd9cd6c87394f0f562d691dd96156e849a22da77c299877c2a2a33fd6dd4e",
+  "baseline_native_mapping_valid": true,
+  "changed_tiles": 35,
+  "actual_max_same_phase_tiles": 10,
+  "same_phase_steps": 24,
+  "node_arrival_ticks": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 1,
+    "4": 1,
+    "5": 13,
+    "6": 11,
+    "7": 2,
+    "8": 3,
+    "9": 5,
+    "11": 2,
+    "13": 6,
+    "14": 4,
+    "16": 7,
+    "18": 7
+  },
+  "pi_launch_ticks": {
+    "pi0": 0,
+    "pi1": 0,
+    "pi2": 0,
+    "pi3": 1,
+    "pi4": 1
+  },
+  "validation_passed": true,
+  "elapsed_s": 0.6994238619990938,
+  "attempts": [
+    {
+      "pi_phase_policy": "fixed_original",
+      "status": "unsat",
+      "reason": "infeasible_clock_constraints",
+      "elapsed_s": 0.3438411000024644
+    },
+    {
+      "pi_phase_policy": "free_within_cycle_zero",
+      "status": "sat",
+      "elapsed_s": 0.3555318010003248
+    }
+  ]
+}

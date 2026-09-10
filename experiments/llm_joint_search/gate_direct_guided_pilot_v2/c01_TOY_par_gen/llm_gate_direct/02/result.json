@@ -1,0 +1,327 @@
+{
+  "round": 2,
+  "status": "failed",
+  "start_metrics": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "start_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 15757,
+    "output": 331,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 16088
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          26,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          24,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          24,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          24,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          22,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          24,
+          33
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        16
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        10
+      ]
+    ],
+    "rationale": "Prioritize early fanout and reconvergent edges ([0,8],[1,4],[2,6],[10,12],[11,12]) before long tail routes; move internal gates 10–16 vertically by +1 to align with vacancy hotspots (25–27,29–32) and reduce congestion in window_21_27_23_29; this preserves all edge coverage while enabling shorter Manhattan paths for [0,16] and [2,10] that previously failed routing."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "e2184ba7d2736c21bd19a8141c38ce8c7f9b116ea622b0e6655484f1b9035184",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 8) has an absent or invalid clock phase at (20, 20); Route (0, 8) has an absent or invalid clock phase at (20, 21); Route (0, 8) has an absent or invalid clock phase at (20, 22); Route (0, 8) has an absent or invalid clock phase at (20, 23)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        16
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        10
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        16
+      ],
+      [
+        1,
+        11
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      1,
+      11
+    ],
+    [
+      2,
+      10
+    ]
+  ],
+  "elapsed_s": 12.078941603998828,
+  "decision": "retain_best",
+  "retained_metrics": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "next_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb"
+}

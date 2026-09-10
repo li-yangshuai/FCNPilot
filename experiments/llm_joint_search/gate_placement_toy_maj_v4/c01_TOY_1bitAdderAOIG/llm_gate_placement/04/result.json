@@ -1,0 +1,248 @@
+{
+  "round": 4,
+  "status": "failed",
+  "start_metrics": {
+    "width": 8,
+    "height": 18,
+    "area_tiles": 144,
+    "qca_cells": 474,
+    "edge_steps": 112,
+    "output_arrival_ticks": {
+      "3": [
+        19,
+        19
+      ],
+      "4": [
+        15,
+        15
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 8,
+    "height": 18,
+    "area_tiles": 144,
+    "qca_cells": 474,
+    "edge_steps": 112,
+    "output_arrival_ticks": {
+      "3": [
+        19,
+        19
+      ],
+      "4": [
+        15,
+        15
+      ]
+    }
+  },
+  "start_state": "70a308d0dc809de1103a1408127649f25cabd5fa7956759c6b887a1baef5784a",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 1395,
+    "output": 516,
+    "cacheRead": 15488,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 17399
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          20,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          24,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          24,
+          34
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          22,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          5,
+          6
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Contract central fanout cluster: move 9→(22,28) to align vertically with fanin from 5 (now at 6’s original (25,23)) and 7→(24,26), reducing routing congestion in x=23–25 band; swap 5↔6 separates them cleanly without collision while preserving symmetric fanin to 9 and 4; shift 10→(20,31) and 11→(24,31) directly under outputs 3/4, enabling straighter vertical paths (e.g., [10,3] Manhattan 7, [11,4] Manhattan 6); 12→(24,34) keeps [11,12] and [12,3] short and monotonic. Vacancy hotspots at (18–21,32–34) and (24–26,30–31) absorb moves; min_x remains 20 (port 0), max_x unchanged at 27 (port 4), but internal packing tightens—critical edge [2,6] detour already reduced to 4 steps in prior certified round, and this geometry avoids the width/height expansion of round 3 by keeping y-extent ≤37 and x-span ≤7 (ports can adjust). At least one internal gate moves; no collisions; coordinates respect bounds."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          20,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          24,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          24,
+          34
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          22,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          5,
+          6
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        11
+      ],
+      [
+        0,
+        10
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        10,
+        3
+      ],
+      [
+        11,
+        4
+      ],
+      [
+        12,
+        3
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        11,
+        12
+      ]
+    ],
+    "rationale": "Contract central fanout cluster: move 9→(22,28) to align vertically with fanin from 5 (now at 6’s original (25,23)) and 7→(24,26), reducing routing congestion in x=23–25 band; swap 5↔6 separates them cleanly without collision while preserving symmetric fanin to 9 and 4; shift 10→(20,31) and 11→(24,31) directly under outputs 3/4, enabling straighter vertical paths (e.g., [10,3] Manhattan 7, [11,4] Manhattan 6); 12→(24,34) keeps [11,12] and [12,3] short and monotonic. Vacancy hotspots at (18–21,32–34) and (24–26,30–31) absorb moves; min_x remains 20 (port 0), max_x unchanged at 27 (port 4), but internal packing tightens—critical edge [2,6] detour already reduced to 4 steps in prior certified round, and this geometry avoids the width/height expansion of round 3 by keeping y-extent ≤37 and x-span ≤7 (ports can adjust). At least one internal gate moves; no collisions; coordinates respect bounds."
+  },
+  "matches_shared_hint_positions": false,
+  "error": "Repeated exact gate-state/action pair; slot consumed without another native call",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 8,
+    "height": 18,
+    "area_tiles": 144,
+    "qca_cells": 474,
+    "edge_steps": 112,
+    "output_arrival_ticks": {
+      "3": [
+        19,
+        19
+      ],
+      "4": [
+        15,
+        15
+      ]
+    }
+  },
+  "next_state": "70a308d0dc809de1103a1408127649f25cabd5fa7956759c6b887a1baef5784a",
+  "elapsed_s": 17.901214761997835
+}

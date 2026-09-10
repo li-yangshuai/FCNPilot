@@ -1,0 +1,95 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        22,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        23,
+        26
+      ]
+    },
+    {
+      "op": "swap",
+      "nodes": [
+        12,
+        15
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      4,
+      10
+    ],
+    [
+      6,
+      11
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      11
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      2,
+      10
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      0,
+      16
+    ],
+    [
+      8,
+      15
+    ],
+    [
+      10,
+      12
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      13,
+      16
+    ],
+    [
+      15,
+      3
+    ],
+    [
+      16,
+      3
+    ]
+  ],
+  "rationale": "Prioritize high-detour edges [4,10] and [6,11] first to exploit low-congestion vacancy at (22,26)/(23,26) and reduce mid-layer wire density; route reconvergent paths (10→12, 11→12) immediately after their sources are placed to avoid blocking the shared node 12; swap 12↔15 aligns n1 and w8 vertically using y=28–31 vacancy, shortening both 12→15 (now 3 steps) and 15→3 (now 5 steps); retain all 16 edges in exact order with early fanout edges after critical path to preserve timing while freeing space for compact vertical routing near output."
+}

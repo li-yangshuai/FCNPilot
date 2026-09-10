@@ -1,0 +1,182 @@
+{
+  "round": 8,
+  "status": "failed",
+  "start_metrics": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "start_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 17912,
+    "output": 370,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 18282
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          26,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 11,
+        "to": [
+          24,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          24,
+          29
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          22,
+          29
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          24,
+          32
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        2,
+        6
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        0,
+        16
+      ]
+    ],
+    "rationale": "Prioritize low-detour, congestion-free edges ([2,6],[1,4],[0,8]) first to lock clean routing channels; route reconvergent pair [11,12]/[10,12] immediately after their predecessors ([6,11],[4,10]) to avoid interference; place long-tail fanouts ([2,10],[1,11],[0,16]) last where vertical compaction to y=24–32 creates vacancy in windows 25–27 and 29–32, enabling completion. Internal moves align with neighbor anchors and reduce high-cost detours (e.g., [4,10] from 13→1 steps), preserving all DAG edges."
+  },
+  "matches_shared_hint_positions": false,
+  "error": "Repeated exact gate-state/action pair; slot consumed without another native call",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 9,
+    "height": 18,
+    "area_tiles": 162,
+    "qca_cells": 501,
+    "edge_steps": 105,
+    "output_arrival_ticks": {
+      "3": [
+        18,
+        18
+      ]
+    }
+  },
+  "next_state": "b3e3dda8441bbbedfb91a7bc09ec50efc7c174893a109663334d09a26209e5cb",
+  "elapsed_s": 13.895372394999868
+}

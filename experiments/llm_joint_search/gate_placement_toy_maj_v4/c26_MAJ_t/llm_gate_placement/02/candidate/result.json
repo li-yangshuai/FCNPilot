@@ -1,0 +1,370 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          21,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          22,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 20,
+        "to": [
+          24,
+          31
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          27,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          25,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          27,
+          34
+        ]
+      },
+      {
+        "op": "move",
+        "node": 19,
+        "to": [
+          26,
+          38
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          21,
+          41
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        4,
+        15
+      ],
+      [
+        4,
+        14
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        8,
+        12
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        21,
+        14
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        21,
+        18
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        20,
+        15
+      ],
+      [
+        20,
+        18
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        16,
+        19
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        21
+      ],
+      [
+        11,
+        20
+      ],
+      [
+        12,
+        5
+      ],
+      [
+        19,
+        6
+      ]
+    ],
+    "rationale": "Geometric contraction: shift left-side fanin core (node 8 to x=21) aligns with x0 and reduces edge [0,8] detour; move nodes 12/20 rightward (x=22→24) opens vertical channel between x22–x24, relieving congestion near x23 where multiple routes cross (e.g., [11,20], [20,15], [20,18]). Compress top region by moving 15→y32, 18→y32, 16→y34, 19→y38—this shortens long vertical edges ([15,16] from 7→5 steps, [16,19] from 4→3), and moves output y0 down to y41 to reduce height by 1 tile. All target positions lie in verified vacancy hotspots (e.g., window_17_23_20_26 for node 8; window_22_28_30_36 for 15/18; window_21_31_27_39 for 16/19) and respect neighbor anchors (e.g., node 12 anchor [21,28] → [22,31]; node 20 anchor [25,33] → [24,31]). Proposal avoids prior failure by using smaller y-displacements (Δy ≤ 2) and preserving existing route corridor geometry—no edge overlaps or missing connections expected under executor-derived order."
+  },
+  "start_sha256": "eb880381f60b3f5c5ffcb21931d11bb12f81d6a362ea3f8f30482a8f9746cd22",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 8) has an absent or invalid clock phase at (20, 20); Route (0, 8) has an absent or invalid clock phase at (20, 21); Route (0, 8) has an absent or invalid clock phase at (20, 22); Route (0, 8) has an absent or invalid clock phase at (20, 23)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        4,
+        15
+      ],
+      [
+        4,
+        14
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        8,
+        12
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        21,
+        14
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        21,
+        18
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        20,
+        15
+      ],
+      [
+        20,
+        18
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        16,
+        19
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        21
+      ],
+      [
+        11,
+        20
+      ],
+      [
+        12,
+        5
+      ],
+      [
+        19,
+        6
+      ]
+    ],
+    "executed_order": [
+      [
+        4,
+        15
+      ],
+      [
+        4,
+        14
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        8,
+        12
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        21,
+        14
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        21,
+        18
+      ],
+      [
+        14,
+        16
+      ],
+      [
+        20,
+        15
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      7,
+      9
+    ],
+    [
+      9,
+      21
+    ],
+    [
+      11,
+      20
+    ],
+    [
+      12,
+      5
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      16,
+      19
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      19,
+      6
+    ],
+    [
+      20,
+      18
+    ],
+    [
+      20,
+      15
+    ]
+  ],
+  "elapsed_s": 0.06639291300234618
+}

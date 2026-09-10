@@ -1,0 +1,119 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 14,
+      "to": [
+        26,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        23,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 18,
+      "to": [
+        28,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        27,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        28,
+        21
+      ]
+    },
+    {
+      "op": "swap",
+      "nodes": [
+        7,
+        8
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      16
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      8,
+      5
+    ],
+    [
+      9,
+      13
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      14,
+      6
+    ],
+    [
+      14,
+      16
+    ],
+    [
+      16,
+      5
+    ],
+    [
+      18,
+      6
+    ],
+    [
+      1,
+      9
+    ],
+    [
+      4,
+      11
+    ],
+    [
+      7,
+      14
+    ],
+    [
+      13,
+      18
+    ]
+  ],
+  "rationale": "Target vertical congestion at y=22–23 where edges [9,13], [11,13], [7,14] previously incurred detours. Move 14 down to y=24 (from 23) to align with its fanout anchors (6,16) and free y=23 for 13; shift 16→y=25 and 18→y=25 to compress top layer and reduce PO fanout span (current y=31→projected y=30). Relocate 9→(27,21) and 11→(28,21) to balance x near 13’s x=28 and eliminate the long horizontal detour in [1,9] (steps 8→6). Swap 7↔8 to place the more heavily loaded node 8 (fanin from 0,2; fanout to 5) at x=26 (closer to 5 at x=22? no—better: 8 at x=26 improves Manhattan to 5 via shorter vertical then left, while 7 at x=22 better serves inputs 2,3 at x=22,26). All moves occupy verified vacancy hotspots (e.g., window_25_31_19_20, window_20_21_25_26), avoid collisions, and collectively shrink bounding height by 1 tile without widening—critical for area reduction below current 130 tiles."
+}

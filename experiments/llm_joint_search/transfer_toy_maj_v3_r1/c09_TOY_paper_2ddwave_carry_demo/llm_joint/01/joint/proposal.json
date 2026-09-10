@@ -1,0 +1,60 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 0,
+      "to": [
+        22,
+        20
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      9
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      5,
+      3
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      3
+    ],
+    [
+      5,
+      6
+    ]
+  ],
+  "rationale": "Moves input x right by 2 tiles (to [22,20]), reducing bounding width from 7 to 5 tiles (area proxy 105→75) with minimal change (1 node); uses sink-pressure/layer/long-edge routing order which prioritizes critical long paths like [0,9] first—this matches the current longest edge (15 steps, zero detour) and may preserve low congestion while shrinking area."
+}

@@ -331,42 +331,25 @@ test("direct destruction disposes the SDK session before unregistering the wrapp
   assert.equal(wrapper.isAlive(), false);
 });
 
-test("direct bash commands use sanitized project operations with current shell settings", async (t) => {
-  let received;
-  let shellPath = "/bin/bash";
+test("direct shell commands are rejected before executing or mutating a circuit session", async (t) => {
+  const executed = [];
   const inner = {
     isBashRunning: false,
     isStreaming: false,
     isCompacting: false,
     extensionRunner: {},
-    settingsManager: {
-      getShellPath: () => shellPath,
-    },
-    sessionManager: {
-      getCwd: () => process.cwd(),
-      getSessionFile: () => undefined,
-    },
-    agent: { state: {} },
-    getContextUsage: () => null,
-    getSteeringMessages: () => [],
-    getFollowUpMessages: () => [],
-    executeBash: async (command, _onChunk, options) => {
-      received = { command, options };
-      return { output: "", exitCode: 0 };
-    },
+    executeBash: async (...args) => { executed.push(args); },
+    abortBash: () => { executed.push("abort"); },
     dispose() {},
   };
   const wrapper = new AgentSessionWrapper(inner);
   t.after(() => wrapper.destroy());
-
-  shellPath = "/custom/bash";
-  await wrapper.send({
-    type: "bash",
-    command: "echo ready",
-    excludeFromContext: true,
-  });
-
-  assert.equal(received.command, "echo ready");
-  assert.equal(received.options.excludeFromContext, true);
-  assert.equal(typeof received.options.operations.exec, "function");
+  for (const command of [
+    { type: "bash", command: "echo must-not-run", excludeFromContext: true },
+    { type: "abort_bash" },
+  ]) {
+    await assert.rejects(wrapper.send(command), { status: 400 });
+  }
+  assert.deepEqual(executed, []);
+  assert.equal(wrapper.isAlive(), true, "invalid commands do not kill the FCN session");
 });

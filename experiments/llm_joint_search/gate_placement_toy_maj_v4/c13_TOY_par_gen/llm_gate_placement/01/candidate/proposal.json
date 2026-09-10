@@ -1,0 +1,120 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 10,
+      "to": [
+        26,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 11,
+      "to": [
+        24,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 12,
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 13,
+      "to": [
+        24,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 15,
+      "to": [
+        22,
+        29
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        24,
+        32
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      16
+    ],
+    [
+      2,
+      10
+    ],
+    [
+      1,
+      11
+    ],
+    [
+      8,
+      15
+    ],
+    [
+      6,
+      11
+    ],
+    [
+      4,
+      10
+    ],
+    [
+      10,
+      12
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      15,
+      3
+    ],
+    [
+      13,
+      16
+    ],
+    [
+      16,
+      3
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      12,
+      13
+    ]
+  ],
+  "rationale": "The current layout has vertical congestion around y=26–31 with overlapping fanin paths (e.g., edge [4,10] detour=10, [10,12] detour=2). Moving nodes 10,11,12 down by 2 tiles aligns them with the vacancy hotspot at y=24–26 (window_21_27_23_29), reducing Manhattan detours. Nodes 13,15,16 shift down by 2 to preserve fanout geometry to output 3 while exploiting empty band at x=25–27, y=30–32 (window_21_27_31_37). This contracts height from 18→16 tiles (y_min=20, y_max=35) without moving ports, preserving PI/PO envelope width=9; area reduces from 162→144 tiles. All moves respect neighbor anchors and avoid collisions."
+}

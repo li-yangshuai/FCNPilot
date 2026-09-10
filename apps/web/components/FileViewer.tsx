@@ -10,12 +10,9 @@ import { parseFrontmatter } from "@/lib/frontmatter";
 import { markdownPreviewRehypePlugins, markdownPreviewRemarkPlugins, normalizeDisplayMath } from "@/lib/markdown";
 import { documentPageNumberFromLocation, type AttachedDocument } from "@/lib/docqa";
 import { PdfCanvasViewer } from "./PdfCanvasViewer";
-import type { TerminalOpenRequest } from "./IntegratedTerminal";
-import { AiCodeSettingsDialog } from "./AiCodeSettingsDialog";
 import { FrontmatterCard } from "./FrontmatterCard";
 import { CodeBlock, MermaidBlock } from "./MermaidBlock";
 import type { UiLanguage } from "@/lib/i18n";
-import { DEFAULT_AI_CODE_SETTINGS, normalizeAiCodeSettings, type AiCodeSettings } from "@/lib/ai-code-settings";
 import {
   resolveInitialFileDisplayMode,
   type FileViewerDisplayMode,
@@ -36,8 +33,6 @@ interface Props {
   onPdfFocusModeChange?: (focused: boolean) => void;
   uiLanguage?: UiLanguage;
   active?: boolean;
-  terminalOpen?: boolean;
-  onTerminalRequest?: (request?: TerminalOpenRequest) => void;
   sourceSessionId?: string | null;
   onOpenFile?: (filePath: string) => void;
   onMentionLines?: (relativePath: string, startLine: number, endLine: number) => void;
@@ -67,8 +62,6 @@ interface FileData {
 
 const fileDataCache = new Map<string, FileData>();
 const fileDataRequests = new Map<string, Promise<FileData>>();
-const aiCodeSettingsCache = new Map<string, AiCodeSettings>();
-const AI_CODE_SETTINGS_EVENT = "amedac-ai-code-settings-change";
 
 interface OriginData {
   content: string;
@@ -79,15 +72,6 @@ interface OriginData {
 const IMAGE_EXTS = new Set(["png", "jpg", "jpeg", "gif", "webp", "svg", "bmp", "ico", "avif"]);
 const AUDIO_EXTS = new Set(["mp3", "wav", "ogg", "oga", "opus", "m4a", "aac", "flac", "weba", "webm"]);
 const DOCUMENT_PREVIEW_EXTS = new Set(["pdf", "docx"]);
-const AI_CODE_EXTS = new Set([
-  "c", "cc", "cpp", "cxx", "h", "hh", "hpp", "hxx",
-  "py", "pyw", "js", "jsx", "ts", "tsx", "mjs", "cjs",
-  "java", "kt", "kts", "go", "rs", "cs", "swift", "scala",
-  "rb", "php", "sh", "bash", "zsh", "fish", "lua", "r",
-  "dart", "ex", "exs", "erl", "hrl", "fs", "fsx", "vb",
-  "vue", "svelte", "astro", "sql", "pl", "pm",
-  "html", "htm", "css", "scss", "sass", "less", "xml",
-]);
 const DOCX_PREVIEW_MAX_BYTES = 10 * 1024 * 1024;
 
 function isImagePath(filePath: string): boolean {
@@ -1276,8 +1260,6 @@ export const FileViewer = memo(function FileViewer({
   onPdfFocusModeChange,
   uiLanguage = "en",
   active = true,
-  terminalOpen = false,
-  onTerminalRequest,
   sourceSessionId,
   onOpenFile,
   onMentionLines,
@@ -1322,8 +1304,6 @@ export const FileViewer = memo(function FileViewer({
       onDirtyChange={onDirtyChange}
       uiLanguage={uiLanguage}
       active={active}
-      terminalOpen={terminalOpen}
-      onTerminalRequest={onTerminalRequest}
       sourceSessionId={sourceSessionId}
       onOpenFile={onOpenFile}
       onMentionLines={onMentionLines}
@@ -1339,15 +1319,12 @@ export const FileViewer = memo(function FileViewer({
 
 function TextFileViewer({
   filePath,
-  accountUid,
   cwd,
   location,
   focusToken,
   onDirtyChange,
   uiLanguage = "en",
   active = true,
-  terminalOpen = false,
-  onTerminalRequest,
   sourceSessionId,
   onOpenFile,
   onMentionLines,
@@ -1384,21 +1361,6 @@ function TextFileViewer({
   const [saveError, setSaveError] = useState<string | null>(null);
   const [externalConflict, setExternalConflict] = useState<{ content: string; mtimeMs: number } | null>(null);
   const [selectedLineRange, setSelectedLineRange] = useState<{ startLine: number; endLine: number } | null>(null);
-  const [generateRequest] = useState(0);
-  const [aiEnabled, setAiEnabled] = useState(false);
-  const [aiReviewEnabled, setAiReviewEnabled] = useState(false);
-  const [aiSettingsOpen, setAiSettingsOpen] = useState(false);
-  const [aiCodeSettings, setAiCodeSettings] = useState<AiCodeSettings>(() => (
-    aiCodeSettingsCache.get(accountUid ?? "current") ?? DEFAULT_AI_CODE_SETTINGS
-  ));
-  const [diagnosticsEnabled, setDiagnosticsEnabled] = useState(true);
-  const [generationState, setGenerationState] = useState<{
-    status: "idle" | "generating" | "suggested" | "done" | "error";
-    error?: string;
-    modelName?: string;
-  }>({ status: "idle" });
-  const [, setDiagnostics] = useState({ errors: 0, warnings: 0 });
-  const [, setLanguageServiceStatus] = useState<"builtin" | "connecting" | "clangd" | "unavailable">("builtin");
   const esRef = useRef<EventSource | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const editorValueRef = useRef("");
@@ -1417,12 +1379,6 @@ function TextFileViewer({
   const onStateChangeRef = useRef(onStateChange);
   editorValueRef.current = editorValue;
   onStateChangeRef.current = onStateChange;
-
-  const handleDiagnostics = useCallback((errors: number, warnings: number) => {
-    setDiagnostics((current) => current.errors === errors && current.warnings === warnings
-      ? current
-      : { errors, warnings });
-  }, []);
 
   useEffect(() => {
     const nextState: FileViewerState = {
@@ -1453,75 +1409,16 @@ function TextFileViewer({
   useEffect(() => {
     const stored = Number(window.localStorage.getItem("lithochat.codeFontSize"));
     if (Number.isFinite(stored) && stored >= 10 && stored <= 24) setCodeFontSize(stored);
-    setAiEnabled(window.localStorage.getItem("lithochat.codeAiEnabled") === "true");
-    setAiReviewEnabled(window.localStorage.getItem("lithochat.codeAiReviewEnabled") === "true");
-    setDiagnosticsEnabled(window.localStorage.getItem("lithochat.codeDiagnosticsEnabled") !== "false");
     if (initialState?.wrapLines === undefined) {
       setWrapLines(window.localStorage.getItem("lithochat.codeWrapLines") !== "false");
     }
   }, [initialState?.wrapLines]);
-
-  useEffect(() => {
-    const cacheKey = accountUid ?? "current";
-    const cached = aiCodeSettingsCache.get(cacheKey);
-    if (cached) setAiCodeSettings(cached);
-    const controller = new AbortController();
-    void fetch("/api/accounts/preferences", { signal: controller.signal, cache: "no-store" })
-      .then(async (response) => {
-        const body = await response.json() as { preferences?: { aiCode?: AiCodeSettings } };
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const next = normalizeAiCodeSettings(body.preferences?.aiCode);
-        aiCodeSettingsCache.set(cacheKey, next);
-        setAiCodeSettings(next);
-      })
-      .catch((loadError) => {
-        if (!(loadError instanceof DOMException && loadError.name === "AbortError")) {
-          console.warn("Unable to load AI code settings", loadError);
-        }
-      });
-    const syncSettings = (event: Event) => {
-      const next = normalizeAiCodeSettings((event as CustomEvent<AiCodeSettings>).detail);
-      aiCodeSettingsCache.set(cacheKey, next);
-      setAiCodeSettings(next);
-    };
-    window.addEventListener(AI_CODE_SETTINGS_EVENT, syncSettings);
-    return () => {
-      controller.abort();
-      window.removeEventListener(AI_CODE_SETTINGS_EVENT, syncSettings);
-    };
-  }, [accountUid]);
 
   const toggleWrapLines = useCallback(() => {
     setWrapLines((current) => {
       const next = !current;
       viewerStateRef.current.wrapLines = next;
       window.localStorage.setItem("lithochat.codeWrapLines", String(next));
-      return next;
-    });
-  }, []);
-
-  const toggleAi = useCallback(() => {
-    setAiEnabled((current) => {
-      const next = !current;
-      window.localStorage.setItem("lithochat.codeAiEnabled", String(next));
-      if (!next) setGenerationState({ status: "idle" });
-      return next;
-    });
-  }, []);
-
-  const toggleAiReview = useCallback(() => {
-    setAiReviewEnabled((current) => {
-      const next = !current;
-      window.localStorage.setItem("lithochat.codeAiReviewEnabled", String(next));
-      return next;
-    });
-  }, []);
-
-  const toggleDiagnostics = useCallback(() => {
-    setDiagnosticsEnabled((current) => {
-      const next = !current;
-      window.localStorage.setItem("lithochat.codeDiagnosticsEnabled", String(next));
-      if (!next) setDiagnostics({ errors: 0, warnings: 0 });
       return next;
     });
   }, []);
@@ -1640,9 +1537,6 @@ function TextFileViewer({
     setSaveError(null);
     setExternalConflict(null);
     setSelectedLineRange(null);
-    setDiagnostics({ errors: 0, warnings: 0 });
-    setLanguageServiceStatus("builtin");
-    setGenerationState({ status: "idle" });
 
     let originTimer: number | null = null;
     void fetchContent(filePath).then((d) => {
@@ -1679,8 +1573,7 @@ function TextFileViewer({
     };
   }, [cacheKey, fetchContent, filePath, gitRefreshKey, initialDisplayMode, initialState, requestedInitialDisplayMode, sourceSessionId, updateDisplayMode]);
 
-  // Hidden tabs retain their editor state but do not keep an SSE connection,
-  // AI completion loop or language diagnostics running in the background.
+  // Hidden tabs retain their editor state without a background file watcher.
   useEffect(() => {
     if (!active) {
       esRef.current?.close();
@@ -1819,12 +1712,12 @@ function TextFileViewer({
   }, [cacheKey, data, dirty, filePath, readOnly, saving]);
 
   useEffect(() => {
-    if (!dirty || saving || externalConflict || generationState.status === "generating") return;
+    if (!dirty || saving || externalConflict) return;
     const timer = window.setTimeout(() => {
       void saveFile();
     }, 3000);
     return () => window.clearTimeout(timer);
-  }, [dirty, editorValue, externalConflict, generationState.status, saveFile, saving]);
+  }, [dirty, editorValue, externalConflict, saveFile, saving]);
 
   const reloadExternal = useCallback(() => {
     if (!externalConflict || !data) return;
@@ -2034,90 +1927,8 @@ function TextFileViewer({
             >
               {zh ? "换行" : "Wrap"} {wrapLines ? "✓" : "—"}
             </button>
-            {AI_CODE_EXTS.has(getFileExt(filePath)) && (
-              <button
-                type="button"
-                onClick={toggleAi}
-                aria-pressed={aiEnabled}
-                title={aiEnabled ? (zh ? "关闭 AI 实时代码补全" : "Disable AI inline completion") : (zh ? "开启 AI 实时代码补全" : "Enable AI inline completion")}
-                style={{
-                  padding: "2px 8px", fontSize: 11,
-                  cursor: "pointer",
-                  background: aiEnabled ? "color-mix(in srgb, var(--accent) 16%, var(--bg))" : "var(--bg-hover)",
-                  color: aiEnabled ? "var(--accent)" : "var(--text-muted)",
-                  border: `1px solid ${aiEnabled ? "color-mix(in srgb, var(--accent) 38%, var(--border))" : "var(--border)"}`,
-                  borderRadius: 5,
-                  fontWeight: 600,
-                }}
-              >
-                <span style={{ display: "inline-block", width: 6, height: 6, marginRight: 5, borderRadius: 99, background: aiEnabled ? "#22c55e" : "var(--text-dim)" }} />AI
-              </button>
-            )}
-            {AI_CODE_EXTS.has(getFileExt(filePath)) && (
-              <button
-                type="button"
-                onClick={toggleAiReview}
-                aria-pressed={aiReviewEnabled}
-                title={aiReviewEnabled ? (zh ? "关闭 AI 文件纠错" : "Disable AI file review") : (zh ? "开启 AI 文件纠错" : "Enable AI file review")}
-                style={{
-                  padding: "2px 8px", fontSize: 11, cursor: "pointer",
-                  background: aiReviewEnabled ? "color-mix(in srgb, #a855f7 14%, var(--bg))" : "var(--bg-hover)",
-                  color: aiReviewEnabled ? "#a855f7" : "var(--text-muted)",
-                  border: `1px solid ${aiReviewEnabled ? "color-mix(in srgb, #a855f7 42%, var(--border))" : "var(--border)"}`,
-                  borderRadius: 5,
-                  fontWeight: 600,
-                }}
-              >
-                {zh ? "纠错" : "Review"} {aiReviewEnabled ? "✓" : "—"}
-              </button>
-            )}
-            {AI_CODE_EXTS.has(getFileExt(filePath)) && (
-              <button
-                type="button"
-                onClick={() => setAiSettingsOpen(true)}
-                title={zh ? "设置 AI 补全与 Code Review 参数" : "Configure AI completion and Code Review"}
-                aria-label={zh ? "AI 辅助编程设置" : "AI coding settings"}
-                style={{ width: 26, height: 22, padding: 0, border: "1px solid var(--border)", borderRadius: 5, background: "var(--bg-hover)", color: "var(--text-muted)", cursor: "pointer", fontSize: 13 }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="12" r="3" />
-                  <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08A1.7 1.7 0 0 0 8.97 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3v-4h.08A1.7 1.7 0 0 0 4.6 8.97a1.7 1.7 0 0 0-.34-1.88l-.06-.06L7.03 4.2l.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 10 3.08V3h4v.08a1.7 1.7 0 0 0 1.03 1.52 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06a1.7 1.7 0 0 0-.34 1.88A1.7 1.7 0 0 0 20.92 10H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z" />
-                </svg>
-              </button>
-            )}
-            {AI_CODE_EXTS.has(getFileExt(filePath)) && (
-              <button
-                type="button"
-                onClick={toggleDiagnostics}
-                aria-pressed={diagnosticsEnabled}
-                title={diagnosticsEnabled ? (zh ? "关闭语法检查和错误标记" : "Disable syntax diagnostics") : (zh ? "开启语法检查和错误标记" : "Enable syntax diagnostics")}
-                style={{
-                  padding: "2px 8px", fontSize: 11, cursor: "pointer",
-                  background: diagnosticsEnabled ? "var(--bg-selected)" : "var(--bg-hover)",
-                  color: diagnosticsEnabled ? "var(--text)" : "var(--text-dim)",
-                  border: "1px solid var(--border)", borderRadius: 5,
-                }}
-              >
-                {zh ? "语法" : "Check"} {diagnosticsEnabled ? "✓" : "—"}
-              </button>
-            )}
           </>
         )}
-        <button
-          type="button"
-          onClick={() => onTerminalRequest?.()}
-          disabled={!onTerminalRequest}
-          title={terminalOpen ? (zh ? "隐藏集成终端" : "Hide integrated terminal") : (zh ? "打开集成终端" : "Open integrated terminal")}
-          style={{
-            padding: "2px 7px", fontSize: 11, cursor: onTerminalRequest ? "pointer" : "not-allowed",
-            background: terminalOpen ? "var(--bg-selected)" : "var(--bg-hover)",
-            color: terminalOpen ? "var(--accent)" : "var(--text-muted)",
-            border: "1px solid var(--border)", borderRadius: 5,
-            fontWeight: terminalOpen ? 600 : 400,
-          }}
-        >
-          {zh ? "终端" : "Terminal"}
-        </button>
         {(onAtMention || onMentionLines) && (
           <button
             type="button"
@@ -2166,30 +1977,6 @@ function TextFileViewer({
             onClick={() => setSaveState("idle")}
             aria-label={zh ? "关闭保存错误" : "Dismiss save error"}
             style={{ marginLeft: "auto", background: "none", border: "none", color: "var(--text-dim)", cursor: "pointer", fontSize: 15 }}
-          >
-            ×
-          </button>
-        </div>
-      )}
-
-      {aiEnabled && generationState.status === "error" && generationState.error && (
-        <div
-          role="alert"
-          style={{
-            display: "flex", alignItems: "center", gap: 8,
-            padding: "6px 12px", flexShrink: 0,
-            borderBottom: "1px solid rgba(239,68,68,0.24)",
-            background: "rgba(239,68,68,0.07)", color: "#ef4444",
-            fontSize: 11,
-          }}
-        >
-          <span style={{ fontWeight: 700 }}>{zh ? "AI 生成：" : "AI generation:"}</span>
-          <span style={{ color: "var(--text-muted)" }}>{generationState.error}</span>
-          <button
-            type="button"
-            onClick={() => setGenerationState({ status: "idle" })}
-            style={{ marginLeft: "auto", background: "none", border: "none", color: "var(--text-dim)", cursor: "pointer", fontSize: 15 }}
-            aria-label={zh ? "关闭 AI 生成错误" : "Dismiss AI generation error"}
           >
             ×
           </button>
@@ -2271,17 +2058,11 @@ function TextFileViewer({
             value={editorValue}
             language={data.language}
             filePath={filePath}
-            projectRoot={cwd}
             isDark={isDark}
             wrapLines={wrapLines}
             fontSize={codeFontSize}
             location={location}
             focusToken={focusToken}
-            generateRequest={generateRequest}
-            aiEnabled={active && !readOnly && aiEnabled}
-            aiReviewEnabled={active && !readOnly && aiReviewEnabled}
-            aiCodeSettings={aiCodeSettings}
-            diagnosticsEnabled={active && diagnosticsEnabled}
             readOnly={readOnly}
             initialScrollTop={viewerStateRef.current.scrollTop}
             initialScrollLeft={viewerStateRef.current.scrollLeft}
@@ -2293,9 +2074,6 @@ function TextFileViewer({
               setSaveError(null);
             }}
             onSave={() => void saveFile()}
-            onDiagnostics={handleDiagnostics}
-            onLanguageServiceStatus={setLanguageServiceStatus}
-            onGenerationState={setGenerationState}
             onScrollChange={(scrollTop, scrollLeft) => {
               viewerStateRef.current.scrollTop = scrollTop;
               viewerStateRef.current.scrollLeft = scrollLeft;
@@ -2308,19 +2086,6 @@ function TextFileViewer({
         )}
         </div>
       </div>
-      {aiSettingsOpen && (
-        <AiCodeSettingsDialog
-          settings={aiCodeSettings}
-          uiLanguage={uiLanguage}
-          onClose={() => setAiSettingsOpen(false)}
-          onSaved={(next) => {
-            const normalized = normalizeAiCodeSettings(next);
-            aiCodeSettingsCache.set(accountUid ?? "current", normalized);
-            setAiCodeSettings(normalized);
-            window.dispatchEvent(new CustomEvent(AI_CODE_SETTINGS_EVENT, { detail: normalized }));
-          }}
-        />
-      )}
     </div>
   );
 }

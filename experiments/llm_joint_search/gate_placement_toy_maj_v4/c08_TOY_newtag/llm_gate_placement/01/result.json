@@ -1,0 +1,269 @@
+{
+  "round": 1,
+  "status": "failed",
+  "start_metrics": {
+    "width": 15,
+    "height": 19,
+    "area_tiles": 285,
+    "qca_cells": 698,
+    "edge_steps": 135,
+    "output_arrival_ticks": {
+      "8": [
+        18,
+        18
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 15,
+    "height": 19,
+    "area_tiles": 285,
+    "qca_cells": 698,
+    "edge_steps": 135,
+    "output_arrival_ticks": {
+      "8": [
+        18,
+        18
+      ]
+    }
+  },
+  "start_state": "b6e690d96e3cf940c830e3d966aa7a443f34fd7610a6a90c45fd8843f604c7fe",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 17086,
+    "output": 491,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 17577
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 27,
+        "to": [
+          28,
+          29
+        ]
+      },
+      {
+        "op": "move",
+        "node": 28,
+        "to": [
+          28,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 29,
+        "to": [
+          25,
+          29
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          27,
+          35
+        ]
+      },
+      {
+        "op": "move",
+        "node": 23,
+        "to": [
+          29,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 26,
+        "to": [
+          24,
+          27
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Contract vertical span by shifting the suffix (nodes 23,26,27,28,29,8) down 2 tiles: y=29→27 for 26/29, y=31→29 for 27, y=34→32 for 28, y=37→35 for 8. This reduces max_y from 37 to 35, cutting height from 19 to 17 (area 285→255). Moves align with neighbor anchors (e.g., 27→[28,29] near median [28,28]; 26→[24,27] near [24,26]) and occupy vacancy hotspots in windows 25_31_28_34 and 22_34_25_37. Internal nodes only; ports unchanged. Geometry matches hint #1 but adds 23→[29,26] and 26→[24,27] to relieve congestion at (24,28)/(28,31) and reduce detour on edge [24,26] (currently 9 steps)."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 27,
+        "to": [
+          28,
+          29
+        ]
+      },
+      {
+        "op": "move",
+        "node": 28,
+        "to": [
+          28,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 29,
+        "to": [
+          25,
+          29
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          27,
+          35
+        ]
+      },
+      {
+        "op": "move",
+        "node": 23,
+        "to": [
+          29,
+          26
+        ]
+      },
+      {
+        "op": "move",
+        "node": 26,
+        "to": [
+          24,
+          27
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        3,
+        28
+      ],
+      [
+        1,
+        20
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        6,
+        9
+      ],
+      [
+        24,
+        26
+      ],
+      [
+        10,
+        17
+      ],
+      [
+        12,
+        14
+      ],
+      [
+        18,
+        20
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        12,
+        17
+      ],
+      [
+        17,
+        27
+      ],
+      [
+        21,
+        23
+      ],
+      [
+        20,
+        26
+      ],
+      [
+        14,
+        23
+      ],
+      [
+        23,
+        27
+      ],
+      [
+        29,
+        8
+      ],
+      [
+        27,
+        28
+      ],
+      [
+        28,
+        8
+      ],
+      [
+        0,
+        24
+      ],
+      [
+        2,
+        18
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        5,
+        12
+      ],
+      [
+        9,
+        21
+      ],
+      [
+        26,
+        29
+      ]
+    ],
+    "rationale": "Contract vertical span by shifting the suffix (nodes 23,26,27,28,29,8) down 2 tiles: y=29→27 for 26/29, y=31→29 for 27, y=34→32 for 28, y=37→35 for 8. This reduces max_y from 37 to 35, cutting height from 19 to 17 (area 285→255). Moves align with neighbor anchors (e.g., 27→[28,29] near median [28,28]; 26→[24,27] near [24,26]) and occupy vacancy hotspots in windows 25_31_28_34 and 22_34_25_37. Internal nodes only; ports unchanged. Geometry matches hint #1 but adds 23→[29,26] and 26→[24,27] to relieve congestion at (24,28)/(28,31) and reduce detour on edge [24,26] (currently 9 steps)."
+  },
+  "error": "Node collision: [{\"xy\": [29, 26], \"node_ids\": [14, 23]}]; assign distinct final coordinates to these nodes",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 15,
+    "height": 19,
+    "area_tiles": 285,
+    "qca_cells": 698,
+    "edge_steps": 135,
+    "output_arrival_ticks": {
+      "8": [
+        18,
+        18
+      ]
+    }
+  },
+  "next_state": "b6e690d96e3cf940c830e3d966aa7a443f34fd7610a6a90c45fd8843f604c7fe",
+  "elapsed_s": 24.350379391999013
+}

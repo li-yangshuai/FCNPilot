@@ -1,0 +1,1921 @@
+{
+  "schema": "ifcn.pi.run.v1",
+  "run_id": "d66c9b2c0389454f82bc818b2d0cb735",
+  "created_at": "2026-09-08T04:18:30.300594+00:00",
+  "updated_at": "2026-09-08T04:18:31.980267+00:00",
+  "status": "completed",
+  "current_stage": "map",
+  "source": "/home/lys/projects/github/FCNPilot/experiments/layout_llm_full/inputs/TOY/1bitAdderMaj.v",
+  "design_type": "combinational",
+  "configuration": {
+    "root": "/home/lys/projects/github/FCNPilot/engine",
+    "build_dir": "/home/lys/projects/github/FCNPilot/engine/build",
+    "python": "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+    "backend": "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+    "energy_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+    "simulation_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_physical_benchmark",
+    "mapping_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics",
+    "native_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_combinational_pnr",
+    "sequential_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_sequential_cyclic_pnr",
+    "regular_pnr_binary": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_regular_clock_pnr",
+    "yosys_binary": "/home/lys/projects/github/FCNPilot/engine/build/tools/yosys-local/usr/bin/yosys"
+  },
+  "frontend": {
+    "module": "top",
+    "inputs": [
+      "A",
+      "B",
+      "Cin"
+    ],
+    "warnings": [],
+    "outputs": [
+      "M3"
+    ],
+    "assignment_count": 14,
+    "frontend": "scalar-boolean-v1",
+    "functional_signoff": "not_performed"
+  },
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 45,
+    "model": "bistable",
+    "algorithm": "june_random",
+    "clock_scheme": "irregular",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": {
+      "status": "completed",
+      "started_at": "2026-09-08T04:18:30.370397+00:00",
+      "attempt": 1,
+      "log": "01_parse_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "parse",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/01_parse_1",
+          "--seed",
+          "1",
+          "--budget",
+          "45"
+        ]
+      ],
+      "completed_at": "2026-09-08T04:18:30.533782+00:00"
+    },
+    "pnr": {
+      "status": "completed",
+      "started_at": "2026-09-08T04:18:30.534810+00:00",
+      "attempt": 1,
+      "log": "02_pnr_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/02_pnr_1/01_june_random_layer_redundancy_buffers",
+          "--algorithm",
+          "june_random",
+          "--seed",
+          "1",
+          "--budget",
+          "42",
+          "--clock",
+          "irregular",
+          "--topology",
+          "layer_redundancy_buffers"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/02_pnr_1/01_june_random_layer_redundancy_buffers/layout.ifcn",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/02_pnr_1/01_june_random_layer_redundancy_buffers/interface_check",
+          "--qca-only"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/.venv/bin/python",
+          "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py",
+          "pnr",
+          "--input",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/normalized.v",
+          "--output",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/02_pnr_1/02_june_random_optimized_buffers",
+          "--algorithm",
+          "june_random",
+          "--seed",
+          "1",
+          "--budget",
+          "42",
+          "--clock",
+          "irregular",
+          "--topology",
+          "optimized_buffers"
+        ],
+        [
+          "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/02_pnr_1/02_june_random_optimized_buffers/layout.ifcn",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/02_pnr_1/02_june_random_optimized_buffers/interface_check",
+          "--qca-only"
+        ]
+      ],
+      "completed_at": "2026-09-08T04:18:31.807071+00:00"
+    },
+    "map": {
+      "status": "completed",
+      "started_at": "2026-09-08T04:18:31.808666+00:00",
+      "attempt": 1,
+      "log": "03_map_1/stage.log",
+      "commands": [
+        [
+          "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics",
+          "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/02_pnr_1/01_june_random_layer_redundancy_buffers/layout.ifcn",
+          "--no-io-contraction"
+        ]
+      ],
+      "completed_at": "2026-09-08T04:18:31.978743+00:00"
+    }
+  },
+  "artifacts": {
+    "source.v": {
+      "path": "source.v",
+      "bytes": 489,
+      "sha256": "8ef091e5b42ceabe3f68ba45a1c63388f1aacb4c84c9fb83711414ace2ccfb0f"
+    },
+    "normalized.v": {
+      "path": "normalized.v",
+      "bytes": 628,
+      "sha256": "3abd78d61c2e1b26d94af60739e6d00f29410065d302e5476f3af6fc9630215e"
+    },
+    "dag.json": {
+      "path": "01_parse_1/dag.json",
+      "bytes": 4000,
+      "sha256": "542834bb8fe0ca0088efeded85937bfdd3ec7c62636aeb3cda597e1e275ae16e"
+    },
+    "dag.dot": {
+      "path": "01_parse_1/dag.dot",
+      "bytes": 930,
+      "sha256": "5c4866e2d4a0db78efefa2db8909fcea0f2e9d1018f0b3a7846ca420669042e1"
+    },
+    "pnr_attempts/01_june_random_layer_redundancy_buffers_pnr.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/pnr.json",
+      "bytes": 14892,
+      "sha256": "5f10c756fcc83ff40108653a03c462d77e671086d93154a8955dacc52468d67f"
+    },
+    "pnr_attempts/01_june_random_layer_redundancy_buffers_logic.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/logic.json",
+      "bytes": 2534,
+      "sha256": "79cf80821a80af60fc608bea6c916a674c4e5de086bd8f649ae89744d2a8a3eb"
+    },
+    "pnr_attempts/01_june_random_layer_redundancy_buffers_clock.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/clock.json",
+      "bytes": 8478,
+      "sha256": "3ad2977216602b2b87e2cf1abf5d5dff9baaeaec2d322c8961dd1db46c9c3d91"
+    },
+    "pnr_attempts/01_june_random_layer_redundancy_buffers_physical.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/physical.json",
+      "bytes": 829,
+      "sha256": "e351c4305a18c63b21e999471d08771b441e167534b1792380b1705b7c3beefb"
+    },
+    "pnr_attempts/01_june_random_layer_redundancy_buffers_interface.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/interface.json",
+      "bytes": 373,
+      "sha256": "cf59e47adf3ea1a733c62c021767892ebc37050447e062e12892e7c9247124fc"
+    },
+    "pnr_attempts/02_june_random_optimized_buffers_pnr.json": {
+      "path": "02_pnr_1/02_june_random_optimized_buffers/pnr.json",
+      "bytes": 6960,
+      "sha256": "62580472950ccd271eb476356caedd78f3aff01afd2017a823e4a0a4f8e76b19"
+    },
+    "pnr_attempts/02_june_random_optimized_buffers_logic.json": {
+      "path": "02_pnr_1/02_june_random_optimized_buffers/logic.json",
+      "bytes": 2482,
+      "sha256": "16ca64a24952ea145e66900404c4ae34e50bc21af47079bdbdd3e5651dae8c72"
+    },
+    "pnr_attempts/02_june_random_optimized_buffers_clock.json": {
+      "path": "02_pnr_1/02_june_random_optimized_buffers/clock.json",
+      "bytes": 4054,
+      "sha256": "da91395efda66a9ed25f01e335a443974f45b9ffa20bf81c4e4abb3e946e8ec6"
+    },
+    "pnr_attempts/02_june_random_optimized_buffers_physical.json": {
+      "path": "02_pnr_1/02_june_random_optimized_buffers/physical.json",
+      "bytes": 829,
+      "sha256": "ef84c4b6dcd0280c5caf0a193d8f9f26e41111cad6ca56ec1ec54188ff114082"
+    },
+    "pnr_attempts/02_june_random_optimized_buffers_interface.json": {
+      "path": "02_pnr_1/02_june_random_optimized_buffers/interface.json",
+      "bytes": 373,
+      "sha256": "326faff9d6314ff9929364df791e3595baee6729374a71970a6dabd98d493825"
+    },
+    "layout.ifcn": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/layout.ifcn",
+      "bytes": 7867,
+      "sha256": "d4e43d0baae613873e0ba9193b9f592e5a2c7571a2b17ab8b0559b99da02b110"
+    },
+    "pnr.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/pnr.json",
+      "bytes": 14892,
+      "sha256": "5f10c756fcc83ff40108653a03c462d77e671086d93154a8955dacc52468d67f"
+    },
+    "routed_dag.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/routed_dag.json",
+      "bytes": 11871,
+      "sha256": "ec4a7cf97d2185270c86688a99159b3cb43183cc284318dfba28e3de7df11103"
+    },
+    "logic.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/logic.json",
+      "bytes": 2534,
+      "sha256": "79cf80821a80af60fc608bea6c916a674c4e5de086bd8f649ae89744d2a8a3eb"
+    },
+    "interface.json": {
+      "path": "03_map_1/interface.json",
+      "bytes": 373,
+      "sha256": "cf59e47adf3ea1a733c62c021767892ebc37050447e062e12892e7c9247124fc"
+    },
+    "clock.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/clock.json",
+      "bytes": 8478,
+      "sha256": "3ad2977216602b2b87e2cf1abf5d5dff9baaeaec2d322c8961dd1db46c9c3d91"
+    },
+    "physical.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/physical.json",
+      "bytes": 829,
+      "sha256": "e351c4305a18c63b21e999471d08771b441e167534b1792380b1705b7c3beefb"
+    },
+    "validated_device.qca": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/interface_check_energy_input.qca",
+      "bytes": 1130521,
+      "sha256": "757491777acbae9173c8237012753b39c1d0ca70cd53a2368267825ecf783b3b"
+    },
+    "layout_candidate.json": {
+      "path": "02_pnr_1/01_june_random_layer_redundancy_buffers/layout_candidate.json",
+      "bytes": 52369,
+      "sha256": "d6efba70ebcafe29efb0a3093c387e77591531df30918ce782a4e59197884171"
+    },
+    "pnr_attempts.json": {
+      "path": "02_pnr_1/pnr_attempts.json",
+      "bytes": 1182,
+      "sha256": "bae4d7d333c99943a4a72acdd0d5cd3e8758d95a555b010d0c80173fdc8d5a1f"
+    },
+    "device.qca": {
+      "path": "03_map_1/device_energy_input.qca",
+      "bytes": 1130521,
+      "sha256": "757491777acbae9173c8237012753b39c1d0ca70cd53a2368267825ecf783b3b"
+    },
+    "result.json": {
+      "path": "result.json",
+      "bytes": 44083,
+      "sha256": "d3f7930e7047b52f17ef7f0d1c874c536c9965e2d9ce4f8fa3fb5bd867c6eed8"
+    }
+  },
+  "metrics": {
+    "dag": {
+      "input_count": 3,
+      "output_count": 1
+    },
+    "logic": {
+      "status": "equivalent",
+      "max_inputs": 11,
+      "vectors_checked": 8,
+      "expected_vector_count": 8
+    },
+    "physical_routes": {
+      "schema": "ifcn.qca.physical_routes.v1",
+      "passed": true,
+      "qca_sha256": "757491777acbae9173c8237012753b39c1d0ca70cd53a2368267825ecf783b3b",
+      "checks": [
+        "ordered_route_continuity",
+        "source_site_isolation",
+        "layer_transition_columns",
+        "route_site_coverage",
+        "gate_connection_ports"
+      ],
+      "cell_count": 1413,
+      "emitted_cell_count": 1413,
+      "route_count": 75,
+      "net_count": 63,
+      "route_site_count": 1183,
+      "io_contraction": false,
+      "scope": "Ordered source-to-sink template ports, route-owned exact XYZ sites, complete L0/L1/L2 transition columns, and retained route continuity after optional terminal trimming. Does not certify electrostatic interference, clock timing, or device-level functional simulation.",
+      "ifcn_sha256": "d4e43d0baae613873e0ba9193b9f592e5a2c7571a2b17ab8b0559b99da02b110"
+    },
+    "clock_arrival": {
+      "schema": "ifcn.clock_arrival.v1",
+      "passed": true,
+      "launch_policy": "cycle_zero_at_template_phase",
+      "ifcn_sha256": "d4e43d0baae613873e0ba9193b9f592e5a2c7571a2b17ab8b0559b99da02b110",
+      "routed_dag_sha256": "ec4a7cf97d2185270c86688a99159b3cb43183cc284318dfba28e3de7df11103",
+      "phase_count": 4,
+      "relative_schedule_consistent": true,
+      "required_input_cycle_offsets": {
+        "A": 0,
+        "B": 0,
+        "Cin": 0
+      },
+      "input_schedule_applied": false,
+      "mismatches": [],
+      "relative_schedule_conflicts": [],
+      "nodes_checked": 64,
+      "routes_checked": 75,
+      "arrival_tick_ranges": {
+        "0": [
+          2,
+          2
+        ],
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1,
+          1
+        ],
+        "23": [
+          2,
+          2
+        ],
+        "4": [
+          3,
+          3
+        ],
+        "24": [
+          0,
+          0
+        ],
+        "25": [
+          1,
+          1
+        ],
+        "27": [
+          4,
+          4
+        ],
+        "50": [
+          3,
+          3
+        ],
+        "28": [
+          4,
+          4
+        ],
+        "29": [
+          5,
+          5
+        ],
+        "55": [
+          3,
+          3
+        ],
+        "6": [
+          4,
+          4
+        ],
+        "14": [
+          4,
+          4
+        ],
+        "5": [
+          4,
+          4
+        ],
+        "51": [
+          5,
+          5
+        ],
+        "30": [
+          7,
+          7
+        ],
+        "56": [
+          5,
+          5
+        ],
+        "36": [
+          5,
+          5
+        ],
+        "15": [
+          8,
+          8
+        ],
+        "19": [
+          8,
+          8
+        ],
+        "7": [
+          5,
+          5
+        ],
+        "52": [
+          8,
+          8
+        ],
+        "31": [
+          10,
+          10
+        ],
+        "57": [
+          8,
+          8
+        ],
+        "37": [
+          11,
+          11
+        ],
+        "43": [
+          11,
+          11
+        ],
+        "8": [
+          9,
+          9
+        ],
+        "53": [
+          11,
+          11
+        ],
+        "32": [
+          13,
+          13
+        ],
+        "58": [
+          11,
+          11
+        ],
+        "38": [
+          14,
+          14
+        ],
+        "44": [
+          14,
+          14
+        ],
+        "9": [
+          13,
+          13
+        ],
+        "26": [
+          13,
+          13
+        ],
+        "54": [
+          13,
+          13
+        ],
+        "33": [
+          15,
+          15
+        ],
+        "59": [
+          12,
+          12
+        ],
+        "45": [
+          16,
+          16
+        ],
+        "10": [
+          15,
+          15
+        ],
+        "12": [
+          15,
+          15
+        ],
+        "16": [
+          18,
+          18
+        ],
+        "60": [
+          15,
+          15
+        ],
+        "34": [
+          16,
+          16
+        ],
+        "46": [
+          19,
+          19
+        ],
+        "11": [
+          18,
+          18
+        ],
+        "13": [
+          18,
+          18
+        ],
+        "39": [
+          21,
+          21
+        ],
+        "61": [
+          17,
+          17
+        ],
+        "35": [
+          20,
+          20
+        ],
+        "47": [
+          22,
+          22
+        ],
+        "17": [
+          21,
+          21
+        ],
+        "40": [
+          24,
+          24
+        ],
+        "62": [
+          20,
+          20
+        ],
+        "48": [
+          24,
+          24
+        ],
+        "18": [
+          25,
+          25
+        ],
+        "41": [
+          26,
+          26
+        ],
+        "63": [
+          22,
+          22
+        ],
+        "20": [
+          30,
+          30
+        ],
+        "42": [
+          28,
+          28
+        ],
+        "21": [
+          27,
+          27
+        ],
+        "22": [
+          32,
+          32
+        ],
+        "49": [
+          30,
+          30
+        ],
+        "3": [
+          34,
+          34
+        ]
+      },
+      "route_delays": [
+        {
+          "source": 0,
+          "target": 4,
+          "ticks": 1
+        },
+        {
+          "source": 0,
+          "target": 23,
+          "ticks": 0
+        },
+        {
+          "source": 1,
+          "target": 4,
+          "ticks": 3
+        },
+        {
+          "source": 1,
+          "target": 24,
+          "ticks": 0
+        },
+        {
+          "source": 2,
+          "target": 25,
+          "ticks": 0
+        },
+        {
+          "source": 2,
+          "target": 27,
+          "ticks": 3
+        },
+        {
+          "source": 4,
+          "target": 28,
+          "ticks": 1
+        },
+        {
+          "source": 4,
+          "target": 29,
+          "ticks": 2
+        },
+        {
+          "source": 5,
+          "target": 7,
+          "ticks": 1
+        },
+        {
+          "source": 6,
+          "target": 36,
+          "ticks": 1
+        },
+        {
+          "source": 7,
+          "target": 8,
+          "ticks": 4
+        },
+        {
+          "source": 8,
+          "target": 9,
+          "ticks": 4
+        },
+        {
+          "source": 8,
+          "target": 26,
+          "ticks": 4
+        },
+        {
+          "source": 9,
+          "target": 10,
+          "ticks": 2
+        },
+        {
+          "source": 9,
+          "target": 12,
+          "ticks": 2
+        },
+        {
+          "source": 10,
+          "target": 11,
+          "ticks": 3
+        },
+        {
+          "source": 11,
+          "target": 17,
+          "ticks": 3
+        },
+        {
+          "source": 12,
+          "target": 13,
+          "ticks": 3
+        },
+        {
+          "source": 13,
+          "target": 17,
+          "ticks": 3
+        },
+        {
+          "source": 14,
+          "target": 15,
+          "ticks": 4
+        },
+        {
+          "source": 14,
+          "target": 19,
+          "ticks": 4
+        },
+        {
+          "source": 15,
+          "target": 37,
+          "ticks": 3
+        },
+        {
+          "source": 16,
+          "target": 39,
+          "ticks": 3
+        },
+        {
+          "source": 17,
+          "target": 18,
+          "ticks": 4
+        },
+        {
+          "source": 18,
+          "target": 20,
+          "ticks": 5
+        },
+        {
+          "source": 18,
+          "target": 21,
+          "ticks": 2
+        },
+        {
+          "source": 19,
+          "target": 43,
+          "ticks": 3
+        },
+        {
+          "source": 20,
+          "target": 22,
+          "ticks": 2
+        },
+        {
+          "source": 21,
+          "target": 49,
+          "ticks": 3
+        },
+        {
+          "source": 22,
+          "target": 3,
+          "ticks": 2
+        },
+        {
+          "source": 23,
+          "target": 5,
+          "ticks": 2
+        },
+        {
+          "source": 23,
+          "target": 50,
+          "ticks": 1
+        },
+        {
+          "source": 24,
+          "target": 6,
+          "ticks": 4
+        },
+        {
+          "source": 24,
+          "target": 55,
+          "ticks": 3
+        },
+        {
+          "source": 25,
+          "target": 6,
+          "ticks": 3
+        },
+        {
+          "source": 25,
+          "target": 14,
+          "ticks": 3
+        },
+        {
+          "source": 26,
+          "target": 16,
+          "ticks": 5
+        },
+        {
+          "source": 26,
+          "target": 60,
+          "ticks": 2
+        },
+        {
+          "source": 27,
+          "target": 5,
+          "ticks": 0
+        },
+        {
+          "source": 28,
+          "target": 7,
+          "ticks": 1
+        },
+        {
+          "source": 29,
+          "target": 30,
+          "ticks": 2
+        },
+        {
+          "source": 30,
+          "target": 31,
+          "ticks": 3
+        },
+        {
+          "source": 31,
+          "target": 32,
+          "ticks": 3
+        },
+        {
+          "source": 32,
+          "target": 33,
+          "ticks": 2
+        },
+        {
+          "source": 33,
+          "target": 34,
+          "ticks": 1
+        },
+        {
+          "source": 34,
+          "target": 35,
+          "ticks": 4
+        },
+        {
+          "source": 35,
+          "target": 18,
+          "ticks": 5
+        },
+        {
+          "source": 36,
+          "target": 8,
+          "ticks": 4
+        },
+        {
+          "source": 37,
+          "target": 38,
+          "ticks": 3
+        },
+        {
+          "source": 38,
+          "target": 16,
+          "ticks": 4
+        },
+        {
+          "source": 39,
+          "target": 40,
+          "ticks": 3
+        },
+        {
+          "source": 40,
+          "target": 41,
+          "ticks": 2
+        },
+        {
+          "source": 41,
+          "target": 42,
+          "ticks": 2
+        },
+        {
+          "source": 42,
+          "target": 22,
+          "ticks": 4
+        },
+        {
+          "source": 43,
+          "target": 44,
+          "ticks": 3
+        },
+        {
+          "source": 44,
+          "target": 45,
+          "ticks": 2
+        },
+        {
+          "source": 45,
+          "target": 46,
+          "ticks": 3
+        },
+        {
+          "source": 46,
+          "target": 47,
+          "ticks": 3
+        },
+        {
+          "source": 47,
+          "target": 48,
+          "ticks": 2
+        },
+        {
+          "source": 48,
+          "target": 20,
+          "ticks": 6
+        },
+        {
+          "source": 49,
+          "target": 3,
+          "ticks": 4
+        },
+        {
+          "source": 50,
+          "target": 51,
+          "ticks": 2
+        },
+        {
+          "source": 51,
+          "target": 52,
+          "ticks": 3
+        },
+        {
+          "source": 52,
+          "target": 53,
+          "ticks": 3
+        },
+        {
+          "source": 53,
+          "target": 54,
+          "ticks": 2
+        },
+        {
+          "source": 54,
+          "target": 11,
+          "ticks": 5
+        },
+        {
+          "source": 55,
+          "target": 56,
+          "ticks": 2
+        },
+        {
+          "source": 56,
+          "target": 57,
+          "ticks": 3
+        },
+        {
+          "source": 57,
+          "target": 58,
+          "ticks": 3
+        },
+        {
+          "source": 58,
+          "target": 59,
+          "ticks": 1
+        },
+        {
+          "source": 59,
+          "target": 13,
+          "ticks": 6
+        },
+        {
+          "source": 60,
+          "target": 61,
+          "ticks": 2
+        },
+        {
+          "source": 61,
+          "target": 62,
+          "ticks": 3
+        },
+        {
+          "source": 62,
+          "target": 63,
+          "ticks": 2
+        },
+        {
+          "source": 63,
+          "target": 21,
+          "ticks": 5
+        }
+      ],
+      "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+    },
+    "pnr": {
+      "schema": "ifcn.pnr.v1",
+      "algorithm": "june_random",
+      "phase_count": 4,
+      "seed": 1,
+      "layout_legal": true,
+      "clock_legal": true,
+      "failed_edge_count": 0,
+      "validation": {
+        "passed": true,
+        "checks": [
+          "dag_acyclic",
+          "exact_edge_coverage",
+          "exact_node_coverage",
+          "unique_node_positions",
+          "route_endpoints",
+          "simple_four_connected_paths",
+          "no_route_through_gate",
+          "distinct_fanin_ports",
+          "port_sharing_geometry",
+          "clock_range_and_forward_steps",
+          "source_aware_crossings",
+          "original_native_geometry_mapping",
+          "rephased_geometry_and_clock_contract",
+          "cycle_zero_absolute_arrival_alignment",
+          "exported_ifcn_device_mapping"
+        ],
+        "errors": [],
+        "max_same_phase_run": 2,
+        "topological_order": [
+          0,
+          1,
+          2,
+          23,
+          4,
+          24,
+          25,
+          27,
+          50,
+          28,
+          29,
+          55,
+          6,
+          14,
+          5,
+          51,
+          30,
+          56,
+          36,
+          15,
+          19,
+          7,
+          52,
+          31,
+          57,
+          37,
+          43,
+          8,
+          53,
+          32,
+          58,
+          38,
+          44,
+          9,
+          26,
+          54,
+          33,
+          59,
+          45,
+          10,
+          12,
+          16,
+          60,
+          34,
+          46,
+          11,
+          13,
+          39,
+          61,
+          35,
+          47,
+          17,
+          40,
+          62,
+          48,
+          18,
+          41,
+          63,
+          20,
+          42,
+          21,
+          22,
+          49,
+          3
+        ],
+        "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+      },
+      "algorithm_parameters": {
+        "graphviz_grid_size": 40,
+        "route_order_retries": 24,
+        "search_cost": 40,
+        "max_same_phase": null,
+        "topology": "layer_redundancy_buffers",
+        "phase_count": 4,
+        "timeout_s": 42,
+        "seed_control": "not_exposed_by_native_algorithm"
+      },
+      "clock_scheme": "irregular",
+      "clock_template_ok": null,
+      "clock_template_conflicts": null,
+      "clock_validation_kind": "free_phase_with_absolute_arrival_alignment",
+      "run_time_s": 0.0358616,
+      "resolved_verilog": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/normalized.v",
+      "boolean_canonicalization": false,
+      "expansion": {
+        "inserted_rows": 0,
+        "inserted_columns": 0,
+        "accepted_rounds": 0,
+        "evaluated_cut_candidates": 0,
+        "reused_routed_candidates": 0
+      },
+      "width": 15,
+      "height": 34,
+      "area_tiles": 510,
+      "ifcn": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735/02_pnr_1/01_june_random_layer_redundancy_buffers/layout.ifcn",
+      "phase_repair": {
+        "schema": "ifcn.combinational.rephase.v1",
+        "status": "sat",
+        "algorithm": "june_random",
+        "solver": "scipy_highs_milp_in_bounded_process",
+        "launch_policy": "all_pi_cycle0_at_own_phase",
+        "pi_phases_preserved": true,
+        "geometry_preserved": true,
+        "pi_phase_policy": "fixed_original",
+        "phase_count": 4,
+        "gate_internal_extra_ticks": 0,
+        "requires_fresh_export_mapping": true,
+        "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+        "max_same_phase_tiles": 10,
+        "max_same_phase_step_fraction": 0.3,
+        "problem_size": {
+          "nodes": 64,
+          "routes": 75,
+          "occurrences": 368,
+          "steps": 293
+        },
+        "geometry_sha256": "44495f04b198e61ec29ba49731371ead20f8ec528fde8140268c8723f6a5c1f3",
+        "baseline_native_mapping_valid": true,
+        "changed_tiles": 211,
+        "actual_max_same_phase_tiles": 7,
+        "same_phase_steps": 87,
+        "node_arrival_ticks": {
+          "0": 2,
+          "1": 0,
+          "2": 1,
+          "3": 34,
+          "4": 3,
+          "5": 4,
+          "6": 4,
+          "7": 5,
+          "8": 9,
+          "9": 13,
+          "10": 15,
+          "11": 18,
+          "12": 15,
+          "13": 18,
+          "14": 4,
+          "15": 8,
+          "16": 18,
+          "17": 21,
+          "18": 25,
+          "19": 8,
+          "20": 30,
+          "21": 27,
+          "22": 32,
+          "23": 2,
+          "24": 0,
+          "25": 1,
+          "26": 13,
+          "27": 4,
+          "28": 4,
+          "29": 5,
+          "30": 7,
+          "31": 10,
+          "32": 13,
+          "33": 15,
+          "34": 16,
+          "35": 20,
+          "36": 5,
+          "37": 11,
+          "38": 14,
+          "39": 21,
+          "40": 24,
+          "41": 26,
+          "42": 28,
+          "43": 11,
+          "44": 14,
+          "45": 16,
+          "46": 19,
+          "47": 22,
+          "48": 24,
+          "49": 30,
+          "50": 3,
+          "51": 5,
+          "52": 8,
+          "53": 11,
+          "54": 13,
+          "55": 3,
+          "56": 5,
+          "57": 8,
+          "58": 11,
+          "59": 12,
+          "60": 15,
+          "61": 17,
+          "62": 20,
+          "63": 22
+        },
+        "pi_launch_ticks": {
+          "A": 2,
+          "B": 0,
+          "Cin": 1
+        },
+        "validation_passed": true,
+        "elapsed_s": 0.4398534119991382,
+        "attempts": [
+          {
+            "pi_phase_policy": "fixed_original",
+            "status": "sat",
+            "elapsed_s": 0.43977325600098993
+          }
+        ]
+      },
+      "clock_arrival": {
+        "schema": "ifcn.clock_arrival.v1",
+        "passed": true,
+        "launch_policy": "cycle_zero_at_template_phase",
+        "ifcn_sha256": "d4e43d0baae613873e0ba9193b9f592e5a2c7571a2b17ab8b0559b99da02b110",
+        "routed_dag_sha256": "ec4a7cf97d2185270c86688a99159b3cb43183cc284318dfba28e3de7df11103",
+        "phase_count": 4,
+        "relative_schedule_consistent": true,
+        "required_input_cycle_offsets": {
+          "A": 0,
+          "B": 0,
+          "Cin": 0
+        },
+        "input_schedule_applied": false,
+        "mismatches": [],
+        "relative_schedule_conflicts": [],
+        "nodes_checked": 64,
+        "routes_checked": 75,
+        "arrival_tick_ranges": {
+          "0": [
+            2,
+            2
+          ],
+          "1": [
+            0,
+            0
+          ],
+          "2": [
+            1,
+            1
+          ],
+          "23": [
+            2,
+            2
+          ],
+          "4": [
+            3,
+            3
+          ],
+          "24": [
+            0,
+            0
+          ],
+          "25": [
+            1,
+            1
+          ],
+          "27": [
+            4,
+            4
+          ],
+          "50": [
+            3,
+            3
+          ],
+          "28": [
+            4,
+            4
+          ],
+          "29": [
+            5,
+            5
+          ],
+          "55": [
+            3,
+            3
+          ],
+          "6": [
+            4,
+            4
+          ],
+          "14": [
+            4,
+            4
+          ],
+          "5": [
+            4,
+            4
+          ],
+          "51": [
+            5,
+            5
+          ],
+          "30": [
+            7,
+            7
+          ],
+          "56": [
+            5,
+            5
+          ],
+          "36": [
+            5,
+            5
+          ],
+          "15": [
+            8,
+            8
+          ],
+          "19": [
+            8,
+            8
+          ],
+          "7": [
+            5,
+            5
+          ],
+          "52": [
+            8,
+            8
+          ],
+          "31": [
+            10,
+            10
+          ],
+          "57": [
+            8,
+            8
+          ],
+          "37": [
+            11,
+            11
+          ],
+          "43": [
+            11,
+            11
+          ],
+          "8": [
+            9,
+            9
+          ],
+          "53": [
+            11,
+            11
+          ],
+          "32": [
+            13,
+            13
+          ],
+          "58": [
+            11,
+            11
+          ],
+          "38": [
+            14,
+            14
+          ],
+          "44": [
+            14,
+            14
+          ],
+          "9": [
+            13,
+            13
+          ],
+          "26": [
+            13,
+            13
+          ],
+          "54": [
+            13,
+            13
+          ],
+          "33": [
+            15,
+            15
+          ],
+          "59": [
+            12,
+            12
+          ],
+          "45": [
+            16,
+            16
+          ],
+          "10": [
+            15,
+            15
+          ],
+          "12": [
+            15,
+            15
+          ],
+          "16": [
+            18,
+            18
+          ],
+          "60": [
+            15,
+            15
+          ],
+          "34": [
+            16,
+            16
+          ],
+          "46": [
+            19,
+            19
+          ],
+          "11": [
+            18,
+            18
+          ],
+          "13": [
+            18,
+            18
+          ],
+          "39": [
+            21,
+            21
+          ],
+          "61": [
+            17,
+            17
+          ],
+          "35": [
+            20,
+            20
+          ],
+          "47": [
+            22,
+            22
+          ],
+          "17": [
+            21,
+            21
+          ],
+          "40": [
+            24,
+            24
+          ],
+          "62": [
+            20,
+            20
+          ],
+          "48": [
+            24,
+            24
+          ],
+          "18": [
+            25,
+            25
+          ],
+          "41": [
+            26,
+            26
+          ],
+          "63": [
+            22,
+            22
+          ],
+          "20": [
+            30,
+            30
+          ],
+          "42": [
+            28,
+            28
+          ],
+          "21": [
+            27,
+            27
+          ],
+          "22": [
+            32,
+            32
+          ],
+          "49": [
+            30,
+            30
+          ],
+          "3": [
+            34,
+            34
+          ]
+        },
+        "route_delays": [
+          {
+            "source": 0,
+            "target": 4,
+            "ticks": 1
+          },
+          {
+            "source": 0,
+            "target": 23,
+            "ticks": 0
+          },
+          {
+            "source": 1,
+            "target": 4,
+            "ticks": 3
+          },
+          {
+            "source": 1,
+            "target": 24,
+            "ticks": 0
+          },
+          {
+            "source": 2,
+            "target": 25,
+            "ticks": 0
+          },
+          {
+            "source": 2,
+            "target": 27,
+            "ticks": 3
+          },
+          {
+            "source": 4,
+            "target": 28,
+            "ticks": 1
+          },
+          {
+            "source": 4,
+            "target": 29,
+            "ticks": 2
+          },
+          {
+            "source": 5,
+            "target": 7,
+            "ticks": 1
+          },
+          {
+            "source": 6,
+            "target": 36,
+            "ticks": 1
+          },
+          {
+            "source": 7,
+            "target": 8,
+            "ticks": 4
+          },
+          {
+            "source": 8,
+            "target": 9,
+            "ticks": 4
+          },
+          {
+            "source": 8,
+            "target": 26,
+            "ticks": 4
+          },
+          {
+            "source": 9,
+            "target": 10,
+            "ticks": 2
+          },
+          {
+            "source": 9,
+            "target": 12,
+            "ticks": 2
+          },
+          {
+            "source": 10,
+            "target": 11,
+            "ticks": 3
+          },
+          {
+            "source": 11,
+            "target": 17,
+            "ticks": 3
+          },
+          {
+            "source": 12,
+            "target": 13,
+            "ticks": 3
+          },
+          {
+            "source": 13,
+            "target": 17,
+            "ticks": 3
+          },
+          {
+            "source": 14,
+            "target": 15,
+            "ticks": 4
+          },
+          {
+            "source": 14,
+            "target": 19,
+            "ticks": 4
+          },
+          {
+            "source": 15,
+            "target": 37,
+            "ticks": 3
+          },
+          {
+            "source": 16,
+            "target": 39,
+            "ticks": 3
+          },
+          {
+            "source": 17,
+            "target": 18,
+            "ticks": 4
+          },
+          {
+            "source": 18,
+            "target": 20,
+            "ticks": 5
+          },
+          {
+            "source": 18,
+            "target": 21,
+            "ticks": 2
+          },
+          {
+            "source": 19,
+            "target": 43,
+            "ticks": 3
+          },
+          {
+            "source": 20,
+            "target": 22,
+            "ticks": 2
+          },
+          {
+            "source": 21,
+            "target": 49,
+            "ticks": 3
+          },
+          {
+            "source": 22,
+            "target": 3,
+            "ticks": 2
+          },
+          {
+            "source": 23,
+            "target": 5,
+            "ticks": 2
+          },
+          {
+            "source": 23,
+            "target": 50,
+            "ticks": 1
+          },
+          {
+            "source": 24,
+            "target": 6,
+            "ticks": 4
+          },
+          {
+            "source": 24,
+            "target": 55,
+            "ticks": 3
+          },
+          {
+            "source": 25,
+            "target": 6,
+            "ticks": 3
+          },
+          {
+            "source": 25,
+            "target": 14,
+            "ticks": 3
+          },
+          {
+            "source": 26,
+            "target": 16,
+            "ticks": 5
+          },
+          {
+            "source": 26,
+            "target": 60,
+            "ticks": 2
+          },
+          {
+            "source": 27,
+            "target": 5,
+            "ticks": 0
+          },
+          {
+            "source": 28,
+            "target": 7,
+            "ticks": 1
+          },
+          {
+            "source": 29,
+            "target": 30,
+            "ticks": 2
+          },
+          {
+            "source": 30,
+            "target": 31,
+            "ticks": 3
+          },
+          {
+            "source": 31,
+            "target": 32,
+            "ticks": 3
+          },
+          {
+            "source": 32,
+            "target": 33,
+            "ticks": 2
+          },
+          {
+            "source": 33,
+            "target": 34,
+            "ticks": 1
+          },
+          {
+            "source": 34,
+            "target": 35,
+            "ticks": 4
+          },
+          {
+            "source": 35,
+            "target": 18,
+            "ticks": 5
+          },
+          {
+            "source": 36,
+            "target": 8,
+            "ticks": 4
+          },
+          {
+            "source": 37,
+            "target": 38,
+            "ticks": 3
+          },
+          {
+            "source": 38,
+            "target": 16,
+            "ticks": 4
+          },
+          {
+            "source": 39,
+            "target": 40,
+            "ticks": 3
+          },
+          {
+            "source": 40,
+            "target": 41,
+            "ticks": 2
+          },
+          {
+            "source": 41,
+            "target": 42,
+            "ticks": 2
+          },
+          {
+            "source": 42,
+            "target": 22,
+            "ticks": 4
+          },
+          {
+            "source": 43,
+            "target": 44,
+            "ticks": 3
+          },
+          {
+            "source": 44,
+            "target": 45,
+            "ticks": 2
+          },
+          {
+            "source": 45,
+            "target": 46,
+            "ticks": 3
+          },
+          {
+            "source": 46,
+            "target": 47,
+            "ticks": 3
+          },
+          {
+            "source": 47,
+            "target": 48,
+            "ticks": 2
+          },
+          {
+            "source": 48,
+            "target": 20,
+            "ticks": 6
+          },
+          {
+            "source": 49,
+            "target": 3,
+            "ticks": 4
+          },
+          {
+            "source": 50,
+            "target": 51,
+            "ticks": 2
+          },
+          {
+            "source": 51,
+            "target": 52,
+            "ticks": 3
+          },
+          {
+            "source": 52,
+            "target": 53,
+            "ticks": 3
+          },
+          {
+            "source": 53,
+            "target": 54,
+            "ticks": 2
+          },
+          {
+            "source": 54,
+            "target": 11,
+            "ticks": 5
+          },
+          {
+            "source": 55,
+            "target": 56,
+            "ticks": 2
+          },
+          {
+            "source": 56,
+            "target": 57,
+            "ticks": 3
+          },
+          {
+            "source": 57,
+            "target": 58,
+            "ticks": 3
+          },
+          {
+            "source": 58,
+            "target": 59,
+            "ticks": 1
+          },
+          {
+            "source": 59,
+            "target": 13,
+            "ticks": 6
+          },
+          {
+            "source": 60,
+            "target": 61,
+            "ticks": 2
+          },
+          {
+            "source": 61,
+            "target": 62,
+            "ticks": 3
+          },
+          {
+            "source": 62,
+            "target": 63,
+            "ticks": 2
+          },
+          {
+            "source": 63,
+            "target": 21,
+            "ticks": 5
+          }
+        ],
+        "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+      },
+      "mapping_validation": {
+        "passed": true,
+        "cell_count": 1413,
+        "cross_count": 10,
+        "io_contraction": false
+      },
+      "total_backend_time_s": 0.5300372860001517
+    },
+    "device_interface": {
+      "schema": "ifcn.qca.interface.v1",
+      "qca_sha256": "757491777acbae9173c8237012753b39c1d0ca70cd53a2368267825ecf783b3b",
+      "cell_count": 1413,
+      "expected_inputs": 3,
+      "expected_outputs": 1,
+      "actual_inputs": 3,
+      "actual_outputs": 1,
+      "scope": "Declared input/output terminal counts and nonempty device; not signal timing or waveform equivalence",
+      "passed": true
+    },
+    "algorithm_selection": {
+      "requested_algorithm": "june_random",
+      "requested_clock": "irregular",
+      "selected_algorithm": "june_random",
+      "selected_variant": "layer_redundancy_buffers",
+      "policy": "First validated backend; bounded variants replace the valid baseline only when area and actual QCA cell count do not increase and at least one decreases; no global optimality claim",
+      "attempts": [
+        {
+          "algorithm": "june_random",
+          "variant": "layer_redundancy_buffers",
+          "status": "completed",
+          "budget_s": 45.0,
+          "started_at": "2026-09-08T04:18:30.535636+00:00",
+          "directory": "02_pnr_1/01_june_random_layer_redundancy_buffers",
+          "area_tiles": 510,
+          "qca_cells": 1413,
+          "elapsed_s": 0.779,
+          "selected": true
+        },
+        {
+          "algorithm": "june_random",
+          "variant": "optimized_buffers",
+          "status": "completed",
+          "budget_s": 44.219,
+          "started_at": "2026-09-08T04:18:31.316351+00:00",
+          "directory": "02_pnr_1/02_june_random_optimized_buffers",
+          "area_tiles": 527,
+          "qca_cells": 1196,
+          "selection_reason": "Does not improve area and actual device count without regression",
+          "elapsed_s": 0.488
+        }
+      ]
+    },
+    "mapping": {
+      "cell_count": 1413,
+      "io_contraction": false
+    }
+  },
+  "validation": {
+    "rtl_equivalence": "exhaustive_scalar_source_vs_routed_dag",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff",
+    "physical_routes": "source_isolation_and_ordered_paths_passed",
+    "clock_arrival": "cycle_zero_at_template_phase_passed",
+    "device_terminal_counts": "match_source_declarations"
+  },
+  "requested_until": "map",
+  "error": null,
+  "worker_pid": 76621,
+  "active": false,
+  "log_tail": "1413 10\n",
+  "run_directory": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/d66c9b2c0389454f82bc818b2d0cb735"
+}

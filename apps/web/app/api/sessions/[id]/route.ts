@@ -14,7 +14,6 @@ import { sessionPathKey } from "@/lib/session-path";
 import { getRpcSession } from "@/lib/rpc-manager";
 import { getCliBridgeAgentState } from "@/lib/cli-bridge";
 import { accountOwnsSession, getCurrentAccountUid, unbindSession } from "@/lib/accounts";
-import { getSessionAgentVersionId, unbindSessionAgentVersion } from "@/lib/agent-versions";
 import { getHistoricalContextUsage } from "@/lib/historical-context-usage";
 import { projectTreeForResponse } from "@/lib/project-tree";
 import { computeSessionTotalActiveMs } from "@/lib/session-timing";
@@ -118,7 +117,6 @@ export async function GET(
       context,
       contextUsage,
       totalActiveMs,
-      agentVersionId: getSessionAgentVersionId(accountUid, id),
       ...(agentState !== undefined ? { agentState } : {}),
     });
   } catch (error) {
@@ -172,7 +170,6 @@ export async function DELETE(
       await getRpcSession(id)?.shutdown();
       invalidateSessionPathCache(id);
       invalidateSessionListCache();
-      unbindSessionAgentVersion(accountUid, id);
       unbindSession(id);
       return NextResponse.json({ ok: true, missingFile: true });
     }
@@ -216,7 +213,6 @@ export async function DELETE(
     unlinkSync(filePath);
     invalidateSessionPathCache(id);
     invalidateSessionListCache();
-    unbindSessionAgentVersion(accountUid, id);
     unbindSession(id);
     return NextResponse.json({ ok: true });
   } catch (error) {

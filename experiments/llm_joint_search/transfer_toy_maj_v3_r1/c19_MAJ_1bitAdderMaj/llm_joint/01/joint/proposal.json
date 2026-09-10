@@ -1,0 +1,80 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 0,
+      "to": [
+        25,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 1,
+      "to": [
+        20,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 2,
+      "to": [
+        22,
+        22
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      10
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      11,
+      3
+    ]
+  ],
+  "rationale": "This candidate translates the input prefix (nodes 0,1,2) up by 2 tiles (y+2) to y=22, reducing bounding height from 15 to 13 tiles (area proxy 120→104) while preserving x-extent; its routing_order uses sink-pressure/layer/long-edge policy, which prioritizes critical long paths (e.g., [0,7], [1,10]) early—observed in current layout to have minimal detour and multi-source interference—and aligns with the existing low-detour routing pattern (all edges currently have detour_steps=0 except [5,7] with +2). The move avoids congested lower rows (y=20–21) where multiple inputs converge, potentially easing routing congestion without altering gate positions that affect phase-sensitive clock propagation."
+}

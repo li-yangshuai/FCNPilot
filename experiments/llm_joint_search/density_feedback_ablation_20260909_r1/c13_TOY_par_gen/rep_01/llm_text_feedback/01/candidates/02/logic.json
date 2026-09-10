@@ -1,0 +1,96 @@
+{
+  "schema": "ifcn.routed_logic_audit.v1",
+  "scope": "Exhaustive Boolean equivalence of source assignments and exported routed DAG; excludes device behavior, clock timing/alignment, and power.",
+  "source_sha256": "9b345754736a4fff843aee1499631f401cd5fe39214c7e649343a880eb028762",
+  "routed_dag_sha256": "dd8f6b6b75b003dca9ced0a7d0eaf0d9a6dfd29530bb6075845000148cbf5539",
+  "status": "equivalent",
+  "equivalent": true,
+  "max_inputs": 11,
+  "vectors_checked": 8,
+  "mismatch_count": 0,
+  "counterexamples": [],
+  "port_diagnostics": {
+    "source_input_ports": [
+      "a",
+      "b",
+      "c"
+    ],
+    "source_output_ports": [
+      "parity"
+    ],
+    "dag_declared_input_count": 3,
+    "dag_declared_output_count": 1,
+    "dag_flagged_inputs": [
+      {
+        "id": 0,
+        "name": "a",
+        "type": "input"
+      },
+      {
+        "id": 1,
+        "name": "b",
+        "type": "input"
+      },
+      {
+        "id": 2,
+        "name": "c",
+        "type": "input"
+      }
+    ],
+    "dag_flagged_outputs": [
+      {
+        "id": 3,
+        "name": "parity",
+        "type": "or"
+      }
+    ]
+  },
+  "input_ports": [
+    "a",
+    "b",
+    "c"
+  ],
+  "output_ports": [
+    "parity"
+  ],
+  "source_header_matches_declarations": true,
+  "input_mapping": [
+    {
+      "source_port": "a",
+      "dag_node_id": 0,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "b",
+      "dag_node_id": 1,
+      "basis": "exact_name"
+    },
+    {
+      "source_port": "c",
+      "dag_node_id": 2,
+      "basis": "exact_name"
+    }
+  ],
+  "output_mapping": [
+    {
+      "source_port": "parity",
+      "dag_node_id": 3,
+      "dag_node_name": "parity",
+      "basis": "exact_name",
+      "alias_chain": [
+        "parity"
+      ]
+    }
+  ],
+  "gate_semantics": {
+    "and": "AND of exactly two fanins",
+    "input": "primary input; no fanins",
+    "not": "complement of exactly one fanin",
+    "or": "OR of exactly two fanins"
+  },
+  "expected_vector_count": 8,
+  "source_truth_sha256": "4db06772d5f62ca2d81afb7c7f12b21fcc49be19b92a56949870ac9e4f0570ac",
+  "dag_truth_sha256": "4db06772d5f62ca2d81afb7c7f12b21fcc49be19b92a56949870ac9e4f0570ac",
+  "source_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/density_feedback_ablation_20260909_r1/c13_TOY_par_gen/inputs/source.v",
+  "routed_dag_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/density_feedback_ablation_20260909_r1/c13_TOY_par_gen/rep_01/llm_text_feedback/01/candidates/02/routed_dag.json"
+}

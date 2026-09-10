@@ -1,0 +1,226 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 1,
+        "to": [
+          23,
+          20
+        ]
+      },
+      {
+        "op": "move",
+        "node": 2,
+        "to": [
+          21,
+          20
+        ]
+      },
+      {
+        "op": "move",
+        "node": 3,
+        "to": [
+          24,
+          34
+        ]
+      },
+      {
+        "op": "move",
+        "node": 4,
+        "to": [
+          21,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          23,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          23,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          22,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 9,
+        "to": [
+          22,
+          31
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        9
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        9,
+        3
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "rationale": "Axis x cut at 20: translate the suffix by -1 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated."
+  },
+  "start_sha256": "81c7f03740b728e762bd2f8f45d70b1e868d71b558c6282a309038a21fbd8573",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 9) has an absent or invalid clock phase at (20, 20); Route (0, 9) has an absent or invalid clock phase at (20, 21); Route (0, 9) has an absent or invalid clock phase at (20, 22); Route (0, 9) has an absent or invalid clock phase at (20, 23)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        9
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        9,
+        3
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        9
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        8,
+        9
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      5,
+      6
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      3
+    ]
+  ],
+  "elapsed_s": 0.06669855099971755
+}

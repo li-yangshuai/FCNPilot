@@ -1,0 +1,1589 @@
+{
+  "schema": "ifcn.toy_maj.inventory.v1",
+  "authority": "engine/tests/benchmarks_f",
+  "scope": "Exactly the 30 top-level .v files in TOY and MAJ. Original source bytes are the authority; v1 arithmetic corrections are not substituted.",
+  "counts": {
+    "files": 30,
+    "toy": 17,
+    "maj": 13,
+    "source_byte_unique": 29,
+    "fixed_port_order_truth_table_classes": 16,
+    "normalized_and_compact_parsed": 30,
+    "layered_parsed": 30
+  },
+  "measurement": {
+    "method": "normalize_verilog(default source_order=False), then actual ifcn_agent_backend.py parse in compact and layered modes, temporary outputs only; no P&R or paid model calls.",
+    "gate_nodes": "AND/OR/NOT Boolean nodes in the normalized parsed DAG; excludes input and wire/buffer nodes. This frontend lowers majority expressions to AOI gates.",
+    "non_input_nodes": "All parsed nodes except primary inputs, including wire/buffer nodes.",
+    "nodes": "All effective nodes including inputs and wire/buffers. Parser counts are not final native P&R candidate counts.",
+    "truth_table_sha256_encoding": "SHA256 of UTF-8 json.dumps(truth_table, separators=(comma, colon)); rows follow lexicographic 0-before-1 input declaration order; output columns follow output declaration order.",
+    "classification_limit": "Exact fixed declaration-order truth tables only; not NPN equivalence or a claim of independent application circuits."
+  },
+  "optimization_limits": {
+    "candidate_nodes": 50,
+    "candidate_routes": 100,
+    "exhaustive_inputs": 11,
+    "compact_parse_all_within_limits": true,
+    "layered_parse_over_node_limit": 13,
+    "layered_parse_over_edge_limit": 6,
+    "eligibility_note": "Actual optimization additionally requires an irregular Compact/June baseline and fresh RTL/clock/physical certificates. Final candidate node/route counts govern eligibility, not these parse-only measurements."
+  },
+  "v1_differences": [
+    {
+      "id": "TOY/RCA2.v",
+      "source_sha256": "6bb7bb0f8df4d153052a87050e75049a3fbfb80ee2fa4bb27e3c0e06dae7dc51",
+      "v1_path": "engine/tests/benchmarks_pi/v1/TOY/RCA2.v",
+      "v1_sha256": "eb841a3efc650d792ef0021a14684a69a25822cf59cac498a04d8c25cf6210ab",
+      "changes": [
+        {
+          "after": "assign w8 = a0 & b0;",
+          "before": "assign w8 = a1 & b1;",
+          "description": "Use low-bit generate for the carry into bit 1.",
+          "kind": "arithmetic_correction"
+        },
+        {
+          "after": "assign w19 = n2 & cint;",
+          "before": "assign w19 = n2 & cin;",
+          "description": "Use the intermediate carry when computing final carry-out.",
+          "kind": "arithmetic_correction"
+        }
+      ],
+      "source_to_v1_equivalent": false,
+      "changed_output_vectors": 12,
+      "vectors": 32,
+      "used_in_this_inventory": "original benchmarks_f only"
+    },
+    {
+      "id": "TOY/xor2.v",
+      "source_sha256": "a609d8a0cfc61fb3d9e0c5c545009994ee3ec795a533ac3786d8a523d3ed80bf",
+      "v1_path": "engine/tests/benchmarks_pi/v1/TOY/xor2.v",
+      "v1_sha256": "83f8a5bb72512bf03fef78b22937aab8a786d5472c5efee71fdfe80d51651c55",
+      "changes": [
+        {
+          "after": "module top(a, b, out);",
+          "before": "module top(in0, in1, out);",
+          "description": "Align module header with the existing scalar input declarations a,b; assign logic is unchanged.",
+          "kind": "interface_correction"
+        }
+      ],
+      "source_to_v1_equivalent": true,
+      "changed_output_vectors": 0,
+      "vectors": 4,
+      "used_in_this_inventory": "original benchmarks_f only"
+    }
+  ],
+  "recursive_derivatives_excluded": {
+    "policy": "Generated subdirectory source variants and RL parser-safe copies are excluded from top-level benchmark membership and independent-test counts.",
+    "original_ifcn_tracked_generated_sources": [
+      "MAJ/1bitAdderMaj_source_generate/1bitAdderMaj_source.v",
+      "TOY/clpl_source_generate/clpl_source.v",
+      "TOY/mux41_source_generate/mux41_source.v",
+      "TOY/xnor2_source_generate/xnor2_source.v",
+      "TOY/xor2_source_generate/xor2_source.v"
+    ],
+    "original_ifcn_untracked_rl_derivatives": [
+      "TOY/xor5R_gcn_rl_layout/memory_only_verified/xor5R_parser_safe.v",
+      "TOY/xor5R_gcn_rl_layout/run_1/xor5R_parser_safe.v",
+      "TOY/xor5R_gcn_rl_layout/run_2/xor5R_parser_safe.v"
+    ]
+  },
+  "function_classes": [
+    {
+      "id": "3i_2o_40bd2de12fee34113708c75e9a1396903ae7a6af350848116f7b2f14916682b4",
+      "case_ids": [
+        "TOY/1bitAdderAOIG.v",
+        "MAJ/1bitAdderAOIG.v"
+      ]
+    },
+    {
+      "id": "3i_1o_b86bc00dfffd84d427281428235c8d8cc487fd7fc23fd819ae1c1f13343fc71a",
+      "case_ids": [
+        "TOY/1bitAdderMaj.v",
+        "MAJ/1bitAdderMaj.v"
+      ]
+    },
+    {
+      "id": "5i_3o_452994f347664560944787f7a3b1a4099991f3fe422061880cb12e700a265383",
+      "case_ids": [
+        "TOY/RCA2.v"
+      ]
+    },
+    {
+      "id": "3i_4o_92c842bd1b1674141be28c0785aadc45c9f4ceee1a9c24cc889ec0e1151593fd",
+      "case_ids": [
+        "TOY/b1_r2.v"
+      ]
+    },
+    {
+      "id": "11i_5o_ae9e619e5712e7e0bb843bf915500ca07d2bb5ef4f039840d868a6e2a08d7ba5",
+      "case_ids": [
+        "TOY/clpl.v",
+        "MAJ/clpl.v"
+      ]
+    },
+    {
+      "id": "3i_1o_afe63d5433d71b9bdf18e809de3b4ee86d5323290fd409b7a8e9b998460eea46",
+      "case_ids": [
+        "TOY/mux21.v"
+      ]
+    },
+    {
+      "id": "6i_1o_76059ad9f13206e435140c7dbd97d315bed8f9844132a38ebf8408ce5f6984a9",
+      "case_ids": [
+        "TOY/mux41.v",
+        "MAJ/mux41.v"
+      ]
+    },
+    {
+      "id": "8i_1o_dfa2c61037c300a9f7ab21e4f0243f5614729d45ca6c4ac2106c359bbbcc67fa",
+      "case_ids": [
+        "TOY/newtag.v",
+        "MAJ/newtag.v"
+      ]
+    },
+    {
+      "id": "3i_1o_fa78ff5dc4319095c6efdef068453001c96ecc5a182647d22b4a9a7a1bf18172",
+      "case_ids": [
+        "TOY/paper_2ddwave_carry_demo.v",
+        "TOY/paper_2ddwave_crossing_demo.v"
+      ]
+    },
+    {
+      "id": "2i_1o_229143095180a63d90d35a9cc0be3aacc1cbbe478774628e214b4db75cec9eb8",
+      "case_ids": [
+        "TOY/paper_2ddwave_xor_demo.v",
+        "TOY/xor2.v",
+        "MAJ/xor2.v"
+      ]
+    },
+    {
+      "id": "4i_1o_500997052f0daee4408730a9f5902381993aa1ee77719d01e3bd7c5a626fba84",
+      "case_ids": [
+        "TOY/par_check.v",
+        "MAJ/par_check.v"
+      ]
+    },
+    {
+      "id": "3i_1o_4db06772d5f62ca2d81afb7c7f12b21fcc49be19b92a56949870ac9e4f0570ac",
+      "case_ids": [
+        "TOY/par_gen.v",
+        "MAJ/par_gen.v"
+      ]
+    },
+    {
+      "id": "5i_2o_3f532da2538e33d11c6428ab28dbc53c9e8ff67ac44b9d3ad9dfe35df1be82c1",
+      "case_ids": [
+        "TOY/t.v",
+        "MAJ/t.v"
+      ]
+    },
+    {
+      "id": "2i_1o_8d46cf31af60be5763206b53d8d01e7be9f5a857bda3fab4c274b8300286b3eb",
+      "case_ids": [
+        "TOY/xnor2.v",
+        "MAJ/xnor2.v"
+      ]
+    },
+    {
+      "id": "5i_1o_43add35824172b6ec027ac023cc1609cd4e04dd45da5dcbcb06aede286fae72d",
+      "case_ids": [
+        "TOY/xor5R.v",
+        "MAJ/xor5R.v",
+        "MAJ/xor5_r1.v"
+      ]
+    },
+    {
+      "id": "5i_3o_3c58fb7f052e6c8970c70f2ae07c2647539c0b65fd21a9b98da47b36312d6e0e",
+      "case_ids": [
+        "MAJ/RCA2.v"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "TOY/1bitAdderAOIG.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/1bitAdderAOIG.v",
+      "source_sha256": "cbc0b3bc38b5e5545d785db580560b14c14bdbf90559297b29b8c97a1656a3ce",
+      "normalized_sha256": "885110487e3131ae46c527734daaa00c157c5ed3b3723184a021ee4ec04ffd38",
+      "original_ifcn_source_matches": true,
+      "inputs": 3,
+      "outputs": 2,
+      "input_ports": [
+        "x",
+        "y",
+        "z"
+      ],
+      "output_ports": [
+        "H",
+        "I"
+      ],
+      "assignment_count": 7,
+      "compact": {
+        "status": "parsed",
+        "nodes": 12,
+        "edges": 16,
+        "gate_nodes": 9,
+        "non_input_nodes": 9
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 34,
+        "edges": 38,
+        "gate_nodes": 9,
+        "non_input_nodes": 31
+      },
+      "truth_table_sha256": "40bd2de12fee34113708c75e9a1396903ae7a6af350848116f7b2f14916682b4",
+      "truth_table_vectors": 8,
+      "function_class": "3i_2o_40bd2de12fee34113708c75e9a1396903ae7a6af350848116f7b2f14916682b4",
+      "semantic_category": "one_bit_full_adder",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/1bitAdderMaj.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/1bitAdderMaj.v",
+      "source_sha256": "8ef091e5b42ceabe3f68ba45a1c63388f1aacb4c84c9fb83711414ace2ccfb0f",
+      "normalized_sha256": "3abd78d61c2e1b26d94af60739e6d00f29410065d302e5476f3af6fc9630215e",
+      "original_ifcn_source_matches": true,
+      "inputs": 3,
+      "outputs": 1,
+      "input_ports": [
+        "A",
+        "B",
+        "Cin"
+      ],
+      "output_ports": [
+        "M3"
+      ],
+      "assignment_count": 14,
+      "compact": {
+        "status": "parsed",
+        "nodes": 20,
+        "edges": 31,
+        "gate_nodes": 17,
+        "non_input_nodes": 17
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 61,
+        "edges": 72,
+        "gate_nodes": 17,
+        "non_input_nodes": 58
+      },
+      "truth_table_sha256": "b86bc00dfffd84d427281428235c8d8cc487fd7fc23fd819ae1c1f13343fc71a",
+      "truth_table_vectors": 8,
+      "function_class": "3i_1o_b86bc00dfffd84d427281428235c8d8cc487fd7fc23fd819ae1c1f13343fc71a",
+      "semantic_category": "majority_with_inverted_third_input",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/RCA2.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/RCA2.v",
+      "source_sha256": "6bb7bb0f8df4d153052a87050e75049a3fbfb80ee2fa4bb27e3c0e06dae7dc51",
+      "normalized_sha256": "0086a485bc7c96b83c97b1485211881328f48ad4fe83d2c655ddff90ebb0fc4e",
+      "original_ifcn_source_matches": true,
+      "inputs": 5,
+      "outputs": 3,
+      "input_ports": [
+        "a0",
+        "a1",
+        "b0",
+        "b1",
+        "cin"
+      ],
+      "output_ports": [
+        "sum0",
+        "sum1",
+        "cout"
+      ],
+      "assignment_count": 22,
+      "compact": {
+        "status": "parsed",
+        "nodes": 27,
+        "edges": 40,
+        "gate_nodes": 22,
+        "non_input_nodes": 22
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 77,
+        "edges": 90,
+        "gate_nodes": 22,
+        "non_input_nodes": 72
+      },
+      "truth_table_sha256": "452994f347664560944787f7a3b1a4099991f3fe422061880cb12e700a265383",
+      "truth_table_vectors": 32,
+      "function_class": "5i_3o_452994f347664560944787f7a3b1a4099991f3fe422061880cb12e700a265383",
+      "semantic_category": "source_defined_multi_output_logic",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      },
+      "semantic_note": "Original source preserved. It differs from the corrected unsigned two-bit adder in v1 on 12 of 32 input vectors; source equivalence does not establish the intended arithmetic specification."
+    },
+    {
+      "id": "TOY/b1_r2.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/b1_r2.v",
+      "source_sha256": "e3a30eca140d42e477c7a20e5827cbcf331eabf1c02acf00f49e33b7dcc9fe6c",
+      "normalized_sha256": "a6aa67d0e4bf00b7439dc87ece6a492dd6aba298ff164d80137caa7bac226fe0",
+      "original_ifcn_source_matches": true,
+      "inputs": 3,
+      "outputs": 4,
+      "input_ports": [
+        "pi0",
+        "pi1",
+        "pi2"
+      ],
+      "output_ports": [
+        "po0",
+        "po1",
+        "po2",
+        "po3"
+      ],
+      "assignment_count": 8,
+      "compact": {
+        "status": "parsed",
+        "nodes": 14,
+        "edges": 17,
+        "gate_nodes": 11,
+        "non_input_nodes": 11
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 36,
+        "edges": 39,
+        "gate_nodes": 12,
+        "non_input_nodes": 33
+      },
+      "truth_table_sha256": "92c842bd1b1674141be28c0785aadc45c9f4ceee1a9c24cc889ec0e1151593fd",
+      "truth_table_vectors": 8,
+      "function_class": "3i_4o_92c842bd1b1674141be28c0785aadc45c9f4ceee1a9c24cc889ec0e1151593fd",
+      "semantic_category": "source_defined_multi_output_logic",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/clpl.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/clpl.v",
+      "source_sha256": "de7d65ca4373d2ed5089fa702ac40349d963ebdd3eb78e0d8c74013d284f5f62",
+      "normalized_sha256": "668f414d5dac7091dbbaeb04684342a81d2d508f951e943a829d248b13b7b6a2",
+      "original_ifcn_source_matches": true,
+      "inputs": 11,
+      "outputs": 5,
+      "input_ports": [
+        "pi00",
+        "pi01",
+        "pi02",
+        "pi03",
+        "pi04",
+        "pi05",
+        "pi06",
+        "pi07",
+        "pi08",
+        "pi09",
+        "pi10"
+      ],
+      "output_ports": [
+        "po0",
+        "po1",
+        "po2",
+        "po3",
+        "po4"
+      ],
+      "assignment_count": 10,
+      "compact": {
+        "status": "parsed",
+        "nodes": 21,
+        "edges": 20,
+        "gate_nodes": 10,
+        "non_input_nodes": 10
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 66,
+        "edges": 65,
+        "gate_nodes": 10,
+        "non_input_nodes": 55
+      },
+      "truth_table_sha256": "ae9e619e5712e7e0bb843bf915500ca07d2bb5ef4f039840d868a6e2a08d7ba5",
+      "truth_table_vectors": 2048,
+      "function_class": "11i_5o_ae9e619e5712e7e0bb843bf915500ca07d2bb5ef4f039840d868a6e2a08d7ba5",
+      "semantic_category": "multi_output_and_or_chain",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/mux21.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/mux21.v",
+      "source_sha256": "0e439672e33b02fc619a7288e9b711e416a1566b7ac410d5cbf7b9e52fbad8c2",
+      "normalized_sha256": "b602543eebff427e5f580d0747cb3d51267997e1d86b02ef6f0ab23a5f7ff4db",
+      "original_ifcn_source_matches": true,
+      "inputs": 3,
+      "outputs": 1,
+      "input_ports": [
+        "in0",
+        "in1",
+        "in2"
+      ],
+      "output_ports": [
+        "out"
+      ],
+      "assignment_count": 4,
+      "compact": {
+        "status": "parsed",
+        "nodes": 7,
+        "edges": 7,
+        "gate_nodes": 4,
+        "non_input_nodes": 4
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 12,
+        "edges": 12,
+        "gate_nodes": 4,
+        "non_input_nodes": 9
+      },
+      "truth_table_sha256": "afe63d5433d71b9bdf18e809de3b4ee86d5323290fd409b7a8e9b998460eea46",
+      "truth_table_vectors": 8,
+      "function_class": "3i_1o_afe63d5433d71b9bdf18e809de3b4ee86d5323290fd409b7a8e9b998460eea46",
+      "semantic_category": "mux2",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/mux41.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/mux41.v",
+      "source_sha256": "b8743fb320684d98b30060ee5a5b70ab5099ec814906e78680ca71c36f014959",
+      "normalized_sha256": "9068f69eeeb06ece15f3415337d6547b828f4917139612b15bd1663d1e2b2722",
+      "original_ifcn_source_matches": true,
+      "inputs": 6,
+      "outputs": 1,
+      "input_ports": [
+        "in0",
+        "in1",
+        "in2",
+        "in3",
+        "s0",
+        "s1"
+      ],
+      "output_ports": [
+        "out"
+      ],
+      "assignment_count": 12,
+      "compact": {
+        "status": "parsed",
+        "nodes": 18,
+        "edges": 21,
+        "gate_nodes": 12,
+        "non_input_nodes": 12
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 35,
+        "edges": 38,
+        "gate_nodes": 12,
+        "non_input_nodes": 29
+      },
+      "truth_table_sha256": "76059ad9f13206e435140c7dbd97d315bed8f9844132a38ebf8408ce5f6984a9",
+      "truth_table_vectors": 64,
+      "function_class": "6i_1o_76059ad9f13206e435140c7dbd97d315bed8f9844132a38ebf8408ce5f6984a9",
+      "semantic_category": "mux4",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/newtag.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/newtag.v",
+      "source_sha256": "a14bc5854351fe03b12f3e0975cb426e6a843ac263bf47073df2f89fe749c754",
+      "normalized_sha256": "ff2a2e130d7449bbfd7f768d9845639204835d87ca2b6b1f3fbc570db0baaba9",
+      "original_ifcn_source_matches": true,
+      "inputs": 8,
+      "outputs": 1,
+      "input_ports": [
+        "pi0",
+        "pi1",
+        "pi2",
+        "pi3",
+        "pi4",
+        "pi5",
+        "pi6",
+        "pi7"
+      ],
+      "output_ports": [
+        "po0"
+      ],
+      "assignment_count": 9,
+      "compact": {
+        "status": "parsed",
+        "nodes": 23,
+        "edges": 24,
+        "gate_nodes": 15,
+        "non_input_nodes": 15
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 40,
+        "edges": 41,
+        "gate_nodes": 15,
+        "non_input_nodes": 32
+      },
+      "truth_table_sha256": "dfa2c61037c300a9f7ab21e4f0243f5614729d45ca6c4ac2106c359bbbcc67fa",
+      "truth_table_vectors": 256,
+      "function_class": "8i_1o_dfa2c61037c300a9f7ab21e4f0243f5614729d45ca6c4ac2106c359bbbcc67fa",
+      "semantic_category": "source_defined_combinational_logic",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/paper_2ddwave_carry_demo.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/paper_2ddwave_carry_demo.v",
+      "source_sha256": "6ca095f8078db5c78fe54863b447481defad26aad1b8d9f061f0d0d2d0a3c8d3",
+      "normalized_sha256": "9d9fec832fbb46a67b47aa4f9d97fd19930b7c76eba7e2e5181060f3ab2e3cb7",
+      "original_ifcn_source_matches": true,
+      "inputs": 3,
+      "outputs": 1,
+      "input_ports": [
+        "x",
+        "y",
+        "z"
+      ],
+      "output_ports": [
+        "carry"
+      ],
+      "assignment_count": 5,
+      "compact": {
+        "status": "parsed",
+        "nodes": 9,
+        "edges": 11,
+        "gate_nodes": 6,
+        "non_input_nodes": 6
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 20,
+        "edges": 22,
+        "gate_nodes": 6,
+        "non_input_nodes": 17
+      },
+      "truth_table_sha256": "fa78ff5dc4319095c6efdef068453001c96ecc5a182647d22b4a9a7a1bf18172",
+      "truth_table_vectors": 8,
+      "function_class": "3i_1o_fa78ff5dc4319095c6efdef068453001c96ecc5a182647d22b4a9a7a1bf18172",
+      "semantic_category": "majority3",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/paper_2ddwave_crossing_demo.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/paper_2ddwave_crossing_demo.v",
+      "source_sha256": "d471dfe2cfa54e7db65277d0e1a4f0b5f0a5f9e4d0db19ae1a81f431fc669e18",
+      "normalized_sha256": "89b9e44838622eb688a0193fb57c8b67ddbb1535f17601bcfa6dbbb5f0a9dd79",
+      "original_ifcn_source_matches": true,
+      "inputs": 3,
+      "outputs": 1,
+      "input_ports": [
+        "a",
+        "b",
+        "c"
+      ],
+      "output_ports": [
+        "carry"
+      ],
+      "assignment_count": 5,
+      "compact": {
+        "status": "parsed",
+        "nodes": 8,
+        "edges": 10,
+        "gate_nodes": 5,
+        "non_input_nodes": 5
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 9,
+        "edges": 11,
+        "gate_nodes": 5,
+        "non_input_nodes": 6
+      },
+      "truth_table_sha256": "fa78ff5dc4319095c6efdef068453001c96ecc5a182647d22b4a9a7a1bf18172",
+      "truth_table_vectors": 8,
+      "function_class": "3i_1o_fa78ff5dc4319095c6efdef068453001c96ecc5a182647d22b4a9a7a1bf18172",
+      "semantic_category": "majority3",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/paper_2ddwave_xor_demo.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/paper_2ddwave_xor_demo.v",
+      "source_sha256": "bcb7240baad4c23bfb91d93824e44ff1417d65cabe9e51bb30827a03690eeec6",
+      "normalized_sha256": "e1f23233c5da59a1aebdcf8dd3c884c969f54c141eca6c612c7cf67da98e9283",
+      "original_ifcn_source_matches": true,
+      "inputs": 2,
+      "outputs": 1,
+      "input_ports": [
+        "a",
+        "b"
+      ],
+      "output_ports": [
+        "out"
+      ],
+      "assignment_count": 4,
+      "compact": {
+        "status": "parsed",
+        "nodes": 6,
+        "edges": 7,
+        "gate_nodes": 4,
+        "non_input_nodes": 4
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 9,
+        "edges": 10,
+        "gate_nodes": 4,
+        "non_input_nodes": 7
+      },
+      "truth_table_sha256": "229143095180a63d90d35a9cc0be3aacc1cbbe478774628e214b4db75cec9eb8",
+      "truth_table_vectors": 4,
+      "function_class": "2i_1o_229143095180a63d90d35a9cc0be3aacc1cbbe478774628e214b4db75cec9eb8",
+      "semantic_category": "xor2",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/par_check.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/par_check.v",
+      "source_sha256": "7d7e761c65310c266ccaa41806fdb781e68d9ed6e962cd92c35efd0a05aa252c",
+      "normalized_sha256": "59bf727c733ab28e05305f03ee76fde479270f878f66bfc5b726f18cd4fb90cf",
+      "original_ifcn_source_matches": true,
+      "inputs": 4,
+      "outputs": 1,
+      "input_ports": [
+        "a",
+        "b",
+        "c",
+        "p"
+      ],
+      "output_ports": [
+        "parity_check"
+      ],
+      "assignment_count": 15,
+      "compact": {
+        "status": "parsed",
+        "nodes": 18,
+        "edges": 23,
+        "gate_nodes": 14,
+        "non_input_nodes": 14
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 36,
+        "edges": 41,
+        "gate_nodes": 14,
+        "non_input_nodes": 32
+      },
+      "truth_table_sha256": "500997052f0daee4408730a9f5902381993aa1ee77719d01e3bd7c5a626fba84",
+      "truth_table_vectors": 16,
+      "function_class": "4i_1o_500997052f0daee4408730a9f5902381993aa1ee77719d01e3bd7c5a626fba84",
+      "semantic_category": "source_defined_combinational_logic",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/par_gen.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/par_gen.v",
+      "source_sha256": "9b345754736a4fff843aee1499631f401cd5fe39214c7e649343a880eb028762",
+      "normalized_sha256": "74dd4c190b54b0c946f481d3134148de153f5afe27e90626234ee29ed9f48f1b",
+      "original_ifcn_source_matches": true,
+      "inputs": 3,
+      "outputs": 1,
+      "input_ports": [
+        "a",
+        "b",
+        "c"
+      ],
+      "output_ports": [
+        "parity"
+      ],
+      "assignment_count": 10,
+      "compact": {
+        "status": "parsed",
+        "nodes": 13,
+        "edges": 16,
+        "gate_nodes": 10,
+        "non_input_nodes": 10
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 31,
+        "edges": 34,
+        "gate_nodes": 10,
+        "non_input_nodes": 28
+      },
+      "truth_table_sha256": "4db06772d5f62ca2d81afb7c7f12b21fcc49be19b92a56949870ac9e4f0570ac",
+      "truth_table_vectors": 8,
+      "function_class": "3i_1o_4db06772d5f62ca2d81afb7c7f12b21fcc49be19b92a56949870ac9e4f0570ac",
+      "semantic_category": "xor3",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/t.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/t.v",
+      "source_sha256": "65580cb4a769d403f1955b0e20dd0992cbabe70951d7e5b3c2965cfc34bde2f9",
+      "normalized_sha256": "d766fed60e25d069286d7a7c1591aa9741294c8edfdf2a1b9de26c5e70067fed",
+      "original_ifcn_source_matches": true,
+      "inputs": 5,
+      "outputs": 2,
+      "input_ports": [
+        "pi0",
+        "pi1",
+        "pi2",
+        "pi3",
+        "pi4"
+      ],
+      "output_ports": [
+        "po0",
+        "po1"
+      ],
+      "assignment_count": 6,
+      "compact": {
+        "status": "parsed",
+        "nodes": 15,
+        "edges": 16,
+        "gate_nodes": 10,
+        "non_input_nodes": 10
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 30,
+        "edges": 31,
+        "gate_nodes": 10,
+        "non_input_nodes": 25
+      },
+      "truth_table_sha256": "3f532da2538e33d11c6428ab28dbc53c9e8ff67ac44b9d3ad9dfe35df1be82c1",
+      "truth_table_vectors": 32,
+      "function_class": "5i_2o_3f532da2538e33d11c6428ab28dbc53c9e8ff67ac44b9d3ad9dfe35df1be82c1",
+      "semantic_category": "source_defined_multi_output_logic",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/xnor2.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/xnor2.v",
+      "source_sha256": "a3d96c67b447e43a703871aff932b89d9f08699b5b7e50d4360b9cf64c085464",
+      "normalized_sha256": "8defeebfe4b27da548a487dfe06b58bcb9c2f1072270381d67fa6879ca11fbaa",
+      "original_ifcn_source_matches": true,
+      "inputs": 2,
+      "outputs": 1,
+      "input_ports": [
+        "a",
+        "b"
+      ],
+      "output_ports": [
+        "out"
+      ],
+      "assignment_count": 6,
+      "compact": {
+        "status": "parsed",
+        "nodes": 8,
+        "edges": 9,
+        "gate_nodes": 6,
+        "non_input_nodes": 6
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 14,
+        "edges": 15,
+        "gate_nodes": 6,
+        "non_input_nodes": 12
+      },
+      "truth_table_sha256": "8d46cf31af60be5763206b53d8d01e7be9f5a857bda3fab4c274b8300286b3eb",
+      "truth_table_vectors": 4,
+      "function_class": "2i_1o_8d46cf31af60be5763206b53d8d01e7be9f5a857bda3fab4c274b8300286b3eb",
+      "semantic_category": "xnor2",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/xor2.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/xor2.v",
+      "source_sha256": "a609d8a0cfc61fb3d9e0c5c545009994ee3ec795a533ac3786d8a523d3ed80bf",
+      "normalized_sha256": "51772283dec1ee5aa02b50bb3bf628ce7a756610210967ee11dcc5aa0c1ddebd",
+      "original_ifcn_source_matches": true,
+      "inputs": 2,
+      "outputs": 1,
+      "input_ports": [
+        "a",
+        "b"
+      ],
+      "output_ports": [
+        "out"
+      ],
+      "assignment_count": 4,
+      "compact": {
+        "status": "parsed",
+        "nodes": 6,
+        "edges": 7,
+        "gate_nodes": 4,
+        "non_input_nodes": 4
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 9,
+        "edges": 10,
+        "gate_nodes": 4,
+        "non_input_nodes": 7
+      },
+      "truth_table_sha256": "229143095180a63d90d35a9cc0be3aacc1cbbe478774628e214b4db75cec9eb8",
+      "truth_table_vectors": 4,
+      "function_class": "2i_1o_229143095180a63d90d35a9cc0be3aacc1cbbe478774628e214b4db75cec9eb8",
+      "semantic_category": "xor2",
+      "source_header_matches_declarations": false,
+      "header_warnings": [
+        "Legacy module header differs from input/output declarations; normalized ports follow the declarations. Original source preserved."
+      ],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "TOY/xor5R.v",
+      "source_path": "engine/tests/benchmarks_f/TOY/xor5R.v",
+      "source_sha256": "8139d222736c073dccf0a16e6f711dc05e3a3912e283f8a21c082a068b15661f",
+      "normalized_sha256": "a81d6ec8e721dbbf10bd8f6eeb79b9d65029993d73646e39be2036c18ccc06d7",
+      "original_ifcn_source_matches": true,
+      "inputs": 5,
+      "outputs": 1,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2",
+        "x3",
+        "x4"
+      ],
+      "output_ports": [
+        "z0"
+      ],
+      "assignment_count": 15,
+      "compact": {
+        "status": "parsed",
+        "nodes": 37,
+        "edges": 47,
+        "gate_nodes": 32,
+        "non_input_nodes": 32
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 99,
+        "edges": 109,
+        "gate_nodes": 32,
+        "non_input_nodes": 94
+      },
+      "truth_table_sha256": "43add35824172b6ec027ac023cc1609cd4e04dd45da5dcbcb06aede286fae72d",
+      "truth_table_vectors": 32,
+      "function_class": "5i_1o_43add35824172b6ec027ac023cc1609cd4e04dd45da5dcbcb06aede286fae72d",
+      "semantic_category": "xor5",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/1bitAdderAOIG.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/1bitAdderAOIG.v",
+      "source_sha256": "a6d4f3c6597e11f51d2b03232e2c33ff473ecaf71f76500cd60b37cdc1aaf73d",
+      "normalized_sha256": "6b753cf28b901d3909a0cf68b7fdbae9684bd5b6836fccec0d60caca55a96dba",
+      "original_ifcn_source_matches": true,
+      "inputs": 3,
+      "outputs": 2,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2"
+      ],
+      "output_ports": [
+        "y0",
+        "y1"
+      ],
+      "assignment_count": 9,
+      "compact": {
+        "status": "parsed",
+        "nodes": 16,
+        "edges": 24,
+        "gate_nodes": 13,
+        "non_input_nodes": 13
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 54,
+        "edges": 62,
+        "gate_nodes": 13,
+        "non_input_nodes": 51
+      },
+      "truth_table_sha256": "40bd2de12fee34113708c75e9a1396903ae7a6af350848116f7b2f14916682b4",
+      "truth_table_vectors": 8,
+      "function_class": "3i_2o_40bd2de12fee34113708c75e9a1396903ae7a6af350848116f7b2f14916682b4",
+      "semantic_category": "one_bit_full_adder",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/1bitAdderMaj.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/1bitAdderMaj.v",
+      "source_sha256": "8f995112d35bcad1c01fe60e170337739452139dc75984b67ea44493a644fd17",
+      "normalized_sha256": "36ffcf0f67cf34b4b674ed7bed036778fc0350a11df98999e14170dc5ec20525",
+      "original_ifcn_source_matches": true,
+      "inputs": 3,
+      "outputs": 1,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2"
+      ],
+      "output_ports": [
+        "y0"
+      ],
+      "assignment_count": 2,
+      "compact": {
+        "status": "parsed",
+        "nodes": 9,
+        "edges": 11,
+        "gate_nodes": 6,
+        "non_input_nodes": 6
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 18,
+        "edges": 20,
+        "gate_nodes": 6,
+        "non_input_nodes": 15
+      },
+      "truth_table_sha256": "b86bc00dfffd84d427281428235c8d8cc487fd7fc23fd819ae1c1f13343fc71a",
+      "truth_table_vectors": 8,
+      "function_class": "3i_1o_b86bc00dfffd84d427281428235c8d8cc487fd7fc23fd819ae1c1f13343fc71a",
+      "semantic_category": "majority_with_inverted_third_input",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/RCA2.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/RCA2.v",
+      "source_sha256": "e1f17beefdf044a3e871e22fe5c7d69c53c062b89159ea02691afce2a0ce7a1c",
+      "normalized_sha256": "e38d3f6a2db37ffdc5bd97bff2ada9291b61a4e319d3a970205dcdb5ba008a57",
+      "original_ifcn_source_matches": true,
+      "inputs": 5,
+      "outputs": 3,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2",
+        "x3",
+        "x4"
+      ],
+      "output_ports": [
+        "y0",
+        "y1",
+        "y2"
+      ],
+      "assignment_count": 14,
+      "compact": {
+        "status": "parsed",
+        "nodes": 42,
+        "edges": 68,
+        "gate_nodes": 37,
+        "non_input_nodes": 37
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 177,
+        "edges": 203,
+        "gate_nodes": 37,
+        "non_input_nodes": 172
+      },
+      "truth_table_sha256": "3c58fb7f052e6c8970c70f2ae07c2647539c0b65fd21a9b98da47b36312d6e0e",
+      "truth_table_vectors": 32,
+      "function_class": "5i_3o_3c58fb7f052e6c8970c70f2ae07c2647539c0b65fd21a9b98da47b36312d6e0e",
+      "semantic_category": "source_defined_multi_output_logic",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/clpl.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/clpl.v",
+      "source_sha256": "413a6667f25ac44437f4e8417a2613f7f982fbdc048c234a610e8e2789280f10",
+      "normalized_sha256": "4bb7857633f65a58fcce0a048f1b179a2084ad4f50f90526da694341dabb0a72",
+      "original_ifcn_source_matches": true,
+      "inputs": 11,
+      "outputs": 5,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2",
+        "x3",
+        "x4",
+        "x5",
+        "x6",
+        "x7",
+        "x8",
+        "x9",
+        "x10"
+      ],
+      "output_ports": [
+        "y0",
+        "y1",
+        "y2",
+        "y3",
+        "y4"
+      ],
+      "assignment_count": 15,
+      "compact": {
+        "status": "parsed",
+        "nodes": 37,
+        "edges": 52,
+        "gate_nodes": 26,
+        "non_input_nodes": 26
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 134,
+        "edges": 149,
+        "gate_nodes": 26,
+        "non_input_nodes": 123
+      },
+      "truth_table_sha256": "ae9e619e5712e7e0bb843bf915500ca07d2bb5ef4f039840d868a6e2a08d7ba5",
+      "truth_table_vectors": 2048,
+      "function_class": "11i_5o_ae9e619e5712e7e0bb843bf915500ca07d2bb5ef4f039840d868a6e2a08d7ba5",
+      "semantic_category": "multi_output_and_or_chain",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/mux41.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/mux41.v",
+      "source_sha256": "2da05a54681583edbf4ed79a2d782b1feaa92e48256afaeb9a1af1ae356f4363",
+      "normalized_sha256": "45664917866e37a8ea44c9d2c7ccbd9927a3aad4635455673777f9d03f33ad42",
+      "original_ifcn_source_matches": true,
+      "inputs": 6,
+      "outputs": 1,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2",
+        "x3",
+        "x4",
+        "x5"
+      ],
+      "output_ports": [
+        "y0"
+      ],
+      "assignment_count": 8,
+      "compact": {
+        "status": "parsed",
+        "nodes": 41,
+        "edges": 62,
+        "gate_nodes": 35,
+        "non_input_nodes": 35
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 84,
+        "edges": 105,
+        "gate_nodes": 35,
+        "non_input_nodes": 78
+      },
+      "truth_table_sha256": "76059ad9f13206e435140c7dbd97d315bed8f9844132a38ebf8408ce5f6984a9",
+      "truth_table_vectors": 64,
+      "function_class": "6i_1o_76059ad9f13206e435140c7dbd97d315bed8f9844132a38ebf8408ce5f6984a9",
+      "semantic_category": "mux4",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/newtag.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/newtag.v",
+      "source_sha256": "613a90023cfe8bb4e1f0e25170a12def7f3e5ec9bd1cae4035d085e9ad37ddea",
+      "normalized_sha256": "50b331698a1dc9aec5afa53b555425e8e13800497e26700ef1d15b143f033392",
+      "original_ifcn_source_matches": true,
+      "inputs": 8,
+      "outputs": 1,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2",
+        "x3",
+        "x4",
+        "x5",
+        "x6",
+        "x7"
+      ],
+      "output_ports": [
+        "y0"
+      ],
+      "assignment_count": 7,
+      "compact": {
+        "status": "parsed",
+        "nodes": 28,
+        "edges": 34,
+        "gate_nodes": 20,
+        "non_input_nodes": 20
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 79,
+        "edges": 85,
+        "gate_nodes": 20,
+        "non_input_nodes": 71
+      },
+      "truth_table_sha256": "dfa2c61037c300a9f7ab21e4f0243f5614729d45ca6c4ac2106c359bbbcc67fa",
+      "truth_table_vectors": 256,
+      "function_class": "8i_1o_dfa2c61037c300a9f7ab21e4f0243f5614729d45ca6c4ac2106c359bbbcc67fa",
+      "semantic_category": "source_defined_combinational_logic",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/par_check.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/par_check.v",
+      "source_sha256": "e1b4dac91a022b87540a04d1297b1f5decea86b55ea0e44fbabc46b8ede18bb1",
+      "normalized_sha256": "e000adf06ccd55177f0f1017ce2017d9a49e2d9ddc194249d9f912b089f4b566",
+      "original_ifcn_source_matches": true,
+      "inputs": 4,
+      "outputs": 1,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "output_ports": [
+        "y0"
+      ],
+      "assignment_count": 6,
+      "compact": {
+        "status": "parsed",
+        "nodes": 26,
+        "edges": 39,
+        "gate_nodes": 22,
+        "non_input_nodes": 22
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 83,
+        "edges": 96,
+        "gate_nodes": 22,
+        "non_input_nodes": 79
+      },
+      "truth_table_sha256": "500997052f0daee4408730a9f5902381993aa1ee77719d01e3bd7c5a626fba84",
+      "truth_table_vectors": 16,
+      "function_class": "4i_1o_500997052f0daee4408730a9f5902381993aa1ee77719d01e3bd7c5a626fba84",
+      "semantic_category": "source_defined_combinational_logic",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/par_gen.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/par_gen.v",
+      "source_sha256": "c89d153622f389fe370e43f7a0bc68ade61cb2ad7d5b4faa5925d1931e71ac01",
+      "normalized_sha256": "4e6616ac9ff7ced8bd1a3a8439a32e13deb81ed7bf192b3d67848f4e22e3419a",
+      "original_ifcn_source_matches": true,
+      "inputs": 3,
+      "outputs": 1,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2"
+      ],
+      "output_ports": [
+        "y0"
+      ],
+      "assignment_count": 4,
+      "compact": {
+        "status": "parsed",
+        "nodes": 23,
+        "edges": 35,
+        "gate_nodes": 20,
+        "non_input_nodes": 20
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 81,
+        "edges": 93,
+        "gate_nodes": 20,
+        "non_input_nodes": 78
+      },
+      "truth_table_sha256": "4db06772d5f62ca2d81afb7c7f12b21fcc49be19b92a56949870ac9e4f0570ac",
+      "truth_table_vectors": 8,
+      "function_class": "3i_1o_4db06772d5f62ca2d81afb7c7f12b21fcc49be19b92a56949870ac9e4f0570ac",
+      "semantic_category": "xor3",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/t.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/t.v",
+      "source_sha256": "08ec0c9ef76813cd5805a7a04ca9196453f8d72795f92319cd9f132d63274c53",
+      "normalized_sha256": "5fd441e9bdb22382c688d2c65d6b9ce92b832b28210adc5e879d02adc7867813",
+      "original_ifcn_source_matches": true,
+      "inputs": 5,
+      "outputs": 2,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2",
+        "x3",
+        "x4"
+      ],
+      "output_ports": [
+        "y0",
+        "y1"
+      ],
+      "assignment_count": 7,
+      "compact": {
+        "status": "parsed",
+        "nodes": 15,
+        "edges": 19,
+        "gate_nodes": 10,
+        "non_input_nodes": 10
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 39,
+        "edges": 43,
+        "gate_nodes": 10,
+        "non_input_nodes": 34
+      },
+      "truth_table_sha256": "3f532da2538e33d11c6428ab28dbc53c9e8ff67ac44b9d3ad9dfe35df1be82c1",
+      "truth_table_vectors": 32,
+      "function_class": "5i_2o_3f532da2538e33d11c6428ab28dbc53c9e8ff67ac44b9d3ad9dfe35df1be82c1",
+      "semantic_category": "source_defined_multi_output_logic",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/xnor2.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/xnor2.v",
+      "source_sha256": "a9fd924a6073e23a803fe64c98e77618ec36250e9101d4185f8d632e25307ecb",
+      "normalized_sha256": "79c45df8b4411bb822d60a72f16aa1acc68965ce9b5e04176536c9dbca6aef0a",
+      "original_ifcn_source_matches": true,
+      "inputs": 2,
+      "outputs": 1,
+      "input_ports": [
+        "x0",
+        "x1"
+      ],
+      "output_ports": [
+        "y0"
+      ],
+      "assignment_count": 4,
+      "compact": {
+        "status": "parsed",
+        "nodes": 12,
+        "edges": 17,
+        "gate_nodes": 10,
+        "non_input_nodes": 10
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 29,
+        "edges": 34,
+        "gate_nodes": 10,
+        "non_input_nodes": 27
+      },
+      "truth_table_sha256": "8d46cf31af60be5763206b53d8d01e7be9f5a857bda3fab4c274b8300286b3eb",
+      "truth_table_vectors": 4,
+      "function_class": "2i_1o_8d46cf31af60be5763206b53d8d01e7be9f5a857bda3fab4c274b8300286b3eb",
+      "semantic_category": "xnor2",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/xor2.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/xor2.v",
+      "source_sha256": "9e9945ea2d76036ecd3f60c9103b50e16e06ac85785348da517f2c18b694b15e",
+      "normalized_sha256": "76cef37e13a86b9305cd0de8c261439471e048b7e034069a34ff5f4628d3e9a6",
+      "original_ifcn_source_matches": true,
+      "inputs": 2,
+      "outputs": 1,
+      "input_ports": [
+        "x0",
+        "x1"
+      ],
+      "output_ports": [
+        "y0"
+      ],
+      "assignment_count": 4,
+      "compact": {
+        "status": "parsed",
+        "nodes": 11,
+        "edges": 16,
+        "gate_nodes": 9,
+        "non_input_nodes": 9
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 28,
+        "edges": 33,
+        "gate_nodes": 9,
+        "non_input_nodes": 26
+      },
+      "truth_table_sha256": "229143095180a63d90d35a9cc0be3aacc1cbbe478774628e214b4db75cec9eb8",
+      "truth_table_vectors": 4,
+      "function_class": "2i_1o_229143095180a63d90d35a9cc0be3aacc1cbbe478774628e214b4db75cec9eb8",
+      "semantic_category": "xor2",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": true,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/xor5R.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/xor5R.v",
+      "source_sha256": "5d1e7605d525f22691e8b0227757f8ca91a1c5fc15a58a30a463e3e8a9a48eb1",
+      "normalized_sha256": "384ad0a114008e3fc2bc9ee96b2ff55eb46d026f306e010379087ef444901c43",
+      "original_ifcn_source_matches": true,
+      "inputs": 5,
+      "outputs": 1,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2",
+        "x3",
+        "x4"
+      ],
+      "output_ports": [
+        "y0"
+      ],
+      "assignment_count": 7,
+      "compact": {
+        "status": "parsed",
+        "nodes": 45,
+        "edges": 70,
+        "gate_nodes": 40,
+        "non_input_nodes": 40
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 257,
+        "edges": 282,
+        "gate_nodes": 40,
+        "non_input_nodes": 252
+      },
+      "truth_table_sha256": "43add35824172b6ec027ac023cc1609cd4e04dd45da5dcbcb06aede286fae72d",
+      "truth_table_vectors": 32,
+      "function_class": "5i_1o_43add35824172b6ec027ac023cc1609cd4e04dd45da5dcbcb06aede286fae72d",
+      "semantic_category": "xor5",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": null,
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    },
+    {
+      "id": "MAJ/xor5_r1.v",
+      "source_path": "engine/tests/benchmarks_f/MAJ/xor5_r1.v",
+      "source_sha256": "5d1e7605d525f22691e8b0227757f8ca91a1c5fc15a58a30a463e3e8a9a48eb1",
+      "normalized_sha256": "384ad0a114008e3fc2bc9ee96b2ff55eb46d026f306e010379087ef444901c43",
+      "original_ifcn_source_matches": true,
+      "inputs": 5,
+      "outputs": 1,
+      "input_ports": [
+        "x0",
+        "x1",
+        "x2",
+        "x3",
+        "x4"
+      ],
+      "output_ports": [
+        "y0"
+      ],
+      "assignment_count": 7,
+      "compact": {
+        "status": "parsed",
+        "nodes": 45,
+        "edges": 70,
+        "gate_nodes": 40,
+        "non_input_nodes": 40
+      },
+      "layered": {
+        "status": "parsed",
+        "nodes": 257,
+        "edges": 282,
+        "gate_nodes": 40,
+        "non_input_nodes": 252
+      },
+      "truth_table_sha256": "43add35824172b6ec027ac023cc1609cd4e04dd45da5dcbcb06aede286fae72d",
+      "truth_table_vectors": 32,
+      "function_class": "5i_1o_43add35824172b6ec027ac023cc1609cd4e04dd45da5dcbcb06aede286fae72d",
+      "semantic_category": "xor5",
+      "source_header_matches_declarations": true,
+      "header_warnings": [],
+      "exact_duplicate_of": "MAJ/xor5R.v",
+      "optimization_parse_bounds": {
+        "compact_within_node_route_limits": true,
+        "layered_within_node_route_limits": false,
+        "within_exhaustive_input_limit": true
+      }
+    }
+  ]
+}

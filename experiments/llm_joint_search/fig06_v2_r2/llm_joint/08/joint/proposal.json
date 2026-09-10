@@ -1,0 +1,55 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [],
+  "routing_order": [
+    [
+      2,
+      5
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      10
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      11,
+      3
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      1,
+      4
+    ]
+  ],
+  "rationale": "Prioritize low-detour fanout edges (2→5, 0→4, 1→10) first to establish clean routing foundation; route reconvergent paths (5→7,5→10) before their merges (7→8,10→11); interleave [4,8] after [7,8] to reduce vertical congestion in x=23 column and improve phase continuity; defer high-detour, high-congestion edge [1,4] last—this order matches prior successful round-2 execution and avoids the phase violations observed when moving nodes without adjusting route order."
+}

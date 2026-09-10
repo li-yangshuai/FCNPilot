@@ -1,0 +1,507 @@
+{
+  "round": 2,
+  "status": "certified",
+  "start_metrics": {
+    "width": 9,
+    "height": 16,
+    "area_tiles": 144,
+    "qca_cells": 398,
+    "edge_steps": 87,
+    "output_arrival_ticks": {
+      "3": [
+        16,
+        16
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 9,
+    "height": 16,
+    "area_tiles": 144,
+    "qca_cells": 398,
+    "edge_steps": 87,
+    "output_arrival_ticks": {
+      "3": [
+        16,
+        16
+      ]
+    }
+  },
+  "start_state": "cfbf812bd38c241c46201a81a8bfeb2e2de0eef7a31108b4b530b7c4ff4fa06a",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 15359,
+    "output": 433,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 15792
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          24,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          22,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          24,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 3,
+        "to": [
+          23,
+          33
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Four internal nodes (13,15,16) and output 3 are moved vertically down by 2 tiles to y=27/30/33, aligning with vacancy hotspots in windows 25–27/28–29 and 25–27/31–32 where combined density is near zero. This reduces max_y from 35 to 33, shrinking height from 16 to 14 while preserving fanin proximity: node 12 remains at (24,26), so edges 12→13 and 12→15 become vertical (Δy=1, Manhattan=1), eliminating previous detours; edge 13→16 shortens from 3 to 3 steps but gains straighter path; edge 15→3 and 16→3 contract by 2 steps each. The left/right bounds stay unchanged (x=20–28), so area drops to 9×14=126 tiles. All moves respect neighbor anchors (e.g., node 13’s median was [24,26], now [24,27] improves vertical alignment with 12 and 16). No node collisions; ports remain movable within envelope."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          24,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          22,
+          27
+        ]
+      },
+      {
+        "op": "move",
+        "node": 16,
+        "to": [
+          24,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 3,
+        "to": [
+          23,
+          33
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "rationale": "Four internal nodes (13,15,16) and output 3 are moved vertically down by 2 tiles to y=27/30/33, aligning with vacancy hotspots in windows 25–27/28–29 and 25–27/31–32 where combined density is near zero. This reduces max_y from 35 to 33, shrinking height from 16 to 14 while preserving fanin proximity: node 12 remains at (24,26), so edges 12→13 and 12→15 become vertical (Δy=1, Manhattan=1), eliminating previous detours; edge 13→16 shortens from 3 to 3 steps but gains straighter path; edge 15→3 and 16→3 contract by 2 steps each. The left/right bounds stay unchanged (x=20–28), so area drops to 9×14=126 tiles. All moves respect neighbor anchors (e.g., node 13’s median was [24,26], now [24,27] improves vertical alignment with 12 and 16). No node collisions; ports remain movable within envelope."
+  },
+  "matches_shared_hint_positions": true,
+  "start_sha256": "54146862c6a527df74bc3e5155e8a5b12a03c5f3a9b2697d4305103aa3b35848",
+  "moves": [
+    {
+      "node_id": 3,
+      "name": "parity",
+      "from": [
+        23,
+        35
+      ],
+      "to": [
+        23,
+        33
+      ]
+    },
+    {
+      "node_id": 13,
+      "name": "~n1",
+      "from": [
+        24,
+        29
+      ],
+      "to": [
+        24,
+        27
+      ]
+    },
+    {
+      "node_id": 15,
+      "name": "w8",
+      "from": [
+        22,
+        29
+      ],
+      "to": [
+        22,
+        27
+      ]
+    },
+    {
+      "node_id": 16,
+      "name": "w6",
+      "from": [
+        24,
+        32
+      ],
+      "to": [
+        24,
+        30
+      ]
+    }
+  ],
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        16
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        15
+      ],
+      [
+        4,
+        10
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        15,
+        3
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        3
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "metrics": {
+    "width": 9,
+    "height": 14,
+    "area_tiles": 126,
+    "qca_cells": 383,
+    "edge_steps": 85,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "certificates": {
+    "logic": "equivalent",
+    "clock": true,
+    "physical": true,
+    "interface": true
+  },
+  "route_changes": [
+    {
+      "source": 0,
+      "target": 16,
+      "before_steps": 16,
+      "after_steps": 14
+    },
+    {
+      "source": 8,
+      "target": 15,
+      "before_steps": 7,
+      "after_steps": 5
+    },
+    {
+      "source": 12,
+      "target": 13,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 12,
+      "target": 15,
+      "before_steps": 5,
+      "after_steps": 7
+    },
+    {
+      "source": 13,
+      "target": 16,
+      "before_steps": 3,
+      "after_steps": 3
+    },
+    {
+      "source": 15,
+      "target": 3,
+      "before_steps": 7,
+      "after_steps": 7
+    },
+    {
+      "source": 16,
+      "target": 3,
+      "before_steps": 4,
+      "after_steps": 4
+    }
+  ],
+  "elapsed_s": 17.69026612199741,
+  "node_changes": [
+    {
+      "node_id": 3,
+      "name": "parity",
+      "from": [
+        23,
+        35
+      ],
+      "to": [
+        23,
+        33
+      ]
+    },
+    {
+      "node_id": 13,
+      "name": "~n1",
+      "from": [
+        24,
+        29
+      ],
+      "to": [
+        24,
+        27
+      ]
+    },
+    {
+      "node_id": 15,
+      "name": "w8",
+      "from": [
+        22,
+        29
+      ],
+      "to": [
+        22,
+        27
+      ]
+    },
+    {
+      "node_id": 16,
+      "name": "w6",
+      "from": [
+        24,
+        32
+      ],
+      "to": [
+        24,
+        30
+      ]
+    }
+  ],
+  "decision": "improved_retained",
+  "retained_metrics": {
+    "width": 9,
+    "height": 14,
+    "area_tiles": 126,
+    "qca_cells": 383,
+    "edge_steps": 85,
+    "output_arrival_ticks": {
+      "3": [
+        15,
+        15
+      ]
+    }
+  },
+  "next_state": "beae2c41087facc1d2538f218851da64b2851069e7399548446a952f20dc171b"
+}

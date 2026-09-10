@@ -1,0 +1,26 @@
+module top(x0, x1, x2, x3, x4, x5, x6, x7, y0);
+input x0, x1, x2, x3, x4, x5, x6, x7;
+output y0;
+wire n9, n10, n11, n12, n13, n14, ifcn_tmp_0, ifcn_tmp_1, ifcn_tmp_2, ifcn_tmp_3, ifcn_tmp_4, ifcn_tmp_5, ifcn_tmp_6, ifcn_tmp_7, ifcn_tmp_8, ifcn_tmp_9, ifcn_tmp_10, ifcn_tmp_11, ifcn_tmp_12, ifcn_tmp_13;
+assign ifcn_tmp_0 = ~x3;
+assign ifcn_tmp_1 = ifcn_tmp_0 & x6;
+assign ifcn_tmp_2 = ~x3;
+assign ifcn_tmp_3 = ifcn_tmp_2 & x7;
+assign ifcn_tmp_4 = ifcn_tmp_1 | ifcn_tmp_3;
+assign ifcn_tmp_5 = x6 & x7;
+assign n9 = ifcn_tmp_4 | ifcn_tmp_5;
+assign ifcn_tmp_6 = ~x2;
+assign n12 = x1 & ifcn_tmp_6;
+assign ifcn_tmp_7 = x4 & x5;
+assign ifcn_tmp_8 = x4 & n9;
+assign ifcn_tmp_9 = ifcn_tmp_7 | ifcn_tmp_8;
+assign ifcn_tmp_10 = x5 & n9;
+assign n10 = ifcn_tmp_9 | ifcn_tmp_10;
+assign ifcn_tmp_11 = ~x0;
+assign n13 = ifcn_tmp_11 & n12;
+assign ifcn_tmp_12 = ~n10;
+assign n11 = x3 & ifcn_tmp_12;
+assign ifcn_tmp_13 = ~n11;
+assign n14 = ifcn_tmp_13 & n13;
+assign y0 = ~n14;
+endmodule

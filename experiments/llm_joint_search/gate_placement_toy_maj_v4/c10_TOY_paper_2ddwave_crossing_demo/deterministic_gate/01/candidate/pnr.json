@@ -1,0 +1,250 @@
+{
+  "schema": "ifcn.pnr.v1",
+  "algorithm": "june_random",
+  "phase_count": 4,
+  "seed": 1,
+  "layout_legal": true,
+  "clock_legal": true,
+  "failed_edge_count": 0,
+  "validation": {
+    "passed": true,
+    "checks": [
+      "dag_acyclic",
+      "exact_edge_coverage",
+      "exact_node_coverage",
+      "unique_node_positions",
+      "route_endpoints",
+      "simple_four_connected_paths",
+      "no_route_through_gate",
+      "distinct_fanin_ports",
+      "port_sharing_geometry",
+      "clock_range_and_forward_steps",
+      "source_aware_crossings",
+      "original_native_geometry_mapping",
+      "rephased_geometry_and_clock_contract",
+      "cycle_zero_absolute_arrival_alignment",
+      "exported_ifcn_device_mapping"
+    ],
+    "errors": [],
+    "max_same_phase_run": 2,
+    "topological_order": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6,
+      7,
+      8,
+      3
+    ],
+    "scope": "Geometric routes, physical gate ports, and forward clock steps; not RTL equivalence, latency alignment, or device-level functional signoff."
+  },
+  "algorithm_parameters": {
+    "io_coordinates_locked": false,
+    "initial_placement": "exact_recorded_proposal",
+    "route_order_retries": 24,
+    "search_cost": 40,
+    "padding": 2,
+    "topology": "fixed_baseline_dag",
+    "max_same_phase": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "automatic_node_placement": false,
+    "node_expansion_or_compression": false,
+    "phase_count": 4,
+    "timeout_s": 18,
+    "seed_control": "not_exposed_by_native_algorithm"
+  },
+  "clock_scheme": "irregular",
+  "clock_template_ok": null,
+  "clock_template_conflicts": null,
+  "clock_validation_kind": "free_phase_with_absolute_arrival_alignment",
+  "run_time_s": 0.001910253,
+  "resolved_verilog": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c10_TOY_paper_2ddwave_crossing_demo/inputs/normalized.v",
+  "boolean_canonicalization": false,
+  "expansion": {
+    "inserted_rows": 0,
+    "inserted_columns": 0,
+    "accepted_rounds": 0,
+    "evaluated_cut_candidates": 0,
+    "reused_routed_candidates": 0
+  },
+  "width": 7,
+  "height": 9,
+  "area_tiles": 63,
+  "ifcn": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/gate_placement_toy_maj_v4/c10_TOY_paper_2ddwave_crossing_demo/deterministic_gate/01/candidate/layout.ifcn",
+  "phase_repair": {
+    "schema": "ifcn.combinational.rephase.v1",
+    "status": "sat",
+    "algorithm": "june_random",
+    "solver": "scipy_highs_milp_in_bounded_process",
+    "launch_policy": "all_pi_cycle0_at_own_phase",
+    "pi_phases_preserved": true,
+    "geometry_preserved": true,
+    "pi_phase_policy": "fixed_original",
+    "phase_count": 4,
+    "gate_internal_extra_ticks": 0,
+    "requires_fresh_export_mapping": true,
+    "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+    "max_same_phase_tiles": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "problem_size": {
+      "nodes": 9,
+      "routes": 11,
+      "occurrences": 56,
+      "steps": 45
+    },
+    "geometry_sha256": "7457e8ecf4e08bced7131de6bacb0c5cab93efec72d44ca08ba15b21ed28163a",
+    "baseline_native_mapping_valid": true,
+    "changed_tiles": 18,
+    "actual_max_same_phase_tiles": 5,
+    "same_phase_steps": 13,
+    "node_arrival_ticks": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 9,
+      "4": 3,
+      "5": 3,
+      "6": 3,
+      "7": 5,
+      "8": 6
+    },
+    "pi_launch_ticks": {
+      "a": 0,
+      "b": 0,
+      "c": 0
+    },
+    "validation_passed": true,
+    "elapsed_s": 0.3385756659990875,
+    "attempts": [
+      {
+        "pi_phase_policy": "fixed_original",
+        "status": "sat",
+        "elapsed_s": 0.3385644580012013
+      }
+    ]
+  },
+  "clock_arrival": {
+    "schema": "ifcn.clock_arrival.v1",
+    "passed": true,
+    "launch_policy": "cycle_zero_at_template_phase",
+    "ifcn_sha256": "16b6bec0aac640f06533276d60c56d7123fb760c4789b68e8b1897dcc836a28e",
+    "routed_dag_sha256": "f5b3569df141611b294b9dfa34511f75b9a6071e15d21a4240431d3f5d2c76d1",
+    "phase_count": 4,
+    "relative_schedule_consistent": true,
+    "required_input_cycle_offsets": {
+      "a": 0,
+      "b": 0,
+      "c": 0
+    },
+    "input_schedule_applied": false,
+    "mismatches": [],
+    "relative_schedule_conflicts": [],
+    "nodes_checked": 9,
+    "routes_checked": 11,
+    "arrival_tick_ranges": {
+      "0": [
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0
+      ],
+      "2": [
+        0,
+        0
+      ],
+      "4": [
+        3,
+        3
+      ],
+      "5": [
+        3,
+        3
+      ],
+      "6": [
+        3,
+        3
+      ],
+      "7": [
+        5,
+        5
+      ],
+      "8": [
+        6,
+        6
+      ],
+      "3": [
+        9,
+        9
+      ]
+    },
+    "route_delays": [
+      {
+        "source": 0,
+        "target": 4,
+        "ticks": 3
+      },
+      {
+        "source": 0,
+        "target": 6,
+        "ticks": 3
+      },
+      {
+        "source": 1,
+        "target": 4,
+        "ticks": 3
+      },
+      {
+        "source": 1,
+        "target": 5,
+        "ticks": 3
+      },
+      {
+        "source": 2,
+        "target": 5,
+        "ticks": 3
+      },
+      {
+        "source": 2,
+        "target": 6,
+        "ticks": 3
+      },
+      {
+        "source": 4,
+        "target": 7,
+        "ticks": 2
+      },
+      {
+        "source": 5,
+        "target": 7,
+        "ticks": 2
+      },
+      {
+        "source": 6,
+        "target": 8,
+        "ticks": 3
+      },
+      {
+        "source": 7,
+        "target": 3,
+        "ticks": 4
+      },
+      {
+        "source": 8,
+        "target": 3,
+        "ticks": 3
+      }
+    ],
+    "scope": "Discrete clock-zone arrival at every gate, with each PI launched in cycle zero at its own phase. Different outputs may have different latency. Same-phase movement and gate internals add zero clock ticks; no electrical settling-time or waveform signoff."
+  },
+  "mapping_validation": {
+    "passed": true,
+    "cell_count": 210,
+    "cross_count": 0,
+    "io_contraction": false
+  },
+  "total_backend_time_s": 0.3546659940002428
+}

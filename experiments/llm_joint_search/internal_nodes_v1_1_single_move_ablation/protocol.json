@@ -1,0 +1,548 @@
+{
+  "schema": "fcn.posthoc_single_move_ablation.v1",
+  "created_at": "2026-09-09T02:50:08.760308+00:00",
+  "study_origin": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2",
+  "study_origin_audit_sha256": "9caa25a3b1f9702fba41302dc2f0051ce6de1f78cc59c83f8fb118a21451a2e7",
+  "selection_scope": "Two already-discussed accepted multi-move LLM proposals, chosen post hoc. Not a random or full-cohort causal estimate.",
+  "design": "For every member move independently: same frozen joint/start.json, same exact complete LLM routing_order, same normalized/source inputs, only that one internal-node move. No chaining or best-of search.",
+  "budget": {
+    "real_model_calls": 0,
+    "native_candidate_slots": 8,
+    "workers": 2,
+    "total_candidate_timeout_s": 20,
+    "native_subprocess_timeout_s": 18,
+    "route_order_attempts": 1,
+    "fallback": false,
+    "lock_io": true
+  },
+  "accounting": "All eight outcomes, including timeouts/invalid/native failures and non-improvements, retained. Post-hoc native evaluations are excluded from original live-feedback, live-budget, and policy-ranking counts.",
+  "comparison": "Certifiable single-move layouts are compared with the frozen incumbent and full joint result using actual routed bbox area and actual QCA cell count. Equal-or-better on both area/cells is reported; failure is not a numerical zero. This diagnostic cannot prove global necessity of the group.",
+  "cases": [
+    {
+      "case_id": "TOY/xnor2.v",
+      "folder": "c15_TOY_xnor2",
+      "live_llm_round": 2,
+      "start_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/start.json",
+      "start_sha256": "7162f9300d59769deb2fba24244f5a6a79231fa262da03551466b6384eb3b566",
+      "source_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/source.v",
+      "normalized_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/normalized.v",
+      "baseline_manifest_path": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/bbe0ad46da58416abbbf9d2acaf186a7/manifest.json",
+      "baseline_metrics": {
+        "width": 6,
+        "height": 15,
+        "area_tiles": 90,
+        "qca_cells": 234,
+        "edge_steps": 48,
+        "output_arrival_ticks": {
+          "2": [
+            15,
+            15
+          ]
+        }
+      },
+      "joint_metrics": {
+        "width": 4,
+        "height": 15,
+        "area_tiles": 60,
+        "qca_cells": 168,
+        "edge_steps": 35,
+        "output_arrival_ticks": {
+          "2": [
+            15,
+            15
+          ]
+        }
+      },
+      "joint_proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 8,
+            "to": [
+              22,
+              23
+            ]
+          },
+          {
+            "op": "move",
+            "node": 9,
+            "to": [
+              22,
+              26
+            ]
+          },
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              22,
+              29
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            5,
+            8
+          ],
+          [
+            3,
+            7
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            8,
+            9
+          ],
+          [
+            9,
+            10
+          ],
+          [
+            10,
+            2
+          ]
+        ],
+        "rationale": "Move AND gate 8 to (22,23) to eliminate the 8-step detour on edge (5,8) by aligning it vertically with NOT gates 3 and 5; shift OR gate 9 to (22,26) and final NOT 10 to (22,29) to compress the vertical stack and open a straight channel for reconvergent edges (7,9) and (8,9), reducing congestion in y=25–28 region. This coordinated 3-node contraction preserves fanin order and uses the reference routing priority that prioritizes high-detour edges first."
+      },
+      "joint_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint",
+      "routing_only_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only",
+      "routing_only_status": "failed",
+      "routing_only_metrics": null,
+      "member_count": 3,
+      "joint_and_routing_only_artifact_hashes": {
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/export.log": "6a16d7d4200a53c91e5cfee3ed9a3f9b80638c1d5da3f49ffc7b100bacac46fd",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/device_energy_input.qca": "d45e5b3856a5a4bbf436ca4aa3b828fb850343930270c3d27f8cf70d77a7c4c3",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/pnr.json": "4cfe262f57f790694c62bc12e1962a0bf4b67d539b96f456680ea22ca530db6c",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/evaluation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/interface.json": "531c63fe854f7f0222025eada859f20e69f42008f1723a1b268c1a52811b5d47",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/logic.json": "b82137bfb2f3fddc3b396a8de6cd7eb1953dfa812bdb384c7c88b8071116ddfa",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/layout_candidate.json": "758a47524851bc6435b1d97af1fd69205f27cd7f2fa4875ffadf8c4edc852d66",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/result.json": "c4fe808404ccf69e97787d6abefd6ef0d58de5308765e7a8402a94c9896387f1",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/layout.ifcn": "39b5101855390953e1920adfb6565c12190ddd5a2d9c15b9b4dc6d4f8255b6d2",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/native.log": "0c7d5fbfb420aaeb3aa8c4a6a9267351b07d3a05913307d8cc96edefc377c715",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/start.json": "7162f9300d59769deb2fba24244f5a6a79231fa262da03551466b6384eb3b566",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/mapping_validation.log": "a652593577822d8cf4988e845738109b4b923287828ea85f7455bef7c0d38256",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/physical.json": "c58689efb52fffa96ea23f35e22fe48d6bc840f5db3a0da75c544681fc30bd7c",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/clock.json": "b0e2f075ca356b709cdb0651067db02b13b9890dc314364c68f6d1c56566fe30",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/proposal.json": "106de808242cacc8f24d4697e7311b4c18ffa38f13d075ee87c695407f3a5905",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/device_physical_validation.json": "bf85f7374717ada5c026fbd25eb6e8df604314b3708ad2d4868f8875fdae60e3",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/routed_dag.json": "05a0bd50abb657b203879bfe448c1528f0664a3fcd3c5d8a84ee0c9939c1302d",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/pnr.json": "e0b1fdb921f39a83b9e2f59850fa175045f11b4879973b40f4e69ed74a5aea56",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/evaluation.log": "4f9880a0a4133db17a50259f7ef6a6a8d4398a224127e66f7c62af6170e1b1b7",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/layout_candidate.json": "0564672e3f8ef20320bca615cac84462889e86b2112442e9969494e0a1bc343b",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/result.json": "0d2bf11e693c3d78cc761bd74b105be2b9c4d33409dcb50cc3224dd6f6745684",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/native.log": "132b822bec96c01900fcf99454e72f78ba256644801e8794532aeccf6c34cf51",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/start.json": "7162f9300d59769deb2fba24244f5a6a79231fa262da03551466b6384eb3b566",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/proposal.json": "b21f9eece01f25bfbd545d45e0f44c83ff0529f8408df4219f818269de0809e4"
+      }
+    },
+    {
+      "case_id": "TOY/newtag.v",
+      "folder": "c08_TOY_newtag",
+      "live_llm_round": 1,
+      "start_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/start.json",
+      "start_sha256": "2972b9fd0b5d67e1cafa6ffacf90b78a620fde821e3952d60956b2a03dfec8b1",
+      "source_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/source.v",
+      "normalized_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/normalized.v",
+      "baseline_manifest_path": "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9b9b24c8bda844e6ae91c64c270c7fcf/manifest.json",
+      "baseline_metrics": {
+        "width": 15,
+        "height": 19,
+        "area_tiles": 285,
+        "qca_cells": 698,
+        "edge_steps": 135,
+        "output_arrival_ticks": {
+          "8": [
+            18,
+            18
+          ]
+        }
+      },
+      "joint_metrics": {
+        "width": 15,
+        "height": 18,
+        "area_tiles": 270,
+        "qca_cells": 568,
+        "edge_steps": 109,
+        "output_arrival_ticks": {
+          "8": [
+            17,
+            17
+          ]
+        }
+      },
+      "joint_proposal": {
+        "schema": "ifcn.layout_search.v2",
+        "operations": [
+          {
+            "op": "move",
+            "node": 10,
+            "to": [
+              29,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 12,
+            "to": [
+              27,
+              24
+            ]
+          },
+          {
+            "op": "move",
+            "node": 17,
+            "to": [
+              28,
+              25
+            ]
+          },
+          {
+            "op": "move",
+            "node": 27,
+            "to": [
+              28,
+              29
+            ]
+          },
+          {
+            "op": "move",
+            "node": 28,
+            "to": [
+              28,
+              32
+            ]
+          }
+        ],
+        "routing_order": [
+          [
+            6,
+            9
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            1,
+            20
+          ],
+          [
+            18,
+            20
+          ],
+          [
+            10,
+            14
+          ],
+          [
+            10,
+            17
+          ],
+          [
+            12,
+            14
+          ],
+          [
+            12,
+            17
+          ],
+          [
+            14,
+            23
+          ],
+          [
+            21,
+            23
+          ],
+          [
+            17,
+            27
+          ],
+          [
+            23,
+            27
+          ],
+          [
+            20,
+            26
+          ],
+          [
+            24,
+            26
+          ],
+          [
+            26,
+            29
+          ],
+          [
+            29,
+            8
+          ],
+          [
+            27,
+            28
+          ],
+          [
+            28,
+            8
+          ],
+          [
+            0,
+            24
+          ],
+          [
+            2,
+            18
+          ],
+          [
+            4,
+            10
+          ],
+          [
+            5,
+            12
+          ],
+          [
+            9,
+            21
+          ],
+          [
+            3,
+            28
+          ]
+        ],
+        "rationale": "Reorder to prioritize congested fanin (nodes 9, 14, 17, 23) early; move internal group {10,12,17,27,28} vertically into y=24–32 window to eliminate long detours on edges (6,9), (12,14), (17,27), and (28,8), reducing routed area and QCA cells while preserving all logical connections and fixed ports."
+      },
+      "joint_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint",
+      "routing_only_path": "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only",
+      "routing_only_status": "certified",
+      "routing_only_metrics": {
+        "width": 15,
+        "height": 18,
+        "area_tiles": 270,
+        "qca_cells": 598,
+        "edge_steps": 119,
+        "output_arrival_ticks": {
+          "8": [
+            17,
+            17
+          ]
+        }
+      },
+      "member_count": 5,
+      "joint_and_routing_only_artifact_hashes": {
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/export.log": "bb98736a533562dc0019529d89dcdf4197807d90437c80c034e3fd71314ec594",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/device_energy_input.qca": "48ca88b6abfed882e116e7658fcec48efd5cb1bb0057ebbef7a82d1f17b0161f",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/pnr.json": "986fa34afcb76b14ebbe27789e981200cb44cdf0a5de5e4eeb2269254ca5fb4d",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/phase_repair.json": "bc6aa49aa850af2932fed478feb11fa7a7532c18a74fbd859e3f660388681e53",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/evaluation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/original_layout_candidate.json": "1c6ab72e1f1b2a1779624b488768807c459dbdb43ba79b1b90a5acd0bac28e69",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/interface.json": "b0c24dd4282114ecd72dc6dd9fa2be288d890183459d8d3016d9499cd2eaa70a",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/logic.json": "9597e84fd3822c31769f229c02100efeed0a4d1ed02d1cc6dfb2719a10c45d84",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/layout_candidate.json": "4be871c066cbb773a211f8609b2057f2008dd3856c6a857787b4a3d468a862da",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/result.json": "4af37d5bd8a9b65b8bcaafa578e6ae82e5495c8758f6731f7dbf22ea26803be9",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/layout.ifcn": "9a5e87c9f89acfe2162407ce7432e623021afd6c617312cdf3f822335656eda2",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/native.log": "009bcd73ebf0037f7ac00830bf43deb515d9e15ccf20334dd6f45ba41e760a9d",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/start.json": "2972b9fd0b5d67e1cafa6ffacf90b78a620fde821e3952d60956b2a03dfec8b1",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/original_clock.json": "d39233deebabf92dfffdf38023ad246acf270e85fc8a31ba1173838c73b61a0f",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/mapping_validation.log": "d8659c9538e56a6d7ecb524e70032751670579276f1a9e7edc04db2fa9bfee7e",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/physical.json": "9e0869496848094980e8bdb1d0b24a6676a4ca773db35068a6d31ceda7c8aa12",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/clock.json": "de45fbe2f2b88dee7b74636b5e7da55933086521518e09021da694bd6e86e515",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/proposal.json": "b0d2b8820cb01e2f9c61a80f5699bab1f63bb0d482a2e5920c9299e0582f7e6d",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/device_physical_validation.json": "7b3db783f41017a9d1b0fd29ec4b5708a0f8c9c423ce22cfca6e344dcfabcf7d",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/routed_dag.json": "c92409603501ba692e08014fe3f1bc6494b1749bdc11d5434a70673d2048d265",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/original_layout.ifcn": "b00ef4d2fe755f80e8f45081c38204e9c7004f93c1c70a9e8e5737b7d4b9ccfc",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/export.log": "d0c93cd0dc288cbf77c4fb36d85dd41c570e88820e9c5df68904477ea5c61f33",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/device_energy_input.qca": "637142c78311e08ce5e65650798517d4a5a01c108f525ea3f01bdee064af00d8",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/pnr.json": "709950fa2b3d11089af5a8bc7654ebe83190746cc37944fa09daa86df8b67909",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/phase_repair.json": "ba7920af5f017041f66965c8b39285a50a0525e3503a75ed202627f581081402",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/evaluation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/original_layout_candidate.json": "2944be40df40fe3808f5589156e5c26975fa124b90b52563127558e8afda8246",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/interface.json": "8040f56ba35cbd1fcfa601043c7edeb15a0f9a489adc43bba53b4ec7c4d64047",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/logic.json": "574d7f11c992bb181fe64c7a305396b651f9c3f4888331921581aa6cb96081e5",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/layout_candidate.json": "05a485b5a076499327916d2eceb7a758db88cea224333949e8a890efa64df3d2",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/result.json": "2c054df165c198459357705740ce85de0658f7bdb54b225aa398f69ecc7592c2",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/layout.ifcn": "075174013afb90b2855fcfa8260fad09fff372102d85a234cd95de0a3186a375",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/native.log": "c174e87d0a51fbbf78a11b42e81dce93e40e083671136c551c4a0c521d6ce169",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/start.json": "2972b9fd0b5d67e1cafa6ffacf90b78a620fde821e3952d60956b2a03dfec8b1",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/original_clock.json": "21f38f3c284bd99ffea5e119a098095a801690c798b3ef0508e19c5a234c633a",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/mapping_validation.log": "8dde931c8d00302946f695ed16ea0811208018ece8abe689a17b984d6b6d8362",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/physical.json": "c6ba0fd7261371bfe25b9b2e52a6b1bef5951de292c5d3f6fd561f3d59eaf06a",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/clock.json": "7af9ef3f0743183c9c2f00e57cea7e4fe8a3e70a47d7e782817f10973c41b9bf",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/proposal.json": "682a37abfdba9f901605b0dc31409a978adc8898a6a9f9d1f99d8422a5436a7b",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/device_physical_validation.json": "52cfe0a0f7568e6ddfd1c71a54c364db6c64b37b14ffef7ba1f0dd39aeedca76",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/routed_dag.json": "c92409603501ba692e08014fe3f1bc6494b1749bdc11d5434a70673d2048d265",
+        "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/original_layout.ifcn": "9eba6e42257f42aa4e4a1982afc720916af173a0e22964574e42f8d8bf852b3f"
+      }
+    }
+  ],
+  "evidence_hashes": {
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/protocol.json": "dc8210547a7eb3104019ccfbb2a754d4ac959eb57c52f8733e83282771235f42",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/summary.json": "b3b566c2f8eae39c9f544387922b379d1f50e51314d83db72d28d8d0e55f4b61",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/audit.json": "9caa25a3b1f9702fba41302dc2f0051ce6de1f78cc59c83f8fb118a21451a2e7",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/bbe0ad46da58416abbbf9d2acaf186a7/manifest.json": "8748dc04eb15b7de163cecc4837f6785eae0f6e07128b43e5d7741f5ebbc0518",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/checked_logic.json": "20d88ae06700ee4e969fdc0c957e8d0c7d2272091c10131c738ae113ef3291ed",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/device_energy_input.qca": "b0c860865c46fd76d61aebee924fb83d27ee63c62b4c2b29f567ec261b132b0c",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/checked_physical.json": "ab982bc9cf67ab37bf0706629bc53737df86bfb7f908c0a683eb0493fd5e78cf",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/layout_candidate.json": "7162f9300d59769deb2fba24244f5a6a79231fa262da03551466b6384eb3b566",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/checked_clock.json": "da0d20afcc00196def700490191fbced0283389d6e1f7d0b64dcb8ed79d74eab",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/normalized.v": "8defeebfe4b27da548a487dfe06b58bcb9c2f1072270381d67fa6879ca11fbaa",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/layout.ifcn": "ababdf06ab065f15335feda3f2bee2cd7eb1ee2b7e8f7be7a758356f99f2e98a",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/snapshot_check.ifcn": "790fc8b9808bfe7a6d78043bf64c2f429f1a2182e841b81d8065d57d4afc342f",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/checked_normalized_logic.json": "06999700a1b67eac1fc93a09900025bfb4d3029c7ef30f038db2f9716127ba77",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/source.v": "a3d96c67b447e43a703871aff932b89d9f08699b5b7e50d4360b9cf64c085464",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/physical.json": "ab982bc9cf67ab37bf0706629bc53737df86bfb7f908c0a683eb0493fd5e78cf",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/clock.json": "da0d20afcc00196def700490191fbced0283389d6e1f7d0b64dcb8ed79d74eab",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/routed_dag.json": "05a0bd50abb657b203879bfe448c1528f0664a3fcd3c5d8a84ee0c9939c1302d",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/inputs/checked_interface.json": "7cafd33b5a1cd4ab6c520e7cf51b79c2c02e1fc48034ca54b614f07523a16d4d",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/export.log": "6a16d7d4200a53c91e5cfee3ed9a3f9b80638c1d5da3f49ffc7b100bacac46fd",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/device_energy_input.qca": "d45e5b3856a5a4bbf436ca4aa3b828fb850343930270c3d27f8cf70d77a7c4c3",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/pnr.json": "4cfe262f57f790694c62bc12e1962a0bf4b67d539b96f456680ea22ca530db6c",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/evaluation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/interface.json": "531c63fe854f7f0222025eada859f20e69f42008f1723a1b268c1a52811b5d47",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/logic.json": "b82137bfb2f3fddc3b396a8de6cd7eb1953dfa812bdb384c7c88b8071116ddfa",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/layout_candidate.json": "758a47524851bc6435b1d97af1fd69205f27cd7f2fa4875ffadf8c4edc852d66",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/result.json": "c4fe808404ccf69e97787d6abefd6ef0d58de5308765e7a8402a94c9896387f1",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/layout.ifcn": "39b5101855390953e1920adfb6565c12190ddd5a2d9c15b9b4dc6d4f8255b6d2",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/native.log": "0c7d5fbfb420aaeb3aa8c4a6a9267351b07d3a05913307d8cc96edefc377c715",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/start.json": "7162f9300d59769deb2fba24244f5a6a79231fa262da03551466b6384eb3b566",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/mapping_validation.log": "a652593577822d8cf4988e845738109b4b923287828ea85f7455bef7c0d38256",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/physical.json": "c58689efb52fffa96ea23f35e22fe48d6bc840f5db3a0da75c544681fc30bd7c",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/clock.json": "b0e2f075ca356b709cdb0651067db02b13b9890dc314364c68f6d1c56566fe30",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/proposal.json": "106de808242cacc8f24d4697e7311b4c18ffa38f13d075ee87c695407f3a5905",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/device_physical_validation.json": "bf85f7374717ada5c026fbd25eb6e8df604314b3708ad2d4868f8875fdae60e3",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/joint/routed_dag.json": "05a0bd50abb657b203879bfe448c1528f0664a3fcd3c5d8a84ee0c9939c1302d",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/pnr.json": "e0b1fdb921f39a83b9e2f59850fa175045f11b4879973b40f4e69ed74a5aea56",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/evaluation.log": "4f9880a0a4133db17a50259f7ef6a6a8d4398a224127e66f7c62af6170e1b1b7",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/layout_candidate.json": "0564672e3f8ef20320bca615cac84462889e86b2112442e9969494e0a1bc343b",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/result.json": "0d2bf11e693c3d78cc761bd74b105be2b9c4d33409dcb50cc3224dd6f6745684",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/native.log": "132b822bec96c01900fcf99454e72f78ba256644801e8794532aeccf6c34cf51",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/start.json": "7162f9300d59769deb2fba24244f5a6a79231fa262da03551466b6384eb3b566",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/routing_only/proposal.json": "b21f9eece01f25bfbd545d45e0f44c83ff0529f8408df4219f818269de0809e4",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/context.json": "4914fc96a47aa90ba4ebc045708903d35c9a9e51baf41077c59237bd92881a39",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/request.json": "dae606088e883fe9b8c4ee689ebeec7876b429830b63e5b0a7085b82c19f5f90",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/result.json": "bc39139e88a4fa6a0aca33b23532196fefe131204e230bf814604e976759a5be",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/model.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/attribution.json": "ac12c78aca65d632b9c4c5e34f49111b36d4bd3ee2afbd6581d224eeae39a872",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c15_TOY_xnor2/llm_internal/02/response.json": "3dce018b2e86562a52d33d14e2884e32ff75cac06ddf4790130e9183b1441d91",
+    "/home/lys/projects/github/FCNPilot/engine/output/pi-runs/9b9b24c8bda844e6ae91c64c270c7fcf/manifest.json": "50fd61eb5c450dfcc1ba92405b3a6a45e97c95d75075301e9fbf522adcc87505",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/checked_logic.json": "450b8e745557bb7c632bb9cc30e07ae420252c42f094c290dd9010346b1359a2",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/device_energy_input.qca": "03d4eddd8b79ee1cf289feee2913de7442d4e52cd4cf0bc4ff4b33d540588fce",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/checked_physical.json": "b94faa00fb1989f6f5d2a0b3770a29b9e51d6633c98929187731c706d235c72b",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/layout_candidate.json": "2972b9fd0b5d67e1cafa6ffacf90b78a620fde821e3952d60956b2a03dfec8b1",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/checked_clock.json": "6de614b828336b5dcb5b18179424aca2abf97abed12eaf112f4a648b457b7a4d",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/normalized.v": "ff2a2e130d7449bbfd7f768d9845639204835d87ca2b6b1f3fbc570db0baaba9",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/layout.ifcn": "6d23e3eead77bf01c5c4207bdec2f9149598973b6aeec4a9ed9896dad8770c49",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/snapshot_check.ifcn": "f03229146d4a12894a1355f4c27669b756736af52e44417f83091ab32d8a28f9",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/checked_normalized_logic.json": "f55d7b93a7061f0a7b88987daeef7fab9f6fc0285bfefc89a1d405811c785756",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/source.v": "a14bc5854351fe03b12f3e0975cb426e6a843ac263bf47073df2f89fe749c754",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/physical.json": "b94faa00fb1989f6f5d2a0b3770a29b9e51d6633c98929187731c706d235c72b",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/clock.json": "6de614b828336b5dcb5b18179424aca2abf97abed12eaf112f4a648b457b7a4d",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/routed_dag.json": "c92409603501ba692e08014fe3f1bc6494b1749bdc11d5434a70673d2048d265",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/inputs/checked_interface.json": "8df211ec18ed22fe7b9b491682a1e3db482c173b3edd611beb528f56af1241b8",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/export.log": "bb98736a533562dc0019529d89dcdf4197807d90437c80c034e3fd71314ec594",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/device_energy_input.qca": "48ca88b6abfed882e116e7658fcec48efd5cb1bb0057ebbef7a82d1f17b0161f",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/pnr.json": "986fa34afcb76b14ebbe27789e981200cb44cdf0a5de5e4eeb2269254ca5fb4d",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/phase_repair.json": "bc6aa49aa850af2932fed478feb11fa7a7532c18a74fbd859e3f660388681e53",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/evaluation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/original_layout_candidate.json": "1c6ab72e1f1b2a1779624b488768807c459dbdb43ba79b1b90a5acd0bac28e69",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/interface.json": "b0c24dd4282114ecd72dc6dd9fa2be288d890183459d8d3016d9499cd2eaa70a",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/logic.json": "9597e84fd3822c31769f229c02100efeed0a4d1ed02d1cc6dfb2719a10c45d84",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/layout_candidate.json": "4be871c066cbb773a211f8609b2057f2008dd3856c6a857787b4a3d468a862da",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/result.json": "4af37d5bd8a9b65b8bcaafa578e6ae82e5495c8758f6731f7dbf22ea26803be9",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/layout.ifcn": "9a5e87c9f89acfe2162407ce7432e623021afd6c617312cdf3f822335656eda2",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/native.log": "009bcd73ebf0037f7ac00830bf43deb515d9e15ccf20334dd6f45ba41e760a9d",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/start.json": "2972b9fd0b5d67e1cafa6ffacf90b78a620fde821e3952d60956b2a03dfec8b1",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/original_clock.json": "d39233deebabf92dfffdf38023ad246acf270e85fc8a31ba1173838c73b61a0f",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/mapping_validation.log": "d8659c9538e56a6d7ecb524e70032751670579276f1a9e7edc04db2fa9bfee7e",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/physical.json": "9e0869496848094980e8bdb1d0b24a6676a4ca773db35068a6d31ceda7c8aa12",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/clock.json": "de45fbe2f2b88dee7b74636b5e7da55933086521518e09021da694bd6e86e515",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/proposal.json": "b0d2b8820cb01e2f9c61a80f5699bab1f63bb0d482a2e5920c9299e0582f7e6d",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/device_physical_validation.json": "7b3db783f41017a9d1b0fd29ec4b5708a0f8c9c423ce22cfca6e344dcfabcf7d",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/routed_dag.json": "c92409603501ba692e08014fe3f1bc6494b1749bdc11d5434a70673d2048d265",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/joint/original_layout.ifcn": "b00ef4d2fe755f80e8f45081c38204e9c7004f93c1c70a9e8e5737b7d4b9ccfc",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/export.log": "d0c93cd0dc288cbf77c4fb36d85dd41c570e88820e9c5df68904477ea5c61f33",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/device_energy_input.qca": "637142c78311e08ce5e65650798517d4a5a01c108f525ea3f01bdee064af00d8",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/pnr.json": "709950fa2b3d11089af5a8bc7654ebe83190746cc37944fa09daa86df8b67909",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/phase_repair.json": "ba7920af5f017041f66965c8b39285a50a0525e3503a75ed202627f581081402",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/evaluation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/original_layout_candidate.json": "2944be40df40fe3808f5589156e5c26975fa124b90b52563127558e8afda8246",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/interface.json": "8040f56ba35cbd1fcfa601043c7edeb15a0f9a489adc43bba53b4ec7c4d64047",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/logic.json": "574d7f11c992bb181fe64c7a305396b651f9c3f4888331921581aa6cb96081e5",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/layout_candidate.json": "05a485b5a076499327916d2eceb7a758db88cea224333949e8a890efa64df3d2",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/result.json": "2c054df165c198459357705740ce85de0658f7bdb54b225aa398f69ecc7592c2",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/layout.ifcn": "075174013afb90b2855fcfa8260fad09fff372102d85a234cd95de0a3186a375",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/native.log": "c174e87d0a51fbbf78a11b42e81dce93e40e083671136c551c4a0c521d6ce169",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/start.json": "2972b9fd0b5d67e1cafa6ffacf90b78a620fde821e3952d60956b2a03dfec8b1",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/original_clock.json": "21f38f3c284bd99ffea5e119a098095a801690c798b3ef0508e19c5a234c633a",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/mapping_validation.log": "8dde931c8d00302946f695ed16ea0811208018ece8abe689a17b984d6b6d8362",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/physical.json": "c6ba0fd7261371bfe25b9b2e52a6b1bef5951de292c5d3f6fd561f3d59eaf06a",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/clock.json": "7af9ef3f0743183c9c2f00e57cea7e4fe8a3e70a47d7e782817f10973c41b9bf",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/proposal.json": "682a37abfdba9f901605b0dc31409a978adc8898a6a9f9d1f99d8422a5436a7b",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/device_physical_validation.json": "52cfe0a0f7568e6ddfd1c71a54c364db6c64b37b14ffef7ba1f0dd39aeedca76",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/routed_dag.json": "c92409603501ba692e08014fe3f1bc6494b1749bdc11d5434a70673d2048d265",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/routing_only/original_layout.ifcn": "9eba6e42257f42aa4e4a1982afc720916af173a0e22964574e42f8d8bf852b3f",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/context.json": "d84a297fa21639b1db10fe1c2d30a3743da0dbf2e0ad2409f49ac2e15d61d840",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/request.json": "585e422927592d6c263941c9e81a31b3174b3d5144a910b893091a06893de596",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/result.json": "88fea555549aa760b21144df692ff68e36a662b69589c7f516243160c64ca8dc",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/model.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/attribution.json": "9ec83a722a77b6215171dac1a18726ecbed42176335dfc84c55c7e66476b5c38",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/internal_nodes_v1_1_toy_maj_r2/c08_TOY_newtag/llm_internal/01/response.json": "8d769fdc0ee6b99a9cc48b63d16e03d27a971aabf07f5dce48fc09e3bbe8b7c2"
+  },
+  "implementation_and_binary_hashes": {
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/run_internal_study.py": "af9d8a413056cd49fee89a59ea06e38e3f38b7764eeb255cdd2f0950ec5d65ad",
+    "/home/lys/projects/github/FCNPilot/experiments/llm_joint_search/run_study.py": "754a9a1edcd4c61d403c19369bb5a642792c02b41b2bc0f66d0e618a3af4bb34",
+    "/home/lys/projects/github/FCNPilot/integrations/pi/layout-proposer.mjs": "8fe64ea02939efbfb865065dbce344dacaf436de5a30ee32132ee53faeb6506e",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/curate_benchmarks.py": "8882cb90b0aec933f78d65f6e7b609f5879269c00a704652197a258539917578",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent.py": "6d5a34a28fa0521b30dbf3ca9a447b1034ecb897b334a70ef9beec19cb71b606",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py": "9bc8b08083b5b5fa1def5b1198eac5e3640656241386f7841a235c8197125eec",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_clock_validation.py": "1e80e25aecb39bc21718f7900aa0966d43ea09c9e9eaf128f21b3e4aa5cab7a4",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_frontend.py": "b7c42d76de5e85939f6b15a23ebd1050fdf076e3a474c2b4e81be81a527830e7",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_layout_validation.py": "2056fbc58c9e9cdbca65160f9b2b062ac372143e6a04d3ae9fdd70dd89c3bced",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_sequential.py": "4f2d55a9c30b7ac1c6535b74d318fc8cf12516aa2a540ca80c66785027382ea3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_algorithm_catalog.py": "a7f22aff961c00f97000a55a4f91d6c4ccb8463788ffb2917c1445a5eda9decc",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_axis_compaction.py": "542ada42f27f3a3b4cdda8eff4e28a228b89136850e11fffa52bcb8b847f3c86",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_combinational_rephase.py": "df9ae479fae578f0a8af9cf21a7e265c0ec73abdcd31acbce1f8102d57c32779",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_internal_relocation.py": "0719c2d4213aa6dd64c3fa8effd70bfaf40f73351dabb6f295c035c667b69607",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_internal_search.py": "7188fd5664ac45932072f5b4d430e4bf905ca6244141653874a01ab1c76944f3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_joint_menu.py": "091835ccde7eb4804cac1bdfb4284cae23f909c8d70dd24a90d041d25d74a4ce",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_joint_search.py": "40fbd26aa8401963f265940c3c81653564444d57c6b53f01c638484df62221ba",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_layout_optimization.py": "d3a353c615d7a1bc6dfe379ebc72f79212ec27c6f5baf549dd66d5a40f3bb423",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_sequential_validation.py": "c9534d1d9c903311b826dd8e471ae860e9ff90c17bdb5f00099d32bc9ec6d027",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/verify_routed_logic.py": "d07eaf08ec1066aa72ccad6e6e379ef47ccfbe7952462f8cdb8305af2f640ae3",
+    "/home/lys/projects/github/FCNPilot/engine/scripts/yosys_json_to_seqir.py": "a32f45ac07f09466db283969e87e662b55da980f4e2078d43669887d858e4fee",
+    "/home/lys/projects/github/FCNPilot/engine/src/app/ifcn_layout_edit.cpp": "6f8ec78e4e3ad669c511161c2c673ec8d26695030d163c663b0b295ef5a39216",
+    "/home/lys/projects/github/FCNPilot/engine/include/autopr/graph/circuitGraph.cpp": "aebd01a767b7c58a360c36cc281cd6bb02d226ed8a2cbba7a9d0cf995636f93f",
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_layout_edit": "63fdc27f1ee38cc73103ec9971fc0554fce7e08414027d6cf489798bf1ba35ce",
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_energy_analysis": "db33ff5333e4ba7a41eb3197802e04875321d8d63bb4a8ae5c6547debaf9de48",
+    "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics": "21462b9e2b0c179d21ac802af2765613aeca2cac0aa22fc5020fb1c1b74485c9"
+  },
+  "execution_environment": {
+    "IFCN_BUILD_DIR": "/home/lys/projects/github/FCNPilot/engine/build",
+    "IFCN_LAYOUT_EDIT": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_layout_edit",
+    "IFCN_MAPPING_METRICS_EXE": "/home/lys/projects/github/FCNPilot/engine/build/ifcn_mapping_metrics"
+  }
+}

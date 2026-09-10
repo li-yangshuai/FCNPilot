@@ -1,0 +1,60 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 3,
+      "to": [
+        21,
+        21
+      ]
+    },
+    {
+      "op": "move",
+      "node": 4,
+      "to": [
+        21,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        21,
+        24
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      5,
+      2
+    ],
+    [
+      3,
+      5
+    ]
+  ],
+  "rationale": "Three internal gates (3,4,5) are relocated toward their neighbor-median anchors ([22,20], [21,20], [21,23]) to collapse vertical spread and eliminate x=20/22 column redundancy. New positions align vertically at x=21, reducing width from 4→3 tiles (min_x=20→20, max_x=22→21). y-range compresses from 20–29 to 21–24 for internal core, enabling tighter output routing. Edge [1,4] detour (7→5 steps) and [4,2] (7→6) become feasible with straighter paths; no port moves needed since area_controlling_nodes left/right now share x=20/21 instead of 20/22. All nodes remain non-colliding within bounds."
+}

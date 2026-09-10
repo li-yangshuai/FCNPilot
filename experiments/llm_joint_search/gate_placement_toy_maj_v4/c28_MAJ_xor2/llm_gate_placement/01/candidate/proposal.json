@@ -1,0 +1,208 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 4,
+      "to": [
+        23,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        25,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        22,
+        30
+      ]
+    },
+    {
+      "op": "move",
+      "node": 15,
+      "to": [
+        23,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 24,
+      "to": [
+        23,
+        28
+      ]
+    },
+    {
+      "op": "move",
+      "node": 27,
+      "to": [
+        21,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 28,
+      "to": [
+        21,
+        28
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      16,
+      4
+    ],
+    [
+      15,
+      4
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      30,
+      10
+    ],
+    [
+      28,
+      7
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      25,
+      8
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      26,
+      11
+    ],
+    [
+      13,
+      14
+    ],
+    [
+      23,
+      14
+    ],
+    [
+      1,
+      16
+    ],
+    [
+      0,
+      15
+    ],
+    [
+      3,
+      17
+    ],
+    [
+      16,
+      29
+    ],
+    [
+      15,
+      27
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      4,
+      24
+    ],
+    [
+      17,
+      18
+    ],
+    [
+      27,
+      28
+    ],
+    [
+      29,
+      30
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      24,
+      25
+    ],
+    [
+      19,
+      20
+    ],
+    [
+      10,
+      26
+    ],
+    [
+      20,
+      21
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      21,
+      22
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      22,
+      23
+    ],
+    [
+      14,
+      2
+    ]
+  ],
+  "rationale": "Contract the dense left-central cluster (nodes 4,5,7,15,24,27,28) toward their median neighbor anchors (e.g., node 4’s anchor at [22,22], node 5’s at [26,28]) using coordinated X/Y shifts. This reduces horizontal spread: min_x moves from 20→21, eliminating the isolated column at x=20 (nodes 27,28), and aligns fanout paths (15→4, 15→27, 16→4) to share vertical tracks. The move set matches the first unevaluated hint but is re-justified by observed detour edges ([1,16] steps=7, [16,29] steps=11) that stem from misaligned fanout sources; tightening this core directly lowers Manhattan routing potential without altering logical levels or port positions. All moved nodes are internal, non-colliding, and within coordinate bounds."
+}

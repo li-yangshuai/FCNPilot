@@ -1,0 +1,623 @@
+{
+  "round": 2,
+  "status": "failed",
+  "start_metrics": {
+    "width": 10,
+    "height": 29,
+    "area_tiles": 290,
+    "qca_cells": 658,
+    "edge_steps": 138,
+    "output_arrival_ticks": {
+      "2": [
+        29,
+        29
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 10,
+    "height": 29,
+    "area_tiles": 290,
+    "qca_cells": 658,
+    "edge_steps": 138,
+    "output_arrival_ticks": {
+      "2": [
+        29,
+        29
+      ]
+    }
+  },
+  "start_state": "f8cd943b52671560d3315c19961dab08c1838921d81544edbc8cfea86876a72d",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 20237,
+    "output": 472,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 20709
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 17,
+        "to": [
+          28,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          28,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 19,
+        "to": [
+          28,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 29,
+        "to": [
+          27,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 30,
+        "to": [
+          27,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          25,
+          28
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Contract the right-side wire chain (17→18→19→20→…→23) and fanout branch (16→29→30→10) toward the central column x=27–28, reducing horizontal span from x=21–30 to x=21–28. Nodes 17–19 move left 2 columns into vacancy hotspots (window_27_32_27_33, window_25_31_25_31), aligning with node 29’s anchor at [24,22] and node 30’s at [26,25]. Node 6 moves to [25,28] to bridge the gap between nodes 5 and 7, eliminating the detour in edge [5,6] (was 4 steps, Manhattan 4) and enabling shared vertical routing with node 9. All moved nodes are internal, non-colliding, and within bounds; this reduces min_x unchanged but cuts max_x from 30→28, shrinking width from 10→9 while preserving logical levels and port positions."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 17,
+        "to": [
+          28,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          28,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 19,
+        "to": [
+          28,
+          30
+        ]
+      },
+      {
+        "op": "move",
+        "node": 29,
+        "to": [
+          27,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 30,
+        "to": [
+          27,
+          28
+        ]
+      },
+      {
+        "op": "move",
+        "node": 6,
+        "to": [
+          25,
+          28
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        16,
+        4
+      ],
+      [
+        15,
+        4
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        28,
+        7
+      ],
+      [
+        30,
+        10
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        25,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        26,
+        11
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        23,
+        14
+      ],
+      [
+        1,
+        16
+      ],
+      [
+        0,
+        15
+      ],
+      [
+        16,
+        29
+      ],
+      [
+        3,
+        17
+      ],
+      [
+        15,
+        27
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        4,
+        24
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        17,
+        18
+      ],
+      [
+        27,
+        28
+      ],
+      [
+        29,
+        30
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        24,
+        25
+      ],
+      [
+        19,
+        20
+      ],
+      [
+        10,
+        26
+      ],
+      [
+        20,
+        21
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        21,
+        22
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        22,
+        23
+      ],
+      [
+        14,
+        2
+      ]
+    ],
+    "rationale": "Contract the right-side wire chain (17→18→19→20→…→23) and fanout branch (16→29→30→10) toward the central column x=27–28, reducing horizontal span from x=21–30 to x=21–28. Nodes 17–19 move left 2 columns into vacancy hotspots (window_27_32_27_33, window_25_31_25_31), aligning with node 29’s anchor at [24,22] and node 30’s at [26,25]. Node 6 moves to [25,28] to bridge the gap between nodes 5 and 7, eliminating the detour in edge [5,6] (was 4 steps, Manhattan 4) and enabling shared vertical routing with node 9. All moved nodes are internal, non-colliding, and within bounds; this reduces min_x unchanged but cuts max_x from 30→28, shrinking width from 10→9 while preserving logical levels and port positions."
+  },
+  "matches_shared_hint_positions": true,
+  "start_sha256": "bb0343d87a670cd9031a56362939edcf0b87398ae483d01e0687f9082fe093d2",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 3) has an absent or invalid clock phase at (23, 20); Route (0, 3) has an absent or invalid clock phase at (23, 21); Route (0, 3) has an absent or invalid clock phase at (24, 21); Route (0, 3) has an absent or invalid clock phase at (25, 21)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        16,
+        4
+      ],
+      [
+        15,
+        4
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        28,
+        7
+      ],
+      [
+        30,
+        10
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        25,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        26,
+        11
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        23,
+        14
+      ],
+      [
+        1,
+        16
+      ],
+      [
+        0,
+        15
+      ],
+      [
+        16,
+        29
+      ],
+      [
+        3,
+        17
+      ],
+      [
+        15,
+        27
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        4,
+        24
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        17,
+        18
+      ],
+      [
+        27,
+        28
+      ],
+      [
+        29,
+        30
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        24,
+        25
+      ],
+      [
+        19,
+        20
+      ],
+      [
+        10,
+        26
+      ],
+      [
+        20,
+        21
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        21,
+        22
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        22,
+        23
+      ],
+      [
+        14,
+        2
+      ]
+    ],
+    "executed_order": [
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        16,
+        4
+      ],
+      [
+        15,
+        4
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        28,
+        7
+      ],
+      [
+        30,
+        10
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        25,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        26,
+        11
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        23,
+        14
+      ],
+      [
+        1,
+        16
+      ],
+      [
+        0,
+        15
+      ],
+      [
+        16,
+        29
+      ],
+      [
+        3,
+        17
+      ],
+      [
+        15,
+        27
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        9
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      4,
+      24
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      10,
+      26
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      14,
+      2
+    ],
+    [
+      17,
+      18
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      19,
+      20
+    ],
+    [
+      20,
+      21
+    ],
+    [
+      21,
+      22
+    ],
+    [
+      22,
+      23
+    ],
+    [
+      24,
+      25
+    ],
+    [
+      27,
+      28
+    ],
+    [
+      29,
+      30
+    ]
+  ],
+  "elapsed_s": 29.154879958998208,
+  "decision": "retain_best",
+  "retained_metrics": {
+    "width": 10,
+    "height": 29,
+    "area_tiles": 290,
+    "qca_cells": 658,
+    "edge_steps": 138,
+    "output_arrival_ticks": {
+      "2": [
+        29,
+        29
+      ]
+    }
+  },
+  "next_state": "f8cd943b52671560d3315c19961dab08c1838921d81544edbc8cfea86876a72d"
+}

@@ -8,9 +8,10 @@ from lib import iFCN_Lab
 class CircuitParser:
     VALID_PARSE_MODES = {"auto", "compact", "layered"}
 
-    def __init__(self, filepath, parse_mode=None):
+    def __init__(self, filepath, parse_mode=None, *, preserve_output_boundaries=False):
         self.filePath = filepath
         self.fileName = filepath.split('/')[-1]
+        self.preserve_output_boundaries = bool(preserve_output_boundaries)
         requested_mode = parse_mode or os.environ.get("IFCN_GCN_RL_PARSE_MODE", "auto")
         requested_mode = str(requested_mode).strip().lower()
         if requested_mode not in self.VALID_PARSE_MODES:
@@ -44,7 +45,9 @@ class CircuitParser:
         # zero-logic tile and edge are unnecessary.  Direct output gates are
         # already represented this way by the parser and are left untouched.
         fused_output_aliases = {}
-        for output_node in sorted(output_nodes):
+        # A sequential cut's D output is a named state boundary. Keep that
+        # vertex for exact D/Q correspondence even when its driver is a NOT.
+        for output_node in (() if self.preserve_output_boundaries else sorted(output_nodes)):
             if output_node not in self.effective_nodes:
                 continue
             if self.parser.getNodeTypeEnum(output_node) != iFCN_Lab.NodeType.Output:

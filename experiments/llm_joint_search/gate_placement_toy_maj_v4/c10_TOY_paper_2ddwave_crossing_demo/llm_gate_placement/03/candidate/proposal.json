@@ -1,0 +1,100 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        21,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 4,
+      "to": [
+        22,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 6,
+      "to": [
+        23,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        22,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        23,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 3,
+      "to": [
+        22,
+        28
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      8,
+      3
+    ],
+    [
+      7,
+      3
+    ],
+    [
+      6,
+      8
+    ]
+  ],
+  "rationale": "Contract vertical span by shifting AND layer (4,5,6) from y=23→22—aligning with neighbor median (22,20) and eliminating the congested y=23 band where edge [2,6] had 13 steps (detour=8). Move merge (7) and wire (8) to y=25, output (3) to y=28, preserving fanout geometry. All targets lie in verified vacancy hotspots: [21,22], [22,22], [23,22] in window_19_25_20_26’s empty y-band (21–22), and [22,25], [23,25], [22,28] in low-density regions (e.g., window_21_27_23_29). This reduces routed height from 10→9 tiles (min_y=20, max_y=28) and tightens width via left anchor shift (node 5→x=21 replaces x=20) and right anchor shift (node 6→x=23 replaces x=24), yielding width=4 (min_x=20→23), area_tiles=36 (vs 70). Internal-only moves satisfy must_change_internal_node; ports remain free but coordinated via core contraction."
+}

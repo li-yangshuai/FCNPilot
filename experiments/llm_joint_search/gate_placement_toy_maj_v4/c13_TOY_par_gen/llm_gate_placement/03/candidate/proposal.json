@@ -1,0 +1,104 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 12,
+      "to": [
+        24,
+        25
+      ]
+    },
+    {
+      "op": "move",
+      "node": 13,
+      "to": [
+        24,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 15,
+      "to": [
+        22,
+        26
+      ]
+    },
+    {
+      "op": "move",
+      "node": 16,
+      "to": [
+        24,
+        29
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      0,
+      16
+    ],
+    [
+      2,
+      10
+    ],
+    [
+      1,
+      11
+    ],
+    [
+      6,
+      11
+    ],
+    [
+      8,
+      15
+    ],
+    [
+      4,
+      10
+    ],
+    [
+      10,
+      12
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      15,
+      3
+    ],
+    [
+      13,
+      16
+    ],
+    [
+      16,
+      3
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      12,
+      13
+    ]
+  ],
+  "rationale": "Four internal nodes (12,13,15,16) are shifted vertically to exploit the vacancy hotspot at y=25–26 (window_21_27_24_30 and window_21_27_23_29) and reduce congestion around y=27–30. Node 12 moves down 1 tile to y=25, aligning with its neighbor median [24,24] and shortening edges [10,12], [11,12], [12,15]. Nodes 13 and 15 move down 1 tile to y=26, eliminating the detour on edge [12,15] (steps drop from 7→5) and freeing space near x=22–24. Node 16 moves down 1 tile to y=29, preserving fanout to 3 while avoiding overlap with 13/15 and enabling shorter route to output. The bounding box remains min_x=20, max_x=28, min_y=20, max_y=35 (area=144), but internal wire density drops and routing feasibility improves—critical since prior height-16 layouts failed routing when vertical spacing was tight. All moves are collision-free and respect dependency layers."
+}

@@ -1,0 +1,152 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 23,
+      "to": [
+        29,
+        27
+      ]
+    },
+    {
+      "op": "move",
+      "node": 26,
+      "to": [
+        24,
+        27
+      ]
+    },
+    {
+      "op": "move",
+      "node": 27,
+      "to": [
+        28,
+        30
+      ]
+    },
+    {
+      "op": "move",
+      "node": 28,
+      "to": [
+        28,
+        33
+      ]
+    },
+    {
+      "op": "move",
+      "node": 29,
+      "to": [
+        25,
+        30
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        27,
+        36
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      3,
+      28
+    ],
+    [
+      1,
+      20
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      6,
+      9
+    ],
+    [
+      24,
+      26
+    ],
+    [
+      10,
+      17
+    ],
+    [
+      12,
+      14
+    ],
+    [
+      18,
+      20
+    ],
+    [
+      10,
+      14
+    ],
+    [
+      12,
+      17
+    ],
+    [
+      17,
+      27
+    ],
+    [
+      21,
+      23
+    ],
+    [
+      14,
+      23
+    ],
+    [
+      20,
+      26
+    ],
+    [
+      23,
+      27
+    ],
+    [
+      29,
+      8
+    ],
+    [
+      27,
+      28
+    ],
+    [
+      28,
+      8
+    ],
+    [
+      0,
+      24
+    ],
+    [
+      2,
+      18
+    ],
+    [
+      4,
+      10
+    ],
+    [
+      5,
+      12
+    ],
+    [
+      9,
+      21
+    ],
+    [
+      26,
+      29
+    ]
+  ],
+  "rationale": "Resolve prior collision at (29,26) between nodes 14 and 23 by shifting 23 to (29,27); simultaneously lower the suffix chain (26→24,27; 27→28,30; 28→28,33; 29→25,30; 8→27,36) to reduce max_y from 37 to 36, cutting height to 18 (area 285→270). Moves align with neighbor anchors: 26 near [24,26], 27 near [28,28], 29 near [24,28]; all occupy vacancy hotspots in windows 25_31_28_34 and 22_34_25_37. Internal-only relocation satisfies must_change_internal_node; no port moves needed since area_controlling_nodes left/right/bottom are PI rows (y=20) and top is PO8—shifting 8 down 1 tile preserves top boundary while freeing vertical space for denser routing. Edge [24,26] detour (9 steps) is expected to shrink as vertical gap closes."
+}

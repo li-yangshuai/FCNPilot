@@ -1,0 +1,206 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 0,
+        "to": [
+          25,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 1,
+        "to": [
+          20,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 2,
+        "to": [
+          22,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 4,
+        "to": [
+          24,
+          22
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        10
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "rationale": "Axis y cut at 20: translate the prefix by 2 tile(s). Gate bounding-box proxy only; rerouting and DRC have not been evaluated."
+  },
+  "start_sha256": "0fb7589391195723531a89bc87a4d1e50e93b8d24e29004bcbe5baf78d1e4c01",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (0, 4) has an absent or invalid clock phase at (25, 22); Route (0, 4) has an absent or invalid clock phase at (25, 23); Route (0, 4) has an absent or invalid clock phase at (26, 23); Route (0, 4) has an absent or invalid clock phase at (26, 22)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        1,
+        10
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "executed_order": [
+      [
+        1,
+        10
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      2,
+      5
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      11,
+      3
+    ]
+  ],
+  "elapsed_s": 0.06556983400150784
+}

@@ -1,0 +1,88 @@
+{
+  "schema": "ifcn.layout_search.v2",
+  "operations": [
+    {
+      "op": "move",
+      "node": 9,
+      "to": [
+        21,
+        23
+      ]
+    },
+    {
+      "op": "move",
+      "node": 8,
+      "to": [
+        21,
+        22
+      ]
+    },
+    {
+      "op": "move",
+      "node": 5,
+      "to": [
+        22,
+        24
+      ]
+    },
+    {
+      "op": "move",
+      "node": 7,
+      "to": [
+        22,
+        25
+      ]
+    }
+  ],
+  "routing_order": [
+    [
+      2,
+      6
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      9,
+      7
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      7,
+      3
+    ],
+    [
+      11,
+      3
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      6,
+      10
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      10,
+      11
+    ]
+  ],
+  "rationale": "Four internal nodes are relocated to eliminate prior collisions and compress vertical fanout: move 8→(21,22) and 9→(21,23) clears x=20 for routing symmetry and avoids collision with node 4 at (22,22); move 5→(22,24) avoids conflict with 4 at y=22 and aligns with neighbor median [22,22]→[22,24] shift toward 7; move 7→(22,25) reduces edge [9,7] Manhattan from 5→4 and coalesces stack 5–7–11 vertically. All moved nodes are internal, no collisions, bounding box remains width 5, height 12 (area 60), but routing locality improves—critical for certified area reduction in next round via tighter y-span (e.g., moving 3→y=30 after this)."
+}

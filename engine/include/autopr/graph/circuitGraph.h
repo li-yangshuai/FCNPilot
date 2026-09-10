@@ -41,6 +41,19 @@ struct AdaptiveExpansionStats
     int removedRows = 0;
     int removedColumns = 0;
     int acceptedRounds = 0;
+    int evaluatedCutCandidates = 0;
+    int reusedRoutedCandidates = 0;
+};
+
+// Audit the latest routing invocation without confusing an attempted edge
+// with a completed route. The explicit mode never falls back to other orders.
+struct RoutingOrderTrace
+{
+    bool explicitOrder = false;
+    std::vector<std::pair<int, int>> requestedOrder;
+    std::vector<std::pair<int, int>> executedOrder;
+    int attempts = 0;
+    bool fallbackUsed = false;
 };
 
 class CircuitGraph {
@@ -110,7 +123,18 @@ public:
         bool placeAndRouteJuneRandomClock(int phaseCount = 4,
                                           double graphvizGridSize = 40.0,
                                           int shuffledRouteOrderRetries = 24,
-                                          int maxSamePhase = -1);
+                                           int maxSamePhase = -1);
+        // Reroute only the caller-supplied placement. No Graphviz placement,
+        // coordinate refinement, row insertion, or topology mutation is used.
+        // Downstream callers must still certify absolute timing and QCA export.
+        bool routeProvidedIrregularPlacement(int phaseCount = 4,
+                                              int shuffledRouteOrderRetries = 24,
+                                              int maxSamePhase = -1,
+                                              const std::vector<std::pair<int, int>> *explicitOrder = nullptr);
+        const RoutingOrderTrace& getRoutingOrderTrace() const
+        {
+            return routingOrderTrace;
+        }
         bool placeAndRouteJuneRandomClockAnisotropic(
             int phaseCount = 4,
             double graphvizGridSizeX = 40.0,
@@ -166,13 +190,15 @@ private:
                                RoutingFailureInfo *failureInfo,
                                bool emitConflictStages,
                                int deterministicPolicyLimit = 6,
-                               const std::function<bool()> &acceptRoutedLayout = {});
+                               const std::function<bool()> &acceptRoutedLayout = {},
+                               const std::vector<std::pair<int, int>> *explicitOrder = nullptr);
     bool validateLegacyMappedLayout();
     bool validateJuneRandomClockRoutedLayout(int phaseCount,
                                              int maxSamePhase = -1);
     bool routeAndValidateJuneRandomClock(int phaseCount,
                                          int shuffledRouteOrderRetries,
-                                         int maxSamePhase = -1);
+                                         int maxSamePhase = -1,
+                                         const std::vector<std::pair<int, int>> *explicitOrder = nullptr);
     Parse& parse;
     std::string fileName;
     GridChessboard& chessboard;
@@ -190,6 +216,7 @@ private:
     std::function<void(std::string)> fitnessCallback;
     std::function<void(const std::string&)> stageCallback;
     AdaptiveExpansionStats adaptiveExpansionStats;
+    RoutingOrderTrace routingOrderTrace;
 
     bool hasAcceptableAssignedRoutePhases(int phaseCount = 4) const;
 

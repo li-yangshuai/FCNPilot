@@ -1,0 +1,703 @@
+{
+  "round": 1,
+  "status": "failed",
+  "start_metrics": {
+    "width": 15,
+    "height": 37,
+    "area_tiles": 555,
+    "qca_cells": 1361,
+    "edge_steps": 304,
+    "output_arrival_ticks": {
+      "3": [
+        38,
+        38
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 15,
+    "height": 37,
+    "area_tiles": 555,
+    "qca_cells": 1361,
+    "edge_steps": 304,
+    "output_arrival_ticks": {
+      "3": [
+        38,
+        38
+      ]
+    }
+  },
+  "start_state": "4de436b1e2f1c7e5305f3a8bb95763b6016dd104a3ba0e6997c68f63482f322e",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 19694,
+    "output": 490,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 20184
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          22,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 29,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 30,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 32,
+        "to": [
+          25,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          25,
+          36
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          23,
+          35
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          25,
+          35
+        ]
+      },
+      {
+        "op": "move",
+        "node": 20,
+        "to": [
+          31,
+          35
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Contract the left-side fanout cluster (nodes 12,29,30,32) toward their median anchor (22,23–25) to reduce x-span from 20→22 and eliminate sparse gaps at x=17–20. Simultaneously compress the middle vertical chain (13,15,18) toward (25,35–36) and move 20 to (31,35) to align with its neighbors (28,23,33), shrinking the right boundary from x=33→31. All moves target vacancy hotspots with low wire density (e.g., window_17_23_20_26, window_20_26_34_40) and avoid collisions. This coordinated shift reduces bounding box width from 15→12 while preserving layer ordering; executor will derive a valid routing order from the new positions."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 12,
+        "to": [
+          22,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 29,
+        "to": [
+          22,
+          25
+        ]
+      },
+      {
+        "op": "move",
+        "node": 30,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 32,
+        "to": [
+          25,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 13,
+        "to": [
+          25,
+          36
+        ]
+      },
+      {
+        "op": "move",
+        "node": 15,
+        "to": [
+          23,
+          35
+        ]
+      },
+      {
+        "op": "move",
+        "node": 18,
+        "to": [
+          25,
+          35
+        ]
+      },
+      {
+        "op": "move",
+        "node": 20,
+        "to": [
+          31,
+          35
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        28,
+        23
+      ],
+      [
+        31,
+        18
+      ],
+      [
+        28,
+        20
+      ],
+      [
+        29,
+        15
+      ],
+      [
+        32,
+        8
+      ],
+      [
+        30,
+        6
+      ],
+      [
+        4,
+        6
+      ],
+      [
+        30,
+        10
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        32,
+        10
+      ],
+      [
+        31,
+        12
+      ],
+      [
+        29,
+        12
+      ],
+      [
+        12,
+        16
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        6,
+        9
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        33,
+        26
+      ],
+      [
+        13,
+        15
+      ],
+      [
+        33,
+        20
+      ],
+      [
+        13,
+        18
+      ],
+      [
+        20,
+        24
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        16,
+        19
+      ],
+      [
+        21,
+        23
+      ],
+      [
+        21,
+        26
+      ],
+      [
+        26,
+        27
+      ],
+      [
+        23,
+        24
+      ],
+      [
+        24,
+        27
+      ],
+      [
+        1,
+        29
+      ],
+      [
+        1,
+        30
+      ],
+      [
+        2,
+        31
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        28
+      ],
+      [
+        2,
+        32
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        11,
+        33
+      ],
+      [
+        19,
+        21
+      ],
+      [
+        27,
+        3
+      ]
+    ],
+    "rationale": "Contract the left-side fanout cluster (nodes 12,29,30,32) toward their median anchor (22,23–25) to reduce x-span from 20→22 and eliminate sparse gaps at x=17–20. Simultaneously compress the middle vertical chain (13,15,18) toward (25,35–36) and move 20 to (31,35) to align with its neighbors (28,23,33), shrinking the right boundary from x=33→31. All moves target vacancy hotspots with low wire density (e.g., window_17_23_20_26, window_20_26_34_40) and avoid collisions. This coordinated shift reduces bounding box width from 15→12 while preserving layer ordering; executor will derive a valid routing order from the new positions."
+  },
+  "matches_shared_hint_positions": false,
+  "start_sha256": "42a0576bf3ff8458f1bed017caed77da3a884de547c514923bb8e785a0e28fa3",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 305, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 286, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 176, in run_native\n    raise RuntimeError(f'{args.algorithm} candidate failed validation: '+ '; '.join(validation['errors'][:5]))\nRuntimeError: june_random candidate failed validation: Routes do not exactly cover the effective DAG edges; Route (4, 6) has an absent or invalid clock phase at (29, 23); Route (4, 6) has an absent or invalid clock phase at (28, 23); Route (4, 6) has an absent or invalid clock phase at (27, 23); Route (4, 6) has an absent or invalid clock phase at (27, 24)\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        28,
+        23
+      ],
+      [
+        31,
+        18
+      ],
+      [
+        28,
+        20
+      ],
+      [
+        29,
+        15
+      ],
+      [
+        32,
+        8
+      ],
+      [
+        30,
+        6
+      ],
+      [
+        4,
+        6
+      ],
+      [
+        30,
+        10
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        32,
+        10
+      ],
+      [
+        31,
+        12
+      ],
+      [
+        29,
+        12
+      ],
+      [
+        12,
+        16
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        6,
+        9
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        33,
+        26
+      ],
+      [
+        13,
+        15
+      ],
+      [
+        33,
+        20
+      ],
+      [
+        13,
+        18
+      ],
+      [
+        20,
+        24
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        16,
+        19
+      ],
+      [
+        21,
+        23
+      ],
+      [
+        21,
+        26
+      ],
+      [
+        26,
+        27
+      ],
+      [
+        23,
+        24
+      ],
+      [
+        24,
+        27
+      ],
+      [
+        1,
+        29
+      ],
+      [
+        1,
+        30
+      ],
+      [
+        2,
+        31
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        28
+      ],
+      [
+        2,
+        32
+      ],
+      [
+        11,
+        13
+      ],
+      [
+        11,
+        33
+      ],
+      [
+        19,
+        21
+      ],
+      [
+        27,
+        3
+      ]
+    ],
+    "executed_order": [
+      [
+        28,
+        23
+      ],
+      [
+        31,
+        18
+      ],
+      [
+        28,
+        20
+      ],
+      [
+        29,
+        15
+      ],
+      [
+        32,
+        8
+      ],
+      [
+        30,
+        6
+      ],
+      [
+        4,
+        6
+      ],
+      [
+        30,
+        10
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        32,
+        10
+      ],
+      [
+        31,
+        12
+      ],
+      [
+        29,
+        12
+      ],
+      [
+        12,
+        16
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        6,
+        9
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true,
+    "io_locked": false
+  },
+  "unrouted_edges": [
+    [
+      0,
+      4
+    ],
+    [
+      0,
+      28
+    ],
+    [
+      1,
+      29
+    ],
+    [
+      1,
+      30
+    ],
+    [
+      2,
+      31
+    ],
+    [
+      2,
+      32
+    ],
+    [
+      6,
+      9
+    ],
+    [
+      9,
+      11
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      11,
+      33
+    ],
+    [
+      13,
+      18
+    ],
+    [
+      13,
+      15
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      16,
+      19
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      19,
+      21
+    ],
+    [
+      20,
+      24
+    ],
+    [
+      21,
+      23
+    ],
+    [
+      21,
+      26
+    ],
+    [
+      23,
+      24
+    ],
+    [
+      24,
+      27
+    ],
+    [
+      26,
+      27
+    ],
+    [
+      27,
+      3
+    ],
+    [
+      33,
+      26
+    ],
+    [
+      33,
+      20
+    ]
+  ],
+  "elapsed_s": 17.177423501001613,
+  "decision": "retain_best",
+  "retained_metrics": {
+    "width": 15,
+    "height": 37,
+    "area_tiles": 555,
+    "qca_cells": 1361,
+    "edge_steps": 304,
+    "output_arrival_ticks": {
+      "3": [
+        38,
+        38
+      ]
+    }
+  },
+  "next_state": "4de436b1e2f1c7e5305f3a8bb95763b6016dd104a3ba0e6997c68f63482f322e"
+}

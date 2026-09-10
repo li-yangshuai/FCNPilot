@@ -1,0 +1,187 @@
+{
+  "round": 2,
+  "status": "failed",
+  "start_metrics": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "best_metrics_before": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "start_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+  "model": {
+    "provider": "new-provider",
+    "modelId": "qwen3-vl-plus"
+  },
+  "usage": {
+    "input": 11806,
+    "output": 443,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 0,
+    "totalTokens": 12249
+  },
+  "proposal_origin": "direct_llm_gate_action",
+  "model_proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          5,
+          11
+        ]
+      }
+    ],
+    "routing_order": null,
+    "rationale": "Move node 7 to [24,23] aligns it with fanin nodes 0/1 and fanout 8, eliminating the long detour in edge [5,7] (currently 9 steps, LB 7). Move node 10 to [22,24] co-locates it vertically with node 5’s original y=23 and reduces edge [5,10] to 1 step. Move node 8 to [24,26] shortens both [4,8] and [7,8] to Manhattan-optimal (5→5, 6→6) and avoids congestion near y=28. Swap nodes 5 and 11: node 5 (NOT) moves to y=31 (original 11), freeing its dense y=23 row; node 11 (OR) moves to y=23, placing it directly above fanins 8 and 10—reducing vertical span of the critical path and enabling tighter routing of [8,11] and [10,11]. All target coordinates lie in verified vacancy hotspots (e.g., [24,23], [22,24], [24,26], [22,31]) with no collisions. This coordinated contraction targets area reduction via internal realignment, not just port shifting."
+  },
+  "routing_order_origin": "deterministic_executor_from_model_gate_positions",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          24,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          22,
+          24
+        ]
+      },
+      {
+        "op": "move",
+        "node": 8,
+        "to": [
+          24,
+          26
+        ]
+      },
+      {
+        "op": "swap",
+        "nodes": [
+          5,
+          11
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "rationale": "Move node 7 to [24,23] aligns it with fanin nodes 0/1 and fanout 8, eliminating the long detour in edge [5,7] (currently 9 steps, LB 7). Move node 10 to [22,24] co-locates it vertically with node 5’s original y=23 and reduces edge [5,10] to 1 step. Move node 8 to [24,26] shortens both [4,8] and [7,8] to Manhattan-optimal (5→5, 6→6) and avoids congestion near y=28. Swap nodes 5 and 11: node 5 (NOT) moves to y=31 (original 11), freeing its dense y=23 row; node 11 (OR) moves to y=23, placing it directly above fanins 8 and 10—reducing vertical span of the critical path and enabling tighter routing of [8,11] and [10,11]. All target coordinates lie in verified vacancy hotspots (e.g., [24,23], [22,24], [24,26], [22,31]) with no collisions. This coordinated contraction targets area reduction via internal realignment, not just port shifting."
+  },
+  "error": "Node collision",
+  "model_error": null,
+  "retained_metrics": {
+    "width": 8,
+    "height": 15,
+    "area_tiles": 120,
+    "qca_cells": 308,
+    "edge_steps": 64,
+    "output_arrival_ticks": {
+      "3": [
+        14,
+        14
+      ]
+    }
+  },
+  "next_state": "9d5f9da2e1d16688fb97c2bee62d002d636448cd10c4b30c052c171db9613201",
+  "elapsed_s": 14.880194077999477
+}

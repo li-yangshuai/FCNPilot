@@ -43,9 +43,24 @@ foreach(tool IN ITEMS combinational_pnr mapping_metrics energy_analysis physical
   add_executable(ifcn_${tool} src/app/ifcn_${tool}.cpp)
 endforeach()
 target_link_libraries(ifcn_combinational_pnr PRIVATE autopr)
+add_executable(ifcn_layout_edit src/app/ifcn_layout_edit.cpp)
+target_link_libraries(ifcn_layout_edit PRIVATE autopr)
 target_link_libraries(ifcn_mapping_metrics PRIVATE autopr)
 target_link_libraries(ifcn_energy_analysis PRIVATE autopr simon)
 target_link_libraries(ifcn_physical_benchmark PRIVATE simon)
+
+# Experimental sequential geometry retains distance-one feedback routes.
+# A routed candidate does not constitute storage-device sign-off.
+add_executable(ifcn_sequential_cyclic_pnr src/app/ifcn_sequential_cyclic_pnr.cpp)
+target_link_libraries(ifcn_sequential_cyclic_pnr PRIVATE autopr)
+
+# Regular-template genetic search is a separate headless backend.
+add_library(ifcn_regular_search STATIC
+  include/autopr/algorithms/genetic.cpp
+  include/autopr/algorithms/individual.cpp)
+target_link_libraries(ifcn_regular_search PUBLIC autopr)
+add_executable(ifcn_regular_clock_pnr src/app/ifcn_regular_clock_pnr.cpp)
+target_link_libraries(ifcn_regular_clock_pnr PRIVATE ifcn_regular_search)
 
 if(IFCN_BUILD_PYTHON_BINDINGS)
   find_package(Python3 3.11 REQUIRED COMPONENTS Interpreter Development.Module)

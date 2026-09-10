@@ -1,0 +1,272 @@
+{
+  "status": "failed",
+  "proposal": {
+    "schema": "ifcn.layout_search.v2",
+    "operations": [
+      {
+        "op": "move",
+        "node": 0,
+        "to": [
+          25,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 1,
+        "to": [
+          20,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 2,
+        "to": [
+          22,
+          22
+        ]
+      },
+      {
+        "op": "move",
+        "node": 3,
+        "to": [
+          23,
+          32
+        ]
+      },
+      {
+        "op": "move",
+        "node": 4,
+        "to": [
+          24,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 5,
+        "to": [
+          22,
+          21
+        ]
+      },
+      {
+        "op": "move",
+        "node": 7,
+        "to": [
+          23,
+          23
+        ]
+      },
+      {
+        "op": "move",
+        "node": 10,
+        "to": [
+          21,
+          23
+        ]
+      }
+    ],
+    "routing_order": [
+      [
+        2,
+        5
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "rationale": "Prioritize early fanout edges (2→5, 0→4, 1→10) to reduce congestion at layer 2; route reconvergent paths (5→7,5→10) before their merge (7→8,10→11); defer high-detour edge [1,4] last to avoid blocking compact routes."
+  },
+  "start_sha256": "7c18499f29dceadf9b75d72cca611c6b2b9098844d32173915dad40a80d9093c",
+  "error": "evaluation exited 1; Traceback (most recent call last):\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 300, in <module>\n    main()\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 281, in main\n    (run_normal if args.algorithm=='normal_2ddwave' else run_native)(args,out,summary)\n  File \"/home/lys/projects/github/FCNPilot/engine/scripts/ifcn_agent_backend.py\", line 196, in run_native\n    raise RuntimeError('Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json')\nRuntimeError: Free clock assignment could not align arrivals within the unchanged design rules; see phase_repair.json\n",
+  "routing_audit": {
+    "requested_order": [
+      [
+        2,
+        5
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "executed_order": [
+      [
+        2,
+        5
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        11,
+        3
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "route_order_attempts": 1,
+    "fallback_used": false,
+    "explicit_routing_order": true
+  },
+  "unrouted_edges": [],
+  "phase_repair": {
+    "schema": "ifcn.combinational.rephase.v1",
+    "status": "unsat",
+    "algorithm": "june_random",
+    "solver": "scipy_highs_milp_in_bounded_process",
+    "launch_policy": "all_pi_cycle0_at_own_phase",
+    "pi_phases_preserved": null,
+    "geometry_preserved": true,
+    "pi_phase_policy": "free_within_cycle_zero",
+    "phase_count": 4,
+    "gate_internal_extra_ticks": 0,
+    "requires_fresh_export_mapping": true,
+    "scope": "Discrete clock-tile synchronization; not electrical delay, device waveforms, or physical signoff.",
+    "max_same_phase_tiles": 10,
+    "max_same_phase_step_fraction": 0.3,
+    "problem_size": {
+      "nodes": 10,
+      "routes": 12,
+      "occurrences": 76,
+      "steps": 64
+    },
+    "geometry_sha256": "e7c174a6499376097c3215980048e25f682d8860caf5d4ce28e9f8760b82a8eb",
+    "baseline_native_mapping_valid": true,
+    "reason": "infeasible_clock_constraints",
+    "elapsed_s": 0.7156259149996913,
+    "attempts": [
+      {
+        "pi_phase_policy": "fixed_original",
+        "status": "unsat",
+        "reason": "infeasible_clock_constraints",
+        "elapsed_s": 0.35104898999998113
+      },
+      {
+        "pi_phase_policy": "free_within_cycle_zero",
+        "status": "unsat",
+        "reason": "infeasible_clock_constraints",
+        "elapsed_s": 0.3645071819992154
+      }
+    ]
+  },
+  "elapsed_s": 0.7815105430017866
+}
