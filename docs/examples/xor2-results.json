@@ -1,0 +1,101 @@
+{
+  "source": "integrations/pi/examples/xor2.v",
+  "source_sha256": "32b26243fc74b77e30b9c28ff515ed13cdd62c1035fab1066f32671606f5da9e",
+  "command": "node integrations/pi/smoke.mjs",
+  "run_id": "c104c79ff457456191296d9319dcafad",
+  "created_at": "2026-09-10T10:03:09.371528+00:00",
+  "status": "completed_with_warnings",
+  "parameters": {
+    "seed": 1,
+    "timeout_s": 180,
+    "model": "both",
+    "algorithm": "normal_2ddwave",
+    "clock_scheme": "2DDWave",
+    "samples": 512,
+    "energy_profile": "standard"
+  },
+  "stages": {
+    "parse": "completed",
+    "pnr": "completed",
+    "map": "completed",
+    "simulate": "completed",
+    "energy": "completed"
+  },
+  "layout": {
+    "algorithm": "normal_2ddwave",
+    "clock_scheme": "2DDWave",
+    "width": 3,
+    "height": 4,
+    "area_tiles": 12,
+    "layout_legal": true,
+    "clock_legal": true
+  },
+  "qca_cells": 79,
+  "logic": {
+    "status": "equivalent",
+    "max_inputs": 11,
+    "vectors_checked": 4,
+    "expected_vector_count": 4
+  },
+  "simulation": [
+    {
+      "model": "bistable",
+      "max_absolute_error": 0,
+      "output_samples": 512,
+      "max_iteration_samples": 1
+    },
+    {
+      "model": "coherence",
+      "max_absolute_error": 0,
+      "output_samples": 3005,
+      "max_iteration_samples": null
+    }
+  ],
+  "energy": {
+    "cycle_count": 7.0,
+    "total_bath_eV": 0.20292,
+    "average_bath_eV": 0.0289886,
+    "total_bath_clock_eV": 0.186605,
+    "average_bath_clock_eV": 0.0266579,
+    "total_error_eV": 0.179718,
+    "average_bath_clock_power_W": 4.27106644915086e-10,
+    "power_definition": "signed mean (bath + clock) energy per counted cycle / clock period; not total chip power",
+    "clock_period_s": 1e-11,
+    "numerical_status": "nonnegative_bath_energy",
+    "time_step_convergence": "not_tested",
+    "average_dissipated_power_W": 4.6444857572372394e-10,
+    "dissipated_power_definition": "mean bath energy per counted cycle / clock period; model estimate; requires time-step convergence and functional validation",
+    "profile": "standard",
+    "time_step_s": 1e-17
+  },
+  "validation": {
+    "rtl_equivalence": "exhaustive_scalar_source_vs_routed_dag",
+    "physical_function": "not_verified",
+    "simulation_comparison": "baseline_vs_accelerated_only",
+    "energy": "model_estimate; not a power signoff",
+    "physical_routes": "source_isolation_and_ordered_paths_passed",
+    "clock_arrival": "cycle_zero_at_template_phase_passed",
+    "device_terminal_counts": "match_source_declarations",
+    "simulation_iteration_limit_samples": 1,
+    "energy_numerics": "nonnegative_bath_energy"
+  },
+  "warnings": [
+    {
+      "code": "simulation_iteration_limit",
+      "stage": "simulate",
+      "message": "1 samples reached the solver iteration limit; engine agreement does not establish convergence."
+    }
+  ],
+  "artifact_sha256": {
+    "source.v": "32b26243fc74b77e30b9c28ff515ed13cdd62c1035fab1066f32671606f5da9e",
+    "dag.json": "d202467ca91a530dbf6e6ba374522c969135f312cf07fe7f7e88e9c9d6b9c5e8",
+    "layout.ifcn": "835fd7f652d03abe17b2f1960c4ee14c5b9e8039b9455e508764e34026cd6e7f",
+    "device.qca": "dd1adf0449ac004c2a0bada79b3efd7e9fce61b9f0c183b115a59f0e952fd9b0",
+    "logic.json": "bb9694802bb1e4c84843bd8821e5020073cc93caa46a9e7b1591aa0d98de2541",
+    "clock.json": "48eef1e828cd041d9b29c7b9ba3991ee8b8157810975f0ba5579d02767750d35",
+    "physical.json": "4cdcfb6541743ccb7f1c61ee11da905961a3f7165835475422cf21f5e68a2699",
+    "simulation.json": "7c844ec0270f56871537849b8ea2a54bc7d5cfaa7801ec881b7799e8510e70bc",
+    "energy.json": "66c2847260d0af23fc02be8e65373dae258b6361791749b8860e4cec6c89a38e",
+    "result.json": "0c1dbcdfac24ba01aadeb283aed2e1d3b379e236f81abdede3ef416cd300a189"
+  }
+}

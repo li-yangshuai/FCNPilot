@@ -1,10 +1,16 @@
 import type { LocalePlugin } from "../types";
+import { fcnDesignZh } from "./fcn-design";
+import { fcnResultsZh } from "./fcn-results";
+import { fcnAlgorithmsZh } from "./fcn-algorithms";
 
 /** Pi Web 内置简体中文语言包。 */
 export const zhCNLocale: LocalePlugin = {
   id: "zh-CN",
   label: "简体中文",
   messages: {
+    ...fcnDesignZh,
+    ...fcnResultsZh,
+    ...fcnAlgorithmsZh,
     "common.ok": "确定",
     "common.language": "语言",
     "common.models": "模型",

@@ -40,7 +40,7 @@ export function AppShell({ defaultCwd = null }: { defaultCwd?: string | null }) 
   const searchParams = useSearchParams();
   const dialog = useAppDialog();
   const { toggleTheme, isDark } = useTheme();
-  const { locale } = useI18n();
+  const { locale, setLocale, t } = useI18n();
   const [refresh, setRefresh] = useState(0);
   const [modelsRefresh, setModelsRefresh] = useState(0);
   const [catalogRefresh, setCatalogRefresh] = useState(0);
@@ -86,16 +86,16 @@ export function AppShell({ defaultCwd = null }: { defaultCwd?: string | null }) 
 
   const startLayoutOptimization = useCallback(async (run: IfcnRunDetail) => {
     const handle = mainAgentHandleRef.current;
-    if (optimizationPendingRef.current || !handle?.ready) throw new Error("主智能体正在运行或尚未就绪，请稍后重试。");
-    const prompt = buildIfcnOptimizationPrompt(run);
+    if (optimizationPendingRef.current || !handle?.ready) throw new Error(t("fcn.shell.agentNotReady"));
+    const prompt = buildIfcnOptimizationPrompt(run, locale);
     optimizationPendingRef.current = true;
     setView("design"); setFilePanel(false); setError(null);
     try { await handle.sendPrompt(prompt); }
     catch (failure) { setError(failure instanceof Error ? failure.message : String(failure)); }
     finally { optimizationPendingRef.current = false; }
-  }, []);
+  }, [locale, t]);
 
-  useEffect(() => { document.title = "FCNPilot · FCN 电路设计"; }, []);
+  useEffect(() => { document.title = t("fcn.shell.pageTitle"); }, [t]);
   useEffect(() => {
     if (!cwd) return;
     const controller = new AbortController();
@@ -115,7 +115,7 @@ export function AppShell({ defaultCwd = null }: { defaultCwd?: string | null }) 
     void readJson<{ info: SessionInfo }>(`/api/sessions/${encodeURIComponent(requestedSession)}`, controller.signal)
       .then(({ info }) => {
         if (controller.signal.aborted) return;
-        if (!info || !isWithinFcnWorkspace(info.cwd, cwd)) throw new Error("这个记录不属于当前 FCN 电路工作区。");
+        if (!info || !isWithinFcnWorkspace(info.cwd, cwd)) throw new Error(t("fcn.shell.wrongWorkspace"));
         setSelected(info);
         setChatKey((key) => key + 1);
         setError(null);
@@ -123,7 +123,7 @@ export function AppShell({ defaultCwd = null }: { defaultCwd?: string | null }) 
         if (!controller.signal.aborted) { setSelected(null); setError(String(failure.message || failure)); }
       }).finally(() => { if (!controller.signal.aborted) setRestoring(false); });
     return () => controller.abort();
-  }, [cwd, requestedSession]);
+  }, [cwd, requestedSession, t]);
 
   useEffect(() => {
     let stopped = false;
@@ -174,10 +174,10 @@ export function AppShell({ defaultCwd = null }: { defaultCwd?: string | null }) 
   }, []);
 
   const chooseCircuitFile = useCallback((path: string) => {
-    if (!/\.(?:v|sv)$/i.test(path)) { setError("请选择 .v 或 .sv 电路文件。"); return; }
-    if (filesRef.current.some((file) => file.path === path && file.dirty)) { setError("该电路文件还有未保存修改，请先保存后再作为输入。"); return; }
+    if (!/\.(?:v|sv)$/i.test(path)) { setError(t("fcn.shell.chooseVerilog")); return; }
+    if (filesRef.current.some((file) => file.path === path && file.dirty)) { setError(t("fcn.shell.saveBeforeInput")); return; }
     setCircuitSelection({ path, token: Date.now() }); setSelectingCircuit(false); setView("design"); setFilePanel(false); setSidebar(false); setError(null);
-  }, []);
+  }, [t]);
   const openFile = useCallback((path: string) => {
     if (selectingCircuit) { chooseCircuitFile(path); return; }
     setFiles((current) => current.some((file) => file.path === path) ? current : [...current, { path, dirty: false }]);
@@ -185,12 +185,12 @@ export function AppShell({ defaultCwd = null }: { defaultCwd?: string | null }) 
   }, [selectingCircuit, chooseCircuitFile]);
   const closeFile = useCallback(async (path: string) => {
     const file = files.find((item) => item.path === path);
-    if (file?.dirty && !await dialog.confirm({ title: "关闭电路文件", message: "文件有尚未保存的修改。确认放弃这些修改并关闭？", confirmLabel: "放弃修改", danger: true })) return;
+    if (file?.dirty && !await dialog.confirm({ title: t("fcn.shell.closeFile"), message: t("fcn.shell.discardQuestion"), confirmLabel: t("fcn.shell.discard"), danger: true })) return;
     const next = files.filter((item) => item.path !== path);
     setFiles(next);
     if (activeFile === path) setActiveFile(next.at(-1)?.path ?? null);
     if (!next.length) setFilePanel(false);
-  }, [activeFile, dialog, files]);
+  }, [activeFile, dialog, files, t]);
   const dirtyChanged = useCallback((path: string, dirty: boolean) => {
     setFiles((current) => current.map((file) => file.path === path ? { ...file, dirty } : file));
   }, []);
@@ -211,9 +211,9 @@ export function AppShell({ defaultCwd = null }: { defaultCwd?: string | null }) 
   const beforeFileMutation = useCallback(async (paths: string[]) => {
     const unsaved = filesRef.current.find((file) => file.dirty && paths.some((path) => file.path === path || file.path.startsWith(path + "/")));
     if (!unsaved) return true;
-    await dialog.alert({ title: "电路文件尚未保存", message: `请先保存 ${getFileName(unsaved.path)}，再移动、重命名或删除文件。` });
+    await dialog.alert({ title: t("fcn.shell.unsavedFile"), message: t("fcn.shell.saveBeforeMutation", { name: getFileName(unsaved.path) }) });
     return false;
-  }, [dialog]);
+  }, [dialog, t]);
 
   const trustProject = async () => {
     if (!cwd || trustBusy) return;
@@ -221,7 +221,7 @@ export function AppShell({ defaultCwd = null }: { defaultCwd?: string | null }) 
     try {
       const response = await fetch("/api/project-trust", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ cwd }) });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "无法启用电路引擎");
+      if (!response.ok) throw new Error(data.error || t("fcn.shell.enableFailed"));
       setTrustOpen(false); setModelsRefresh((value) => value + 1); setChatKey((key) => key + 1);
     } catch (failure) { setTrustError(failure instanceof Error ? failure.message : String(failure)); }
     finally { setTrustBusy(false); }
@@ -236,21 +236,22 @@ export function AppShell({ defaultCwd = null }: { defaultCwd?: string | null }) 
         onFileDeleted={(path, directory) => { setFiles((current) => current.filter((file) => file.path !== path && !(directory && file.path.startsWith(path + "/")))); if (activeFile === path || (directory && activeFile?.startsWith(path + "/"))) setActiveFile(null); }}
         onFileMoved={(previous, next, directory) => { const move = (path: string) => path === previous ? next : directory && path.startsWith(previous + "/") ? next + path.slice(previous.length) : path; setFiles((current) => current.map((file) => ({ ...file, path: move(file.path) }))); setActiveFile((path) => path ? move(path) : null); }} />
       <div className="fcn-sidebar-settings">
-        <button type="button" onClick={() => setModelsOpen(true)}>主智能体模型</button>
-        <button type="button" onClick={() => toggleTheme()} aria-label="切换界面主题">{isDark ? "浅色" : "深色"}</button>
+        <button type="button" className="fcn-language-toggle" onClick={() => setLocale(locale === "zh-CN" ? "en" : "zh-CN")} aria-label={t("fcn.shell.switchLanguage")}>{locale === "zh-CN" ? "English" : "简体中文"}</button>
+        <button type="button" onClick={() => setModelsOpen(true)}>{t("fcn.shell.model")}</button>
+        <button type="button" onClick={() => toggleTheme()} aria-label={t("fcn.shell.switchTheme")}>{isDark ? t("fcn.shell.light") : t("fcn.shell.dark")}</button>
       </div>
     </aside>
-    {sidebar && <button className="fcn-mobile-backdrop" aria-label="收起电路侧栏" onClick={() => setSidebar(false)} />}
+    {sidebar && <button className="fcn-mobile-backdrop" aria-label={t("fcn.shell.hideSidebar")} onClick={() => setSidebar(false)} />}
     <main className="fcn-main-workspace">
       <IfcnWorkspaceBar workspace={workspace} onNewDesign={newDesign} />
-      <nav className="ifcn-workbench-nav" aria-label="FCN 设计工作区">
-        <button type="button" className="fcn-mobile-menu" onClick={() => setSidebar((open) => !open)} aria-label="打开电路侧栏">☰</button>
-        <button type="button" aria-pressed={view === "design"} onClick={() => setView("design")}><span aria-hidden>01</span> 电路设计</button>
-        <button type="button" aria-pressed={view === "results"} onClick={() => { setView("results"); setFilePanel(false); }}><span aria-hidden>02</span> 版图与结果</button>
-        <button type="button" aria-pressed={view === "algorithms"} onClick={() => { setView("algorithms"); setFilePanel(false); }}>算法与规模参考</button>
-        {files.length > 0 && <button type="button" className="fcn-reopen-file" onClick={() => setFilePanel((open) => !open)}>电路文件 · {files.length}</button>}
+      <nav className="ifcn-workbench-nav" aria-label={t("fcn.shell.workspaceNavigation")}>
+        <button type="button" className="fcn-mobile-menu" onClick={() => setSidebar((open) => !open)} aria-label={t("fcn.shell.openSidebar")}>☰</button>
+        <button type="button" aria-pressed={view === "design"} onClick={() => setView("design")}><span aria-hidden>01</span> {t("fcn.shell.designTab")}</button>
+        <button type="button" aria-pressed={view === "results"} onClick={() => { setView("results"); setFilePanel(false); }}><span aria-hidden>02</span> {t("fcn.shell.resultsTab")}</button>
+        <button type="button" aria-pressed={view === "algorithms"} onClick={() => { setView("algorithms"); setFilePanel(false); }}>{t("fcn.shell.algorithmsTab")}</button>
+        {files.length > 0 && <button type="button" className="fcn-reopen-file" onClick={() => setFilePanel((open) => !open)}>{t("fcn.shell.filesCountPrefix")}{files.length}</button>}
       </nav>
-      {workspace?.requiresTrust && !workspace.trusted && <div className="fcn-workspace-notice"><span>首次使用需要确认启用当前电路工程。</span><button type="button" onClick={() => setTrustOpen(true)}>启用 iFCN 引擎</button></div>}
+      {workspace?.requiresTrust && !workspace.trusted && <div className="fcn-workspace-notice"><span>{t("fcn.shell.trustNotice")}</span><button type="button" onClick={() => setTrustOpen(true)}>{t("fcn.shell.enableEngine")}</button></div>}
       {error && <div className="fcn-workspace-notice" role="alert">{error}</div>}
       <div className="fcn-design-view" style={{ display: view === "design" ? "flex" : "none" }} aria-hidden={view !== "design"}>
         {cwd && !restoring ? <ChatWindow key={chatKey} session={selected} sessionRunning={!!selected && running.has(selected.id)}
@@ -259,25 +260,25 @@ export function AppShell({ defaultCwd = null }: { defaultCwd?: string | null }) 
           accountUid={SHARED_ACCOUNT_IDENTITY.uid} uiLanguage={locale === "zh-CN" ? "zh" : "en"}
           chatInputRef={chatInputRef} modelsRefreshKey={modelsRefresh} onSessionCreated={onSessionCreated}
           onSessionForked={onSessionForked} onAgentEnd={onAgentEnd} onOpenFile={openFile} />
-          : <p className="fcn-loading" role="status">{restoring ? "正在读取电路设计…" : "正在连接 iFCN 电路工程…"}</p>}
+          : <p className="fcn-loading" role="status">{restoring ? t("fcn.shell.loadingDesign") : t("fcn.shell.connecting")}</p>}
       </div>
       {view === "results" && <div className="ifcn-results-workspace"><IfcnResults active capabilities={workspace?.capabilities} onOptimizeRun={startLayoutOptimization} optimizationReady={optimizationReady && !restoring} onShowAlgorithms={() => setView("algorithms")} /></div>}
       {view === "algorithms" && <div className="ifcn-results-workspace"><IfcnAlgorithms workspace={workspace} onRefresh={() => setCatalogRefresh((value) => value + 1)} /></div>}
     </main>
-    {files.length > 0 && <aside className={`fcn-file-panel${filePanel ? "" : " is-hidden"}`} aria-label="电路文件编辑与预览">
+    {files.length > 0 && <aside className={`fcn-file-panel${filePanel ? "" : " is-hidden"}`} aria-label={t("fcn.shell.filePanel")}>
       <div className="fcn-file-tabs">
         {files.map((file) => <div key={file.path} className={activeFile === file.path ? "active" : ""}>
           <button type="button" onClick={() => setActiveFile(file.path)} title={file.path}>{file.dirty ? "● " : ""}{getFileName(file.path)}</button>
-          <button type="button" onClick={() => void closeFile(file.path)} aria-label={`关闭 ${getFileName(file.path)}`}>×</button>
+          <button type="button" onClick={() => void closeFile(file.path)} aria-label={t("fcn.shell.closeNamedFile", { name: getFileName(file.path) })}>×</button>
         </div>)}
-        <button type="button" className="fcn-file-hide" onClick={() => setFilePanel(false)} aria-label="收起电路文件预览">收起</button>
+        <button type="button" className="fcn-file-hide" onClick={() => setFilePanel(false)} aria-label={t("fcn.shell.hidePreview")}>{t("fcn.shell.collapse")}</button>
       </div>
       {files.map((file) => <div key={file.path} className="fcn-file-content" style={{ display: activeFile === file.path ? "flex" : "none" }}>
-        <FileViewer filePath={file.path} cwd={cwd ?? undefined} accountUid={SHARED_ACCOUNT_IDENTITY.uid}
+        <FileViewer filePath={file.path} cwd={cwd ?? undefined} accountUid={SHARED_ACCOUNT_IDENTITY.uid} uiLanguage={locale === "zh-CN" ? "zh" : "en"}
           active={filePanel && activeFile === file.path} onDirtyChange={dirtyChanged} onOpenFile={openFile} onAtMention={mention}
           onMentionLines={(path, start, end) => { setView("design"); chatInputRef.current?.insertText(buildFileLineMentionText(path, start, end)); }} />
       </div>)}
-      {activeFile && /\.(?:v|sv)$/i.test(activeFile) && <button type="button" className="ifcn-use-circuit-file" disabled={files.some((file) => file.path === activeFile && file.dirty)} onClick={() => chooseCircuitFile(activeFile)}>使用此文件设计 ↗</button>}
+      {activeFile && /\.(?:v|sv)$/i.test(activeFile) && <button type="button" className="ifcn-use-circuit-file" disabled={files.some((file) => file.path === activeFile && file.dirty)} onClick={() => chooseCircuitFile(activeFile)}>{t("fcn.shell.useFile")}</button>}
       {activeFile && <div className="fcn-file-path" title={activeFile}>{cwd ? getRelativeFilePath(activeFile, cwd) : activeFile}</div>}
     </aside>}
     {modelsOpen && <ModelsConfig onClose={() => { setModelsOpen(false); setModelsRefresh((value) => value + 1); }} />}

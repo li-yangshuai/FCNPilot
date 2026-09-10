@@ -52,7 +52,7 @@ try {
     console.log(`Stage ${state.current_stage}: ${state.status}`);
   }
   assert.equal(state.active, false);
-  assert.equal(state.status, "completed", state.error || JSON.stringify(state.metrics));
+  assert.ok(["completed", "completed_with_warnings"].includes(state.status), state.error || JSON.stringify(state.metrics));
   for (const step of ["parse", "pnr", "map", "simulate", "energy"]) assert.equal(state.stages[step].status, "completed");
   const results = {};
   for (const name of ["dag.json", "routed_dag.json", "pnr.json", "simulation.json", "energy.json"]) {
@@ -66,17 +66,24 @@ try {
     assert.equal(comparison.accuracy.max_absolute_error, 0);
     assert.ok(comparison.accuracy.output_samples > 0);
   }
+  const iterationLimitSamples = results["simulation.json"].comparisons
+    .reduce((count, comparison) => count + (comparison.work?.max_iteration_samples || 0), 0);
+  assert.equal(state.validation.simulation_iteration_limit_samples, iterationLimitSamples);
   assert.equal(results["energy.json"].numerical_status, "nonnegative_bath_energy");
   assert.ok(results["energy.json"].average_dissipated_power_W >= 0);
+  // Solver agreement does not establish convergence. Preserve the engine's
+  // warning status when the real comparison reaches its iteration limit.
+  assert.equal(state.status, iterationLimitSamples ? "completed_with_warnings" : "completed");
   const destination = join(root, "output/pi-validation");
   mkdirSync(destination, { recursive: true });
   const summary = { validated_at: new Date().toISOString(), pi_sdk: "0.84.2", tools: expected,
-    run_id: state.run_id, run_directory: state.run_directory, metrics: state.metrics, validation: state.validation,
+    run_id: state.run_id, status: state.status, run_directory: state.run_directory, metrics: state.metrics, validation: state.validation,
     artifacts: state.artifacts };
   writeFileSync(join(destination, "sdk-smoke.json"), JSON.stringify(summary, null, 2) + "\n");
   console.log(JSON.stringify({ run_id: state.run_id, status: state.status,
     pnr_tiles: state.metrics.pnr.area_tiles, qca_cells: state.metrics.mapping.cell_count,
     simulation_models: results["simulation.json"].comparisons.length,
+    simulation_iteration_limit_samples: iterationLimitSamples,
     energy_status: results["energy.json"].numerical_status,
     report: join(destination, "sdk-smoke.json") }, null, 2));
 } finally {

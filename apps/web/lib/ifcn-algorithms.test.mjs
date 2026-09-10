@@ -117,3 +117,51 @@ test("a ready combinational engine does not enable an explicitly unsupported seq
   assert.equal(catalog.entries[0].available, true);
   assert.equal(catalog.entries[1].available, false);
 });
+
+test("English catalog labels preserve availability and evidence without changing backend metadata", () => {
+  const capabilities = {
+    algorithms: [{ id: "regular_clock_ga", available: true }],
+    algorithm_catalog: [{ ...entries[0], id: "regular_clock_ga", run_algorithm: "regular_clock_ga",
+      name: "规则时钟启发式布局布线", design_modes: ["combinational"],
+      method_label: "小规模规则时钟启发式", clock_label: "规则 2DDWave / USE / RES",
+      description: "可作为该分档的候选实现；可调用不代表整个分档均能成功。",
+      scale_coverage: { small: { status: "validated_samples", benchmark_count: 1, max_gate_nodes: 4,
+        note: "冻结生产记录中 1 个去重源电路通过布线逻辑等价与器件端口计数检查；不代表完整波形签核。" },
+      medium: { status: "candidate" }, large: { status: "out_of_scope" } },
+    }],
+  };
+  const original = structuredClone(capabilities);
+  const zh = readIfcnAlgorithmCatalog(capabilities);
+  const en = readIfcnAlgorithmCatalog(capabilities, "en");
+  assert.equal(en.entries[0].name, "Regular-clock heuristic P&R");
+  assert.equal(en.entries[0].clockLabel, "Regular 2DDWave / USE / RES");
+  assert.match(en.entries[0].scaleCoverage.small.note, /does not establish complete waveform signoff/);
+  const evidence = (catalog) => catalog.entries.map(({ id, integrated, available, runAlgorithm, designModes, scaleCoverage }) => ({
+    id, integrated, available, runAlgorithm, designModes,
+    scales: Object.entries(scaleCoverage).map(([scale, { status, benchmarkCount, maxGateNodes }]) => ({ scale, status, benchmarkCount, maxGateNodes })),
+  }));
+  assert.deepEqual(evidence(en), evidence(zh));
+  assert.deepEqual(capabilities, original);
+  assert.equal(ifcnScaleLabel("small", en.scalePolicy, "en"), "≤ 50 gates");
+  assert.equal(clockSchemeLabel("irregular", "en"), "Irregular / free-phase clocks");
+  assert.equal(clockSchemeLabel(undefined, "en"), null);
+});
+
+test("untranslated future metadata retains the original report without inventing support", () => {
+  const catalog = readIfcnAlgorithmCatalog({ algorithm_catalog: [{
+    id: "future", name: "未来实现", method_label: "未来方法", description: "未来描述", scope: "未来范围",
+    clock_family: "future_clock", clock_family_label: "未来时钟", clock_label: "未来时钟约束",
+    scale_coverage: { small: { status: "validated_samples", note: "未来验证说明" }, medium: { status: "candidate", note: "未来候选说明" } },
+  }] }, "en");
+  const entry = catalog.entries[0];
+  assert.equal(entry.name, "future");
+  assert.equal(entry.available, false);
+  assert.equal(entry.scaleCoverage.small.status, "unassessed");
+  assert.equal(entry.scaleCoverage.medium.status, "candidate");
+  assert.match(entry.scaleCoverage.small.note, /unassessed/);
+  assert.match(entry.scaleCoverage.medium.note, /do not establish support/);
+  assert.equal(JSON.parse(entry.originalReport).description, "未来描述");
+  for (const label of [entry.name, entry.methodLabel, entry.clockFamilyLabel, entry.clockLabel, entry.description, entry.scope, ...Object.values(entry.scaleCoverage).map((coverage) => coverage.note)]) {
+    assert.doesNotMatch(label, /\p{Script=Han}/u);
+  }
+});

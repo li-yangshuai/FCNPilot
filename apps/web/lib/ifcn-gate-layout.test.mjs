@@ -36,6 +36,36 @@ const native = `#circuit name: layout
 (2,1):3;
 #phase map
 `;
+
+// Exact geometry from the Normal XOR demonstration, run c104c79ff457456191296d9319dcafad.
+// This exporter packs each grid row's phase records onto one line.
+const nativeNormal = `#phase count: 4
+#clock scheme: 2DDWave
+#nodes info
+0, a, input, (0,0);
+1, b, input, (1,0);
+2, y, and, (2,3);
+3, ps1, or, (1,2);
+4, ps2, and, (2,1);
+5, ~ps2, not, (2,2);
+#nodes info
+#paths info
+(5,2): (2,2),(2,3);
+(4,5): (2,1),(2,2);
+(0,3): (0,0),(0,1),(0,2),(1,2);
+(1,4): (1,0),(2,0),(2,1);
+(3,2): (1,2),(1,3),(2,3);
+(1,3): (1,0),(1,1),(1,2);
+(0,4): (0,0),(0,1),(1,1),(2,1);
+#paths info
+#phase map
+### (x,y) : phase ###
+(0,0):0; (1,0):1; (2,0):2;
+(0,1):1; (1,1):2; (2,1):3;
+(0,2):2; (1,2):3; (2,2):0;
+(0,3):3; (1,3):0; (2,3):1;
+#phase map
+`;
 function fixture(nodes, routes, phases) {
   return `#phase count: 4
 #nodes info
@@ -61,6 +91,34 @@ test("native IFCN preview preserves exact nodes, every routed point, and recorde
   assert.deepEqual(layout.phases.map(({ phase }) => phase), [0, 1, 2, 1, 2, 3]);
   assert.deepEqual(layout.crossings, []);
   assert.equal(layout.physicalLayersRecorded, false);
+});
+
+test("Normal XOR export preserves packed phase rows and actual crossing geometry", () => {
+  const layout = parseIfcnGateLayout(nativeNormal);
+  assert.equal(layout.clockScheme, "2DDWave");
+  assert.equal(layout.phaseCount, 4);
+  assert.equal(layout.nodes.length, 6);
+  assert.equal(layout.routes.length, 7);
+  assert.equal(layout.phases.length, 12);
+  assert.deepEqual(layout.bounds, { x: 0, y: 0, width: 3, height: 4 });
+  assert.deepEqual(layout.phases.slice(0, 3), [{ x: 0, y: 0, phase: 0 }, { x: 1, y: 0, phase: 1 }, { x: 2, y: 0, phase: 2 }]);
+  assert.deepEqual(layout.phases.at(-1), { x: 2, y: 3, phase: 1 });
+  assert.deepEqual(layout.crossings, [{ x: 1, y: 1, routeIndices: [5, 6] }]);
+  assert.deepEqual(layout, parseIfcnGateLayout(nativeNormal.replaceAll("; (", ";\n(")), "line packing must not alter parsed geometry");
+});
+
+test("packed phase rows still reject incomplete, duplicate, out-of-range and excessive records", () => {
+  for (const row of [
+    "(0,0):0; (1,0):1; (2,0):2", // missing final separator
+    "(0,0):0; (1,0):1; (2,0):2; ignored text",
+    "(0,0):0; <script/>; (1,0):1; (2,0):2;",
+    "(0,0):0;; (1,0):1; (2,0):2;",
+    "(0,0):0; (0,0):1; (2,0):2;", // duplicate within a packed row
+    "(0,0):0; (1,0):1; (2,0):4;", // outside declared phase count
+    "(0,0):0; (1,0):1; (1000001,0):2;",
+  ]) assert.throws(() => parseIfcnGateLayout(nativeNormal.replace("(0,0):0; (1,0):1; (2,0):2;", row)));
+  const excessive = Array.from({ length: 20001 }, (_, x) => `(${x},0):0;`).join(" ");
+  assert.throws(() => parseIfcnGateLayout(nativeNormal.replace("(0,0):0; (1,0):1; (2,0):2;", excessive)), /相位表.*限制/);
 });
 
 test("independent straight wires identify XY crossings without fabricating Z or a connection", () => {

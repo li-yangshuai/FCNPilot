@@ -1,5 +1,6 @@
 "use client";
 
+import { useI18n } from "@/hooks/useI18n";
 import { useEffect, useState } from "react";
 import { FcnPilotIcon } from "./FcnPilotIcon";
 import { readIfcnAlgorithmCatalog, type IfcnDesignMode } from "../lib/ifcn-algorithms";
@@ -16,13 +17,14 @@ export interface IfcnWorkspaceInfo {
 }
 
 export function useIfcnWorkspace(refreshKey?: string | number | null) {
+  const { t } = useI18n();
   const [workspace, setWorkspace] = useState<IfcnWorkspaceInfo | null>(null);
   useEffect(() => {
     const controller = new AbortController();
     void fetch("/api/ifcn/workspace", { signal: controller.signal, cache: "no-store" })
       .then(async (response) => {
         const result = await response.json();
-        if (!response.ok && !result.message) throw new Error(result.error || "无法检查 iFCN 引擎");
+        if (!response.ok && !result.message) throw new Error(result.error || t("fcn.shell.engineCheckFailed"));
         setWorkspace(result);
       })
       .catch((error) => {
@@ -30,7 +32,7 @@ export function useIfcnWorkspace(refreshKey?: string | number | null) {
         setWorkspace({ configured: false, cwd: null, agentId: "project:ifcn", available: false, message: String(error.message || error) });
       });
     return () => controller.abort();
-  }, [refreshKey]);
+  }, [refreshKey, t]);
   return workspace;
 }
 
@@ -39,13 +41,14 @@ export function IfcnMark({ size = 32 }: { size?: number }) {
 }
 
 export function IfcnWorkspaceBar({ workspace, onNewDesign }: { workspace: IfcnWorkspaceInfo | null; onNewDesign?: () => void }) {
+  const { t } = useI18n();
   return <div className="ifcn-workspace-bar">
     <IfcnMark size={26} />
-    <div className="ifcn-bar-title"><strong>FCNPilot</strong><span>场耦合纳米电路设计</span></div>
+    <div className="ifcn-bar-title"><strong>FCNPilot</strong><span>{t("fcn.shell.tagline")}</span></div>
     <span className={`ifcn-engine-state${workspace?.available ? " ready" : ""}`} title={workspace?.message} role="status">
-      <i />{!workspace ? "正在检查引擎" : workspace.available ? "设计引擎就绪" : workspace.requiresTrust ? "工程待授权" : "引擎待配置"}
+      <i />{!workspace ? t("fcn.shell.checkingEngine") : workspace.available ? t("fcn.shell.engineReady") : workspace.requiresTrust ? t("fcn.shell.trustPending") : t("fcn.shell.enginePending")}
     </span>
-    {workspace?.cwd && <button type="button" className="ifcn-open-project" onClick={onNewDesign}>新建设计 <span aria-hidden>＋</span></button>}
+    {workspace?.cwd && <button type="button" className="ifcn-open-project" onClick={onNewDesign}>{t("fcn.shell.newDesignBar")}<span aria-hidden>＋</span></button>}
   </div>;
 }
 

@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { ifcnOptimizationAvailability, buildIfcnOptimizationPrompt, reloadIfcnOptimizationSession } from "./ifcn-optimization-request.ts";
+import { createJiti } from "jiti";
+
+const jiti = createJiti(import.meta.url);
+const { ifcnOptimizationAvailability, buildIfcnOptimizationPrompt, reloadIfcnOptimizationSession } = await jiti.import("./ifcn-optimization-request.ts");
 
 function fixture() {
   return { id: "db82469b720a4e9b9f8c0086a586d3c9", designType: "combinational", status: "completed", algorithm: "june_random", clockScheme: "irregular",
@@ -90,4 +93,20 @@ test("busy or unconfirmed sessions and reload failures stop optimization submiss
   for (const result of [{ handled: false }, { handled: true, error: "reload failed" }]) {
     await assert.rejects(reloadIfcnOptimizationSession("existing", async () => idle, async () => result));
   }
+});
+
+
+test("English optimization preserves run selection, acceptance constraints and honest LLM attribution", () => {
+  const run = fixture();
+  const prompt = buildIfcnOptimizationPrompt(run, "en");
+  assert.equal(ifcnOptimizationAvailability(run, "en").available, true);
+  assert.doesNotMatch(prompt, /[\p{Script=Han}]/u);
+  assert.match(prompt, new RegExp(run.id));
+  assert.match(prompt, /"optimization_policy": "llm"/);
+  assert.match(prompt, /Never bypass DRC/);
+  assert.match(prompt, /cannot be attributed entirely to the LLM/);
+  assert.match(prompt, /Do not overwrite the baseline/);
+  run.validation.physical_routes = "passed";
+  assert.equal(ifcnOptimizationAvailability(run, "en").available, false);
+  assert.throws(() => buildIfcnOptimizationPrompt(run, "en"), /lacks.*evidence/);
 });

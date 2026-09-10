@@ -5,7 +5,9 @@ export const IFCN_SOURCE_MAX_BYTES = 256 * 1024;
 export interface IfcnDesignRequest { mode: IfcnInputMode; clock: IfcnClockChoice; algorithm: string; until: IfcnDesignTarget; note: string; }
 function record(value: unknown): Record<string, unknown> { return value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : {}; }
 const NAMES: Record<string,string> = { normal_2ddwave: "图布局与压缩 · 2DDWave", regular_clock_ga: "规则时钟布局搜索", compact: "图绘制 · Compact 实现", june_random: "图绘制 · June 实现", sequential_cyclic: "时序反馈布局" };
-export function ifcnDesignAlgorithms(capabilities: unknown, mode: IfcnInputMode, clock: IfcnClockChoice) {
+const ENGLISH_NAMES: Record<string, string> = { normal_2ddwave: "Graph layout & compaction · 2DDWave", regular_clock_ga: "Regular clock layout search", compact: "Graph drawing · Compact", june_random: "Graph drawing · June", sequential_cyclic: "Sequential feedback layout" };
+
+export function ifcnDesignAlgorithms(capabilities: unknown, mode: IfcnInputMode, clock: IfcnClockChoice, locale = "zh-CN") {
   const data = record(capabilities);
   if (mode === "sequential" && clock !== "irregular") return [];
   return (Array.isArray(data.algorithms) ? data.algorithms : []).map(record).filter((entry) => {
@@ -15,21 +17,31 @@ export function ifcnDesignAlgorithms(capabilities: unknown, mode: IfcnInputMode,
     if (mode !== "auto" && sequential !== (mode === "sequential")) return false;
     const schemes = Array.isArray(entry.clock_schemes) ? entry.clock_schemes : [entry.clock_scheme];
     return schemes.includes(clock);
-  }).map((entry) => ({ id: entry.id as string, name: NAMES[entry.id as string] }));
+  }).map((entry) => ({ id: entry.id as string, name: (locale === "en" ? ENGLISH_NAMES : NAMES)[entry.id as string] }));
 }
-export function validateIfcnSource(source: string) {
-  if (!source.trim()) throw new Error("请先选择或输入 Verilog 电路。");
-  if (new TextEncoder().encode(source).length > IFCN_SOURCE_MAX_BYTES) throw new Error("电路输入不能超过 256 KB。");
+export function validateIfcnSource(source: string, locale = "zh-CN") {
+  if (!source.trim()) throw new Error(locale === "en" ? "Choose or enter a Verilog circuit first." : "请先选择或输入 Verilog 电路。");
+  if (new TextEncoder().encode(source).length > IFCN_SOURCE_MAX_BYTES) throw new Error(locale === "en" ? "Circuit input must not exceed 256 KB." : "电路输入不能超过 256 KB。");
 }
 export function ifcnSnapshotName(name: string, unique: string) {
   const stem = name.replace(/\.(?:s?v)$/i, "").replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 64) || "circuit";
   if (!/^[a-zA-Z0-9_-]+$/.test(unique)) throw new Error("快照编号无效。");
   return `designs/${stem}-${unique}.v`;
 }
-export function buildIfcnDesignPrompt(input: string, request: IfcnDesignRequest) {
-  if (!input.startsWith("/") || /[\r\n\0]/.test(input)) throw new Error("电路输入必须是有效的 WSL 绝对路径。");
-  if (request.mode === "sequential" && request.clock !== "irregular") throw new Error("当前时序流程仅支持布线后分配相位。");
+export function buildIfcnDesignPrompt(input: string, request: IfcnDesignRequest, locale = "zh-CN") {
+  if (!input.startsWith("/") || /[\r\n\0]/.test(input)) throw new Error(locale === "en" ? "Circuit input must be a valid absolute WSL path." : "电路输入必须是有效的 WSL 绝对路径。");
+  if (request.mode === "sequential" && request.clock !== "irregular") throw new Error(locale === "en" ? "The sequential flow only supports phase assignment after routing." : "当前时序流程仅支持布线后分配相位。");
   const parameters = { action: "start", input, ...(request.mode !== "auto" ? { design_type: request.mode } : {}), clock_scheme: request.clock, algorithm: request.algorithm, until: request.until };
+  if (locale === "en") return [
+    "Use the iFCN main agent to complete this circuit design. Respond in English. The input is saved as a separate snapshot; use this file and do not overwrite the original circuit.",
+    request.mode === "auto" ? "Read the circuit and ifcn_capabilities first, identify combinational or sequential semantics, then explicitly set combinational or sequential in ifcn_run. Auto is only a classification request, never a valid design_type value." : `The circuit mode is ${request.mode}; first verify the RTL semantics against actual capabilities.`,
+    "Design parameters:\n" + JSON.stringify(parameters, null, 2),
+    "clock_scheme is a hard user constraint, including during automatic algorithm selection. Do not change the clock, disable DRC, or bypass DRC. Report incompatibilities or validation failures and retain failed results. Every accepted candidate must pass existing routing, clock, port, and mapping checks.",
+    "Parse and report the actual DAG gate count and supported scale first. The regular heuristic currently targets small circuits (at most 50 logic gates); medium and large circuits are unverified for graph algorithms. Sample success does not establish support for an entire size category.",
+    "For combinational circuits, separately report source versus routed DAG logic checks and actual QCA cell and port checks. For sequential circuits, preserve state boundaries and feedback; distinguish one-step SeqIR-to-state-cut-DAG checks from unfinished independent RTL equivalence and physical state-device signoff.",
+    request.until === "map" ? "Run through device mapping. Provide actual SVG, QCA, and validation reports for preview and download in Layout & results." : "The user explicitly requests numerical simulation exploration. Simulation and energy are model results, not device-function or sequential-storage signoff. Report numerical anomalies and provide actual result files.",
+    ...(request.note.trim() ? ["Additional design requirements:\n" + request.note.trim()] : []),
+  ].join("\n\n");
   return [
     "请由 iFCN 主智能体完成这次电路设计。输入已经保存为独立快照，请使用此文件，不要覆盖原电路。",
     request.mode === "auto" ? "请先读取电路与 ifcn_capabilities，识别组合或时序语义，再为 ifcn_run 明确填写 combinational 或 sequential。auto 仅是本次识别要求，绝不是 design_type 的合法参数。" : `电路模式已指定为 ${request.mode}；先确认实际 RTL 语义与能力是否一致。`,

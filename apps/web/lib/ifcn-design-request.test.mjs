@@ -60,3 +60,28 @@ test("loading another source resets mode and implementation while preserving the
   assert.equal(next.note, previous.note);
   assert.equal(loadIfcnSourceDraft({ ...previous, clock: "USE" }, { source: "new", path: "/new.v", name: "new.v" }).clock, "USE");
 });
+
+
+test("English design requests retain tool parameters and explicit validation constraints", () => {
+  for (const mode of ["auto", "combinational", "sequential"]) {
+    const translatedRequest = { ...request, mode, clock: "irregular", until: "energy", note: "Prioritize smaller area" };
+    const prompt = buildIfcnDesignPrompt("/engine/designs/xor2.v", translatedRequest, "en");
+    const original = buildIfcnDesignPrompt("/engine/designs/xor2.v", translatedRequest);
+    const parameters = (text) => JSON.parse(text.match(/\{[\s\S]*?\}/)[0]);
+    assert.deepEqual(parameters(prompt), parameters(original));
+    assert.match(prompt, /Respond in English/);
+    assert.match(prompt, /Do not change the clock, disable DRC, or bypass DRC/);
+    assert.match(prompt, /one-step SeqIR-to-state-cut-DAG checks/);
+    assert.match(prompt, /not device-function or sequential-storage signoff/);
+    assert.doesNotMatch(prompt, /[\p{Script=Han}]/u);
+  }
+});
+
+test("English algorithm labels and input errors preserve available choices and validation", () => {
+  const choices = ifcnDesignAlgorithms(capabilities, "combinational", "irregular", "en");
+  assert.deepEqual(choices.map((item) => item.id), ["compact", "june_random"]);
+  assert.doesNotMatch(choices.map((item) => item.name).join(" "), /[\p{Script=Han}]/u);
+  assert.throws(() => validateIfcnSource(" ", "en"), /Verilog circuit/);
+  assert.throws(() => validateIfcnSource("a".repeat(IFCN_SOURCE_MAX_BYTES + 1), "en"), /256 KB/);
+  assert.throws(() => buildIfcnDesignPrompt("/engine/designs/xor2.v", { ...request, mode: "sequential" }, "en"), /only supports phase assignment after routing/);
+});

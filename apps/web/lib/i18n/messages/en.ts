@@ -1,10 +1,16 @@
 import type { LocalePlugin } from "../types";
+import { fcnDesignEn } from "./fcn-design";
+import { fcnResultsEn } from "./fcn-results";
+import { fcnAlgorithmsEn } from "./fcn-algorithms";
 
 /** Pi Web 内置英语语言包。 */
 export const enLocale: LocalePlugin = {
   id: "en",
   label: "English",
   messages: {
+    ...fcnDesignEn,
+    ...fcnResultsEn,
+    ...fcnAlgorithmsEn,
     "common.ok": "OK",
     "common.language": "Language",
     "common.models": "Models",

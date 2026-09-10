@@ -289,13 +289,13 @@ export const ChatWindow = memo(function ChatWindow({ onMainAgentHandleChange, se
   useEffect(() => {
     if (!onMainAgentHandleChange) return;
     onMainAgentHandleChange({ ready: mainAgentReady, sendPrompt: async (prompt) => {
-      if (!mainAgentReady) throw new Error("主智能体正在运行或尚未就绪，请稍后重试。");
+      if (!mainAgentReady) throw new Error(t("fcn.shell.agentNotReady"));
       await reloadIfcnOptimizationSession(sessionIdRef.current, (id) => sendAgentCommand(id, { type: "get_state" }), () => handleBuiltinSlashCommand("/reload"));
       setDesignFormOpen(false);
       await handleSend(prompt);
     } });
     return () => onMainAgentHandleChange(null);
-  }, [onMainAgentHandleChange, mainAgentReady, handleSend, handleBuiltinSlashCommand, sessionIdRef]);
+  }, [onMainAgentHandleChange, mainAgentReady, handleSend, handleBuiltinSlashCommand, sessionIdRef, t]);
 
 
   useEffect(() => {
@@ -677,7 +677,7 @@ export const ChatWindow = memo(function ChatWindow({ onMainAgentHandleChange, se
         <NoticeShelf notices={notices} floating />
       </div>
 
-      {!isEmptyNew && <div className="ifcn-design-session-tools"><button type="button" disabled={sessionBusy} onClick={() => setDesignFormOpen((open) => !open)}>{designFormOpen ? "返回设计对话" : "＋ 输入新电路"}</button>{onShowAlgorithmReference && <button type="button" onClick={onShowAlgorithmReference}>算法参考</button>}</div>}
+      {!isEmptyNew && <div className="ifcn-design-session-tools"><button type="button" disabled={sessionBusy} onClick={() => setDesignFormOpen((open) => !open)}>{designFormOpen ? t("fcn.design.backToDesign") : t("fcn.design.newCircuit")}</button>{onShowAlgorithmReference && <button type="button" onClick={onShowAlgorithmReference}>{t("fcn.design.algorithmReference")}</button>}</div>}
       {isEmptyNew || designFormOpen ? (
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
           <div className="flex min-h-0 flex-1 flex-col items-center overflow-y-auto px-4 py-3">

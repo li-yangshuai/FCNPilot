@@ -62,9 +62,13 @@ export function parseIfcnGateLayout(source: string): IfcnGateLayout {
       if (points.length < 2 || totalPoints > MAX_POINTS) throw new Error("IFCN 路径点不足或超过预览限制。");
       routes.push({ source: integer(match[1], "起点编号"), target: integer(match[2], "终点编号"), points, iterationDistance });
     } else if (active === 2) {
-      const match = /^\((-?\d+),\s*(-?\d+)\):\s*(\d+);$/.exec(line);
-      if (!match || phases.length >= MAX_PHASES) throw new Error("IFCN 相位表格式无效或超过预览限制。");
-      phases.push({ x: integer(match[1], "X 坐标"), y: integer(match[2], "Y 坐标"), phase: integer(match[3], "相位", 15) });
+      // Normal writes one grid row per line; GA writes one phase record per line.
+      // Validate the entire line before reading records, so no trailing text is ignored.
+      if (!/^(?:\(-?\d+,\s*-?\d+\):\s*\d+;\s*)+$/.test(line)) throw new Error("IFCN 相位表格式无效或超过预览限制。");
+      for (const match of line.matchAll(/\((-?\d+),\s*(-?\d+)\):\s*(\d+);/g)) {
+        if (phases.length >= MAX_PHASES) throw new Error("IFCN 相位表格式无效或超过预览限制。");
+        phases.push({ x: integer(match[1], "X 坐标"), y: integer(match[2], "Y 坐标"), phase: integer(match[3], "相位", 15) });
+      }
     } else throw new Error("IFCN 包含无法识别的文本记录。");
   }
   if (active !== null || completed !== 3 || phaseCount === null || !nodes.length || !routes.length || !phases.length) throw new Error("IFCN 门节点、路径或相位数据不完整。");
