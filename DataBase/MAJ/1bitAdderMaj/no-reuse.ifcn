@@ -1,0 +1,34 @@
+#circuit name: layout
+#algorithm: multi_agent
+#mapping mode: combinational
+#primary output nodes: 3
+#phase count: 4
+#clock scheme: irregular
+#clock scheme consistency: success
+#layout area: width: 3, height: 5, area: 15
+#nodes info
+### nodeIndex, nodeName, nodeType, nodePosition ###
+0, x0, input, (0,0);
+1, x1, input, (2,0);
+2, x2, input, (1,0);
+3, y0, output, (1,4);
+4, ~x2, not, (1,2);
+5, n4, maj, (1,3);
+6, 0_0_5_0, wire, (0,2);
+7, 1_1_5_0, wire, (2,2);
+#nodes info
+#paths info
+### {node1, node2} : path ###
+(0,6): (0,0),(0,1),(0,2);
+(1,7): (2,0),(2,1),(2,2);
+(2,4): (1,0),(1,1),(1,2);
+(4,5): (1,2),(1,3);
+(5,3): (1,3),(1,4);
+(6,5): (0,2),(0,3),(1,3);
+(7,5): (2,2),(2,3),(1,3);
+#paths info
+#phase map
+#phase codec: phase_count=4, block_size=4, encoding=packed_hex_2bit_row_major
+tile(0,0):0x0004192e;
+tile(0,1):0x00000000;
+#phase map

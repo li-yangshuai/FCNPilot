@@ -1,0 +1,45 @@
+#circuit name: layout
+#algorithm: irregular
+#mapping mode: combinational
+#primary output nodes: 4,5
+#phase count: 4
+#clock scheme: irregular
+#clock scheme consistency: success
+#layout area: width: 5, height: 7, area: 35
+#nodes info
+### nodeIndex, nodeName, nodeType, nodePosition ###
+0, a, input, (2,0);
+1, b, input, (3,0);
+2, c, input, (4,0);
+3, d, input, (0,0);
+4, y0, output, (2,5);
+5, y1, and, (3,5);
+6, m0, maj, (3,1);
+7, ~d, not, (0,1);
+9, m3, or, (2,2);
+10, m2, and, (2,3);
+11, m4, or, (2,4);
+#nodes info
+#paths info
+### {node1, node2} : path ###
+(0,6): (2,0),(2,1),(3,1);
+(0,9): (2,0),(2,1),(2,2);
+(1,6): (3,0),(3,1);
+(2,6): (4,0),(4,1),(3,1);
+(3,7): (0,0),(1,0),(1,1),(0,1);
+(3,9): (0,0),(1,0),(1,1),(1,2),(2,2);
+(6,5): (3,1),(3,2),(3,3),(3,4),(3,5);
+(6,10): (3,1),(3,2),(3,3),(2,3);
+(7,10): (0,1),(0,2),(0,3),(1,3),(2,3);
+(9,5): (2,2),(3,2),(4,2),(4,3),(4,4),(4,5),(3,5);
+(9,11): (2,2),(3,2),(4,2),(4,3),(4,4),(4,5),(4,6),(3,6),(2,6),(1,6),(1,5),(1,4),(2,4);
+(10,11): (2,3),(2,4);
+(11,4): (2,4),(2,5);
+#paths info
+#phase map
+#phase codec: phase_count=4, block_size=4, encoding=packed_hex_2bit_row_major
+tile(0,0):0x004192cf;
+tile(1,0):0x00000202;
+tile(0,1):0xd020c000;
+tile(1,1):0x03030300;
+#phase map
