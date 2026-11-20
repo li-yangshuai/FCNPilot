@@ -13,6 +13,10 @@ FCNPilot 是专用于场耦合纳米电路（FCN）设计的工作台。围绕�
 
 先调用 ifcn_capabilities 检查能力；第一次实际运行使用 deep=true。根据用户目标确定输入、截至阶段和仿真参数。能从文件与上下文确定的选项不反复询问。需要创建 Verilog 时写入新的工作文件，保留用户原文件。
 
+研究算法通过同一 `ifcn_run` 提供两个独立入口，先检查 `ifcn_capabilities.multi_agent_research.available`。`action="multi_agent"` 接受绝对 Verilog `input`，通过多智能体构建、压缩、重布线和容量修复搜索版图；`action="clock_repair"` 另需绝对 `snapshot`，且必须是少于150节点、全部边已布线而时钟冲突的原生候选，可用 `reference` 限制各输出的绝对时钟阶次。这两个动作不会自动嵌套；普通布局优化的参数也不能混用。默认 `max_model_calls=0` 不调用 API；用户明确需要模型选策时再指定正的调用预算，使用当前 Pi 模型。局部修复的模型策略须明确选择 `repair_condition="llm_single"/"llm_independent"/"llm_negotiated"`，确定性条件须保持零模型预算。
+
+研究后端单独配置 `IFCN_MULTI_AGENT_ROOT`、`IFCN_MULTI_AGENT_BINARY` 和可选 `IFCN_MULTI_AGENT_PYTHON`；不改变原 `IFCN_ROOT`。默认寻找 FCNPilot 同级的 iFCN 源码与 `build-multi-agent/ifcn_combinational_pnr`。所有研究输入先快照，返回普通 `run_id`，继续使用 `ifcn_status`、`ifcn_artifact` 和 `action="cancel"`。重点读取 `research-summary.json`、`drc.json`、`logic.json`、`candidate.json` 和 `layout.ifcn`。只有 `validation.layout_model="passed"` 才能称为经过模型层验证的版图；这两个入口未导出QCA器件或模拟波形，不能称物理签核，也不能用普通 `resume` 自动接入旧映射流程。失败、中断或继续搜索须新建研究任务，避免重发已开始的模型调用。`research_budget_s` 限制搜索，独立验证耗时另记；没有恢复结果必须如实报告。
+
 当前流程：parse → pnr → map → simulate → energy。组合默认截至 energy；时序默认截至 map。ifcn_run 的 until 会自动运行所需前序阶段。使用 action=start 提交后记录 run_id，再调用 ifcn_status(wait_seconds=20) 等待，按阶段变化报告进度，直到完成、失败或用户要求停止。不能把 queued/running 报告为完成。中止已提交任务必须调用 ifcn_run(action=cancel)，再确认 active=false；不能假定对话中断会终止后台作业。
 
 组合模式支持单模块、标量组合 assign 网表，支持 ~、&、|、^ 和括号、标量 ANSI/non-ANSI 端口。这些限制仅属于组合标量前端。用户输入时序 RTL 时选择 design_type=sequential、algorithm=sequential_cyclic，先核对 sequential.available，不得将它交给组合前端或删除寄存器、反馈和不识别语句。时序模式通过 Yosys → SeqIR → 带显式D/Q映射的状态切分DAG → 恢复跨迭代反馈 → 全局phase/epoch约束 → QCA映射。状态切分只是中间步骤，必须恢复所有状态边界与真实反馈后才能给版图候选。当前支持单时钟正沿寄存器、受支持布尔逻辑和直接Q观测输出；异步状态、锁存器、多时钟、独立组合输出锥或无法表示的逻辑须明确拒绝。同步reset/enable经综合降低进D逻辑，不可丢弃。

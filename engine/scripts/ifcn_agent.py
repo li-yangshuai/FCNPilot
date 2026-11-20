@@ -116,6 +116,8 @@ def doctor(deep=False):
         "acceptance":"Both gate-grid area and actual QCA cells non-increasing; at least one strict improvement after all checks",
         "artifacts":["campaign.json","environment.json","rounds/<n>/request.json","rounds/<n>/response.json"],
         "fixed_clock_and_sequential":"not_supported_by_this_experiment", "device_waveform_signoff":False}
+    from ifcn_agent_multi_agent import capabilities as research_capabilities
+    report["multi_agent_research"] = research_capabilities(ROOT)
     report["logic_validation"] = {"method": "exhaustive scalar source vs routed DAG", "max_inputs": 11,
                                   "unverifiable_small_input": "reject candidate", "larger_input": "explicitly not performed"}
     report["device_interface_validation"] = "Require declared input/output terminal counts before accepting a P&R candidate; not a waveform correctness proof"
@@ -214,6 +216,8 @@ def start_worker(path, until):
     fd = lock_run(path)
     try:
         manifest = load_run(path)
+        if manifest.get("research") and manifest["status"] != "created":
+            raise ValueError("Research jobs are not replayed or resumed into the legacy pipeline; submit a fresh multi_agent or clock_repair job.")
         until = until or manifest.get("requested_until") or ("map" if manifest.get("design_type") == "sequential" else "energy")
         verify_artifacts(path, manifest)
         manifest.update(status="queued", requested_until=until, error=None, updated_at=now())
@@ -705,6 +709,9 @@ def worker(path, fd):
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGINT, stop)
     manifest = load_run(path)
+    if manifest.get("research"):
+        from ifcn_agent_multi_agent import run_worker as research_worker
+        return research_worker(sys.modules[__name__], path, fd)
     if manifest.get("optimization") and manifest["optimization"].get("status") != "completed":
         from ifcn_layout_optimization import run_worker as optimize_worker
         return optimize_worker(sys.modules[__name__],path,fd)
@@ -801,6 +808,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--runs-dir", default=os.environ.get("IFCN_RUNS_DIR", str(ROOT / "output/pi-runs")))
     commands = parser.add_subparsers(dest="command", required=True)
+    from ifcn_agent_multi_agent import add_commands as research_commands
+    research_commands(commands)
     probe = commands.add_parser("doctor")
     probe.add_argument("--deep", action="store_true")
     start = commands.add_parser("start")
@@ -842,6 +851,9 @@ def main():
             result = doctor(args.deep)
         elif args.command == "start":
             result = create_run(args, base)
+        elif args.command in ("multi_agent", "clock_repair"):
+            from ifcn_agent_multi_agent import create_run as create_research
+            result = create_research(sys.modules[__name__], args, base)
         elif args.command == "optimize":
             from ifcn_layout_optimization import create_run as create_optimization
             result = create_optimization(sys.modules[__name__],args,base)

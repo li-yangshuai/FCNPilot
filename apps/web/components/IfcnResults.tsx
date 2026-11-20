@@ -219,6 +219,50 @@ function RunMetrics({ run }: { run: IfcnRunDetail }) {
 
 
 
+function ResearchRunMetrics({ run }: { run: IfcnRunDetail }) {
+  const { t } = useI18n();
+  const research = object(run.metrics.research);
+  const area = numeric(research.area_tiles);
+  const width = numeric(research.width);
+  const height = numeric(research.height);
+  const evaluations = numeric(research.evaluations);
+  const wireLength = numeric(research.route_length);
+  const firstSuccess = numeric(research.first_success_evaluation);
+  const vectors = numeric(research.vectors_checked);
+  const layoutVerified = run.validation.layout_model === "passed";
+  const logicVerified = run.validation.rtl_equivalence === "equivalent";
+  return <>
+    <div className={styles.metrics} role="group" aria-label={t("fcn.results.research.metrics")}>
+      {area !== null && <div>
+        <span>{t("fcn.results.gate.area.tiles")}</span>
+        <strong>{displayNumber(area)}</strong>
+        {width !== null && height !== null && <p>{t("fcn.results.gate.grid", { p0: String(width), p1: String(height) })}</p>}
+      </div>}
+      {evaluations !== null ? <div>
+        <span>{t("fcn.results.research.evaluations")}</span>
+        <strong>{displayNumber(evaluations)}</strong>
+        {firstSuccess !== null && <p>{t("fcn.results.research.firstFeasible", { p0: displayNumber(firstSuccess) })}</p>}
+      </div> : wireLength !== null && <div>
+        <span>{t("fcn.results.research.wireLength")}</span>
+        <strong>{displayNumber(wireLength)}</strong>
+      </div>}
+      <div>
+        <span>{t("fcn.results.research.geometryClock")}</span>
+        <strong className={styles.textMetric}>{t(layoutVerified ? "fcn.results.passed" : "fcn.results.not.verified")}</strong>
+      </div>
+      <div>
+        <span>{t("fcn.results.logic.equivalence")}</span>
+        <strong className={styles.textMetric}>{t(logicVerified ? "fcn.results.matched" : "fcn.results.not.verified")}</strong>
+        <p>{vectors !== null && vectors > 0 ? t("fcn.results.input.combinations.checked", { p0: displayNumber(vectors) }) : t("fcn.results.source.circuit.versus.routed.logic.graph")}</p>
+      </div>
+    </div>
+    <div className={styles.validation}>
+      <strong>{t("fcn.results.validation.scope")}</strong>
+      <p>{t("fcn.results.research.scope")}</p>
+    </div>
+  </>;
+}
+
 function SimulationSummary({ run }: { run: IfcnRunDetail }) {
   const { t, locale } = useI18n();
   const comparisons = Array.isArray(run.metrics.simulation) ? run.metrics.simulation.map(object) : [];
@@ -285,7 +329,7 @@ export function IfcnResults({ active = true, onClose, capabilities, onShowAlgori
   const { t, locale } = useI18n();
   const STAGES = [{ id: "parse", label: t("fcn.results.logic.parsing") }, { id: "pnr", label: t("fcn.results.place.route") }, { id: "map", label: t("fcn.results.device.mapping") }, { id: "simulate", label: t("fcn.results.simulation") }, { id: "energy", label: t("fcn.results.energy.estimate") }];
   const OPTIMIZATION_SOURCES: Record<string, string> = { llm: t("fcn.results.llm.optimization"), noop: t("fcn.results.rerouting.control"), random: t("fcn.results.random.control"), heuristic: t("fcn.results.greedy.control") };
-  const ALGORITHMS: Record<string, string> = { normal_2ddwave: "Normal · 2DDWave", compact: "Compact", june_random: "June", sequential_cyclic: t("fcn.results.sequential.feedback.layout"), regular_clock_ga: t("fcn.results.regular.clock.heuristic"), auto: t("fcn.results.automatic.selection") };
+  const ALGORITHMS: Record<string, string> = { normal_2ddwave: "Normal · 2DDWave", compact: "Compact", june_random: "June", sequential_cyclic: t("fcn.results.sequential.feedback.layout"), regular_clock_ga: t("fcn.results.regular.clock.heuristic"), clock_repair: t("fcn.results.research.clockRepair"), multi_agent: t("fcn.results.research.multiAgent"), auto: t("fcn.results.automatic.selection") };
   const [runs, setRuns] = useState<IfcnRunSummary[]>([]);
   const [optimizing, setOptimizing] = useState(false);
   const [optimizationError, setOptimizationError] = useState<string | null>(null);
@@ -325,7 +369,8 @@ export function IfcnResults({ active = true, onClose, capabilities, onShowAlgori
   }, [active, refresh, t]);
 
   const current = detail?.id === selected ? detail : null;
-  const optimization = current ? ifcnOptimizationAvailability(current, locale) : null;
+  const researchRun = current?.algorithm === "clock_repair" || current?.algorithm === "multi_agent";
+  const optimization = current && !researchRun ? ifcnOptimizationAvailability(current, locale) : null;
   const catalog = useMemo(() => readIfcnAlgorithmCatalog(capabilities, locale), [capabilities, locale]);
   const pnr = object(current?.metrics.pnr);
   const recordedAlgorithm = typeof pnr.algorithm === "string" ? pnr.algorithm : current?.algorithm;
@@ -339,16 +384,21 @@ export function IfcnResults({ active = true, onClose, capabilities, onShowAlgori
     {loading && !current ? <p className={styles.empty} role="status">{t("fcn.results.loading.circuit.design.results")}</p> : !current && !error ? <div className={styles.empty}><svg width="68" height="68" viewBox="0 0 68 68" fill="none" aria-hidden><rect x="13" y="13" width="42" height="42" rx="10" stroke="currentColor" strokeWidth="1.5" /><path d="M21 34h9V23h17M30 34v12h17M47 23v23M21 46h9" stroke="currentColor" strokeWidth="2" /><circle cx="21" cy="34" r="3" fill="currentColor" /><circle cx="47" cy="23" r="3" fill="currentColor" /><circle cx="47" cy="46" r="3" fill="currentColor" /></svg><h3>{t("fcn.results.start.with.a.circuit")}</h3><p>{t("fcn.results.provide.verilog.in.the.design.chat.or.run")}</p></div> : null}
     {current && <>
       <div className={styles.runHeading}><div><h3>{current.module || current.sourceName}{current.optimizationPolicy ? ` · ${OPTIMIZATION_SOURCES[current.optimizationPolicy]}` : ""}</h3><p title={current.sourceName}>{current.sourceName} · {sequentialMetrics(current) ? t("fcn.results.sequential.circuit") : current.designType === "combinational" ? t("fcn.results.combinational.circuit") : t("fcn.results.mode.not.recorded")} · {ALGORITHMS[current.algorithm || ""] || current.algorithm || t("fcn.results.algorithm.not.selected")}{current.algorithm === "regular_clock_ga" && current.clockScheme ? ` · ${current.clockScheme}` : ""}</p></div><span className={styles.status} data-status={current.status}>{current.status === "completed" ? t("fcn.results.pipeline.complete") : stateLabel(current.status, t)}</span></div>
-      <div className="ifcn-result-classification"><span>{t("fcn.results.recorded.clock", { p0: String(recordedClock || t("fcn.results.not.recorded")), p1: String(numeric(pnr.phase_count) !== null ? t("fcn.results.phases", { p0: String(pnr.phase_count) }) : "") })}</span>{classification && classification.method !== "unclassified" && <span>{t("fcn.results.catalog.method", { p0: String(classification.methodLabel) })}</span>}{onShowAlgorithms && <button type="button" onClick={onShowAlgorithms}>{t("fcn.results.compare.scale.clocks")}</button>}</div>
-      <ol className={styles.stages} aria-label={t("fcn.results.circuit.pipeline.progress")}>{STAGES.map((stage, index) => { const status = current.stages.find((item) => item.id === stage.id)?.status || "pending"; return <li key={stage.id} data-status={status} title={stateLabel(status, t)}><span>{status === "completed" ? "✓" : String(index + 1).padStart(2, "0")}</span><strong>{stage.id === "parse" && sequentialMetrics(current) ? t("fcn.results.state.logic.parsing") : stage.label}</strong><small>{stateLabel(status, t)}</small></li>; })}</ol>
+      {!researchRun && <>
+        <div className="ifcn-result-classification"><span>{t("fcn.results.recorded.clock", { p0: String(recordedClock || t("fcn.results.not.recorded")), p1: String(numeric(pnr.phase_count) !== null ? t("fcn.results.phases", { p0: String(pnr.phase_count) }) : "") })}</span>{classification && classification.method !== "unclassified" && <span>{t("fcn.results.catalog.method", { p0: String(classification.methodLabel) })}</span>}{onShowAlgorithms && <button type="button" onClick={onShowAlgorithms}>{t("fcn.results.compare.scale.clocks")}</button>}</div>
+        <ol className={styles.stages} aria-label={t("fcn.results.circuit.pipeline.progress")}>{STAGES.map((stage, index) => { const status = current.stages.find((item) => item.id === stage.id)?.status || "pending"; return <li key={stage.id} data-status={status} title={stateLabel(status, t)}><span>{status === "completed" ? "✓" : String(index + 1).padStart(2, "0")}</span><strong>{stage.id === "parse" && sequentialMetrics(current) ? t("fcn.results.state.logic.parsing") : stage.label}</strong><small>{stateLabel(status, t)}</small></li>; })}</ol>
+      </>}
       {current.error && <p className={styles.error} role="alert">{current.error}</p>}
-      <RunMetrics run={current} />
+      {!researchRun && <RunMetrics run={current} />}
       {onOptimizeRun && optimization && <section className="ifcn-optimize-action" aria-label={t("fcn.results.main.agent.layout.optimization")}><div><strong>{t("fcn.results.continue.optimizing.this.layout")}</strong><p>{optimization.available && !optimizationReady ? t("fcn.results.the.main.agent.is.running.or.not.ready") : optimization.reason}</p></div><button type="button" disabled={!optimization.available || !optimizationReady || optimizing || loading} onClick={async () => {
         setOptimizing(true); setOptimizationError(null);
         try { await onOptimizeRun(current); } catch (failure) { setOptimizationError(errorText(failure, t)); } finally { setOptimizing(false); }
       }}>{optimizing ? t("fcn.results.sending.to.main.agent") : t("fcn.results.optimize.layout.with.main.agent")}</button>{optimizationError && <p role="alert">{optimizationError}</p>}</section>}
       <IfcnOptimizationCampaign key={`campaign:${current.id}`} run={current} />
-      <LayoutPreview key={current.id} run={current} />
+      {researchRun ? <div className="ifcn-results-research">
+        <div><ResearchRunMetrics run={current} /></div>
+        <LayoutPreview key={current.id} run={current} />
+      </div> : <LayoutPreview key={current.id} run={current} />}
       <SimulationSummary run={current} />
       <ResultFiles run={current} />
       <p className={styles.footer}>{t("fcn.results.run.updated", { p0: String(current.id.slice(0, 12)), p1: String(time(current.updatedAt, locale, t)), p2: String(loading ? t("fcn.results.refreshing") : "") })}</p>

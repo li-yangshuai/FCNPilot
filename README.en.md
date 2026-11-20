@@ -58,6 +58,10 @@ Reproduce with `node integrations/pi/smoke.mjs`; no LLM API is needed. [Recorded
 
 Both models report zero maximum error between baseline and accelerated implementations. One sample reached the iteration limit, so the run retains its **Completed · Validation limits** status. Solver agreement does not establish device function; time-step convergence has not been tested.
 
+## Paper layout modes
+
+This branch provides `multi_agent` for complete-layout search and `clock_repair` for local clock repair. The modes run separately and use rule-based selection by default. See the [setup and usage notes](docs/paper-layout.md) and the [Table 1 benchmark layouts](https://github.com/li-yangshuai/FCNPilot/tree/paper-data/DataBase), which include both `.ifcn` and `.qca` files.
+
 ## Project structure
 
 - [apps/web](apps/web/): Web workspace

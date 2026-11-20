@@ -107,6 +107,28 @@ test("Normal XOR export preserves packed phase rows and actual crossing geometry
   assert.deepEqual(layout, parseIfcnGateLayout(nativeNormal.replaceAll("; (", ";\n(")), "line packing must not alter parsed geometry");
 });
 
+const packed = fixture(
+  "0, a, input, (0,0);\n1, y, output, (4,3);",
+  "(0,1): (0,0),(1,0),(2,0),(3,0),(3,1),(3,2),(3,3),(4,3);",
+  "#phase codec: phase_count=4, block_size=4, encoding=packed_hex_2bit_row_major\ntile(0,0):0xe4004080;\ntile(1,0):0x00000003;",
+);
+
+test("native packed hex blocks preserve occupied phases across rows and block boundaries", () => {
+  const layout = parseIfcnGateLayout(packed);
+  const phaseAt = new Map(layout.phases.map(({ x, y, phase }) => [`${x},${y}`, phase]));
+  assert.deepEqual(layout.routes[0].points.map(({ x, y }) => phaseAt.get(`${x},${y}`)), [0, 1, 2, 3, 0, 1, 2, 3]);
+  assert.equal(layout.phases.length, 8, "zero padding is not displayed as an occupied phase tile");
+  assert.deepEqual(layout.bounds, { x: 0, y: 0, width: 5, height: 4 });
+});
+
+test("packed hex phase maps reject missing blocks, duplicates and inconsistent declarations", () => {
+  assert.throws(() => parseIfcnGateLayout(packed.replace("tile(1,0):0x00000003;", "")), /未记录相位/);
+  assert.throws(() => parseIfcnGateLayout(packed.replace("tile(1,0):0x00000003;", "tile(0,0):0x00000003;")), /相位块重复/);
+  assert.throws(() => parseIfcnGateLayout(packed.replace("phase_count=4", "phase_count=3")), /相位数量不一致/);
+  assert.throws(() => parseIfcnGateLayout(packed.replace("#phase count: 4", "#phase count: 3").replace("phase_count=4", "phase_count=3")), /相位超出/);
+  assert.throws(() => parseIfcnGateLayout(packed.replace("tile(1,0):0x00000003;", "(4,3):3;")), /相位表格式/);
+});
+
 test("packed phase rows still reject incomplete, duplicate, out-of-range and excessive records", () => {
   for (const row of [
     "(0,0):0; (1,0):1; (2,0):2", // missing final separator

@@ -58,6 +58,10 @@ sudo apt install build-essential cmake pkg-config graphviz libgraphviz-dev \
 
 两种模型的基线与加速实现最大误差均为 0；其中 1 个采样触及迭代上限，因此结果保留「已完成 · 有验证限制」状态。实现一致性不代表器件功能验证，时间步长收敛尚未验证。
 
+## 论文中的布局设计方式
+
+本分支提供论文中的 `multi_agent` 完整布局搜索和 `clock_repair` 局部时钟修复。两种方式独立运行，默认使用规则选择。安装与运行方法见[论文代码说明](docs/paper-layout.md)。[表 1 的版图文件](https://github.com/li-yangshuai/FCNPilot/tree/paper-data/DataBase)按基准库和电路归档，包含 `.ifcn` 与 `.qca` 两种格式。
+
 ## 项目结构
 
 - [apps/web](apps/web/)：Web 工作台

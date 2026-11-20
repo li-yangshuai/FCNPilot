@@ -1,5 +1,6 @@
 export const IFCN_GATE_MAX_BYTES = 2 * 1024 * 1024;
 const MAX_NODES = 5000, MAX_ROUTES = 10000, MAX_POINTS = 100000, MAX_PHASES = 20000;
+const PHASE_BLOCK_SIDE = 4;
 export interface IfcnPoint { x: number; y: number; }
 export interface IfcnGate extends IfcnPoint { id: number; name: string; kind: string; }
 export interface IfcnRoute { source: number; target: number; points: IfcnPoint[]; iterationDistance: number; }
@@ -22,6 +23,8 @@ export function parseIfcnGateLayout(source: string): IfcnGateLayout {
   if (/[\x00-\x08\x0b\x0c\x0e-\x1f]/.test(source)) throw new Error("IFCN 包含无效控制字符。");
   const nodes: IfcnGate[] = [], routes: IfcnRoute[] = [], phases: IfcnGateLayout["phases"] = [];
   const sections = ["#nodes info", "#paths info", "#phase map"];
+  const phaseBlocks = new Map<string, number>();
+  let packedPhaseCount: number | null = null;
   let active: number | null = null, completed = 0, phaseCount: number | null = null, clockScheme: string | null = null, iterationDistance = 0, totalPoints = 0;
   for (const raw of source.split(/\r?\n/)) {
     const line = raw.trim();
@@ -39,6 +42,11 @@ export function parseIfcnGateLayout(source: string): IfcnGateLayout {
         if (phaseCount !== null) throw new Error("IFCN 相位数量重复声明。");
         phaseCount = integer(phaseHeader[1], "相位数量", 16);
         if (phaseCount < 2) throw new Error("IFCN 相位数量无效。");
+      }
+      if (line.startsWith("#phase codec:")) {
+        const match = /^#phase codec: phase_count=([34]), block_size=4, encoding=packed_hex_2bit_row_major$/.exec(line);
+        if (active !== 2 || !match || packedPhaseCount !== null || phases.length) throw new Error("IFCN 相位编码声明无效。");
+        packedPhaseCount = Number(match[1]);
       }
       if (line.startsWith("#clock scheme:")) { clockScheme = line.slice(14).trim(); if (!clockScheme || clockScheme.length > 128) throw new Error("IFCN 时钟名称无效。"); }
       if (line.startsWith("#iteration_distance=")) {
@@ -62,6 +70,17 @@ export function parseIfcnGateLayout(source: string): IfcnGateLayout {
       if (points.length < 2 || totalPoints > MAX_POINTS) throw new Error("IFCN 路径点不足或超过预览限制。");
       routes.push({ source: integer(match[1], "起点编号"), target: integer(match[2], "终点编号"), points, iterationDistance });
     } else if (active === 2) {
+      if (packedPhaseCount !== null) {
+        const match = /^tile\((\d+),(\d+)\):0x([0-9a-fA-F]{8});$/.exec(line);
+        if (!match || phaseBlocks.size * PHASE_BLOCK_SIDE ** 2 >= MAX_PHASES) throw new Error("IFCN 相位表格式无效或超过预览限制。");
+        const maxBlockCoordinate = 1_000_000 / PHASE_BLOCK_SIDE;
+        const x = integer(match[1], "X 相位块坐标", maxBlockCoordinate);
+        const y = integer(match[2], "Y 相位块坐标", maxBlockCoordinate);
+        const position = key({ x, y });
+        if (phaseBlocks.has(position)) throw new Error("IFCN 相位块重复。");
+        phaseBlocks.set(position, Number.parseInt(match[3], 16));
+        continue;
+      }
       // Normal writes one grid row per line; GA writes one phase record per line.
       // Validate the entire line before reading records, so no trailing text is ignored.
       if (!/^(?:\(-?\d+,\s*-?\d+\):\s*\d+;\s*)+$/.test(line)) throw new Error("IFCN 相位表格式无效或超过预览限制。");
@@ -71,16 +90,12 @@ export function parseIfcnGateLayout(source: string): IfcnGateLayout {
       }
     } else throw new Error("IFCN 包含无法识别的文本记录。");
   }
-  if (active !== null || completed !== 3 || phaseCount === null || !nodes.length || !routes.length || !phases.length) throw new Error("IFCN 门节点、路径或相位数据不完整。");
+  if (active !== null || completed !== 3 || phaseCount === null || !nodes.length || !routes.length || (!phases.length && !phaseBlocks.size)) throw new Error("IFCN 门节点、路径或相位数据不完整。");
+  if (packedPhaseCount !== null && packedPhaseCount !== phaseCount) throw new Error("IFCN 相位编码与声明的相位数量不一致。");
   const nodeById = new Map<number, IfcnGate>(), occupied = new Set<string>();
   for (const node of nodes) {
     if (!node.name || nodeById.has(node.id) || occupied.has(key(node))) throw new Error("IFCN 节点编号或位置重复。");
     nodeById.set(node.id, node); occupied.add(key(node));
-  }
-  const phaseByPosition = new Map<string, number>();
-  for (const point of phases) {
-    if (phaseByPosition.has(key(point)) || point.phase >= phaseCount) throw new Error("IFCN 相位表重复或相位超出声明范围。");
-    phaseByPosition.set(key(point), point.phase);
   }
   const edges = new Set<string>(), used = new Map<string, IfcnPoint>();
   const interior = new Map<string, { point: IfcnPoint; uses: { source: number; route: number; direction: "h" | "v" }[] }>();
@@ -104,6 +119,22 @@ export function parseIfcnGateLayout(source: string): IfcnGateLayout {
       }
     });
   });
+  if (packedPhaseCount !== null) {
+    // The exporter pads unoccupied positions with zero, also a valid phase.
+    // Decode only nodes and route points, where the recorded phase is defined.
+    for (const { x, y } of used.values()) {
+      const block = phaseBlocks.get(key({ x: Math.floor(x / PHASE_BLOCK_SIDE), y: Math.floor(y / PHASE_BLOCK_SIDE) }));
+      if (block === undefined) throw new Error("IFCN 存在未记录相位的门或路径点。");
+      const row = y % PHASE_BLOCK_SIDE, column = x % PHASE_BLOCK_SIDE;
+      const bitOffset = 8 * (PHASE_BLOCK_SIDE - 1 - row) + 2 * column;
+      phases.push({ x, y, phase: (block >>> bitOffset) & 3 });
+    }
+  }
+  const phaseByPosition = new Map<string, number>();
+  for (const point of phases) {
+    if (phaseByPosition.has(key(point)) || point.phase >= phaseCount) throw new Error("IFCN 相位表重复或相位超出声明范围。");
+    phaseByPosition.set(key(point), point.phase);
+  }
   for (const position of used.keys()) if (!phaseByPosition.has(position)) throw new Error("IFCN 存在未记录相位的门或路径点。");
   const crossings: IfcnGateLayout["crossings"] = [];
   for (const site of interior.values()) {

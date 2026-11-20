@@ -1,5 +1,13 @@
 /** Circuit results, device previews and optimization experiment messages. */
 export const fcnResultsEn: Record<string, string> = {
+  "fcn.results.research.clockRepair": "Local clock repair",
+  "fcn.results.research.multiAgent": "Multi-agent layout",
+  "fcn.results.research.metrics": "Research run metrics",
+  "fcn.results.research.evaluations": "Native evaluations",
+  "fcn.results.research.firstFeasible": "First clock-feasible candidate: #{p0}",
+  "fcn.results.research.wireLength": "Wire length (steps)",
+  "fcn.results.research.geometryClock": "Geometry and clock checks",
+  "fcn.results.research.scope": "Gate-level checks cover routing, global clock constraints and source logic. Device waveforms and energy were not evaluated.",
   "fcn.results.completed": "Completed",
   "fcn.results.layout.candidate": "Layout candidate",
   "fcn.results.completed.validation.limits": "Completed · Validation limits",
@@ -355,6 +363,14 @@ export const fcnResultsEn: Record<string, string> = {
 };
 
 export const fcnResultsZh: Record<string, string> = {
+  "fcn.results.research.clockRepair": "局部时钟修复",
+  "fcn.results.research.multiAgent": "多智能体布局",
+  "fcn.results.research.metrics": "实验运行指标",
+  "fcn.results.research.evaluations": "原生评估次数",
+  "fcn.results.research.firstFeasible": "第 {p0} 次评估找到首个时钟可行候选",
+  "fcn.results.research.wireLength": "走线长度（网格步数）",
+  "fcn.results.research.geometryClock": "几何与时钟检查",
+  "fcn.results.research.scope": "门级验证涵盖布线、全局时钟约束和源逻辑。此运行未评估器件波形和能耗。",
   "fcn.results.completed": "已完成",
   "fcn.results.layout.candidate": "版图候选",
   "fcn.results.completed.validation.limits": "已完成 · 有验证限制",

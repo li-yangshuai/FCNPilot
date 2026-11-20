@@ -61,9 +61,25 @@ export default function (pi: ExtensionAPI) {
 
   pi.registerTool({
     name: "ifcn_run", label: "iFCN 流程执行",
-    description: "Start/resume/cancel a durable iFCN circuit job, or optimize a certified baseline with bounded LLM placement proposals. optimize requires run_id of a completed irregular-clock Compact/June combinational baseline; preserves its DAG and port identities, re-routes and validates every candidate, inherits the current Pi model, and records campaign.json/raw model audits. Defaults: 3 rounds, 20 s candidate budget, 60 s model budget, until map. No gain is guaranteed. noop/random/heuristic are non-LLM controls, not additional models. Select design_type combinational or sequential. start takes absolute Verilog and runs dependencies through until (default energy for combinational, map for sequential). Sequential uses sequential_cyclic, preserves state boundaries and feedback, and returns a layout candidate with uncharacterized state devices; simulate/energy are explicit numerical-model exploration only. P&R candidates require bounded source/DAG logic validation and matching QCA I/O terminal counts; auto records failures and tries alternatives. Returns a run_id immediately; use ifcn_status to wait. Cancelling this tool call does NOT cancel a submitted job: use action=cancel. Inputs and artifacts are snapshotted. Physical simulation compares numerical engines and is NOT device waveform signoff; preview energy is exploratory.",
+    description: "Start/resume/cancel a durable iFCN circuit job, or optimize a certified baseline with bounded LLM placement proposals. optimize requires run_id of a completed irregular-clock Compact/June combinational baseline; preserves its DAG and port identities, re-routes and validates every candidate, inherits the current Pi model, and records campaign.json/raw model audits. Defaults: 3 rounds, 20 s candidate budget, 60 s model budget, until map. No gain is guaranteed. noop/random/heuristic are non-LLM controls, not additional models. Select design_type combinational or sequential. start takes absolute Verilog and runs dependencies through until (default energy for combinational, map for sequential). Sequential uses sequential_cyclic, preserves state boundaries and feedback, and returns a layout candidate with uncharacterized state devices; simulate/energy are explicit numerical-model exploration only. P&R candidates require bounded source/DAG logic validation and matching QCA I/O terminal counts; auto records failures and tries alternatives. Use multi_agent for complete-layout search or clock_repair for a fully routed snapshot with a clock conflict. These separate research actions require multi_agent_research.available and default to zero model calls. They export independently checked IFCN layouts. Returns a run_id immediately; use ifcn_status to wait. Cancelling this tool call does NOT cancel a submitted job: use action=cancel. Inputs and artifacts are snapshotted. Physical simulation compares numerical engines and is NOT device waveform signoff; preview energy is exploratory.",
     parameters: Type.Object({
-      action: StringEnum(["start", "resume", "cancel", "optimize"] as const),
+      action: StringEnum(["start", "resume", "cancel", "optimize", "multi_agent", "clock_repair"] as const),
+      research_budget_s: Type.Optional(Type.Number({exclusiveMinimum:0, maximum:86400})),
+      max_model_calls: Type.Optional(Type.Integer({minimum:0, maximum:64, description:"Research actions default to zero model calls; a positive value explicitly enables the current Pi model."})),
+      max_model_tokens: Type.Optional(Type.Integer({minimum:64, maximum:4096})),
+      model_timeout_s: Type.Optional(Type.Number({exclusiveMinimum:0, maximum:300})),
+      validation_timeout_s: Type.Optional(Type.Number({exclusiveMinimum:0, maximum:300})),
+      z3_root: Type.Optional(Type.String()),
+      max_attempts: Type.Optional(Type.Integer({minimum:1, maximum:4096})),
+      max_nodes: Type.Optional(Type.Integer({minimum:1, maximum:149})),
+      snapshot: Type.Optional(Type.String({description:"Absolute complete failed-geometry JSON for clock_repair; snapshotted before execution."})),
+      reference: Type.Optional(Type.String({description:"Optional absolute legal candidate JSON supplying output-epoch caps for clock_repair."})),
+      repair_condition: Type.Optional(StringEnum(["path_geometry","endpoint_window","clock_window","no_fanout","centralized","llm_single","llm_independent","llm_negotiated"] as const)),
+      max_evaluations: Type.Optional(Type.Integer({minimum:1, maximum:256})),
+      max_contracts: Type.Optional(Type.Integer({minimum:1, maximum:128})),
+      max_paths: Type.Optional(Type.Integer({minimum:1, maximum:64})),
+      evaluation_timeout_s: Type.Optional(Type.Number({exclusiveMinimum:0, maximum:120})),
+      contract_timeout_s: Type.Optional(Type.Number({exclusiveMinimum:0, maximum:120})),
       input: Type.Optional(Type.String({ description: "Absolute Verilog path: scalar assign netlist for combinational, supported positive-edge feedback RTL for sequential (start)." })),
       design_type: Type.Optional(StringEnum(["combinational", "sequential"] as const)),
       clock_scheme: Type.Optional(StringEnum(["2DDWave", "USE", "RES", "irregular"] as const,
@@ -85,10 +101,44 @@ export default function (pi: ExtensionAPI) {
     }),
     async execute(_id, params, signal, _onUpdate, ctx) {
       const args: string[] = [params.action];
+      const research = params.action === "multi_agent" || params.action === "clock_repair";
+      if (!research && [params.research_budget_s,params.max_model_calls,params.max_model_tokens,params.model_timeout_s,
+        params.validation_timeout_s,params.z3_root,params.max_attempts,params.max_nodes,params.snapshot,params.reference,
+        params.repair_condition,params.max_evaluations,params.max_contracts,params.max_paths,params.evaluation_timeout_s,params.contract_timeout_s].some(v=>v !== undefined))
+        throw new Error("Research options require action=multi_agent or clock_repair.");
       if (params.action !== "optimize" && [params.optimization_policy, params.optimization_rounds, params.proposal_timeout_s].some(v => v !== undefined)) {
         throw new Error("Optimization options require action=optimize.");
       }
-      if (params.action === "start") {
+      if (research) {
+        if (!params.input?.startsWith("/")) throw new Error("Research actions require an absolute Verilog input path.");
+        for (const key of ["run_id","until","design_type","clock_scheme","algorithm","model","energy_profile","timeout_s","samples","seed","vectors","ii_candidates"] as const)
+          if (params[key] !== undefined) throw new Error(`${key} is not an option for a new research job.`);
+        args.push(params.input);
+        for (const [key,flag] of [["research_budget_s","--budget"],["max_model_calls","--max-model-calls"],
+          ["max_model_tokens","--max-model-tokens"],["model_timeout_s","--model-timeout"],
+          ["validation_timeout_s","--validation-timeout"],["z3_root","--z3-root"]] as const)
+          if (params[key] !== undefined) args.push(flag,String(params[key]));
+        if (params.action === "multi_agent") {
+          if ([params.snapshot,params.reference,params.repair_condition,params.max_evaluations,params.max_contracts,
+            params.max_paths,params.evaluation_timeout_s,params.contract_timeout_s].some(v=>v !== undefined))
+            throw new Error("Snapshot and repair options require action=clock_repair.");
+          if (params.max_attempts !== undefined) args.push("--attempts",String(params.max_attempts));
+          if (params.max_nodes !== undefined) args.push("--max-nodes",String(params.max_nodes));
+        } else {
+          if (!params.snapshot?.startsWith("/")) throw new Error("clock_repair requires an absolute snapshot path.");
+          if (params.reference !== undefined && !params.reference.startsWith("/")) throw new Error("reference must be an absolute path.");
+          if (params.max_attempts !== undefined || params.max_nodes !== undefined) throw new Error("Construction options require action=multi_agent.");
+          const condition=params.repair_condition ?? "clock_window";
+          if (condition.startsWith("llm_") !== ((params.max_model_calls ?? 0)>0))
+            throw new Error("LLM repair conditions require explicit positive max_model_calls; deterministic conditions require zero.");
+          args.push("--snapshot",params.snapshot,"--condition",condition);
+          for (const [key,flag] of [["reference","--reference"],["max_evaluations","--max-evaluations"],
+            ["max_contracts","--max-contracts"],["max_paths","--max-paths"],
+            ["evaluation_timeout_s","--evaluation-seconds"],["contract_timeout_s","--contract-seconds"]] as const)
+            if (params[key] !== undefined) args.push(flag,String(params[key]));
+        }
+        if ((params.max_model_calls ?? 0)>0 && ctx.model) args.push("--provider",ctx.model.provider,"--model-id",ctx.model.id);
+      } else if (params.action === "start") {
         if (!params.input?.startsWith("/")) throw new Error("start requires an absolute WSL/Linux Verilog input path.");
         args.push(params.input);
         for (const [key, flag] of [["clock_scheme", "--clock"], ["design_type", "--design-type"], ["ii_candidates", "--ii-candidates"], ["algorithm", "--algorithm"], ["model", "--model"], ["energy_profile", "--energy-profile"],
